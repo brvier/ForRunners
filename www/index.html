@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src * &apos;unsafe-eval&apos; &apos;unsafe-inline&apos;; style-src * &apos;unsafe-inline&apos;; media-src *; script-src * &apos;unsafe-inline&apos; &apos;unsafe-eval&apos;">
+
+    <title>ForRunners</title>
+
+    <!-- ionic css -->
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
+    <link href="lib/waves/dist/waves.min.css" rel="stylesheet">
+
+    <!-- nokia here css -->
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css">
+
+    <!-- angular chart css -->
+    <link rel="stylesheet" type="text/css" href="lib/angular-chart.js/dist/angular-chart.css">
+
+    <!-- app css -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="lib/leaflet/dist/leaflet.css">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- ionic/autoListDivider js -->
+    <!--<script src="lib/ionic-ion-autoListDivider.js"></script>-->
+
+    <!-- ionic/angular chart js -->
+    <script src="lib/Chart.js/Chart.js"></script>
+    <script src="lib/chart.horizontalbar/Chart.HorizontalBar.js"></script>
+    <script src="lib/angular-chart.js/angular-chart.js"></script>
+    <script src="lib/angular-translate/angular-translate.js"></script>
+
+    <!-- Stacktrace.js -->
+    <script type="text/javascript" src="lib/stacktrace-js/dist/stacktrace.js"></script>
+    <script type="text/javascript" src="js/reporter.js"></script>
+
+    <!-- moments js -->
+    <script src="js/moment-with-locales.js"></script>
+
+    <!-- nokia here js -->
+    <!--<script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-core.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>-->
+
+    <script src="lib/leaflet/dist/leaflet.js"></script>
+    <script src="lib/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
+    <script src="lib/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/simplify.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+
+    <!-- your app's css -->
+    <link href="css/style.css" rel="stylesheet">
+
+  </head>
+
+  <body ng-app="starter">
+
+  <ion-nav-view></ion-nav-view>
+
+  <!-- ionic material js -->
+  <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+  <script src="lib/x2js/xml2json.min.js"></script>
+
+  <!-- Slow too much device -->
+  <!--<script src="lib/waves/dist/waves.min.js"></script>
+  <script src="js/mi.js"</script>
+  <script>
+      setTimeout(function() {
+          Mi.motion.pushDown({
+              selector: '.push-down'
+          });
+          Mi.motion.fadeSlideInRight({
+              selector: '.animate-fade-slide-in-right > *'
+          });
+
+          Waves.displayEffect();
+      }, 500);
+
+  </script>-->
+
+  </body>
+</html>

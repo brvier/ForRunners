@@ -1,0 +1,44 @@
+<!--<ion-modal-view hardwareBackButtonClose=false backdropClickToClose=false>-->
+<ion-view  hide-back-button=true  can-swipe-back=false view-title="">
+
+<ion-content class="black-bg">
+
+
+<div class="row">
+   <div class="col text-center">
+
+        <div class="item">
+            <h3>Time</h3>
+            <h1 style="margin-top:5px;color: #fff;">{{ session.time }}</h1>
+          </div>
+
+        <div class="item">
+            <h3>Distance</h3>
+            <h1 style="margin-top:0px;color: #fff;">{{ session.hilldistance}} {{session.distancelabel}}</h1>
+        </div>
+
+        <div class="item">
+            <h3>Speed</h3>
+            <h1 style="margin-top:0px;color: #fff;">{{session.avspeed}} {{session.speedlabel}}</h1>
+        </div>
+
+        <div class="item">
+            <h3>Pace</h3>
+            <h1 style="margin-top:0px;color: #fff;">{{session.avpace}} {{session.pacelabel}}</h1>
+        </div>
+    </div>
+</div>
+
+          <ion-slide-box show-pager="false">
+              <ion-slide><button  ng-class="(session.accuracy > 12) ? 'button-assertive' : 'button-positive'" class="button button-block ">Swipe Left to Stop</button></ion-slide>
+              <ion-slide><button ng-click="stopSession()" class="button button-block button-assertive">Stop</button></ion-slide>
+          </ion-slide-box>
+
+    </ion-content>
+
+
+<!--<ion-footer-bar align-title="left" class="bar-royal">
+
+</ion-footer-bar> -->
+<!--  </ion-modal-view> -->
+</ion-view>

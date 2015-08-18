@@ -1,0 +1,164 @@
+<ion-view view-title="Session">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-android-delete"
+            ng-click="deleteSessionByID(session.recclicked)"></button>
+  </ion-nav-buttons>
+  <ion-content>
+
+      <!--<div id="mapContainer"  style="width: 100%; height: 350px; background: white"></div>-->
+      <leaflet id="sessmap" height="300px" width="100%" defaults="session.map.defaults" paths="session.map.paths"
+                center="session.map.center" controls="session.map.controls"
+                bounds="session.map.bounds"
+                tiles="session.map.tiles"
+                markers="session.map.markers" ></leaflet>
+
+      <div class="mid-bar dark-bg z1 padding">
+        <h3>{{ session.start | ldate }}</h3>
+        <p>
+           <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}} - 
+           <i class="icon ion-ios-location"></i> {{session.distance}} Kms -
+           <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="col">
+            <div class="item item-icon-left">
+              <i class="icon ion-clock positive"></i>
+              <p>{{ "_time" | translate }}</p>
+              <h2>{{session.duration | date:"HH:mm":"UTC"}}</h2>
+            </div>
+        </div>
+        <div class="col">
+          <div class="item item-icon-left">
+              <i class="icon ion-ios-location positive"></i>
+              <p>{{ "_distance" | translate }}</p>
+              <h2>{{ session.distance }}</h2>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <div class="item item-icon-left">
+              <i class="icon ion-speedometer positive"></i>
+              <p>{{ "_speed" | translate }}</p>
+              <h2>{{session.speed}}</h2>
+            </div>
+        </div>
+        <div class="col">
+          <div class="item item-icon-left">
+              <i class="icon ion-ios-stopwatch-outline positive"></i>
+              <p>{{ "_pace" | translate }}</p>
+              <h2>{{session.pace | date:"m.ss"}}</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+            <div class="item item-icon-left">
+              <i class="icon ion-arrow-graph-up-right positive"></i>
+              <p>{{ "_elevationUp" | translate }}</p>
+              <h2>{{session.eleUp}}</h2>
+            </div>
+        </div>
+        <div class="col">
+          <div class="item item-icon-left">
+              <i class="icon ion-arrow-graph-down-right positive"></i>
+              <p>{{ "_elevationDown" | translate }}</p>
+              <h2>{{session.eleDown}}</h2>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row row-center">
+        <div class="col col-center">
+            <div class="item weatherinfo">
+              <img src="http://openweathermap.org/img/w/{{session.weather.weather[0].icon}}.png"/><br>
+              <p class="weatherinfo">{{session.weather.main.temp}} °C</p>
+              <h2 class="weatherinfo">{{session.weather.weather[0].description}}</h2>
+            </div>
+        </div>
+      </div>
+  </div>
+
+
+         <canvas id="line" class="item chart chart-line ng-isolate-scope" data="session.chart_data"
+            labels="session.chart_labels" chart-legend="true" series="session.chart_series"
+            options="session.chart_options"
+            style="width: 100%; height: 300px; background: white">
+          </canvas>
+
+      <div class="table">
+        <div class="row row-center row-header" style="text-align: center">
+          <div class="col col-center">
+            <b>Km</b>
+          </div>
+          <div class="col col-center">
+           Pace
+          </div>
+          <div class="col col-center">
+            Speed
+          </div>
+        </div>
+        </div>
+        <div class="table">
+        <div class="row row-center" style="text-align: center" collection-repeat="stepPace in session.paceDetails">
+          <div class="col col-center col-sep" >
+            <b>{{ stepPace.km }}</b>
+          </div>
+          <div class="col col-center col-sep">
+           {{ stepPace.pace | date:"m.ss" }}
+          </div>
+          <div class="col col-center col-sep">
+            {{ stepPace.speed }}
+          </div>
+      </div>
+      </div>
+   <!--   
+  <div class="list card">
+      <div class="row row-center">
+        <div class="col col-center">
+         <canvas id="horizontalBar" class="chart chart-base ng-isolate-scope" data="session.bchart_data"
+            labels="session.bchart_labels" chart-legend="false" series="session.bchart_series"
+            options="session.bchart_options"
+            style="width: 100%; height: 550px; background: white" chart-type="session.bchart_type">
+          </canvas>
+        </div>
+      </div>
+  </div>-->
+
+
+<!--<div style="" class="button-bar">
+      <button style="" class="button button-stable button-block icon ion-happy"></button>
+      <button style="" class="button button-stable button-block icon ion-sad"></button>
+</div>-->
+        
+  <!--<div class="list card">
+      <div class="row row-center">
+        <div class="col col-center">
+         <p>Speed</p>
+         <canvas id="doughnut" class="chart chart-doughnut ng-isolate-scope" data="session.chart2_data"
+            labels="session.chart2_labels" legend="true"
+            options="session.chart2_options"
+            style="width: 100%; height: 350px; background: white">
+          </canvas>
+        </div>
+      </div>
+  </div>-->
+
+      <!--<div class="row row-center">
+        <div class="col col-center">
+         <p>Elevation</p>
+         <canvas id="line" class="chart chart-line ng-isolate-scope" data="session.chart_ele_data"
+            labels="session.chart_ele_labels" legend="false" series="session.chart_ele_series"
+            style="width: 100%; height: 350px; background: white">
+          </canvas>
+        </div>
+      </div>-->
+
+  </ion-content>
+
+
+</ion-view>

@@ -1,0 +1,55 @@
+<ion-view view-title="Sessions">
+  <button ng-click="startSession()" class="button button-fab button-fab-bottom-right button-assertive icon ion-android-add waves-effect waves-button waves-light"></button>
+  <ion-content>
+
+    <div class="item item-icon-left card-item">
+        <i class="icon ion-trophy energized"></i>
+        <h2>{{ "_average" | translate }}</h2>
+        <p>{{resume.flatdistance}} Kms - {{resume.time | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
+    </div>
+
+    <div class="item item-icon-left card-item">
+        <i class="icon ion-ribbon-b energized"></i>
+        <h2>{{ "_records" | translate }}</h2>
+        <p>{{resume.bestdistance}} Kms - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed}} Km/h</p>
+    </div>
+    <div class="item card-item">
+
+       <canvas id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
+          labels="resume.chart_labels" chart-legend="true" series="resume.chart_series" options="resume.chart_options"
+          style="background: white; width: 100%;">
+       </canvas>
+    </div>
+
+      <ion-list class="animate-fade-slide-in-right"> <!-- class="animate-fade-slide-in-right" -->
+
+        <a collection-repeat="session in sessions"
+           type="item-text-wrap"
+           ng-href="{{'#/app/sessions/'+$index}}"
+           class="in item item-avatar item-icon-left button-fab"
+           ng-click="Waves.displayEffect();">
+           <!--  waves-effect waves-button waves-dark push-down -->
+          <span class="badge badge-left badge-balanced"
+                style="color:white !important; display: block; vertical-align: middle; text-align:center;">
+            {{ session.distk }} K
+          </span>
+
+          <h2>
+            {{ session.start | ldate }}
+          </h2>
+
+          <p>
+            {{session.distance}} Km - {{session.speed}} Km/h<br>
+            {{session.pace | date:"m.ss"}} - {{session.duration | date:"HH:mm":"UTC"}}
+          </p>
+
+          <!--<ion-option-button class="button-assertive" ng-click="deleteSession($index)">
+            Delete
+          </ion-option-button>-->
+
+        </a>
+
+    </ion-list>
+  </ion-content>
+
+</ion-view>
