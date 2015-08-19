@@ -37,8 +37,7 @@
       "id": "com.dustinblackman.plugin.MusicControl"
     },
     "cordova-plugin-globalization",
-    "cordova-plugin-file",
-    "am.armsoft.mfilechooser"
+    "cordova-plugin-file"
   ],
   "cordovaPlatforms": [
     "android"

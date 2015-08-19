@@ -131,7 +131,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _distance:'Distance',
     _speed:'Speed',
     _pace: 'Pace',
-    _debug_warning: 'Debug mode activate many features and can slow down severly the application',
+    _debug_warning: 'Debug mode slow down severly the application',
     _run_fast: 'Run fast !',
     _run_slow: 'Run slower',
 
@@ -186,7 +186,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _distance:'Distance',
     _speed:'Vitesse',
     _pace: 'Allure',
-    _debug_warning: 'Le mode de debuggage peut ralentir séverement l\`application.'
+    _debug_warning: 'Le mode de debuggage ralentit séverement l\`application.'
 
   });
   $translateProvider.preferredLanguage("en-US");

@@ -7,6 +7,13 @@ angular.module('starter.controllers', [])
       return moment(date).format('llll');
   };
 })
+.filter('duration', function() {
+  return function(date) {
+    // Using ES6 filter method
+
+      return moment(date).format('HH:mm');
+  };
+})
 
 // Service to communicate with OpenWeatherMap API.
 .factory('$weather', function($q, $http) {
@@ -83,7 +90,7 @@ angular.module('starter.controllers', [])
 
     $scope.prefs.delay = 10 * 1000;
     $scope.prefs.usedelay = true;
-    $scope.prefs.debug = true;
+    $scope.prefs.debug = false;
 
     $scope.prefs.togglemusic = true;
     $scope.prefs.distvocalinterval = 0; //en km (0 == None)
@@ -91,11 +98,24 @@ angular.module('starter.controllers', [])
     $scope.prefs.timefastvocalinterval = 0; //en minutes
     $scope.prefs.timelowvocalinterval = 0; //en minutes
 
-    applicationLoggingService.debug('test');
-
     // Load Sessions
     $timeout(function(){$scope.loadSessions();}, 100);
     
+    $scope.dateTimeReviver = function (key, value) {
+        if (key === 'duration') {
+            if (typeof value === 'string') {
+                //var a;
+                //a = /\/Date\((\d*)\)\//.exec(value);
+                
+                //if (a) {
+                    return new Date(value);
+                //}
+            }
+        }
+        return value;
+    };
+
+
     $scope.computeSessionFromGPXData = function(session) {
         $scope.session = session;
         var gpxPoints = [];
@@ -344,9 +364,6 @@ angular.module('starter.controllers', [])
             $scope.session.chart_data[1].push(step.ele);
         });
 
-        console.log($scope.session.chart_labels);
-        console.log($scope.session.chart_data);
-
         // altitude
         // simplification altitude
 
@@ -440,27 +457,26 @@ angular.module('starter.controllers', [])
                             title: $scope.translateFilter('_backup_ok_title'),
                             template: $scope.translateFilter('_backup_ok_content')
                         });
-                        console.log(e);
                     };
                     writer.onerror = function(e) {
                         $ionicPopup.alert({
                             title: $scope.translateFilter('_backup_error_title'),
                             template: $scope.translateFilter('_backup_error_content')
                         });
-                        console.log(e);
+                        console.error(e);
                     };
                     writer.fileName = 'forrunners.backup';
                     writer.write(new Blob([localStorage.getItem('sessions')], {
                         type: 'text/plain'
                     }));
                 }, function() {
-                    console.log("failed can t create writer");
+                    console.error("failed can t create writer");
                 });
             }, function() {
-                console.log("failed to get file");
+                console.error("failed to get file");
             });
         }, function() {
-            console.log("failed can t open fs");
+            console.error("failed can t open fs");
         });
     };
 
@@ -475,7 +491,7 @@ angular.module('starter.controllers', [])
                     var reader = new FileReader();
 
                     reader.onloadend = function(e) {
-                        $scope.storageSetObj('sessions', JSON.parse(this.result));
+                        $scope.storageSetObj('sessions', JSON.parse(this.result, $scope.dateTimeReviver));
                         $scope.loadSessions();
                         $scope.computeResumeGraph();
                     };
@@ -491,66 +507,76 @@ angular.module('starter.controllers', [])
         });
     };
 
-    $scope.importGPX = function() {
-        window.plugins.mfilechooser.open([], function(uri) {
-                console.log("importing " + uri);
+    $scope.importGPX = function(file){
+       
+            var reader = new FileReader();
 
-                var gotFile = function(fileEntry) {
+            reader.onloadend = function(e) {
+                var x2js = new X2JS();
+                var json = x2js.xml_str2json(this.result);
+                var gpxPoints = json.gpx.trk.trkseg.trkpt;
+                
+                //NOW RECOMPUTE AND CREATE
+                $scope.session = {};
+                $scope.session.gpxData = [];
 
-                    fileEntry.file(function(file) {
-                        var reader = new FileReader();
-
-                        reader.onloadend = function(e) {
-                            var perfTimer = new Date().getTime();
-                            var x2js = new X2JS();
-                            var json = x2js.xml_str2json(this.result);
-                            var gpxPoints = json.gpx.trk.trkseg.trkpt;
-
-                            console.log(gpxPoints);
-
-                            //NOW RECOMPUTE AND CREATE
-                            $scope.session = {};
-                            $scope.session.gpxData = [];
-
-                            gpxPoints.map(function(item) {
-                                $scope.session.gpxData.push([item._lat, item._lon, item.time, item.ele]);
-                            });
-
-                            $scope.session.recclicked = new Date(gpxPoints[0].time).getTime();
-                            //$scope.computeSessionFromGPXData($scope.session);
-                            //Save session already compute session
-                            $scope.saveSession();
-                        };
-
-                        reader.readAsText(file);
-
-                    });
-                };
-
-                window.resolveLocalFileSystemURL("file://" + uri, gotFile, function() {
-                    console.error("FileSystem Error");
+                gpxPoints.map(function(item) {
+                    $scope.session.gpxData.push([item._lat, item._lon, item.time, item.ele]);
                 });
-            },
-            function(error) {
 
-                oalert(error);
-            });
+                $scope.session.recclicked = new Date(gpxPoints[0].time).getTime();
+                //$scope.computeSessionFromGPXData($scope.session);
+                //Save session already compute session
+                $scope.saveSession();
+            };
+
+            reader.readAsText(file);
+    };
+
+    $scope.importGPXs = function(element) {
+        
+        console.log('DEBUG : ' + element.files[0].name);
+
+        if (element === undefined) {
+            window.plugins.mfilechooser.open([], function(uri) {
+                    console.log("importing " + uri);
+
+                    var gotFile = function(fileEntry) {
+                        fileEntry.file($scope.importGPX);
+                    };
+
+                    window.resolveLocalFileSystemURL("file://" + uri, gotFile, function() {
+                        console.error("FileSystem Error");
+                    });
+                },
+                function(error) {
+
+                    oalert(error);
+                });
+            }
+        else {
+            $scope.importGPX(element.files[0]);
+            element.files.splice(0, 1);
+        }
+
+
     };
 
 
     $scope.exportAsGPX = function() {
         var gpxHead = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
-        gpxHead += '<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="Oregon 400t" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">';
+        gpxHead += '<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="ForRunners" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">';
         gpxHead += '<metadata>\n';
         gpxHead += '<link href="http://www.khertan.net">\n';
-        gpxHead += '<text>Khertan Softwares</text>\n';
+        gpxHead += '<text>Khertan Software</text>\n';
         gpxHead += '</link>\n';
         gpxHead += '<time>' + moment().format() + '</time>\n';
         gpxHead += '</metadata>\n';
         gpxHead += '<trk>\n';
+        gpxHead += '<trkseg>\n';
 
         var gpxSubHead = "";
-        var gpxFoot = '</trk>\n</gpx>';
+        var gpxFoot = '</trkseg></trk>\n</gpx>';
 
         $scope.sessions.map(function(session, idx) {
             window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(dirEntry) {
@@ -560,7 +586,7 @@ angular.module('starter.controllers', [])
                     fileEntry.createWriter(function(writer) {
                         // Already in JSON Format
                         writer.onwrite = function(e) {
-                            console.log(e);
+                            //console.log(e);
                         };
                         writer.onerror = function(e) {
                             $ionicPopup.alert({
@@ -574,12 +600,10 @@ angular.module('starter.controllers', [])
 
                         var gpxPoints = "";
                         session.gpxData.map(function(pts) {
-                            gpxPoints += "<trkseg>\n";
                             gpxPoints += "<trkpt lat=\"" + pts[0] + "\" lon=\"" + pts[1] + "\">\n";
                             gpxPoints += "<ele>" + pts[3] + "</ele>\n";
                             gpxPoints += "<time>" + pts[2] + "</time>\n";
                             gpxPoints += "</trkpt>\n";
-                            gpxPoints += "</trkseg>\n";
                         });
                         writer.write(gpxHead + gpxSubHead + gpxPoints + gpxFoot, {
                             type: 'text/plain'
@@ -630,7 +654,7 @@ angular.module('starter.controllers', [])
         for (var prop in prefs) {
             $scope.prefs[prop] = prefs[prop];
         }
-        console.log('Prefs load ended');
+        //console.log('Prefs load ended');
         $scope.setLang();
     } else {
         console.log('Really ? No Prefs ?');
@@ -639,7 +663,7 @@ angular.module('starter.controllers', [])
 
     $scope.loadSessions = function() {
         try {
-            $scope.sessions = JSON.parse(localStorage.getItem('sessions'));
+            $scope.sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
 
             // Remove Duplicate
             $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
@@ -654,9 +678,9 @@ angular.module('starter.controllers', [])
       });*/
 
             // Temp fix
-            $scope.sessions.map(function(session, idx) {
+            /*$scope.sessions.map(function(session, idx) {
                 $scope.sessions[idx].distk = session.distance.toFixed(0);
-            });
+            });*/
 
             // Filter null
             $scope.sessions = $scope.sessions.filter(function(e) {
@@ -1217,22 +1241,22 @@ angular.module('starter.controllers', [])
             legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
         };
 
-        $scope.resume.elapsed = 0;
+        $scope.resume.elapsed =0;
         $scope.resume.equirect = 0;
         $scope.resume.avspeed = 0;
 
+        $scope.resume.longesttime = new Date(0);
         $scope.resume.bestdistance = 0;
-        $scope.resume.longesttime = 0;
         $scope.resume.bestspeed = 0;
 
         $scope.sessions.map(function(item) {
 
             $scope.resume.chart_labels.push(item.date);
             $scope.resume.chart_data[0].push(item.speed);
-            $scope.resume.chart_data[1].push(item.duration);
+            $scope.resume.chart_data[1].push(item.duration.getUTCMinutes() + item.duration.getUTCHours()*60);
 
             $scope.resume.avspeed += item.speed;
-            $scope.resume.elapsed += item.duration;
+            $scope.resume.elapsed += item.duration.getTime();
             $scope.resume.equirect += item.distance;
 
             if (item.speed > $scope.resume.bestspeed) {
@@ -1251,11 +1275,12 @@ angular.module('starter.controllers', [])
         $scope.resume.chart_data[0].reverse();
         $scope.resume.chart_data[1].reverse();
 
-        $scope.resume.flatdistance = ($scope.resume.equirect / $scope.sessions.length).toFixed(2);
+        $scope.resume.flatdistance = ($scope.resume.equirect / $scope.sessions.length).toFixed(1);
         $scope.resume.avspeed = ($scope.resume.avspeed / $scope.sessions.length).toFixed(1);
-
-        $scope.resume.bestspeed = $scope.resume.bestspeed;
-        $scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(2);
+        $scope.resume.avduration = new Date($scope.resume.elapsed / $scope.sessions.length);
+        
+        $scope.resume.bestspeed = $scope.resume.bestspeed.toFixed(1);
+        $scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(1);
 
     };
 
@@ -1345,6 +1370,4 @@ angular.module('starter.controllers', [])
         $timeout(function() {
             $scope.computeSessionFromGPXData($scope.session); $scope.saveSessionModifications();}, 300);
     }
-
-
 });

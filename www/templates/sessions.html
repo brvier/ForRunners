@@ -5,7 +5,7 @@
     <div class="item item-icon-left card-item">
         <i class="icon ion-trophy energized"></i>
         <h2>{{ "_average" | translate }}</h2>
-        <p>{{resume.flatdistance}} Kms - {{resume.time | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
+        <p>{{resume.flatdistance}} Kms - {{resume.avduration | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
     </div>
 
     <div class="item item-icon-left card-item">
@@ -15,7 +15,7 @@
     </div>
     <div class="item card-item">
 
-       <canvas id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
+       <canvas ng-if="resume.chart_labels.lenght > 2" id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
           labels="resume.chart_labels" chart-legend="true" series="resume.chart_series" options="resume.chart_options"
           style="background: white; width: 100%;">
        </canvas>

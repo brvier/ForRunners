@@ -7,7 +7,7 @@
 
       <!--<div id="mapContainer"  style="width: 100%; height: 350px; background: white"></div>-->
       <leaflet id="sessmap" height="300px" width="100%" defaults="session.map.defaults" paths="session.map.paths"
-                center="session.map.center" controls="session.map.controls"
+                controls="session.map.controls"
                 bounds="session.map.bounds"
                 tiles="session.map.tiles"
                 markers="session.map.markers" ></leaflet>
@@ -72,12 +72,12 @@
       </div>
 
 
-      <div class="row row-center">
-        <div class="col col-center">
-            <div class="item weatherinfo">
-              <img src="http://openweathermap.org/img/w/{{session.weather.weather[0].icon}}.png"/><br>
-              <p class="weatherinfo">{{session.weather.main.temp}} °C</p>
-              <h2 class="weatherinfo">{{session.weather.weather[0].description}}</h2>
+      <div class="row row-center" ng-if="session.weather.main.temp">
+        <div class="col col-center" ng-if="session.weather.main.temp">
+            <div class="item weatherinfo" ng-if="session.weather.main.temp">
+              <img ng-if="session.weather.main.temp != ''" src="http://openweathermap.org/img/w/{{session.weather.weather[0].icon}}.png"/><br>
+              <p class="weatherinfo" ng-if="session.weather.main.temp">{{session.weather.main.temp}} °C</p>
+              <h2 class="weatherinfo" ng-if="session.weather.main.temp">{{session.weather.weather[0].description}}</h2>
             </div>
         </div>
       </div>
