@@ -87,7 +87,7 @@
           colours: '=?',
           getColour: '=?',
           chartType: '=',
-          legend: '@',
+          chartLegend: '@',
           click: '=',
           hover: '='
         },
@@ -178,7 +178,7 @@
       ['hover', 'click'].forEach(function (action) {
         if (scope[action]) cvs[action === 'click' ? 'onclick' : 'onmousemove'] = getEventHandler(scope, chart, action);
       });
-      if (scope.legend && scope.legend !== 'false') setLegend(elem, chart);
+      if (scope.chartLegend && scope.chartLegend !== 'false') setLegend(elem, chart);
       return chart;
     }
 

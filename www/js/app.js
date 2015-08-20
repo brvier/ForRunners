@@ -59,6 +59,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   })
 
 
+   .state('app.records', {
+      url: "/records",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/records.html",
+          controller: 'RecordsCtrl'
+        }
+      }
+    })
 
    .state('app.sessions', {
       url: "/sessions",
@@ -111,6 +120,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _backup_error_content: 'An error occur while creating the backup.',
     _gpx_error_title:'Error',
     _gpx_error_content:'The GPX export failed.',
+    _gpx_import_title: 'GPX Import',
+    _gpx_file_imported: 'All files have been imported.',
     _toggle_music_on_announce: 'Toggle music on announce',
     _announce_distance: 'Announce distance',
     _announce_time: 'Announce time',
@@ -118,6 +129,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _announce_average_pace: 'Announce average pace',
     _delay_start: 'Delay start of 10 secondes',
     _export_as_gpx: 'Export as GPX',
+    _import_gpxs: 'Import GPX files',
     _debug_tools: 'Debug tools',
     _debug_mode: 'Debug mode',
     _settings: 'Settings',
@@ -134,6 +146,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _debug_warning: 'Debug mode slow down severly the application',
     _run_fast: 'Run fast !',
     _run_slow: 'Run slower',
+    enUS: 'English',
+    frFR: 'French',
+    _privacy_policy_test: 'ForRunners didn\'t communicate any informations outside of your device, except for getting maps from Openstreet.net services and if you activate debug mode. In this last case, any errors and debug message will be sent to my own server for debugging.',
+    _short_description: 'A gps tracking application dedicated to runners.',
+    _use_open_source_text : 'ForRunners use parts or library of the following open source projects',
+    _by : 'By',
+    _swipe_left: 'Swipe Left to Stop',
+    _stop: 'Stop',
+    _elevationUp: 'Up',
+    _elevationDown: 'Down',
+    _sessions: 'Sessions',
+    _about: 'About'
 
 
   });
@@ -160,6 +184,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _confirm_delete: 'Etes vous sur de vouloir supprimer cette session?',
     _gpx_export_title: 'Export GPX',
     _gpx_file_exported: 'Toute vos sessions ont été exportées au format GPX.',
+    _import_gpxs: 'Importer des fichiers GPX',
+    _gpx_import_title: 'Import GPX',
+    _gpx_file_imported: 'Tous les fichiers ont été importés.',
     _backup_ok_title: 'Sauvegarde',
     _backup_ok_content: 'Sauvegarde disponible dans le dossier de l\'application.',
     _backup_error_title: 'Erreur',
@@ -186,9 +213,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _distance:'Distance',
     _speed:'Vitesse',
     _pace: 'Allure',
-    _debug_warning: 'Le mode de debuggage ralentit séverement l\`application.'
+    _debug_warning: 'Le mode de debuggage ralentit séverement l\`application.',
+    enUS: 'Anglais',
+    frFR: 'Francais',
+    _privacy_policy_test: 'ForRunners ne communique aucune information en dehors de votre périphérique, exception faite lors de la recupération des carte OpenStreetMap et si vous activez le mode debug ou des logs de debug seront envoyé sur http://khertan.net/.',
+    _short_description: 'Une application de géolocalisation dédiée aux coureurs.',
+    _use_open_source_text : 'ForRunners utilise des librairies et du code open source',
+    _by : 'Par',
+    _swipe_left: 'Glisser pour stoper',
+    _stop: 'Stop',
+    _elevationUp: 'Monté',
+    _elevationDown: 'Descente',
+    _sessions: 'Sessions',
+    _about: 'A propos'
 
   });
+
   $translateProvider.preferredLanguage("en-US");
   $translateProvider.fallbackLanguage("en-US");
 

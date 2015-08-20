@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-    <ion-nav-bar align-title="center" class="bar-positive" ng-class="{'bar-running' : running}">
+    <ion-nav-bar align-title="center" class="bar-positive">
       <ion-nav-back-button class="no-text">
       </ion-nav-back-button>
       <ion-nav-buttons side="left">
@@ -18,13 +18,16 @@
     <ion-content class="has-expanded-header stable-bg ">
       <ion-list>
         <ion-item menu-close href="#/app/sessions">
-          Sessions
+          {{ "_sessions" | translate }}
+        </ion-item>
+        <ion-item menu-close href="#/app/records">
+          {{ "_records" | translate }}
         </ion-item>
         <ion-item menu-close href="#/app/settings">
-          Settings
+          {{ "_settings" | translate }}
         </ion-item>
         <ion-item menu-close href="#/app/about">
-          About
+          {{ "_about" | translate }}
         </ion-item>
       </ion-list>
     </ion-content>

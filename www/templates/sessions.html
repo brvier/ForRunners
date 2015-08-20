@@ -15,8 +15,8 @@
     </div>
     <div class="item card-item">
 
-       <canvas ng-if="resume.chart_labels.lenght > 2" id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
-          labels="resume.chart_labels" chart-legend="true" series="resume.chart_series" options="resume.chart_options"
+       <canvas ng-if="resume.chart_labels.length > 1" id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
+          labels="resume.chart_labels" chartLegend="false" series="resume.chart_series" options="resume.chart_options"
           style="background: white; width: 100%;">
        </canvas>
     </div>

@@ -93,7 +93,7 @@
           colours: '=?',
           getColour: '=?',
           chartType: '=',
-          legend: '@',
+          chartLegend: '@',
           click: '=',
           hover: '='
         },
@@ -170,7 +170,7 @@
               if (scope[action])
                 cvs[action === 'click' ? 'onclick' : 'onmousemove'] = getEventHandler(scope, chart, action);
             });
-            if (scope.legend && scope.legend !== 'false') setLegend(elem, chart);
+            if (scope.chartLegend && scope.chartLegend !== 'false') setLegend(elem, chart);
           }
         }
       };
@@ -302,7 +302,7 @@
       }
       chart.update();
       scope.$emit('update', chart);
-      if (scope.legend && scope.legend !== 'false') setLegend(elem, chart);
+      if (scope.chartLegend && scope.chartLegend !== 'false') setLegend(elem, chart);
     }
 
     function isEmpty (value) {

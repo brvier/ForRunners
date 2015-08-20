@@ -134,6 +134,10 @@ p {
     text-align:center;
 }
 
+.black-bg{
+    background-color: #000;
+}
+
 .fileUpload input.upload{
 
     position: absolute;
