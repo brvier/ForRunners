@@ -7,13 +7,14 @@ angular.module('starter.controllers', [])
         return moment(date).format('llll');
     };
 })
-    .filter('duration', function() {
-        return function(date) {
-            // Using ES6 filter method
 
-            return moment(date).format('HH:mm');
-        };
-    })
+.filter('duration', function() {
+    return function(date) {
+        // Using ES6 filter method
+
+        return moment(date).format('HH:mm');
+    };
+})
 
 .filter('translatei18', function($filter) {
     return function(text) {
@@ -583,10 +584,10 @@ for (var j = 0; j < ogColors.length; j++) {
                 });
 
             }, function() {
-                console.log("failed to get file");
+                console.error("failed to get file");
             });
         }, function() {
-            console.log("failed can t open fs");
+            console.error("failed can t open fs");
         });
     };
 
@@ -617,9 +618,6 @@ for (var j = 0; j < ogColors.length; j++) {
     };
 
     $scope.importGPXs = function(element) {
-
-        console.log('DEBUG : ' + element.files[0].name);
-
         for (var idx in element.files) {
             $scope.importGPX(element.files[idx]);
         }
@@ -655,15 +653,14 @@ for (var j = 0; j < ogColors.length; j++) {
                     fileEntry.createWriter(function(writer) {
                         // Already in JSON Format
                         writer.onwrite = function(e) {
-                            //console.log(e);
                         };
                         writer.onerror = function(e) {
                             $ionicPopup.alert({
                                 title: $scope.translateFilter('_gpx_error_title'),
                                 template: $scope.translateFilter('_gpx_error_content')
                             });
-                            console.log(e);
-                            console.log(writer.error);
+                            console.error(e);
+                            console.error(writer.error);
                         };
                         writer.fileName = moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx';
                         gpxSubHead = '<name>' + session.date + '</name>\n';
@@ -679,13 +676,13 @@ for (var j = 0; j < ogColors.length; j++) {
                             type: 'text/plain'
                         });
                     }, function() {
-                        console.log("failed can t create writer");
+                        //console.log("failed can t create writer");
                     });
                 }, function() {
-                    console.log("failed to get file");
+                    //console.log("failed to get file");
                 });
             }, function() {
-                console.log("failed can t open fs");
+                //console.log("failed can t open fs");
             });
         });
 
@@ -727,7 +724,7 @@ for (var j = 0; j < ogColors.length; j++) {
         //console.log('Prefs load ended');
         $scope.setLang();
     } else {
-        console.log('Really ? No Prefs ?');
+        //console.log('Really ? No Prefs ?');
     }
 
 
@@ -747,9 +744,9 @@ for (var j = 0; j < ogColors.length; j++) {
         }
       });*/
             // Temp fix
-            $scope.sessions.map(function(session, idx) {
-                $scope.sessions[idx].map.tiles = {url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'};
-            });
+            //$scope.sessions.map(function(session, idx) {
+            //    $scope.sessions[idx].map.tiles = {url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'};
+            //});
 
             // Temp fix
             /*$scope.sessions.map(function(session, idx) {
@@ -784,7 +781,7 @@ for (var j = 0; j < ogColors.length; j++) {
       }, 300);*/
 
         } catch (exception) {
-            console.log(exception);
+            console.error(exception);
             $scope.sessions = [];
         }
     };
@@ -821,14 +818,12 @@ for (var j = 0; j < ogColors.length; j++) {
     };
 
     $ionicPlatform.registerBackButtonAction(function() {
-        console.log($scope.running);
         if ($scope.running === false) {
             var view = $ionicHistory.backView();
             if (view) {
                 view.go();
             }
         } else {
-            console.log('Modal show');
             $state.go('app.running');
         }
     }, 100);
@@ -924,40 +919,48 @@ for (var j = 0; j < ogColors.length; j++) {
 
     $scope.speakText = function(text) {
         try {
-            var utterance = new SpeechSynthesisUtterance();
 
-            utterance.text = text;
-            utterance.volume = 1;
+            musicControl.isactive(function(err, cb) {
+                if (err) {
+                        console.error(err);
+                    }
+                
+                var stopMusic = (cb && $scope.prefs.togglemusic);   
 
-            utterance.lang = ($scope.prefs.language);
+                var utterance = new SpeechSynthesisUtterance();
 
-            if ($scope.prefs.togglemusic) {
-                utterance.onend = function(event) {
-                    console.log('Finished in ' + event.elapsedTime + ' seconds.');
+                utterance.text = text;
+                utterance.volume = 1;
+                utterance.lang = ($scope.prefs.language);
+
+            
+                if (stopMusic) {
+                    utterance.onend = function(event) {
+                        if (stopMusic) {             
+                            musicControl.togglepause(function(err, cb) {
+                                    if (err) {
+                                        console.error(err);
+                                    }
+                                    return;
+                                });
+                            }                
+                        };
                     musicControl.togglepause(function(err, cb) {
                         if (err) {
-                            console.log('Music control error');
-                            console.log(err);
+                            console.error(err);
                         }
+                        speechSynthesis.speak(utterance);
                         return;
                     });
-                };
-                musicControl.togglepause(function(err, cb) {
-                    if (err) {
-                        console.log('Music control error');
-                        console.log(err);
-                    }
+                } else {
                     speechSynthesis.speak(utterance);
-
-                    return;
-                });
-            } else {
-                speechSynthesis.speak(utterance);
-            }
+                }
+            });
         } catch (exception) {
-            console.log("SpeechSynthesisUtterance not available : " + exception);
+            console.debug("SpeechSynthesisUtterance not available : " + exception);
         }
     };
+
     $scope.testRunSpeak = function() {
         $scope.session = {};
         $scope.session.equirect = 3.24;
@@ -1170,7 +1173,6 @@ for (var j = 0; j < ogColors.length; j++) {
                             'longitude': lonnew
                         }).then(function(weather) {
                             $scope.session.weather = weather;
-                            console.log('set weather : ' + JSON.stringify(weather));
                         });
                     }
                 }
@@ -1183,7 +1185,7 @@ for (var j = 0; j < ogColors.length; j++) {
     };
 
     $scope.errorfn = function(err) {
-        console.log('errorfn:' + err);
+        console.error('errorfn:' + err);
     };
 
     $scope.startSession = function() {
@@ -1406,28 +1408,47 @@ for (var j = 0; j < ogColors.length; j++) {
 
     $scope.computeRecords = function() {
         $scope.records = {};
+        var sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
 
-        for (var idx = 0; idx < $scope.sessions.length; idx++) {  
-            var session = $scope.sessions[idx];
+        for (var idx = 0; idx < sessions.length; idx++) {  
+            var session = sessions[idx];
+
+            if ($scope.records[session.distk] === undefined) {
+                $scope.records[session.distk] = {distk: session.distk,
+                                                 speed:0,
+                                                 pace:undefined,
+                                                 duration:new Date(),
+                                                 av_speed:[],
+                                                 av_duration:[],
+                                                 av_pace:[]
+                                                };
+
+            }
 
             if ($scope.records[session.distk].speed < session.speed) {
                 $scope.records[session.distk].speed = session.speed;
             } 
+            if ($scope.records[session.distk].pace === undefined) {
+                $scope.records[session.distk].pace = session.pace;
+
+            } else {
             if ($scope.records[session.distk].pace > session.pace) {
                 $scope.records[session.distk].pace = session.pace;
-            } 
+            } }
             if ($scope.records[session.distk].duration > session.duration) {
                 $scope.records[session.distk].duration = session.duration;
             } 
             
+            $scope.records[session.distk].av_pace.push(session.pace);
+            $scope.records[session.distk].av_speed.push(session.speed);
+            $scope.records[session.distk].av_duration.push(session.duration);
         }
 
     };
 
+    $scope.computeRecords();
+
     $timeout(function() {
-        $scope.computeRecords();
-
-
         ionicMaterialInk.displayEffect();
     }, 300);
 
@@ -1453,7 +1474,7 @@ for (var j = 0; j < ogColors.length; j++) {
                     view.go();
                 }
             } else {
-                console.log('Error confirm delete session');
+                console.error('Error confirm delete session');
             }
         });
     };
@@ -1464,7 +1485,6 @@ for (var j = 0; j < ogColors.length; j++) {
     };
 
     $scope.deleteSessionByID = function(sid) {
-        console.log("deleteSessionByID:" + sid);
         $scope.sessions.map(function(value, indx) {
             if (value.recclicked === sid) {
                 $scope.deleteSession(indx);

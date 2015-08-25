@@ -157,7 +157,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _elevationUp: 'Up',
     _elevationDown: 'Down',
     _sessions: 'Sessions',
-    _about: 'About'
+    _about: 'About',
+    _speed_maximum: 'Maximum',
+    _speed_average: 'Average',
+    _up: 'Up',
+    _down: 'Down',
+    _km: 'Km',
+    _distk: 'Type',
+    _duration: 'Time',
+    _best_records: 'Best',
+    _average_records: 'Average'
+
+
 
 
   });
@@ -199,7 +210,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _announce_average_speed: 'Annoncer la vitesse moyenne',
     _announce_average_pace: 'Annoncer l allure moyenne',
     _delay_start: 'Report du depart de 10 secondes',
-    _export_as_gpx: 'Exporter en GPX',
+    _export_ans_gpx: 'Exporter en GPX',
     _debug_tools: 'Outils de debug',
     _debug_mode: 'Mode debug',
     _settings: 'Préférences',
@@ -225,7 +236,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _elevationUp: 'Monté',
     _elevationDown: 'Descente',
     _sessions: 'Sessions',
-    _about: 'A propos'
+    _about: 'A propos',
+    _speed_maximum: 'Maximum',
+    _speed_average: 'Moyenne',
+    _up: 'Montée',
+    _down: 'Descente',
+    _km: 'Km',
+    _distk: 'Type',
+    _duration: 'Temps',
+    _best_records: 'Records',
+    _average_records: 'Moyenne'
+
 
   });
 

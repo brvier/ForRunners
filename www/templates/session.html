@@ -18,54 +18,64 @@ markers="session.map.markers" ></leaflet>
     <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
   </p>
 </div>
+
 <div class="row">
-  <div class="col">
-    <div class="item item-icon-left">
-      <i class="icon ion-clock positive"></i>
-      <p>{{ "_time" | translate }}</p>
-      <h2>{{session.duration | date:"HH:mm":"UTC"}}</h2>
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.speed}} Km/h</h2>
+      <p  style="text-align: center">{{ "_speed_average" | translate }}</p>
     </div>
   </div>
-  <div class="col">
-    <div class="item item-icon-left">
-      <i class="icon ion-ios-location positive"></i>
-      <p>{{ "_distance" | translate }}</p>
-      <h2>{{ session.distance }}</h2>
+  <div class="col col-10 col-center"  style="text-align: center"1>
+    <i class="icon ion-ios-speedometer positive" style="text-align: center;font-size: 32px;"></i>
+      
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+      <h2  style="text-align: center">{{ session.pace | date:"m.ss"  }}</h2>
+      <p  style="text-align: center">{{ "_pace" | translate }}</p>
     </div>
   </div>
 </div>
+
+
 <div class="row">
-  <div class="col">
-    <div class="item item-icon-left">
-      <i class="icon ion-speedometer positive"></i>
-      <p>{{ "_speed" | translate }}</p>
-      <h2>{{session.speed}}</h2>
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.distance}} Kms</h2>
+      <p  style="text-align: center">{{ "_distance" | translate }}</p>
     </div>
   </div>
-  <div class="col">
-    <div class="item item-icon-left">
-      <i class="icon ion-ios-stopwatch-outline positive"></i>
-      <p>{{ "_pace" | translate }}</p>
-      <h2>{{session.pace | date:"m.ss"}}</h2>
+  <div class="col col-10 col-center"  style="text-align: center"1>
+    <i class="icon ion-map positive" style="text-align: center;font-size: 32px;"></i>
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+      <h2  style="text-align: center">{{ session.duration |date:"HH:mm":"UTC" }}</h2>
+      <p  style="text-align: center">{{ "_time" | translate }}</p>
     </div>
   </div>
 </div>
+
 <div class="row">
-  <div class="col">
-    <div class="item item-icon-left">
-      <i class="icon ion-arrow-graph-up-right positive"></i>
-      <p>{{ "_elevationUp" | translate }}</p>
-      <h2>{{session.eleUp}}</h2>
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.eleUp}} m</h2>
+      <p  style="text-align: center">{{ "_up" | translate }}</p>
     </div>
   </div>
-  <div class="col">
-    <div class="item item-icon-left">
-      <i class="icon ion-arrow-graph-down-right positive"></i>
-      <p>{{ "_elevationDown" | translate }}</p>
-      <h2>{{session.eleDown}}</h2>
+  <div class="col col-10 col-center"  style="text-align: center"1>
+    <i class="icon ion-ios-arrow-thin-up positive" style="text-align: center;font-size: 32px;"></i>
+    <i class="icon ion-ios-arrow-thin-down positive" style="text-align: center;font-size: 32px;"></i>
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+      <h2  style="text-align: center">{{ session.eleDown }} m</h2>
+      <p  style="text-align: center">{{ "_down" | translate }}</p>
     </div>
   </div>
 </div>
+
 <div class="row row-center" ng-if="session.weather.main.temp">
   <div class="col col-center" ng-if="session.weather.main.temp">
     <div class="item weatherinfo" ng-if="session.weather.main.temp">
@@ -81,13 +91,13 @@ labels="session.chart_labels" chart-legend="true" series="session.chart_series"
 options="session.chart_options"
 style="width: 100%; height: 300px; background: white">
 </canvas>
-<div class="table">
-<div class="row row-center row-header" style="text-align: center" nf-if="session.paceDetails.length > 0">
+<div class="table" ng-if="session.paceDetails.length > 0">
+<div class="row row-center row-header" style="text-align: center" >
   <div class="col col-center">
-    <b>Km</b>
+    <b>{{ "_km" | translate }}</b>
   </div>
   <div class="col col-center">
-    Pace
+    {{ "_pace" | translate }}
   </div>
   <div class="col col-center">
     {{ "_speed" | translate }}

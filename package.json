@@ -32,12 +32,9 @@
       "locator": "https://github.com/katzer/cordova-plugin-background-mode.git",
       "id": "de.appplant.cordova.plugin.background-mode"
     },
-    {
-      "locator": "https://github.com/dustinblackman/cordova-MusicControl",
-      "id": "com.dustinblackman.plugin.MusicControl"
-    },
     "cordova-plugin-globalization",
-    "cordova-plugin-file"
+    "cordova-plugin-file",
+    "org.apache.cordova.splashscreen"
   ],
   "cordovaPlatforms": [
     "android"
