@@ -2,7 +2,7 @@
   <button ng-click="startSession()" class="button button-fab button-fab-bottom-right button-assertive icon ion-android-add waves-effect waves-button waves-light"></button>
   <ion-content>
 
-    <div class="item item-icon-left card-item">
+    <div class="item item-icon-left card-item" ng-if="sessions.length > 1">
         <i class="icon ion-trophy energized"></i>
         <h2>{{ "_average" | translate }}</h2>
         <p>{{resume.flatdistance}} Kms - {{resume.avduration | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
@@ -13,8 +13,15 @@
         <h2>{{ "_records" | translate }}</h2>
         <p>{{resume.bestdistance}} Kms - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed}} Km/h</p>
     </div>
-    <div class="item card-item">
 
+    <div class="content double-padding" ng-if="sessions.length < 1">
+      <h4 class="positive">Welcome on ForRunners</h4>
+      <p class="text-muted">
+        {{ "_welcome_text" | translate }} 
+      </p>
+    </div>
+
+    <div class="item card-item">
        <canvas ng-if="resume.chart_labels.length > 1" id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
           labels="resume.chart_labels" chartLegend="false" series="resume.chart_series" options="resume.chart_options"
           style="background: white; width: 100%;">
@@ -23,7 +30,8 @@
 
       <ion-list class="animate-fade-slide-in-right"> <!-- class="animate-fade-slide-in-right" -->
 
-        <a collection-repeat="session in sessions"
+        <a 
+           collection-repeat="session in sessions"
            type="item-text-wrap"
            ng-href="{{'#/app/sessions/'+$index}}"
            class="in item item-avatar item-icon-left button-fab"

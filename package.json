@@ -34,7 +34,11 @@
     },
     "cordova-plugin-globalization",
     "cordova-plugin-file",
-    "org.apache.cordova.splashscreen"
+    "org.apache.cordova.splashscreen",
+    {
+      "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+      "id": "nl.x-services.plugins.insomnia"
+    }
   ],
   "cordovaPlatforms": [
     "android"

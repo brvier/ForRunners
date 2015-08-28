@@ -42,39 +42,42 @@ loggingModule.factory(
             // to the console, and allow the application to continue running.
             $log.error.apply($log, arguments);
 
-            var prefs = JSON.parse(localStorage.getItem('prefs'));            
-            if (prefs.debug) {
-                // now try to log the error to the server side.
-                try{
-                    var errorMessage = exception.toString();
+            var prefs = JSON.parse(localStorage.getItem('prefs'));        
+            if (prefs) {    
+                if (prefs.debug) {
+                    // now try to log the error to the server side.
+                    try{
+                        var errorMessage = exception.toString();
 
-                    // use our traceService to generate a stack trace
-                    var stackTrace = traceService.print({e: exception});
+                        // use our traceService to generate a stack trace
+                        var stackTrace = traceService.print({e: exception});
 
-                    // use AJAX (in this example jQuery) and NOT 
-                    // an angular service such as $http 
-                    /*$http.post('http://khertan.net/report.php', {
-                            url: $window.location.href,                        
-                            message: errorMessage,
-                            type: "exception",
-                            stackTrace: stackTrace,
-                            cause: ( cause || "")
-                        });*/
-                    var xmlhttp = new XMLHttpRequest();
-                    xmlhttp.open("POST","http://khertan.net/report.php",true);
-                    xmlhttp.send(JSON.stringify({
-                            url: $window.location.href,                        
-                            message: errorMessage,
-                            type: "exception",
-                            stackTrace: stackTrace,
-                            cause: ( cause || "")}));
+                        // use AJAX (in this example jQuery) and NOT 
+                        // an angular service such as $http 
+                        /*$http.post('http://khertan.net/report.php', {
+                                url: $window.location.href,                        
+                                message: errorMessage,
+                                type: "exception",
+                                stackTrace: stackTrace,
+                                cause: ( cause || "")
+                            });*/
+                        var xmlhttp = new XMLHttpRequest();
+                        xmlhttp.open("POST","http://khertan.net/report.php",true);
+                        xmlhttp.send(JSON.stringify({
+                                url: $window.location.href,                        
+                                message: errorMessage,
+                                type: "exception",
+                                stackTrace: stackTrace,
+                                cause: ( cause || "")}));
 
-                    console.error(errorMessage);
-                } catch (loggingError){
-                    $log.warn("Error server-side logging failed");
-                    $log.log(loggingError);
+                        console.error(errorMessage);
+                    } catch (loggingError){
+                        $log.warn("Error server-side logging failed");
+                        $log.log(loggingError);
+                    }
                 }
             }
+
         }
         return(error);
     }]

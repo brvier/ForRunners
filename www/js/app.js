@@ -21,7 +21,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $translateProvider) {
+.config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $logProvider, $compileProvider) {
+
+  $ionicConfigProvider.scrolling.jsScrolling(false);
+  $logProvider.debugEnabled(false);
+  $compileProvider.debugInfoEnabled(false);
+
   $stateProvider
 
   .state('app', {
@@ -148,7 +153,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _run_slow: 'Run slower',
     enUS: 'English',
     frFR: 'French',
-    _privacy_policy_test: 'ForRunners didn\'t communicate any informations outside of your device, except for getting maps from Openstreet.net services and if you activate debug mode. In this last case, any errors and debug message will be sent to my own server for debugging.',
+    _privacy_policy_text: 'ForRunners didn\'t communicate any informations outside of your device, except for getting maps from Openstreet.net services and if you activate debug mode. In this last case, any errors and debug message will be sent to my own server for debugging.',
     _short_description: 'A gps tracking application dedicated to runners.',
     _use_open_source_text : 'ForRunners use parts or library of the following open source projects',
     _by : 'By',
@@ -166,9 +171,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _distk: 'Type',
     _duration: 'Time',
     _best_records: 'Best',
-    _average_records: 'Average'
-
-
+    _average_records: 'Average',
+    _fraction: 'Interval training',
+    _duration_slow_interval: 'Slow interval',
+    _duration_fast_interval: 'Fast interval',
+    _welcome_text: 'It s look like that\'s the first time you use ForRunners. You can start recording your run with the plus button below or by import older running session from GPX files in the settings.',
+    _announce_fraction: 'Interval announce',
+    _empty_records_text: 'You haven\'t any runnning session recorded yet, so any records to defeat.'
 
 
   });
@@ -227,7 +236,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _debug_warning: 'Le mode de debuggage ralentit séverement l\`application.',
     enUS: 'Anglais',
     frFR: 'Francais',
-    _privacy_policy_test: 'ForRunners ne communique aucune information en dehors de votre périphérique, exception faite lors de la recupération des carte OpenStreetMap et si vous activez le mode debug ou des logs de debug seront envoyé sur http://khertan.net/.',
+    _privacy_policy_text: 'ForRunners ne communique aucune information en dehors de votre périphérique, exception faite lors de la recupération des carte OpenStreetMap et si vous activez le mode debug ou des logs de debug seront envoyé sur http://khertan.net/.',
     _short_description: 'Une application de géolocalisation dédiée aux coureurs.',
     _use_open_source_text : 'ForRunners utilise des librairies et du code open source',
     _by : 'Par',
@@ -245,9 +254,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _distk: 'Type',
     _duration: 'Temps',
     _best_records: 'Records',
-    _average_records: 'Moyenne'
-
-
+    _average_records: 'Moyenne',
+    _fraction: 'Entraînement fractionné',
+    _duration_slow_interval: 'Interval lent',
+    _duration_fast_interval: 'Interval rapide',
+    _welcome_text: 'Il semblerait que cela soit la première fois que vous lancez ForRunners. Vous pouvez des maintenant enregistrer une course en appuyant sur le bouton plus, ou importer vos anciennes sessions de course par import de fichier GPX depuis le menu préférences.',
+    _announce_fraction: 'Annonce fractionné',
+    _empty_records_text: 'Vous n\'avez encore aucune session de course enregistrée. Donc aucun records à battre.'
   });
 
   $translateProvider.preferredLanguage("en-US");

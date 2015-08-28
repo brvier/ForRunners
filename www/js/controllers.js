@@ -163,7 +163,7 @@ for (var j = 0; j < ogColors.length; j++) {
     }, 100);
 
     $scope.dateTimeReviver = function(key, value) {
-        if (key === 'duration') {
+        if ((key === 'duration') || (key === 'pace')){
             if (typeof value === 'string') {
                 return new Date(value);
             }
@@ -1084,7 +1084,7 @@ for (var j = 0; j < ogColors.length; j++) {
                                 lapsed = timenew - $scope.session.firsttime;
                                 var averagePace = elapsed / ($scope.session.equirect * 60000);
                                 $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
-                                var avspeed = ($scope.session.equirect * 1000 * 3600 / elapsed);
+                                var avspeed = ($scope.session.equirect * 3.6 / elapsed);
                                 if (avspeed) {
                                     $scope.session.avspeed = avspeed.toFixed(1);
                                 } else {
@@ -1185,7 +1185,7 @@ for (var j = 0; j < ogColors.length; j++) {
     };
 
     $scope.errorfn = function(err) {
-        console.error('errorfn:' + err);
+        console.debug('errorfn:' + err);
     };
 
     $scope.startSession = function() {
@@ -1274,7 +1274,7 @@ for (var j = 0; j < ogColors.length; j++) {
             navigator.geolocation.getCurrentPosition(function(p) {}, function(p) {}, {
                 enableHighAccuracy: true,
                 timeout: 10000,
-                maximumAge: 0
+                maximumAge: 100
             });
             $scope.$apply();
         } else {
@@ -1410,39 +1410,49 @@ for (var j = 0; j < ogColors.length; j++) {
         $scope.records = {};
         var sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
 
-        for (var idx = 0; idx < sessions.length; idx++) {  
-            var session = sessions[idx];
+        if (sessions) {
+            for (var idx = 0; idx < sessions.length; idx++) {  
+                var session = sessions[idx];
 
-            if ($scope.records[session.distk] === undefined) {
-                $scope.records[session.distk] = {distk: session.distk,
-                                                 speed:0,
-                                                 pace:undefined,
-                                                 duration:new Date(),
-                                                 av_speed:[],
-                                                 av_duration:[],
-                                                 av_pace:[]
-                                                };
+                if ($scope.records[session.distk] === undefined) {
+                    $scope.records[session.distk] = {distk: session.distk,
+                                                     speed:0,
+                                                     pace:undefined,
+                                                     duration:new Date(),
+                                                     speeds:[],
+                                                     durations:[],
+                                                     paces:[],
+                                                     av_speed:undefined,
+                                                     av_duration:undefined,
+                                                     av_pace:undefined
 
+                                                    };
+
+                }
+
+                if ($scope.records[session.distk].speed < session.speed) {
+                    $scope.records[session.distk].speed = session.speed;
+                } 
+                if ($scope.records[session.distk].pace === undefined) {
+                    $scope.records[session.distk].pace = session.pace;
+
+                } else {
+                if ($scope.records[session.distk].pace > session.pace) {
+                    $scope.records[session.distk].pace = session.pace;
+                } }
+                if ($scope.records[session.distk].duration > session.duration) {
+                    $scope.records[session.distk].duration = session.duration;
+                } 
+                
+                $scope.records[session.distk].paces.push(session.pace);
+                $scope.records[session.distk].speeds.push(session.speed);
+                $scope.records[session.distk].durations.push(session.duration);
+                $scope.records[session.distk].av_pace = $scope.records[session.distk].paces.avg();
+                $scope.records[session.distk].av_speed = $scope.records[session.distk].speeds.avg();
+                $scope.records[session.distk].av_duration = $scope.records[session.distk].durations.avg();
             }
-
-            if ($scope.records[session.distk].speed < session.speed) {
-                $scope.records[session.distk].speed = session.speed;
-            } 
-            if ($scope.records[session.distk].pace === undefined) {
-                $scope.records[session.distk].pace = session.pace;
-
-            } else {
-            if ($scope.records[session.distk].pace > session.pace) {
-                $scope.records[session.distk].pace = session.pace;
-            } }
-            if ($scope.records[session.distk].duration > session.duration) {
-                $scope.records[session.distk].duration = session.duration;
-            } 
-            
-            $scope.records[session.distk].av_pace.push(session.pace);
-            $scope.records[session.distk].av_speed.push(session.speed);
-            $scope.records[session.distk].av_duration.push(session.duration);
         }
+
 
     };
 
