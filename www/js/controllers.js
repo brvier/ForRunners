@@ -128,7 +128,7 @@ for (var j = 0; j < ogColors.length; j++) {
 })
 
 .controller('AppCtrl', function($state, $scope, $ionicModal, $ionicPopup, $timeout, $ionicPlatform,
-    $ionicHistory, $weather, $http, $translate, $filter, ionicMaterialInk, applicationLoggingService,
+    $ionicHistory, $weather, $http, $translate, $filter, ionicMaterialInk, applicationLoggingService, $ionicScrollDelegate,
     leafletData, leafletBoundsHelpers) {
     $scope.weather = $weather;
 
@@ -763,8 +763,8 @@ for (var j = 0; j < ogColors.length; j++) {
                 var y = b.recclicked;
                 return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
             });
-
-            /*var previousKey = '';
+            
+           /*var previousKey = '';
       $scope.sessions.map(function (session, idx) {
           if (session.mdate != previousKey) {
               previousKey = session.mdate;
@@ -1387,6 +1387,8 @@ for (var j = 0; j < ogColors.length; j++) {
         $scope.resume.bestspeed = $scope.resume.bestspeed.toFixed(1);
         $scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(1);
 
+        $ionicScrollDelegate.resize();
+ 
     };
 
 })
