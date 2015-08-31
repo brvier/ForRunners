@@ -41,6 +41,9 @@
     }
   ],
   "cordovaPlatforms": [
-    "android"
+    {
+      "platform": "android",
+      "locator": "firefoxos"
+    }
   ]
 }
