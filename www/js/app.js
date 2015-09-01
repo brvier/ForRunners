@@ -31,7 +31,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 
   .state('app', {
     url: "/app",
-    abstract: true,
+    //abstract: true,
     templateUrl: "templates/menu.html",
     controller: 'AppCtrl'
   })
@@ -40,7 +40,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     url: "/running",
     views: {
       'menuContent': {
-        templateUrl: "templates/running.html",
+        templateUrl: "templates/running.html"
       }
     }
   })

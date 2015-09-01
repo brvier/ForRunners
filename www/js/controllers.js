@@ -787,6 +787,10 @@ for (var j = 0; j < ogColors.length; j++) {
     };
 
     $scope.glbs = {
+        heartRate: {
+                service: '180d',
+                measurement: '2a37'
+        },
         radius: {
             miles: 3959,
             kms: 6371
@@ -851,6 +855,40 @@ for (var j = 0; j < ogColors.length; j++) {
         $state.go('app.sessions');
     };
 
+    $scope.hearthRateOnData = function(buffer){
+        var data = new Uint8Array(buffer);
+        $scope.beatsPerMinute = data[1];
+    };
+    $scope.hearthRateOnConnect = function(peripheral) {
+        ble.notify(peripheral.id,
+                   $scope.glbs.heartrate.service,
+                   $scope.glbs.heartrate.measurement,
+                   $scope.hearthRateOnData, 
+                   function(err) {
+                       console.error('BLE error :'+err);
+                       $scope.beatsPerMinute = null;
+                   });
+    };
+
+    $scope.hearthRateOnDisconnect = function(reason) {
+        console.debug("BLE Disconnected");
+        $scope.beatsPerMinute = null;
+    };
+
+    $scope.hearthRateScan = function() {
+        // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
+        ble.scan([heartRate.service], 5, 
+                //onScan
+                function(peripheral) {
+                    console.debug("Found " + JSON.stringify(peripheral));
+                    foundHeartRateMonitor = true;
+                    ble.connect(peripheral.id, 
+                                $scope.hearthRateOnConnect,
+                                $scope.hearthRateOnDisconnect);
+                }
+                , function(){console.error("BluetoothLE scan failed");});
+
+    }
     $scope.stopSession = function() {
         navigator.geolocation.clearWatch($scope.session.watchId);
         if ($scope.session.gpxData.length > 0) {
@@ -1251,6 +1289,13 @@ for (var j = 0; j < ogColors.length; j++) {
             console.debug('ERROR: window.plugins.insomnia keepAwake');
         }
 
+        try {
+            $scope.hearthRateScan();
+        } catch (exception) {
+            console.debug('ERROR: BLEScan:' + exception);
+        }
+
+
         if ($scope.prefs.debug) {
             $scope.prefs.minrecordingaccuracy = 5000000;
         }
@@ -1259,7 +1304,7 @@ for (var j = 0; j < ogColors.length; j++) {
             $scope.errorfn, {
                 enableHighAccuracy: true,
                 maximumAge: 0,
-                timeout: 500,
+                timeout: 500
             });
 
         $scope.openModal();
