@@ -24,8 +24,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 .config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $logProvider, $compileProvider) {
 
   $ionicConfigProvider.scrolling.jsScrolling(false);
-  $logProvider.debugEnabled(false);
-  $compileProvider.debugInfoEnabled(false);
+  $logProvider.debugEnabled(true);
+  $compileProvider.debugInfoEnabled(true);
 
   $stateProvider
 

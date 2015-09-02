@@ -187,7 +187,8 @@ for (var j = 0; j < ogColors.length; j++) {
                 lat: parseFloat(item[0]),
                 lng: parseFloat(item[1]),
                 timestamp: item[2],
-                ele: parseFloat(item[3])
+                ele: parseFloat(item[3]),
+                bpm: parseFloat(item[4])
             });
         });
 
@@ -389,7 +390,7 @@ for (var j = 0; j < ogColors.length; j++) {
                 },
                 paths: {},
                 controls: {
-                    scale: true
+                    //scale: true
                 },
                 bounds: {},
                 markers: {},
@@ -605,7 +606,13 @@ for (var j = 0; j < ogColors.length; j++) {
             $scope.session.gpxData = [];
 
             gpxPoints.map(function(item) {
-                $scope.session.gpxData.push([item._lat, item._lon, item.time, item.ele]);
+                var bpms = null;
+                try {
+                    bpms = item.extensions.TrackPointExtension.hr.__text;
+                } catch(exception) {
+                    bpms = null;
+                }
+                $scope.session.gpxData.push([item._lat, item._lon, item.time, item.ele, bpms]);    
             });
 
             $scope.session.recclicked = new Date(gpxPoints[0].time).getTime();
@@ -670,6 +677,9 @@ for (var j = 0; j < ogColors.length; j++) {
                             gpxPoints += "<trkpt lat=\"" + pts[0] + "\" lon=\"" + pts[1] + "\">\n";
                             gpxPoints += "<ele>" + pts[3] + "</ele>\n";
                             gpxPoints += "<time>" + pts[2] + "</time>\n";
+                            if (pts[4]) {
+                                gpxPoints += "<extensions><gpxtpx:TrackPointExtension><gpxtpx:hr>"+pts[4]+"</gpxtpx:hr></gpxtpx:TrackPointExtension></extensions>";
+                            }
                             gpxPoints += "</trkpt>\n";
                         });
                         writer.write(gpxHead + gpxSubHead + gpxPoints + gpxFoot, {
@@ -855,36 +865,36 @@ for (var j = 0; j < ogColors.length; j++) {
         $state.go('app.sessions');
     };
 
-    $scope.hearthRateOnData = function(buffer){
+    $scope.heartRateOnData = function(buffer){
         var data = new Uint8Array(buffer);
-        $scope.beatsPerMinute = data[1];
+        $scope.session.beatsPerMinute = data[1];
     };
-    $scope.hearthRateOnConnect = function(peripheral) {
+    $scope.heartRateOnConnect = function(peripheral) {
         ble.notify(peripheral.id,
                    $scope.glbs.heartrate.service,
                    $scope.glbs.heartrate.measurement,
-                   $scope.hearthRateOnData, 
+                   $scope.heartRateOnData, 
                    function(err) {
                        console.error('BLE error :'+err);
-                       $scope.beatsPerMinute = null;
+                       $scope.session.beatsPerMinute = null;
                    });
     };
 
-    $scope.hearthRateOnDisconnect = function(reason) {
+    $scope.heartRateOnDisconnect = function(reason) {
         console.debug("BLE Disconnected");
-        $scope.beatsPerMinute = null;
+        $scope.session.beatsPerMinute = null;
     };
 
-    $scope.hearthRateScan = function() {
+    $scope.heartRateScan = function() {
         // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
-        ble.scan([heartRate.service], 5, 
+        ble.scan([$scope.glbs.heartRate.service], 5, 
                 //onScan
                 function(peripheral) {
                     console.debug("Found " + JSON.stringify(peripheral));
                     foundHeartRateMonitor = true;
                     ble.connect(peripheral.id, 
-                                $scope.hearthRateOnConnect,
-                                $scope.hearthRateOnDisconnect);
+                                $scope.heartRateOnConnect,
+                                $scope.heartRateOnDisconnect);
                 }
                 , function(){console.error("BluetoothLE scan failed");});
 
@@ -1199,6 +1209,11 @@ for (var j = 0; j < ogColors.length; j++) {
                             pointData.push('x');
                         }
 
+                        if ($scope.session.beatsPerMinute)  {
+                            pointData.push($scope.session.beatsPerMinute);
+                        } else {
+                           pointData.push('x');
+                        }
                         $scope.session.gpxData.push(pointData);
                         $scope.session.lastrecordtime = timenew;
                     }
@@ -1290,7 +1305,7 @@ for (var j = 0; j < ogColors.length; j++) {
         }
 
         try {
-            $scope.hearthRateScan();
+            $scope.heartRateScan();
         } catch (exception) {
             console.debug('ERROR: BLEScan:' + exception);
         }
