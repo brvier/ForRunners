@@ -201,17 +201,20 @@ for (var j = 0; j < ogColors.length; j++) {
         var latMin = latMax;
         var eleDown = 0;
         var eleUp = 0;
+        var maxHeartRate = 0;
 
         //For calc
         var curLat = gpxPoints[0].lat;
         var curLng = gpxPoints[0].lng;
         var curDate = gpxPoints[0].timestamp;
         var curEle = gpxPoints[0].ele;
+        var curHeartRate = gpxPoints[0].hr;
 
         var oldLat = curLat;
         var oldLng = curLng;
         var oldDate = curDate;
         var oldEle = curEle;
+        var oldHeartRate = curHeartRate;
 
         var timeStartTmp = new Date(gpxPoints[0].timestamp);
         var timeEndTmp = 0;
@@ -225,6 +228,8 @@ for (var j = 0; j < ogColors.length; j++) {
 
         var mz2 = 1;
         var eleStartTmp = 0;
+        var heartRatesTmp = [];
+        var heartRatesTmp2 = [];
         var dTemp2 = 0;
         var smallStepDetail = [];
         var timeStartTmp2 = new Date(gpxPoints[0].timestamp);
@@ -273,6 +278,7 @@ for (var j = 0; j < ogColors.length; j++) {
             curLng = gpxPoints[p].lng;
             curEle = gpxPoints[p].ele;
             curDate = gpxPoints[p].timestamp;
+            curHeartRate = gpxPoints[p].hr;
 
             //Leaflet
             paths.p1.latlngs.push({
@@ -291,12 +297,15 @@ for (var j = 0; j < ogColors.length; j++) {
             if (curLng > lonMax) {
                 lonMax = curLng;
             }
-
+    
             //Max elevation
             if (curEle > maxHeight)
                 maxHeight = curEle;
             if (curEle < minHeight)
                 minHeight = curEle;
+            if (curHeartRate > maxHeartRate) {
+                maxHeartRate = curHeartRate;
+            }
 
             if (p > 0) {
                 //Distances
@@ -311,6 +320,9 @@ for (var j = 0; j < ogColors.length; j++) {
                 d = 6371 * c;
                 dTotal += d;
                 gpxPoints[p].dist = dTotal;
+
+                heartRatesTmp.push(curHeartRate);
+                heartRatesTmp2.push(curHeartRate);
 
 
                 dTemp += (d * 1000);
@@ -337,11 +349,13 @@ for (var j = 0; j < ogColors.length; j++) {
                     stepDetails.push({
                         pace: new Date(gpxpacetmp),
                         speed: gpxspeedtmp,
-                        km: (mz * dMaxTemp) / 1000
+                        km: (mz * dMaxTemp) / 1000,
+                        hr: heartRatesTmp.avg()
                     });
                     timeStartTmp = new Date(gpxPoints[p].timestamp);
                     mz++;
                     dTemp = 0;
+                    heartRatesTmp = [];
                 }
 
                 dTemp2 += (d * 1000);
@@ -357,12 +371,14 @@ for (var j = 0; j < ogColors.length; j++) {
                         pace: new Date(gpxpacetmp),
                         speed: gpxspeedtmp,
                         km: (mz2 * dMaxTemp2 / 10) / 100,
-                        ele: (eleStartTmp + curEle) / 2
+                        ele: (eleStartTmp + curEle) / 2,
+                        hr: heartRatesTmp2.avg()
                     });
                     timeStartTmp2 = new Date(gpxPoints[p].timestamp);
                     mz2++;
                     dTemp2 = 0;
                     eleStartTmp = curEle;
+                    heartRatesTmp2 = [];
                 }
 
 
@@ -414,7 +430,18 @@ for (var j = 0; j < ogColors.length; j++) {
         //Pace by km
         $scope.session.paceDetails = stepDetails;
 
-        //Graph
+        //Graph speed / ele
+        $scope.session.chart_options = {
+            animation: false,
+            showTooltips: false,
+            showScale: true,
+            scaleIntegersOnly: true,
+            bezierCurve: true,
+            pointDot: false,
+            responsive: true,
+            scaleUse2Y: true,
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+        };
         $scope.session.chart_options = {
             animation: false,
             showTooltips: false,
@@ -427,12 +454,14 @@ for (var j = 0; j < ogColors.length; j++) {
             legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
         };
 
+
         $scope.session.chart_labels = [];
         $scope.session.chart_data = [
             [],
             []
         ];
         $scope.session.chart_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_altitude_meters')];
+        $scope.session.chart2_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_bpms_label')];
         smallStepDetail.map(function(step) {
             if (Math.round(step.km) == step.km) {
                 $scope.session.chart_labels.push(step.km);
@@ -442,6 +471,9 @@ for (var j = 0; j < ogColors.length; j++) {
 
             $scope.session.chart_data[0].push(step.speed);
             $scope.session.chart_data[1].push(step.ele);
+            $scope.session.chart2_data[0].push(step.speed);
+            $scope.session.chart2_data[1].push(step.hr);
+            
         });
 
         // altitude
@@ -895,10 +927,8 @@ for (var j = 0; j < ogColors.length; j++) {
                     ble.connect(peripheral.id, 
                                 $scope.heartRateOnConnect,
                                 $scope.heartRateOnDisconnect);
-                }
-                , function(){console.error("BluetoothLE scan failed");});
+                }, function(){console.error("BluetoothLE scan failed");});};
 
-    }
     $scope.stopSession = function() {
         navigator.geolocation.clearWatch($scope.session.watchId);
         if ($scope.session.gpxData.length > 0) {
