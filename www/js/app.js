@@ -268,7 +268,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _open_source_content: 'Open Source Content',
     _bpm: 'Heart rate',
     _bpms_label: 'bpms',
-    _donation: 'Si vous souhaitez voir cette application évolué ou tout simplement me remercier, vous pouvez effectué une donation en bitcoin :'
+    _donation: 'Si vous souhaitez voir cette application évoluer ou tout simplement me remercier, vous pouvez effectuer une donation en bitcoin :'
  });
 
   $translateProvider.preferredLanguage("en-US");
