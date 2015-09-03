@@ -91,6 +91,11 @@ labels="session.chart_labels" chart-legend="true" series="session.chart_series"
 options="session.chart_options"
 style="width: 100%; height: 300px; background: white">
 </canvas>
+<canvas ng-if="session.heartRate" id="line" class="item chart chart-line ng-isolate-scope" data="session.chart2_data"
+labels="session.chart_labels" chart-legend="true" series="session.chart2_series"
+options="session.chart_options"
+style="width: 100%; height: 300px; background: white">
+</canvas>
 <div class="table" ng-if="session.paceDetails.length > 0">
 <div class="row row-center row-header" style="text-align: center" >
   <div class="col col-center">
@@ -102,8 +107,8 @@ style="width: 100%; height: 300px; background: white">
   <div class="col col-center">
     {{ "_speed" | translate }}
   </div>
-  <div class="col col-center">
-    {{ "_bpms" | translate }}
+  <div class="col col-center" ng-if="session.heartRate">
+    {{ "_bpm" | translate }}
   </div>
 
 </div>
@@ -117,10 +122,10 @@ style="width: 100%; height: 300px; background: white">
     {{ stepPace.pace | date:"m.ss" }}
   </div>
   <div class="col col-center col-sep">
-    {{ stepPace.speed }}
+    {{ stepPace.speed | number:1}}
   </div>
-  <div class="col col-center col-sep">
-    {{ stepPace.hr }}
+  <div class="col col-center col-sep" ng-if="session.heartRate">
+    {{ stepPace.hr | number  }}
   </div>
 
 </div>

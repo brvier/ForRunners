@@ -178,8 +178,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _welcome_text: 'It s look like that\'s the first time you use ForRunners. You can start recording your run with the plus button below or by import older running session from GPX files in the settings.',
     _announce_fraction: 'Interval announce',
     _empty_records_text: 'You haven\'t any runnning session recorded yet, so any records to defeat.',
-    _open_source_content: 'Open Source Content'
-
+    _open_source_content: 'Open Source Content',
+    _bpm: 'Heart rate',
+    _bpms_label: 'bpms',
+    _donation: 'If you want to see this app elvoving or only thanks me, you can make a donation in bitcoin :'
+ 
 
   });
   $translateProvider.translations('fr-FR', {
@@ -262,8 +265,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _welcome_text: 'Il semblerait que cela soit la première fois que vous lancez ForRunners. Vous pouvez des maintenant enregistrer une course en appuyant sur le bouton plus, ou importer vos anciennes sessions de course par import de fichier GPX depuis le menu préférences.',
     _announce_fraction: 'Annonce fractionné',
     _empty_records_text: 'Vous n\'avez encore aucune session de course enregistrée. Donc aucun records à battre.',
-    _open_source_content: 'Open Source Content'
-
+    _open_source_content: 'Open Source Content',
+    _bpm: 'Heart rate',
+    _bpms_label: 'bpms',
+    _donation: 'Si vous souhaitez voir cette application évolué ou tout simplement me remercier, vous pouvez effectué une donation en bitcoin :'
  });
 
   $translateProvider.preferredLanguage("en-US");

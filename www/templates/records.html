@@ -28,7 +28,7 @@
 		    <b>{{ record.distk }}K</b>
 		  </div>
 		  <div class="col col-center col-sep">
-		    {{ record.speed }}
+		    {{ record.speed | number:1}}
 		  </div>
 		  <div class="col col-center col-sep">
 		    {{ record.pace | date:"m.ss" }}
@@ -65,7 +65,7 @@
 		    <b>{{ record.distk }}K</b>
 		  </div>
 		  <div class="col col-center col-sep">
-		    {{ record.av_speed }}
+		    {{ record.av_speed | number:1}}
 		  </div>
 		  <div class="col col-center col-sep">
 		    {{ record.av_pace | date:"m.ss" }}

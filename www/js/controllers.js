@@ -188,7 +188,7 @@ for (var j = 0; j < ogColors.length; j++) {
                 lng: parseFloat(item[1]),
                 timestamp: item[2],
                 ele: parseFloat(item[3]),
-                bpm: parseFloat(item[4])
+                hr: parseFloat(item[4])
             });
         });
 
@@ -321,9 +321,10 @@ for (var j = 0; j < ogColors.length; j++) {
                 dTotal += d;
                 gpxPoints[p].dist = dTotal;
 
-                heartRatesTmp.push(curHeartRate);
-                heartRatesTmp2.push(curHeartRate);
-
+                if (curHeartRate) {
+                    heartRatesTmp.push(curHeartRate);
+                    heartRatesTmp2.push(curHeartRate);
+                }
 
                 dTemp += (d * 1000);
                 if (dTemp >= dMaxTemp) {
@@ -405,9 +406,6 @@ for (var j = 0; j < ogColors.length; j++) {
                     autoDiscover: false
                 },
                 paths: {},
-                controls: {
-                    //scale: true
-                },
                 bounds: {},
                 markers: {},
                 tiles: {
@@ -429,6 +427,11 @@ for (var j = 0; j < ogColors.length; j++) {
 
         //Pace by km
         $scope.session.paceDetails = stepDetails;
+    
+        //Heart Rate OK ?
+        if (heartRatesTmp2.length > 1) {
+            $scope.session.heartRate = True;
+        } else {$scope.session.heartRate = False;}
 
         //Graph speed / ele
         $scope.session.chart_options = {
@@ -457,6 +460,10 @@ for (var j = 0; j < ogColors.length; j++) {
 
         $scope.session.chart_labels = [];
         $scope.session.chart_data = [
+            [],
+            []
+        ];
+        $scope.session.chart2_data = [
             [],
             []
         ];
@@ -638,11 +645,15 @@ for (var j = 0; j < ogColors.length; j++) {
             $scope.session.gpxData = [];
 
             gpxPoints.map(function(item) {
-                var bpms = null;
+                var bpms;
                 try {
-                    bpms = item.extensions.TrackPointExtension.hr.__text;
+                    bpms = parseFloat(item.extensions.TrackPointExtension.hr.__text);
                 } catch(exception) {
-                    bpms = null;
+                    try {
+                        bpms = parseFloat(item.extensions.hr.__text);
+                    } catch(exception2) {
+                        bpms = undefined;
+                    }
                 }
                 $scope.session.gpxData.push([item._lat, item._lon, item.time, item.ele, bpms]);    
             });
@@ -658,7 +669,8 @@ for (var j = 0; j < ogColors.length; j++) {
 
     $scope.importGPXs = function(element) {
         for (var idx in element.files) {
-            $scope.importGPX(element.files[idx]);
+            if (typeof element.files[idx] == "object")
+                {$scope.importGPX(element.files[idx]);}
         }
 
         $ionicPopup.alert({
@@ -685,7 +697,11 @@ for (var j = 0; j < ogColors.length; j++) {
         var gpxFoot = '</trkseg></trk>\n</gpx>';
 
         $scope.sessions.map(function(session, idx) {
-            window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(dirEntry) {
+            var stordir = cordova.file.externalDataDirectory;
+            if (!stordir) {
+                stordir = cordova.file.dataDirectory;
+            }
+            window.resolveLocalFileSystemURL(stordir, function(dirEntry) {
                 dirEntry.getFile(moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx', {
                     create: true
                 }, function(fileEntry) {
@@ -709,6 +725,7 @@ for (var j = 0; j < ogColors.length; j++) {
                             gpxPoints += "<trkpt lat=\"" + pts[0] + "\" lon=\"" + pts[1] + "\">\n";
                             gpxPoints += "<ele>" + pts[3] + "</ele>\n";
                             gpxPoints += "<time>" + pts[2] + "</time>\n";
+                            pts[4] = 112;
                             if (pts[4]) {
                                 gpxPoints += "<extensions><gpxtpx:TrackPointExtension><gpxtpx:hr>"+pts[4]+"</gpxtpx:hr></gpxtpx:TrackPointExtension></extensions>";
                             }
@@ -903,8 +920,8 @@ for (var j = 0; j < ogColors.length; j++) {
     };
     $scope.heartRateOnConnect = function(peripheral) {
         ble.notify(peripheral.id,
-                   $scope.glbs.heartrate.service,
-                   $scope.glbs.heartrate.measurement,
+                   $scope.glbs.heartRate.service,
+                   $scope.glbs.heartRate.measurement,
                    $scope.heartRateOnData, 
                    function(err) {
                        console.error('BLE error :'+err);
@@ -1396,9 +1413,6 @@ for (var j = 0; j < ogColors.length; j++) {
                     autoDiscover: false
                 },
                 paths: {},
-                controls: {
-                    scale: true
-                },
                 bounds: {},
                 markers: {},
                 tiles: {
@@ -1611,9 +1625,6 @@ for (var j = 0; j < ogColors.length; j++) {
                 autoDiscover: false
             },
             paths: {},
-            controls: {
-                scale: true
-            },
             bounds: {},
             markers: {},
             tiles: {
