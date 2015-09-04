@@ -1080,7 +1080,7 @@ for (var j = 0; j < ogColors.length; j++) {
         }
 
         if ($scope.prefs.avgspeedvocalannounce) {
-            speechText += ', ' + $scope.session.avspeed + ' ' + $scope.translateFilter('_kilometers_per_hour') + ' ';
+            speechText += ', ' + $scope.session.speed + ' ' + $scope.translateFilter('_kilometers_per_hour') + ' ';
         }
         if ($scope.prefs.avgpacevocalannounce) {
             speechText += ', ';
