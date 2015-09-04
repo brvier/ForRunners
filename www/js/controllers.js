@@ -430,8 +430,8 @@ for (var j = 0; j < ogColors.length; j++) {
     
         //Heart Rate OK ?
         if (heartRatesTmp2.length > 1) {
-            $scope.session.heartRate = True;
-        } else {$scope.session.heartRate = False;}
+            $scope.session.heartRate = true;
+        } else {$scope.session.heartRate = false;}
 
         //Graph speed / ele
         $scope.session.chart_options = {
