@@ -183,12 +183,15 @@ for (var j = 0; j < ogColors.length; j++) {
     $scope.computeSessionFromGPXData = function(session) {
         $scope.session = session;
         var gpxPoints = [];
+        var lastEle = 0;
         simplify($scope.session.gpxData, 0.000008).map(function(item) {
+            if (!isNaN(parseFloat(item[3]))) {
+            lastEle = parseFloat(item[3]); }
             gpxPoints.push({
                 lat: parseFloat(item[0]),
                 lng: parseFloat(item[1]),
                 timestamp: item[2],
-                ele: parseFloat(item[3]),
+                ele: lastEle,
                 hr: parseFloat(item[4])
             });
         });
@@ -727,7 +730,6 @@ for (var j = 0; j < ogColors.length; j++) {
                             gpxPoints += "<trkpt lat=\"" + pts[0] + "\" lon=\"" + pts[1] + "\">\n";
                             gpxPoints += "<ele>" + pts[3] + "</ele>\n";
                             gpxPoints += "<time>" + pts[2] + "</time>\n";
-                            pts[4] = 112;
                             if (pts[4]) {
                                 gpxPoints += "<extensions><gpxtpx:TrackPointExtension><gpxtpx:hr>"+pts[4]+"</gpxtpx:hr></gpxtpx:TrackPointExtension></extensions>";
                             }
