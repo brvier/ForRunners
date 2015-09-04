@@ -135,7 +135,7 @@ for (var j = 0; j < ogColors.length; j++) {
     $scope.running = false;
     $scope.prefs = {};
 
-    $scope.prefs.minrecordingaccuracy = 11;
+    $scope.prefs.minrecordingaccuracy = 14;
     $scope.prefs.minrecordinggap = 1000;
     $scope.prefs.minrecordingspeed = 3;
     $scope.prefs.maxrecordingspeed = 30;
@@ -150,6 +150,7 @@ for (var j = 0; j < ogColors.length; j++) {
     $scope.prefs.delay = 10 * 1000;
     $scope.prefs.usedelay = true;
     $scope.prefs.debug = false;
+    $scope.prefs.keepscreenon = true;
 
     $scope.prefs.togglemusic = true;
     $scope.prefs.distvocalinterval = 0; //en km (0 == None)
@@ -407,6 +408,7 @@ for (var j = 0; j < ogColors.length; j++) {
                 },
                 paths: {},
                 bounds: {},
+                controls: {scale:true},
                 markers: {},
                 tiles: {
                     url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -1345,10 +1347,12 @@ for (var j = 0; j < ogColors.length; j++) {
             console.debug('ERROR: cordova.plugins.backgroundMode not enabled');
         }
 
-        try {
-            window.plugins.insomnia.keepAwake();
-        } catch (exception) {
-            console.debug('ERROR: window.plugins.insomnia keepAwake');
+        if ($scope.prefs.keepscreenon === true) {
+            try {
+                window.plugins.insomnia.keepAwake();
+            } catch (exception) {
+                console.debug('ERROR: window.plugins.insomnia keepAwake');
+            }
         }
 
         try {
@@ -1414,12 +1418,17 @@ for (var j = 0; j < ogColors.length; j++) {
                 },
                 paths: {},
                 bounds: {},
+                controls: {scale:true},
                 markers: {},
                 tiles: {
                     url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 }
             };
-            $scope.computeSessionFromGPXData($scope.session);
+            try {
+                $scope.computeSessionFromGPXData($scope.session);
+            } catch (exception){
+                console.error("ComputeSessionFromGPX Failed on save:"+exception);
+            }
             sessions.push($scope.session);
             $scope.storageSetObj('sessions', sessions);
             $scope.loadSessions();
@@ -1626,6 +1635,7 @@ for (var j = 0; j < ogColors.length; j++) {
             },
             paths: {},
             bounds: {},
+            controls: {scale:true},
             markers: {},
             tiles: {
                 url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'

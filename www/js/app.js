@@ -181,7 +181,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _open_source_content: 'Open Source Content',
     _bpm: 'Heart rate',
     _bpms_label: 'bpms',
-    _donation: 'If you want to see this app elvoving or only thanks me, you can make a donation in bitcoin :'
+    _donation: 'If you want to see this app elvoving or only thanks me, you can make a donation in bitcoin :',
+    _keep_screen_on: 'Keep Screen on while running'
  
 
   });
@@ -268,7 +269,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _open_source_content: 'Open Source Content',
     _bpm: 'Heart rate',
     _bpms_label: 'bpms',
-    _donation: 'Si vous souhaitez voir cette application évoluer ou tout simplement me remercier, vous pouvez effectuer une donation en bitcoin :'
+    _donation: 'Si vous souhaitez voir cette application évoluer ou tout simplement me remercier, vous pouvez effectuer une donation en bitcoin :',
+    _keep_screen_on: 'Gardez l\'écran allumé pendant la course'
  });
 
   $translateProvider.preferredLanguage("en-US");
