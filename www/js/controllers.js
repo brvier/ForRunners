@@ -231,7 +231,7 @@ for (var j = 0; j < ogColors.length; j++) {
         var stepDetails = [];
 
         var mz2 = 1;
-        var eleStartTmp = 0;
+        var eleStartTmp = curEle;
         var heartRatesTmp = [];
         var heartRatesTmp2 = [];
         var dTemp2 = 0;
