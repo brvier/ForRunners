@@ -331,7 +331,7 @@ for (var j = 0; j < ogColors.length; j++) {
                 }
 
                 dTemp += (d * 1000);
-                if (dTemp >= dMaxTemp) {
+                if (dTemp >= dMaxTemp){
                     markers[mz] = {
                         lat: curLat,
                         lng: curLng,
@@ -362,7 +362,6 @@ for (var j = 0; j < ogColors.length; j++) {
                     dTemp = 0;
                     heartRatesTmp = [];
                 }
-
                 dTemp2 += (d * 1000);
                 if (dTemp2 >= dMaxTemp2) {
 
@@ -385,6 +384,21 @@ for (var j = 0; j < ogColors.length; j++) {
                     eleStartTmp = curEle;
                     heartRatesTmp2 = [];
                 }
+                if ((gpxPoints.length - 1) === p) {
+                    timeEndTmp = new Date(gpxPoints[p].timestamp);
+                    timeDiff = timeEndTmp - timeStartTmp;
+                    gpxpacetmp = (timeDiff) / (dTemp / 1000);
+                    gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
+                    gpxspeedtmp = (Math.round((dTemp / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
+                    gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
+                    stepDetails.push({
+                        pace: new Date(gpxpacetmp),
+                        speed: gpxspeedtmp,
+                        km: Math.round(dTotal * 10) / 10,
+                        hr: heartRatesTmp.avg()
+                    });
+               }
+
 
 
             }
@@ -1435,7 +1449,7 @@ for (var j = 0; j < ogColors.length; j++) {
             $scope.loadSessions();
             
             //Automated bacup
-            setTimeout(function() {backupOnStorage('automated_forrunners.backup');}, 2000);
+            setTimeout(function() {$scope.backupOnStorage('automated_forrunners.backup');}, 2000);
         }
     };
 

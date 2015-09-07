@@ -43,9 +43,6 @@
     "com.megster.cordova.ble"
   ],
   "cordovaPlatforms": [
-    {
-      "platform": "android",
-      "locator": "browser"
-    }
+    "android"
   ]
 }
