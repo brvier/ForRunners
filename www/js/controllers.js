@@ -567,11 +567,10 @@ for (var j = 0; j < ogColors.length; j++) {
 
     };
 
-    $scope.backupOnStorage = function() {
-
+    $scope.backupOnStorage = function(backupName) {
         window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(dirEntry) {
             //cordova.file.externalDataDirectory
-            dirEntry.getFile('forrunners.backup', {
+            dirEntry.getFile(backupName, {
                 create: true
             }, function(fileEntry) {
                 fileEntry.createWriter(function(writer) {
@@ -589,7 +588,7 @@ for (var j = 0; j < ogColors.length; j++) {
                         });
                         console.error(e);
                     };
-                    writer.fileName = 'forrunners.backup';
+                    writer.fileName = backupName;
                     writer.write(new Blob([localStorage.getItem('sessions')], {
                         type: 'text/plain'
                     }));
@@ -1434,6 +1433,9 @@ for (var j = 0; j < ogColors.length; j++) {
             sessions.push($scope.session);
             $scope.storageSetObj('sessions', sessions);
             $scope.loadSessions();
+            
+            //Automated bacup
+            setTimeout(function() {backupOnStorage('automated_forrunners.backup');}, 2000);
         }
     };
 
