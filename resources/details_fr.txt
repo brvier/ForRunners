@@ -1,0 +1,21 @@
+Suivre, faire des statistiques, et d'améliorer vos courses à pied avec une belle interface.
+
+ForRunners est une application de suivi personnel pour vos run qui respecte votre vie privée. 
+
+ForRunners utilise le GPS de votre téléphone pour suivre vos running.
+
+La synthèse vocale peut annoncer la distance, la vitesse, la fréquence cardiaque pendant votre course, et meme les intervales pour effectuer du fractionné.
+ForRunners peut également se connecter à un capteur de Frequence cardiaque Bluetooth Smart.
+
+
+Caractéristiques:
+---------
+
+* Look moderne
+* Ecomome en batterie
+* Respect de votre vie privée
+   * Ne partage aucune information avec des serveurs tiers
+   * Utilise OpenStreetMap
+   * Ne retiens pas vos données, vous pouver les exporter au format GPXs.
+* La synthèse vocale peut annoncer distance, vitesse, fréquence cardiaque pendant une course.
+* Support des capteur cardiaque Bluetooth Smart.

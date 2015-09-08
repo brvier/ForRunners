@@ -1,0 +1,21 @@
+Track, do stats, and improve your runnings with a nice UI.
+
+ForRunners is an personnal tracking app for your running which respect your privacy.
+
+ForRunners use the GPS of your phone to track your run.
+Speech synthesis can announce distance, speed, heart rate during your run.
+And after your run you can see various information to help you improve your running.
+It can also connect to a Bluetooth Smart Heart Rate Sensors if you have one.
+ForRunners can also help you if you want to do interval running, by announcing interval via speech synthesis.
+
+Features:
+---------
+
+* Modern look and feel
+* Use low ressources and battery
+* Respect your privacy
+  * Don't share any informations with third party server
+  * Use OpenStreetMap
+  * Don t retain your datas, you can export your run to GPXs files
+* Speech synthesis can announce distance, speed, heart rate during a run.
+* Bluetooth Smart Heart Rate support.
