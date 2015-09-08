@@ -238,7 +238,7 @@ for (var j = 0; j < ogColors.length; j++) {
         var smallStepDetail = [];
         var timeStartTmp2 = new Date(gpxPoints[0].timestamp);
         var timeEndTmp2 = 0;
-        var dMaxTemp2 = 200;
+        var dMaxTemp2 = 250;
 
         var paths = {};
         paths.p1 = {
@@ -331,7 +331,7 @@ for (var j = 0; j < ogColors.length; j++) {
                 }
 
                 dTemp += (d * 1000);
-                if (dTemp >= dMaxTemp){
+                if (((dTotal - (mz - 1)) * 1000 ) >= dMaxTemp){
                     markers[mz] = {
                         lat: curLat,
                         lng: curLng,
@@ -363,7 +363,7 @@ for (var j = 0; j < ogColors.length; j++) {
                     heartRatesTmp = [];
                 }
                 dTemp2 += (d * 1000);
-                if (dTemp2 >= dMaxTemp2) {
+                if (((dTotal*1000 - mz2*250)) >= dMaxTemp2) {
 
                     timeEndTmp2 = new Date(gpxPoints[p].timestamp);
                     timeDiff = timeEndTmp2 - timeStartTmp2;
@@ -397,7 +397,20 @@ for (var j = 0; j < ogColors.length; j++) {
                         km: Math.round(dTotal * 10) / 10,
                         hr: heartRatesTmp.avg()
                     });
-               }
+                    timeEndTmp2 = new Date(gpxPoints[p].timestamp);
+                    timeDiff = timeEndTmp2 - timeStartTmp2;
+                    gpxpacetmp = (timeDiff) / (dTemp / 1000);
+                    gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
+                    gpxspeedtmp = (Math.round((dTemp2 / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
+                    gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
+                    smallStepDetail.push({
+                        pace: new Date(gpxpacetmp),
+                        speed: gpxspeedtmp,
+                        km: Math.round(dTotal * 10) / 10,
+                        ele: (eleStartTmp + curEle) / 2,
+                        hr: heartRatesTmp2.avg()
+                    });
+                }       
 
 
 
