@@ -193,7 +193,8 @@ for (var j = 0; j < ogColors.length; j++) {
                 lng: parseFloat(item[1]),
                 timestamp: item[2],
                 ele: lastEle,
-                hr: parseFloat(item[4])
+                hr: parseFloat(item[4]),
+                accuracy: parseInt(item[5])
             });
         });
 
@@ -284,6 +285,7 @@ for (var j = 0; j < ogColors.length; j++) {
             curEle = gpxPoints[p].ele;
             curDate = gpxPoints[p].timestamp;
             curHeartRate = gpxPoints[p].hr;
+            curAcc = gpxPoints[p].accuracy;
 
             //Leaflet
             paths.p1.latlngs.push({
@@ -323,67 +325,75 @@ for (var j = 0; j < ogColors.length; j++) {
                     Math.sin(dLon / 2) * Math.sin(dLon / 2);
                 c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                 d = 6371 * c;
-                dTotal += d;
-                gpxPoints[p].dist = dTotal;
+                
+                //Test speed between point to remove gpx teleportation
+                dtd = new Date(curDate) - new Date(oldDate);
+                dspeed = (Math.round((d / 1000) * 100) / 100) / (dtd / 1000 / 60 / 60);
+                if (dspeed > 38) {
+                    console.log("usain bold power");
+                } else {
+                    dTotal += d;
+                    gpxPoints[p].dist = dTotal;
 
-                if (curHeartRate) {
-                    heartRatesTmp.push(curHeartRate);
-                    heartRatesTmp2.push(curHeartRate);
-                }
+                    if (curHeartRate) {
+                        heartRatesTmp.push(curHeartRate);
+                        heartRatesTmp2.push(curHeartRate);
+                    }
 
-                dTemp += (d * 1000);
-                if (((dTotal - (mz - 1)) * 1000 ) >= dMaxTemp){
-                    markers[mz] = {
-                        lat: curLat,
-                        lng: curLng,
-                        icon: {
-                            type: 'div',
-                            className: 'leaflet-circle-marker',
-                            html: mz,
-                            iconSize: [20, 20]
-                        },
-                        message: mz + " Km(s)",
-                        draggable: false,
-                        opacity: 0.8
-                    };
-                    timeEndTmp = new Date(gpxPoints[p].timestamp);
-                    timeDiff = timeEndTmp - timeStartTmp;
-                    gpxpacetmp = (timeDiff) / (dTemp / 1000);
-                    gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
-                    gpxspeedtmp = (Math.round((dTemp / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
-                    gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
-                    stepDetails.push({
-                        pace: new Date(gpxpacetmp),
-                        speed: gpxspeedtmp,
-                        km: (mz * dMaxTemp) / 1000,
-                        hr: heartRatesTmp.avg()
-                    });
-                    timeStartTmp = new Date(gpxPoints[p].timestamp);
-                    mz++;
-                    dTemp = 0;
-                    heartRatesTmp = [];
-                }
-                dTemp2 += (d * 1000);
-                if (((dTotal*1000 - mz2*250)) >= dMaxTemp2) {
+                    dTemp += (d * 1000);
+                    if (((dTotal - (mz - 1)) * 1000 ) >= dMaxTemp){
+                        markers[mz] = {
+                            lat: curLat,
+                            lng: curLng,
+                            icon: {
+                                type: 'div',
+                                className: 'leaflet-circle-marker',
+                                html: mz,
+                                iconSize: [20, 20]
+                            },
+                            message: mz + " Km(s)",
+                            draggable: false,
+                            opacity: 0.8
+                        };
+                        timeEndTmp = new Date(gpxPoints[p].timestamp);
+                        timeDiff = timeEndTmp - timeStartTmp;
+                        gpxpacetmp = (timeDiff) / (dTemp / 1000);
+                        gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
+                        gpxspeedtmp = (Math.round((dTemp / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
+                        gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
+                        stepDetails.push({
+                            pace: new Date(gpxpacetmp),
+                            speed: gpxspeedtmp,
+                            km: (mz * dMaxTemp) / 1000,
+                            hr: heartRatesTmp.avg()
+                        });
+                        timeStartTmp = new Date(gpxPoints[p].timestamp);
+                        mz++;
+                        dTemp = 0;
+                        heartRatesTmp = [];
+                    }
+                    dTemp2 += (d * 1000);
+                    if (((dTotal*1000 - mz2*250)) >= dMaxTemp2) {
 
-                    timeEndTmp2 = new Date(gpxPoints[p].timestamp);
-                    timeDiff = timeEndTmp2 - timeStartTmp2;
-                    gpxpacetmp = (timeDiff) / (dTemp / 1000);
-                    gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
-                    gpxspeedtmp = (Math.round((dTemp2 / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
-                    gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
-                    smallStepDetail.push({
-                        pace: new Date(gpxpacetmp),
-                        speed: gpxspeedtmp,
-                        km: (mz2 * dMaxTemp2 / 10) / 100,
-                        ele: (eleStartTmp + curEle) / 2,
-                        hr: heartRatesTmp2.avg()
-                    });
-                    timeStartTmp2 = new Date(gpxPoints[p].timestamp);
-                    mz2++;
-                    dTemp2 = 0;
-                    eleStartTmp = curEle;
-                    heartRatesTmp2 = [];
+                        timeEndTmp2 = new Date(gpxPoints[p].timestamp);
+                        timeDiff = timeEndTmp2 - timeStartTmp2;
+                        gpxpacetmp = (timeDiff) / (dTemp / 1000);
+                        gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
+                        gpxspeedtmp = (Math.round((dTemp2 / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
+                        gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
+                        smallStepDetail.push({
+                            pace: new Date(gpxpacetmp),
+                            speed: gpxspeedtmp,
+                            km: (mz2 * dMaxTemp2 / 10) / 100,
+                            ele: (eleStartTmp + curEle) / 2,
+                            hr: heartRatesTmp2.avg()
+                        });
+                        timeStartTmp2 = new Date(gpxPoints[p].timestamp);
+                        mz2++;
+                        dTemp2 = 0;
+                        eleStartTmp = curEle;
+                        heartRatesTmp2 = [];
+                    }
                 }
                 if ((gpxPoints.length - 1) === p) {
                     timeEndTmp = new Date(gpxPoints[p].timestamp);
@@ -604,16 +614,20 @@ for (var j = 0; j < ogColors.length; j++) {
                 fileEntry.createWriter(function(writer) {
                     // Already in JSON Format
                     writer.onwrite = function(e) {
-                        $ionicPopup.alert({
-                            title: $scope.translateFilter('_backup_ok_title'),
-                            template: $scope.translateFilter('_backup_ok_content')
-                        });
+                         if (backupName === "forrunners.backup") {
+                            $ionicPopup.alert({
+                                title: $scope.translateFilter('_backup_ok_title'),
+                                template: $scope.translateFilter('_backup_ok_content')
+                            });
+                         }
                     };
                     writer.onerror = function(e) {
-                        $ionicPopup.alert({
+                        if (backupName === "forrunners.backup") {
+                            $ionicPopup.alert({
                             title: $scope.translateFilter('_backup_error_title'),
                             template: $scope.translateFilter('_backup_error_content')
-                        });
+                            });
+                        }
                         console.error(e);
                     };
                     writer.fileName = backupName;
@@ -1292,6 +1306,8 @@ for (var j = 0; j < ogColors.length; j++) {
                         } else {
                            pointData.push('x');
                         }
+
+                        pointData.push(position.coords.accuracy);
                         $scope.session.gpxData.push(pointData);
                         $scope.session.lastrecordtime = timenew;
                     }
