@@ -130,6 +130,7 @@ for (var j = 0; j < ogColors.length; j++) {
 .controller('AppCtrl', function($state, $scope, $ionicModal, $ionicPopup, $timeout, $ionicPlatform,
     $ionicHistory, $weather, $http, $translate, $filter, ionicMaterialInk, applicationLoggingService, $ionicScrollDelegate,
     leafletData, leafletBoundsHelpers) {
+    $scope._version = "0.9.5";
     $scope.weather = $weather;
 
     $scope.running = false;
@@ -1464,6 +1465,7 @@ for (var j = 0; j < ogColors.length; j++) {
             //Automated bacup
             setTimeout(function() {$scope.backupOnStorage('automated_forrunners.backup');}, 2000);
         }
+        $scope.storageSetObj('version', $scope._version);
     };
 
     $scope.savePrefs = function() {
@@ -1638,6 +1640,7 @@ for (var j = 0; j < ogColors.length; j++) {
     $scope.saveSessionModifications = function() {
         $scope.sessions[$stateParams.sessionId] = $scope.session;
         $scope.storageSetObj('sessions', $scope.sessions);
+        $scope.storageSetObj('version', $scope._version);
     };
 
     $scope.deleteSessionByID = function(sid) {
