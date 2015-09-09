@@ -1,4 +1,4 @@
-Array.prototype.avg = function() {
+Array.prototype.aveg = function() {
 	var cnt = 1;
 	var len = this.length;
 	var av;

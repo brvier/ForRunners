@@ -60,14 +60,13 @@ angular.module('starter.controllers', [])
         });        
        
         $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-for (var j = 0; j < ogColors.length; j++) {
-            activeHeaderBar.classList.add(ogColors[j]);
-            cachedHeaderBar.classList.add(ogColors[j]);
-          }
-          cachedHeaderBar.classList.remove(barClass);
-          activeHeaderBar.classList.remove(barClass);
-          ogColors = [];
-        
+            for (var j = 0; j < ogColors.length; j++) {
+                activeHeaderBar.classList.add(ogColors[j]);
+                cachedHeaderBar.classList.add(ogColors[j]);
+            }
+            cachedHeaderBar.classList.remove(barClass);
+            activeHeaderBar.classList.remove(barClass);
+            ogColors = [];
         }); 
       };
     }
@@ -130,7 +129,7 @@ for (var j = 0; j < ogColors.length; j++) {
 .controller('AppCtrl', function($state, $scope, $ionicModal, $ionicPopup, $timeout, $ionicPlatform,
     $ionicHistory, $weather, $http, $translate, $filter, ionicMaterialInk, applicationLoggingService, $ionicScrollDelegate,
     leafletData, leafletBoundsHelpers) {
-    $scope._version = "0.9.5";
+    $scope._version = "0.9.6";
     $scope.weather = $weather;
 
     $scope.running = false;
@@ -139,7 +138,7 @@ for (var j = 0; j < ogColors.length; j++) {
     $scope.prefs.minrecordingaccuracy = 14;
     $scope.prefs.minrecordinggap = 1000;
     $scope.prefs.minrecordingspeed = 3;
-    $scope.prefs.maxrecordingspeed = 30;
+    $scope.prefs.maxrecordingspeed = 38;
     $scope.prefs.unit = 'kms';
 
     $scope.prefs.timevocalannounce = true;
@@ -215,6 +214,7 @@ for (var j = 0; j < ogColors.length; j++) {
         var curDate = gpxPoints[0].timestamp;
         var curEle = gpxPoints[0].ele;
         var curHeartRate = gpxPoints[0].hr;
+        var curAcc = gpxPoints[0].accuracy;
 
         var oldLat = curLat;
         var oldLng = curLng;
@@ -275,7 +275,18 @@ for (var j = 0; j < ogColors.length; j++) {
             draggable: false,
             opacity: 0.8
         };
-        var dists = [];
+        //var dists = [];
+        var gpxspeedtmp;
+        var gpxpacetmp;
+        var timeDiff;
+        var dLat;
+        var dLon;
+        var dLat1;
+        var dLat2;
+        var dtd;
+        var dspeed;
+        var a, c, d;
+
         for (var p = 0; p < gpxPoints.length; p++) {
 
             //gpxPoints.map(function(item) {
@@ -287,51 +298,51 @@ for (var j = 0; j < ogColors.length; j++) {
             curHeartRate = gpxPoints[p].hr;
             curAcc = gpxPoints[p].accuracy;
 
-            //Leaflet
-            paths.p1.latlngs.push({
-                lat: curLat,
-                lng: curLng
-            });
-            if (curLat < latMin) {
-                latMin = curLat;
-            }
-            if (curLat > latMax) {
-                latMax = curLat;
-            }
-            if (curLng < lonMin) {
-                lonMin = curLng;
-            }
-            if (curLng > lonMax) {
-                lonMax = curLng;
-            }
-    
-            //Max elevation
-            if (curEle > maxHeight)
-                maxHeight = curEle;
-            if (curEle < minHeight)
-                minHeight = curEle;
-            if (curHeartRate > maxHeartRate) {
-                maxHeartRate = curHeartRate;
-            }
+            //Distances
+            dLat = (curLat - oldLat) * Math.PI / 180;
+            dLon = (curLng - oldLng) * Math.PI / 180;
+            dLat1 = (oldLat) * Math.PI / 180;
+            dLat2 = (curLat) * Math.PI / 180;
+            a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(dLat1) * Math.cos(dLat1) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            d = 6371 * c;
+            //Speed between this and previous point
+            dtd = new Date(curDate) - new Date(oldDate);
+            dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
+            if (dspeed > 38) {
+                    //console.log("usain bold power");
+            } else {
+                        
+                //Leaflet
+                paths.p1.latlngs.push({
+                    lat: curLat,
+                    lng: curLng
+                });
+                if (curLat < latMin) {
+                    latMin = curLat;
+                }
+                if (curLat > latMax) {
+                    latMax = curLat;
+                }
+                if (curLng < lonMin) {
+                    lonMin = curLng;
+                }
+                if (curLng > lonMax) {
+                    lonMax = curLng;
+                }
+        
+                //Max elevation
+                if (curEle > maxHeight)
+                    maxHeight = curEle;
+                if (curEle < minHeight)
+                    minHeight = curEle;
+                if (curHeartRate > maxHeartRate) {
+                    maxHeartRate = curHeartRate;
+                }
 
-            if (p > 0) {
-                //Distances
-                dLat = (curLat - oldLat) * Math.PI / 180;
-                dLon = (curLng - oldLng) * Math.PI / 180;
-                dLat1 = (oldLat) * Math.PI / 180;
-                dLat2 = (curLat) * Math.PI / 180;
-                a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                    Math.cos(dLat1) * Math.cos(dLat1) *
-                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                d = 6371 * c;
-                
-                //Test speed between point to remove gpx teleportation
-                dtd = new Date(curDate) - new Date(oldDate);
-                dspeed = (Math.round((d / 1000) * 100) / 100) / (dtd / 1000 / 60 / 60);
-                if (dspeed > 38) {
-                    console.log("usain bold power");
-                } else {
+                if (p > 0) {
                     dTotal += d;
                     gpxPoints[p].dist = dTotal;
 
@@ -365,7 +376,7 @@ for (var j = 0; j < ogColors.length; j++) {
                             pace: new Date(gpxpacetmp),
                             speed: gpxspeedtmp,
                             km: (mz * dMaxTemp) / 1000,
-                            hr: heartRatesTmp.avg()
+                            hr: heartRatesTmp.aveg()
                         });
                         timeStartTmp = new Date(gpxPoints[p].timestamp);
                         mz++;
@@ -386,7 +397,7 @@ for (var j = 0; j < ogColors.length; j++) {
                             speed: gpxspeedtmp,
                             km: (mz2 * dMaxTemp2 / 10) / 100,
                             ele: (eleStartTmp + curEle) / 2,
-                            hr: heartRatesTmp2.avg()
+                            hr: heartRatesTmp2.aveg()
                         });
                         timeStartTmp2 = new Date(gpxPoints[p].timestamp);
                         mz2++;
@@ -406,7 +417,7 @@ for (var j = 0; j < ogColors.length; j++) {
                         pace: new Date(gpxpacetmp),
                         speed: gpxspeedtmp,
                         km: Math.round(dTotal * 10) / 10,
-                        hr: heartRatesTmp.avg()
+                        hr: heartRatesTmp.aveg()
                     });
                     timeEndTmp2 = new Date(gpxPoints[p].timestamp);
                     timeDiff = timeEndTmp2 - timeStartTmp2;
@@ -419,7 +430,7 @@ for (var j = 0; j < ogColors.length; j++) {
                         speed: gpxspeedtmp,
                         km: Math.round(dTotal * 10) / 10,
                         ele: (eleStartTmp + curEle) / 2,
-                        hr: heartRatesTmp2.avg()
+                        hr: heartRatesTmp2.aveg()
                     });
                 }       
 
@@ -580,7 +591,7 @@ for (var j = 0; j < ogColors.length; j++) {
         seconds = tmpMilliseconds / 1000;
         seconds = Math.floor(seconds);
 
-        var gpxdur = new Date("Sun May 10 2015 " + hours + ":" + minutes + ":" + seconds + " GMT+0200");
+        //var gpxdur = new Date("Sun May 10 2015 " + hours + ":" + minutes + ":" + seconds + " GMT+0200");
 
         var gpxpace = (miliseconds) / dTotal;
         gpxpace = (Math.round(gpxpace * 100) / 100) * 1;
@@ -742,7 +753,7 @@ for (var j = 0; j < ogColors.length; j++) {
         var gpxSubHead = "";
         var gpxFoot = '</trkseg></trk>\n</gpx>';
 
-        $scope.sessions.map(function(session, idx) {
+        $scope.sessions.map(function(session) {
             var stordir = cordova.file.externalDataDirectory;
             if (!stordir) {
                 stordir = cordova.file.dataDirectory;
@@ -985,7 +996,7 @@ for (var j = 0; j < ogColors.length; j++) {
                 //onScan
                 function(peripheral) {
                     console.debug("Found " + JSON.stringify(peripheral));
-                    foundHeartRateMonitor = true;
+                    //foundHeartRateMonitor = true;
                     ble.connect(peripheral.id, 
                                 $scope.heartRateOnConnect,
                                 $scope.heartRateOnDisconnect);
@@ -1110,7 +1121,7 @@ for (var j = 0; j < ogColors.length; j++) {
         $scope.runSpeak();
     };
 
-    $scope.runSpeak = function(hour, minute) {
+    $scope.runSpeak = function() {
         var speechText = '';
         if ($scope.prefs.distvocalannounce) {
             speechText += $scope.session.equirect.toFixed(2) + ' ' + $scope.translateFilter('_kilometers') + ' ';
@@ -1144,7 +1155,6 @@ for (var j = 0; j < ogColors.length; j++) {
             var altnew = 'x';
             var elapsed = 0;
             var gpsGoodSignalToggle = false;
-            var speechText = '';
 
 
             if (typeof position.coords.altitude === 'number') {
@@ -1155,7 +1165,6 @@ for (var j = 0; j < ogColors.length; j++) {
                 $scope.session.accuracy = position.coords.accuracy;
 
                 if ((position.coords.accuracy <= $scope.prefs.minrecordingaccuracy) && (timenew > $scope.session.recclicked) && ($scope.session.latold != 'x') && ($scope.session.lonold != 'x')) {
-
                     //Elapsed time
                     elapsed = timenew - $scope.session.firsttime;
                     var hour = Math.floor(elapsed / 3600000);
@@ -1202,8 +1211,12 @@ for (var j = 0; j < ogColors.length; j++) {
                                 'lat': latnew,
                                 'alt': altnew
                             });
-                            $scope.session.equirect += distances.equirect;
-                            $scope.session.eledist += distances.eledist;
+                            var ispeed = (distances.equirect / 10) / ((new Date(timenew) - new Date($scope.session.timeold)) / 1000 / 60 / 60);
+                            console.log(ispeed);
+                            if (ispeed < 38) {
+                                $scope.session.equirect += distances.equirect;
+                                $scope.session.eledist += distances.eledist;
+                            }
 
                             //Elevation?
                             if ($scope.session.altold != 'x') {
@@ -1221,7 +1234,7 @@ for (var j = 0; j < ogColors.length; j++) {
                             $scope.session.flatdistance = $scope.session.equirect.toFixed(2);
                             $scope.session.distk = $scope.session.equirect.toFixed(1);
                             if ($scope.session.equirect > 0) {
-                                lapsed = timenew - $scope.session.firsttime;
+                                elapsed = timenew - $scope.session.firsttime;
                                 var averagePace = elapsed / ($scope.session.equirect * 60000);
                                 $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
                                 var avspeed = ($scope.session.equirect * 3.6 / elapsed);
@@ -1235,6 +1248,7 @@ for (var j = 0; j < ogColors.length; j++) {
                             $scope.session.latold = latnew;
                             $scope.session.lonold = lonnew;
                             $scope.session.altold = altnew;
+                            $scope.session.timeold = timenew;
 
                             //Alert and Vocal Announce
                             if (parseInt($scope.prefs.distvocalinterval) > 0) {
@@ -1408,14 +1422,14 @@ for (var j = 0; j < ogColors.length; j++) {
 
 
         if ($scope.prefs.debug) {
-            $scope.prefs.minrecordingaccuracy = 5000000;
+            //$scope.prefs.minrecordingaccuracy = 5000000;
         }
         $scope.session.watchId = navigator.geolocation.watchPosition(
             $scope.recordPosition,
             $scope.errorfn, {
                 enableHighAccuracy: true,
                 maximumAge: 0,
-                timeout: 500
+                timeout: 1000
             });
 
         $scope.openModal();
@@ -1555,7 +1569,7 @@ for (var j = 0; j < ogColors.length; j++) {
 
 })
 
-.controller('SessionsCtrl', function($scope, $ionicListDelegate, $timeout, ionicMaterialInk) {
+.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk) {
     $timeout(function() {
 
         // Compute Resume Graph
@@ -1568,7 +1582,7 @@ for (var j = 0; j < ogColors.length; j++) {
 
 })
 
-.controller('RecordsCtrl', function($scope, $ionicListDelegate, $timeout, ionicMaterialInk) {
+.controller('RecordsCtrl', function($scope, $timeout, ionicMaterialInk) {
 
     $scope.computeRecords = function() {
         $scope.records = {};
@@ -1611,9 +1625,9 @@ for (var j = 0; j < ogColors.length; j++) {
                 $scope.records[session.distk].paces.push(session.pace);
                 $scope.records[session.distk].speeds.push(session.speed);
                 $scope.records[session.distk].durations.push(session.duration);
-                $scope.records[session.distk].av_pace = $scope.records[session.distk].paces.avg();
-                $scope.records[session.distk].av_speed = $scope.records[session.distk].speeds.avg();
-                $scope.records[session.distk].av_duration = $scope.records[session.distk].durations.avg();
+                $scope.records[session.distk].av_pace = $scope.records[session.distk].paces.aveg();
+                $scope.records[session.distk].av_speed = $scope.records[session.distk].speeds.aveg();
+                $scope.records[session.distk].av_duration = $scope.records[session.distk].durations.aveg();
             }
         }
 
