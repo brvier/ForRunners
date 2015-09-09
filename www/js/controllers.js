@@ -129,7 +129,7 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($state, $scope, $ionicModal, $ionicPopup, $timeout, $ionicPlatform,
     $ionicHistory, $weather, $http, $translate, $filter, ionicMaterialInk, applicationLoggingService, $ionicScrollDelegate,
     leafletData, leafletBoundsHelpers) {
-    $scope._version = "0.9.6";
+    $scope._version = "0.9.7";
     $scope.weather = $weather;
 
     $scope.running = false;
