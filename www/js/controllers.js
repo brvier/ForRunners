@@ -127,7 +127,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AppCtrl', function($state, $scope, $ionicModal, $ionicPopup, $timeout, $ionicPlatform,
-    $ionicHistory, $weather, $http, $translate, $filter, ionicMaterialInk, applicationLoggingService, $ionicScrollDelegate,
+    $ionicHistory, $weather, $http, $translate, $filter, $ionicScrollDelegate,
     leafletData, leafletBoundsHelpers) {
     $scope._version = "0.9.7";
     $scope.weather = $weather;
@@ -220,7 +220,6 @@ angular.module('starter.controllers', [])
         var oldLng = curLng;
         var oldDate = curDate;
         var oldEle = curEle;
-        var oldHeartRate = curHeartRate;
 
         var timeStartTmp = new Date(gpxPoints[0].timestamp);
         var timeEndTmp = 0;
