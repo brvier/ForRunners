@@ -1570,6 +1570,13 @@ angular.module('starter.controllers', [])
 
 .controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk) {
     $timeout(function() {
+        //Get position a first time to get better precision when we really
+        //start running
+        navigator.geolocation.getCurrentPosition(function(p) {}, function(p) {}, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 100
+        });
 
         // Compute Resume Graph
         $timeout(function() {
