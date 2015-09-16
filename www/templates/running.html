@@ -4,39 +4,39 @@
 <ion-content class="black-bg">
 
 
-<div class="row">
-   <div class="col text-center">
+        <div class="row">
+            <div class="col text-center">
 
-        <div class="item">
-            <h3 style="color: #ccc;">{{ "_time" | translate }}</h3>
-            <h1 style="margin-top:5px;color: #fff;">{{ session.time }}</h1>
-          </div>
+                    <div class="item">
+                        <h3 style="color: #ccc;">{{ "_time" | translate }}</h3>
+                        <h1 style="margin-top:5px;color: #fff;">{{ session.time }}</h1>
+                    </div>
 
-        <div class="item">
-            <h3 style="color: #ccc;">{{ "_distance" | translate }}</h3>
-            <h1 style="margin-top:0px;color: #fff;">{{ session.flatdistance}} {{session.distancelabel}}</h1>
+                    <div class="item">
+                        <h3 style="color: #ccc;">{{ "_distance" | translate }}</h3>
+                        <h1 style="margin-top:0px;color: #fff;">{{ session.flatdistance}} {{session.distancelabel}}</h1>
+                    </div>
+
+                    <div class="item">
+                        <h3 style="color: #ccc;">{{ "_speed" | translate }}</h3>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.speed}} {{session.speedlabel}}</h1>
+                    </div>
+
+                    <div class="item">
+                        <h3 style="color: #ccc;">{{ "_pace" | translate }}</h3>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.avpace}} {{session.pacelabel}}</h1>
+                    </div>
+                    <div class="item" ng-if="session.beatsPerMinute">
+                        <h3 style="color: #ccc;">{{ "_bpm" | translate }}</h3>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute}} {{ "_bpms_label" | translate}}</h1>
+                    </div>
+            </div>
         </div>
 
-        <div class="item">
-            <h3 style="color: #ccc;">{{ "_speed" | translate }}</h3>
-            <h1 style="margin-top:0px;color: #fff;">{{session.speed}} {{session.speedlabel}}</h1>
-        </div>
-
-         <div class="item">
-            <h3 style="color: #ccc;">{{ "_pace" | translate }}</h3>
-            <h1 style="margin-top:0px;color: #fff;">{{session.avpace}} {{session.pacelabel}}</h1>
-        </div>
-         <div class="item" ng-if="session.beatsPerMinute">
-            <h3 style="color: #ccc;">{{ "_bpm" | translate }}</h3>
-            <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute}} {{ "_bpms_label" | translate}}</h1>
-        </div>
-  </div>
-</div>
-
-          <ion-slide-box show-pager="false">
-              <ion-slide><button  ng-class="(session.accuracy > 14) ? 'button-assertive' : 'button-positive'" class="button button-block ">{{ "_swipe_left" | translate }}</button></ion-slide>
-              <ion-slide><button ng-click="stopSession()" class="button button-block button-assertive">{{ "_stop" | translate }}</button></ion-slide>
-          </ion-slide-box>
+        <ion-slide-box show-pager="false">
+            <ion-slide><button  ng-class="session.gpsGoodSignalToggle === false ? 'button-assertive' : 'button-positive'" class="button button-block ">{{ "_swipe_left" | translate }}</button></ion-slide>
+            <ion-slide><button ng-click="stopSession()" class="button button-block button-assertive">{{ "_stop" | translate }}</button></ion-slide>
+        </ion-slide-box>
 
     </ion-content>
 

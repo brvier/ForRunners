@@ -1,18 +1,18 @@
-Array.prototype.aveg = function() {
+function average(arr) {
 	var cnt = 1;
-	var len = this.length;
+	var len = arr.length;
 	var av;
-	if (this[0] instanceof Date) {
-			av = this[0].getTime();
-	} else {av = this[0]; }
+	if (arr[0] instanceof Date) {
+			av = arr[0].getTime();
+	} else {av = arr[0]; }
 	for (var i = 1; i < len; i++) {
-		if (this[0] instanceof Date) {
-			av += this[i].getTime();
-		} else {av += this[i]; }
+		if (arr[0] instanceof Date) {
+			av += arr[i].getTime();
+		} else {av += arr[i]; }
 	    cnt++;
 	}
-	if (this[0] instanceof Date) {
+	if (arr[0] instanceof Date) {
 		return new Date(av/cnt);
 	}
 	return av/cnt;
-};
+}

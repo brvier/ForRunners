@@ -186,7 +186,7 @@ angular.module('starter.controllers', [])
         var lastEle = 0;
         simplify($scope.session.gpxData, 0.000008).map(function(item) {
             if (!isNaN(parseFloat(item[3]))) {
-            lastEle = parseFloat(item[3]); }
+                lastEle = parseFloat(item[3]); } else {lastEle = 'x';}
             gpxPoints.push({
                 lat: parseFloat(item[0]),
                 lng: parseFloat(item[1]),
@@ -375,7 +375,7 @@ angular.module('starter.controllers', [])
                             pace: new Date(gpxpacetmp),
                             speed: gpxspeedtmp,
                             km: (mz * dMaxTemp) / 1000,
-                            hr: heartRatesTmp.aveg()
+                            hr: average(heartRatesTmp)
                         });
                         timeStartTmp = new Date(gpxPoints[p].timestamp);
                         mz++;
@@ -396,7 +396,7 @@ angular.module('starter.controllers', [])
                             speed: gpxspeedtmp,
                             km: (mz2 * dMaxTemp2 / 10) / 100,
                             ele: (eleStartTmp + curEle) / 2,
-                            hr: heartRatesTmp2.aveg()
+                            hr: average(heartRatesTmp2)
                         });
                         timeStartTmp2 = new Date(gpxPoints[p].timestamp);
                         mz2++;
@@ -416,7 +416,7 @@ angular.module('starter.controllers', [])
                         pace: new Date(gpxpacetmp),
                         speed: gpxspeedtmp,
                         km: Math.round(dTotal * 10) / 10,
-                        hr: heartRatesTmp.aveg()
+                        hr: average(heartRatesTmp)
                     });
                     timeEndTmp2 = new Date(gpxPoints[p].timestamp);
                     timeDiff = timeEndTmp2 - timeStartTmp2;
@@ -429,7 +429,7 @@ angular.module('starter.controllers', [])
                         speed: gpxspeedtmp,
                         km: Math.round(dTotal * 10) / 10,
                         ele: (eleStartTmp + curEle) / 2,
-                        hr: heartRatesTmp2.aveg()
+                        hr: average(heartRatesTmp2)
                     });
                 }       
 
@@ -1153,7 +1153,6 @@ angular.module('starter.controllers', [])
             var timenew = position.timestamp;
             var altnew = 'x';
             var elapsed = 0;
-            var gpsGoodSignalToggle = false;
 
 
             if (typeof position.coords.altitude === 'number') {
@@ -1162,7 +1161,7 @@ angular.module('starter.controllers', [])
 
             $scope.$apply(function() {
                 $scope.session.accuracy = position.coords.accuracy;
-
+                console.log('Accuracy:'+$scope.session.accuracy);
                 if ((position.coords.accuracy <= $scope.prefs.minrecordingaccuracy) && (timenew > $scope.session.recclicked) && ($scope.session.latold != 'x') && ($scope.session.lonold != 'x')) {
                     //Elapsed time
                     elapsed = timenew - $scope.session.firsttime;
@@ -1171,13 +1170,17 @@ angular.module('starter.controllers', [])
                     var second = ('0' + Math.floor(elapsed % 60000 / 1000)).slice(-2);
                     $scope.session.time = hour + ':' + minute + ':' + second;
                     $scope.session.elapsed = elapsed;
-                    gpsGoodSignalToggle = true;
+                    $scope.session.gpsGoodSignalToggle = true;
 
                 }
 
-                if ((position.coords.accuracy >= $scope.prefs.minrecordingaccuracy) && (gpsGoodSignalToggle === true) && (timenew > $scope.session.recclicked) && ($scope.session.latold != 'x') && ($scope.session.lonold != 'x') && ((parseInt($scope.prefs.distvocalinterval) > 0) || (parseInt($scope.prefs.timevocalinterval) > 0))) {
+                if ((position.coords.accuracy >= $scope.prefs.minrecordingaccuracy) && 
+                        ($scope.session.gpsGoodSignalToggle === true) && 
+                        (timenew > $scope.session.recclicked) && 
+                        ($scope.session.latold != 'x') && 
+                        ($scope.session.lonold != 'x')) {
                     // In case we lost gps we should announce it
-                    gpsGoodSignalToggle = false;
+                    $scope.session.gpsGoodSignalToggle = false;
                     //$scope.speakText("GPS Lost");
                 }
 
@@ -1210,9 +1213,10 @@ angular.module('starter.controllers', [])
                                 'lat': latnew,
                                 'alt': altnew
                             });
-                            var ispeed = (distances.equirect / 10) / ((new Date(timenew) - new Date($scope.session.timeold)) / 1000 / 60 / 60);
+                            elapsed = timenew - $scope.session.firsttime;
+                            var ispeed = distances.equirect * 3600000 / (new Date(timenew) - new Date($scope.session.timeold));
                             console.log(ispeed);
-                            if (ispeed < 38) {
+                            if ((ispeed < 38) && (ispeed > 2)) {
                                 $scope.session.equirect += distances.equirect;
                                 $scope.session.eledist += distances.eledist;
                             }
@@ -1233,10 +1237,9 @@ angular.module('starter.controllers', [])
                             $scope.session.flatdistance = $scope.session.equirect.toFixed(2);
                             $scope.session.distk = $scope.session.equirect.toFixed(1);
                             if ($scope.session.equirect > 0) {
-                                elapsed = timenew - $scope.session.firsttime;
                                 var averagePace = elapsed / ($scope.session.equirect * 60000);
                                 $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
-                                var avspeed = ($scope.session.equirect * 3.6 / elapsed);
+                                var avspeed = ($scope.session.equirect * 1000 / elapsed);
                                 if (avspeed) {
                                     $scope.session.avspeed = avspeed.toFixed(1);
                                 } else {
@@ -1301,7 +1304,9 @@ angular.module('starter.controllers', [])
                         $scope.session.maxalt = 0;
                         $scope.session.elevation = '0';
                     }
-                    if (timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) {
+                    if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
+                            (position.coords.accuracy <= $scope.prefs.minrecordingaccuracy)) {
+                        console.log('Should record');
                         var pointData = [
                             latnew.toFixed(6),
                             lonnew.toFixed(6),
@@ -1344,14 +1349,21 @@ angular.module('starter.controllers', [])
         return x * Math.PI / 180;
     };
 
-    $scope.errorfn = function(err) {
-        console.debug('errorfn:' + err);
+    //$scope.errorfn = function(err) {
+    //    console.debug('errorfn:' + err);
+    //};
+
+    $scope.errorPosition = function(err) {
+        console.debug('errorPosition:' + err);
+        $scope.session.gpsGoodSignalToggle = false;
     };
+
 
     $scope.startSession = function() {
         $scope.running = true;
 
         $scope.session = {};
+        $scope.session.gpsGoodSignalToggle = false;
         $scope.session.recclicked = new Date().getTime();
         $scope.session.date = moment().format('llll');
 
@@ -1425,7 +1437,7 @@ angular.module('starter.controllers', [])
         }
         $scope.session.watchId = navigator.geolocation.watchPosition(
             $scope.recordPosition,
-            $scope.errorfn, {
+            $scope.errorPosition, {
                 enableHighAccuracy: true,
                 maximumAge: 0,
                 timeout: 1000
@@ -1443,7 +1455,7 @@ angular.module('starter.controllers', [])
             navigator.geolocation.getCurrentPosition(function(p) {}, function(p) {}, {
                 enableHighAccuracy: true,
                 timeout: 10000,
-                maximumAge: 100
+                maximumAge: 0
             });
             $scope.$apply();
         } else {
@@ -1574,8 +1586,8 @@ angular.module('starter.controllers', [])
         //start running
         navigator.geolocation.getCurrentPosition(function(p) {}, function(p) {}, {
             enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 100
+            timeout: 60000,
+            maximumAge: 0
         });
 
         // Compute Resume Graph
@@ -1631,9 +1643,9 @@ angular.module('starter.controllers', [])
                 $scope.records[session.distk].paces.push(session.pace);
                 $scope.records[session.distk].speeds.push(session.speed);
                 $scope.records[session.distk].durations.push(session.duration);
-                $scope.records[session.distk].av_pace = $scope.records[session.distk].paces.aveg();
-                $scope.records[session.distk].av_speed = $scope.records[session.distk].speeds.aveg();
-                $scope.records[session.distk].av_duration = $scope.records[session.distk].durations.aveg();
+                $scope.records[session.distk].av_pace = average($scope.records[session.distk].paces);
+                $scope.records[session.distk].av_speed = average($scope.records[session.distk].speeds);
+                $scope.records[session.distk].av_duration = average($scope.records[session.distk].durations);
             }
         }
 
