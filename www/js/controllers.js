@@ -186,13 +186,11 @@ angular.module('starter.controllers', [])
     $scope.computeSessionFromGPXData = function(session) {
         $scope.session = session;
         
-        var hrZ1 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.6;
-        var hrZ2 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.65;
-        var hrZ3 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.75;
-        var hrZ4 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.82;
-        var hrZ5 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.89;
-        var hrZ6 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.94;
-        var hrZ = [0,0,0,0,0,0,0];
+        var hrZ1 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.60;
+        var hrZ2 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.70;
+        var hrZ3 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.80;
+        var hrZ4 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.90;
+        var hrZ = [0,0,0,0,0];
 
         var gpxPoints = [];
         var lastEle = 0;
@@ -360,11 +358,7 @@ angular.module('starter.controllers', [])
                         heartRatesTmp.push(curHeartRate);
                         heartRatesTmp2.push(curHeartRate);
                         
-                        if (curHeartRate > hrZ6) {
-                            idx = 6;
-                        } else { if (curHeartRate > hrZ5) {                             
-                            idx = 5;
-                        } else { if (curHeartRate > hrZ4) {                             
+                        if (curHeartRate > hrZ4) {                             
                             idx = 4;
                         }  else { if (curHeartRate > hrZ3) {                             
                             idx = 3;
@@ -374,8 +368,8 @@ angular.module('starter.controllers', [])
                             idx = 1;
                         }  else {                             
                            idx = 0;
-                        }}}}}} 
-                        hrZ[idx] += dtd / 1000;            
+                        }}}} 
+                        hrZ[idx] += dtd / 60000;            
                     }
 
                     dTemp += (d * 1000);
@@ -541,9 +535,10 @@ angular.module('starter.controllers', [])
                                         $scope.translateFilter('_hr_zone1'),
                                         $scope.translateFilter('_hr_zone2'),
                                         $scope.translateFilter('_hr_zone3'),
-                                        $scope.translateFilter('_hr_zone4'),
-                                        $scope.translateFilter('_hr_zone5'),
-                                        $scope.translateFilter('_hr_zone6'),];
+                                        $scope.translateFilter('_hr_zone4')];
+        for (var i = 0; i < hrZ.length; i++) {
+            hrZ[i] = hrZ[i].toFixed(1);
+        }
         $scope.session.chart3_data = hrZ;
 
         $scope.session.chart_labels = [];
