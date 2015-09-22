@@ -182,8 +182,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _bpm: 'Heart rate',
     _bpms_label: 'bpms',
     _donation: 'If you want to see this app elvoving or only thanks me, you can make a donation in bitcoin :',
-    _keep_screen_on: 'Keep Screen on while running'
- 
+    _keep_screen_on: 'Keep Screen on while running',
+    _hr_zone0:'Récupération active',
+    _hr_zone1:'Brulage des graisses',
+    _hr_zone2:'Endurance basse',
+    _hr_zone3:'Rythme (endurance haute)',
+    _hr_zone4:'Allure',
+    _hr_zone5:'Résistance',
+    _hr_zone6:'Anaérobie (sprints)',
+    _heartRate:'HeartRate',
+    _heartrate_max:'Max Heart Rate frequency',
+    _heartrate_min:'Rest Heart Rate frequency',
+    _heartrate_label:'Bpm'
 
   });
   $translateProvider.translations('fr-FR', {
@@ -270,8 +280,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _bpm: 'Heart rate',
     _bpms_label: 'bpms',
     _donation: 'Si vous souhaitez voir cette application évoluer ou tout simplement me remercier, vous pouvez effectuer une donation en bitcoin :',
-    _keep_screen_on: 'Gardez l\'écran allumé pendant la course'
- });
+    _keep_screen_on: 'Garder l\'écran allumé pendant la course',
+    _hr_zone0:'Récupération active',
+    _hr_zone1:'Brulage des graisses',
+    _hr_zone2:'Endurance basse',
+    _hr_zone3:'Rythme (endurance haute)',
+    _hr_zone4:'Allure',
+    _hr_zone5:'Résistance',
+    _hr_zone6:'Anaérobie (sprints)',
+    _heartRate:'Frequence Cardiaque',
+    _heartrate_max:'Frequence cardiaque max',
+    _heartrate_min:'Frequence cardiaque au repos',
+    _heartrate_label:'Bpm'
+
+  });
 
   $translateProvider.preferredLanguage("en-US");
   $translateProvider.fallbackLanguage("en-US");

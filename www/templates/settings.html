@@ -67,6 +67,28 @@
   {{ "_announce_average_pace" | translate }}
   </ion-toggle>
 </div>
+
+<div class="content double-padding">
+    <h4 class="positive">{{ "_heartRate" | translate }}</h4>
+    <div class="item item-no-border">
+        <div class="input-label">
+            {{ "_heartrate_max" | translate }} : {{ prefs.heartratemax }} {{ "_heartrate_label" | translate}}
+        </div>
+        <div class="range range-positive">
+             <input type="range" ng-model="prefs.heartratemax" name="heartratemax" min="50" max="220" ng-change="savePrefs()">
+        </div>
+    </div>
+    <div class="item item-no-border">
+        <div class="input-label">
+            {{ "_heartrate_min" | translate }} : {{ prefs.heartratemin }} {{ "_heartrate_label" | translate}}
+        </div>
+        <div class="range range-positive">
+             <input type="range" ng-model="prefs.heartratemin" name="heartratemin" min="50" max="220" ng-change="savePrefs()">
+        </div>
+        </div>
+    
+</div>
+
 <div class="content double-padding">
   <h4 class="positive">{{ "_fraction" | translate }}</h4>
   <ion-toggle ng-model="prefs.fractionvocalannounce"

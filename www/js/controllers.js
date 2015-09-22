@@ -158,6 +158,9 @@ angular.module('starter.controllers', [])
     $scope.prefs.timefastvocalinterval = 0; //en minutes
     $scope.prefs.timelowvocalinterval = 0; //en minutes
 
+    $scope.prefs.heartrate_max = 190;
+    $scope.prefs.heartrate_min = 80;
+
     // Load Sessions
     $timeout(function() {
         $scope.loadSessions();
@@ -182,6 +185,15 @@ angular.module('starter.controllers', [])
 
     $scope.computeSessionFromGPXData = function(session) {
         $scope.session = session;
+        
+        var hrZ1 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.6;
+        var hrZ2 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.65;
+        var hrZ3 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.75;
+        var hrZ4 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.82;
+        var hrZ5 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.89;
+        var hrZ6 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.94;
+        var hrZ = [0,0,0,0,0,0,0];
+
         var gpxPoints = [];
         var lastEle = 0;
         simplify($scope.session.gpxData, 0.000008).map(function(item) {
@@ -223,7 +235,6 @@ angular.module('starter.controllers', [])
 
         var timeStartTmp = new Date(gpxPoints[0].timestamp);
         var timeEndTmp = 0;
-
 
         var mz = 1;
         var dTemp = 0;
@@ -334,11 +345,11 @@ angular.module('starter.controllers', [])
         
                 //Max elevation
                 if (curEle > maxHeight)
-                    maxHeight = curEle;
+                    {maxHeight = curEle;}
                 if (curEle < minHeight)
-                    minHeight = curEle;
+                    {minHeight = curEle;}
                 if (curHeartRate > maxHeartRate) {
-                    maxHeartRate = curHeartRate;
+                    {maxHeartRate = curHeartRate;}
                 }
 
                 if (p > 0) {
@@ -348,6 +359,23 @@ angular.module('starter.controllers', [])
                     if (curHeartRate) {
                         heartRatesTmp.push(curHeartRate);
                         heartRatesTmp2.push(curHeartRate);
+                        
+                        if (curHeartRate > hrZ6) {
+                            idx = 6;
+                        } else { if (curHeartRate > hrZ5) {                             
+                            idx = 5;
+                        } else { if (curHeartRate > hrZ4) {                             
+                            idx = 4;
+                        }  else { if (curHeartRate > hrZ3) {                             
+                            idx = 3;
+                        }  else { if (curHeartRate > hrZ2) {                             
+                            idx = 2;
+                        }  else { if (curHeartRate > hrZ1) {                             
+                            idx = 1;
+                        }  else {                             
+                           idx = 0;
+                        }}}}}} 
+                        hrZ[idx] += dtd / 1000;            
                     }
 
                     dTemp += (d * 1000);
@@ -498,7 +526,7 @@ angular.module('starter.controllers', [])
             scaleUse2Y: true,
             legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
         };
-        $scope.session.chart_options = {
+        $scope.session.chart2_options = {
             animation: false,
             showTooltips: false,
             showScale: true,
@@ -509,7 +537,14 @@ angular.module('starter.controllers', [])
             scaleUse2Y: true,
             legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
         };
-
+        $scope.session.chart3_labels = [$scope.translateFilter('_hr_zone0'),
+                                        $scope.translateFilter('_hr_zone1'),
+                                        $scope.translateFilter('_hr_zone2'),
+                                        $scope.translateFilter('_hr_zone3'),
+                                        $scope.translateFilter('_hr_zone4'),
+                                        $scope.translateFilter('_hr_zone5'),
+                                        $scope.translateFilter('_hr_zone6'),];
+        $scope.session.chart3_data = hrZ;
 
         $scope.session.chart_labels = [];
         $scope.session.chart_data = [

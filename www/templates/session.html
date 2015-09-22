@@ -96,6 +96,11 @@ labels="session.chart_labels" chart-legend="true" series="session.chart2_series"
 options="session.chart_options"
 style="width: 100%; height: 300px; background: white">
 </canvas>
+<canvas ng-if="session.heartRate" id="doughnut" class="item chart chart-doughnut ng-isolate-scope labeled-chart-container"
+      data="session.chart3_data" labels="session.chart3_labels"
+      chart-legend="true"
+      style="width: 100%; height: 300px; background: white">
+</canvas> 
 <div class="table" ng-if="session.paceDetails.length > 0">
 <div class="row row-center row-header" style="text-align: center" >
   <div class="col col-center">
