@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
 .filter('ldate', function() {
+    'use strict';
     return function(date) {
         // Using ES6 filter method
 
@@ -9,7 +10,8 @@ angular.module('starter.controllers', [])
 })
 
 .filter('duration', function() {
-    return function(date) {
+     'use strict';
+      return function(date) {
         // Using ES6 filter method
 
         return moment(date).format('HH:mm');
@@ -17,7 +19,8 @@ angular.module('starter.controllers', [])
 })
 
 .filter('translatei18', function($filter) {
-    return function(text) {
+     'use strict';
+      return function(text) {
         // Using ES6 filter method
 
         return $filter('translate')(text.replace('-', ''));
@@ -26,6 +29,7 @@ angular.module('starter.controllers', [])
 
 
 .directive('navBarClass', function() {
+     'use strict';
   return {
     restrict: 'A',
     compile: function(element, attrs) {
@@ -59,7 +63,7 @@ angular.module('starter.controllers', [])
           activeHeaderBar.classList.add(barClass);
         });        
        
-        $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
+        $scope.$on('$stateChangeStart', function() {
             for (var j = 0; j < ogColors.length; j++) {
                 activeHeaderBar.classList.add(ogColors[j]);
                 cachedHeaderBar.classList.add(ogColors[j]);
@@ -75,6 +79,7 @@ angular.module('starter.controllers', [])
 
 // Service to communicate with OpenWeatherMap API.
 .factory('$weather', function($q, $http) {
+    'use strict';
     var API_ROOT = 'http://api.openweathermap.org/data/2.5/';
     this.byCityName = function(query) {
         var deferred = $q.defer();
@@ -129,7 +134,9 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($state, $scope, $ionicModal, $ionicPopup, $timeout, $ionicPlatform,
     $ionicHistory, $weather, $http, $translate, $filter, $ionicScrollDelegate,
     leafletData, leafletBoundsHelpers) {
-    $scope._version = "0.9.7";
+    'use strict';
+
+    $scope._version = '0.9.7';
     $scope.weather = $weather;
 
     $scope.running = false;
@@ -294,6 +301,7 @@ angular.module('starter.controllers', [])
         var dtd;
         var dspeed;
         var a, c, d;
+        var idx=0;
 
         for (var p = 0; p < gpxPoints.length; p++) {
 
@@ -383,7 +391,7 @@ angular.module('starter.controllers', [])
                                 html: mz,
                                 iconSize: [20, 20]
                             },
-                            message: mz + " Km(s)",
+                            message: mz + ' Km(s)',
                             draggable: false,
                             opacity: 0.8
                         };
@@ -518,7 +526,7 @@ angular.module('starter.controllers', [])
             pointDot: false,
             responsive: true,
             scaleUse2Y: true,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+            legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
         };
         $scope.session.chart2_options = {
             animation: false,
@@ -529,7 +537,7 @@ angular.module('starter.controllers', [])
             pointDot: false,
             responsive: true,
             scaleUse2Y: true,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+            legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
         };
         $scope.session.chart3_labels = [$scope.translateFilter('_hr_zone0'),
                                         $scope.translateFilter('_hr_zone1'),
@@ -553,7 +561,7 @@ angular.module('starter.controllers', [])
         $scope.session.chart_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_altitude_meters')];
         $scope.session.chart2_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_bpms_label')];
         smallStepDetail.map(function(step) {
-            if (Math.round(step.km) == step.km) {
+            if (Math.round(step.km) === step.km) {
                 $scope.session.chart_labels.push(step.km);
             } else {
                 $scope.session.chart_labels.push('');
@@ -653,8 +661,8 @@ angular.module('starter.controllers', [])
             }, function(fileEntry) {
                 fileEntry.createWriter(function(writer) {
                     // Already in JSON Format
-                    writer.onwrite = function(e) {
-                         if (backupName === "forrunners.backup") {
+                    writer.onwrite = function() {
+                         if (backupName === 'forrunners.backup') {
                             $ionicPopup.alert({
                                 title: $scope.translateFilter('_backup_ok_title'),
                                 template: $scope.translateFilter('_backup_ok_content')
@@ -662,7 +670,7 @@ angular.module('starter.controllers', [])
                          }
                     };
                     writer.onerror = function(e) {
-                        if (backupName === "forrunners.backup") {
+                        if (backupName === 'forrunners.backup') {
                             $ionicPopup.alert({
                             title: $scope.translateFilter('_backup_error_title'),
                             template: $scope.translateFilter('_backup_error_content')
@@ -675,13 +683,13 @@ angular.module('starter.controllers', [])
                         type: 'text/plain'
                     }));
                 }, function() {
-                    console.error("failed can t create writer");
+                    console.error('failed can t create writer');
                 });
             }, function() {
-                console.error("failed to get file");
+                console.error('failed to get file');
             });
         }, function() {
-            console.error("failed can t open fs");
+            console.error('failed can t open fs');
         });
     };
 
@@ -695,7 +703,7 @@ angular.module('starter.controllers', [])
                 fileEntry.file(function(file) {
                     var reader = new FileReader();
 
-                    reader.onloadend = function(e) {
+                    reader.onloadend = function() {
                         $scope.storageSetObj('sessions', JSON.parse(this.result, $scope.dateTimeReviver));
                         $scope.computeAllSessionsFromGPXData();
                         $scope.loadSessions();
@@ -710,10 +718,10 @@ angular.module('starter.controllers', [])
                 });
 
             }, function() {
-                console.error("failed to get file");
+                console.error('failed to get file');
             });
         }, function() {
-            console.error("failed can t open fs");
+            console.error('failed can t open fs');
         });
     };
 
@@ -721,7 +729,7 @@ angular.module('starter.controllers', [])
 
         var reader = new FileReader();
 
-        reader.onloadend = function(e) {
+        reader.onloadend = function() {
             var x2js = new X2JS();
             var json = x2js.xml_str2json(this.result);
             var gpxPoints = json.gpx.trk.trkseg.trkpt;
@@ -755,7 +763,7 @@ angular.module('starter.controllers', [])
 
     $scope.importGPXs = function(element) {
         for (var idx in element.files) {
-            if (typeof element.files[idx] == "object")
+            if (typeof element.files[idx] === 'object')
                 {$scope.importGPX(element.files[idx]);}
         }
 
@@ -766,8 +774,7 @@ angular.module('starter.controllers', [])
 
     };
 
-
-    $scope.exportAsGPX = function() {
+    $scope.writeGPX = function(dirEntry, filename, session) {
         var gpxHead = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
         gpxHead += '<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="ForRunners" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">';
         gpxHead += '<metadata>\n';
@@ -779,54 +786,73 @@ angular.module('starter.controllers', [])
         gpxHead += '<trk>\n';
         gpxHead += '<trkseg>\n';
 
-        var gpxSubHead = "";
+        var gpxSubHead = '';
         var gpxFoot = '</trkseg></trk>\n</gpx>';
 
+       dirEntry.getFile(filename, {
+            create: true
+            }, function(fileEntry) {
+                fileEntry.createWriter(function(writer) {
+                    // Already in JSON Format
+                    writer.onwrite = function() {
+                    };
+                    writer.onerror = function(e) {
+                        $ionicPopup.alert({
+                            title: $scope.translateFilter('_gpx_error_title'),
+                            template: $scope.translateFilter('_gpx_error_content')
+                        });
+                        console.error(e);
+                        console.error(writer.error);
+                    };
+                    writer.fileName = filename; //moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx';
+                    gpxSubHead = '<name>' + session.date + '</name>\n';
+
+                    var gpxPoints = '';
+                    session.gpxData.map(function(pts) {
+                        gpxPoints += '<trkpt lat=\"' + pts[0] + '\" lon=\"' + pts[1] + '\">\n';
+                        gpxPoints += '<ele>' + pts[3] + '</ele>\n';
+                        gpxPoints += '<time>' + pts[2] + '</time>\n';
+                        if (pts[4]) {
+                            gpxPoints += '<extensions><gpxtpx:TrackPointExtension><gpxtpx:hr>'+pts[4]+'</gpxtpx:hr></gpxtpx:TrackPointExtension></extensions>';
+                        }
+                        gpxPoints += '</trkpt>\n';
+                    });
+                    writer.write(gpxHead + gpxSubHead + gpxPoints + gpxFoot, {
+                        type: 'text/plain'
+                    });
+                }, function() {
+                    console.log('failed can t create writer');
+                });
+            }, function() {
+                console.log('failed to get file');
+            });
+
+    };
+
+    $scope.exportAGPX = function(dirEntry, session, overwrite) {
+        if (overwrite === false) {
+            dirEntry.getFile(
+                moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx',
+                {create: false}, 
+                function() {}, //exist so don t overwrite
+                function(){$scope.writeGPX(dirEntry, moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx', session);});
+        } else {
+         $scope.writeGPX(dirEntry, moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx', session);
+        }
+
+    };
+
+    $scope.exportAsGPX = function(rewrite) {
         $scope.sessions.map(function(session) {
             var stordir = cordova.file.externalDataDirectory;
             if (!stordir) {
                 stordir = cordova.file.dataDirectory;
             }
-            window.resolveLocalFileSystemURL(stordir, function(dirEntry) {
-                dirEntry.getFile(moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx', {
-                    create: true
-                }, function(fileEntry) {
-                    fileEntry.createWriter(function(writer) {
-                        // Already in JSON Format
-                        writer.onwrite = function(e) {
-                        };
-                        writer.onerror = function(e) {
-                            $ionicPopup.alert({
-                                title: $scope.translateFilter('_gpx_error_title'),
-                                template: $scope.translateFilter('_gpx_error_content')
-                            });
-                            console.error(e);
-                            console.error(writer.error);
-                        };
-                        writer.fileName = moment(session.recclicked).format('YYYYMMDD_hhmm') + '.gpx';
-                        gpxSubHead = '<name>' + session.date + '</name>\n';
-
-                        var gpxPoints = "";
-                        session.gpxData.map(function(pts) {
-                            gpxPoints += "<trkpt lat=\"" + pts[0] + "\" lon=\"" + pts[1] + "\">\n";
-                            gpxPoints += "<ele>" + pts[3] + "</ele>\n";
-                            gpxPoints += "<time>" + pts[2] + "</time>\n";
-                            if (pts[4]) {
-                                gpxPoints += "<extensions><gpxtpx:TrackPointExtension><gpxtpx:hr>"+pts[4]+"</gpxtpx:hr></gpxtpx:TrackPointExtension></extensions>";
-                            }
-                            gpxPoints += "</trkpt>\n";
-                        });
-                        writer.write(gpxHead + gpxSubHead + gpxPoints + gpxFoot, {
-                            type: 'text/plain'
-                        });
-                    }, function() {
-                        //console.log("failed can t create writer");
-                    });
-                }, function() {
-                    //console.log("failed to get file");
-                });
-            }, function() {
-                //console.log("failed can t open fs");
+            
+            window.resolveLocalFileSystemURL(stordir, 
+                                             function(dirEntry) {$scope.exportAGPX(dirEntry, session, rewrite);}, 
+                                             function() {
+                console.log('failed can t open fs');
             });
         });
 
@@ -838,15 +864,15 @@ angular.module('starter.controllers', [])
     };
 
     $scope.storageSetObj = function(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
+              localStorage.setItem(key, JSON.stringify(value));
     };
 
     $scope.storageGetObj = function(key) {
-        return JSON.parse(localStorage.getItem(key));
+              return JSON.parse(localStorage.getItem(key));
     };
 
     $scope.setLang = function() {
-        var lang = 'en-US';
+              var lang = 'en-US';
         //console.log($scope.prefs.language);
         //if ($scope.prefs.language === 'English') {lang = 'en-US';}
         //else if ($scope.prefs.language === 'Francais') {lang = 'fr-FR';}
@@ -873,12 +899,12 @@ angular.module('starter.controllers', [])
 
 
     $scope.loadSessions = function() {
-        try {
+              try {
             $scope.sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
 
             // Remove Duplicate
             $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
-                return self.indexOf(item) == pos;
+                return self.indexOf(item) === pos;
             });
 
             // Clear divider that could be still here
@@ -966,7 +992,7 @@ angular.module('starter.controllers', [])
     };
 
     $ionicPlatform.registerBackButtonAction(function() {
-        if ($scope.running === false) {
+              if ($scope.running === false) {
             var view = $ionicHistory.backView();
             if (view) {
                 view.go();
@@ -977,8 +1003,7 @@ angular.module('starter.controllers', [])
     }, 100);
 
     $scope.openModal = function() {
-
-        /*$ionicModal.fromTemplateUrl('templates/running.html', {
+              /*$ionicModal.fromTemplateUrl('templates/running.html', {
       scope: $scope,
       animation: 'slide-in-up',
       hardwareBackButtonClose: false
@@ -994,17 +1019,17 @@ angular.module('starter.controllers', [])
     };
 
     $scope.closeModal = function() {
-        //$scope.modal.hide();
+              //$scope.modal.hide();
         //$scope.modal.remove();
         $state.go('app.sessions');
     };
 
     $scope.heartRateOnData = function(buffer){
-        var data = new Uint8Array(buffer);
+              var data = new Uint8Array(buffer);
         $scope.session.beatsPerMinute = data[1];
     };
     $scope.heartRateOnConnect = function(peripheral) {
-        ble.notify(peripheral.id,
+              ble.notify(peripheral.id,
                    $scope.glbs.heartRate.service,
                    $scope.glbs.heartRate.measurement,
                    $scope.heartRateOnData, 
@@ -1015,24 +1040,24 @@ angular.module('starter.controllers', [])
     };
 
     $scope.heartRateOnDisconnect = function(reason) {
-        console.debug("BLE Disconnected");
+              console.debug('BLE Disconnected:'+reason);
         $scope.session.beatsPerMinute = null;
     };
 
     $scope.heartRateScan = function() {
-        // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
+              // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
         ble.scan([$scope.glbs.heartRate.service], 5, 
                 //onScan
                 function(peripheral) {
-                    console.debug("Found " + JSON.stringify(peripheral));
+                    console.debug('Found ' + JSON.stringify(peripheral));
                     //foundHeartRateMonitor = true;
                     ble.connect(peripheral.id, 
                                 $scope.heartRateOnConnect,
                                 $scope.heartRateOnDisconnect);
-                }, function(){console.error("BluetoothLE scan failed");});};
+                }, function(){console.error('BluetoothLE scan failed');});};
 
     $scope.stopSession = function() {
-        navigator.geolocation.clearWatch($scope.session.watchId);
+              navigator.geolocation.clearWatch($scope.session.watchId);
         if ($scope.session.gpxData.length > 0) {
             //Session cleaning
             delete $scope.session.accuracy;
@@ -1080,7 +1105,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.calcDistances = function(oldPos, newPos) {
-        var x = $scope.toRad(newPos.lon - oldPos.lon) * Math.cos($scope.toRad(oldPos.lat + newPos.lat) / 2);
+              var x = $scope.toRad(newPos.lon - oldPos.lon) * Math.cos($scope.toRad(oldPos.lat + newPos.lat) / 2);
         var y = $scope.toRad(newPos.lat - oldPos.lat);
         var e = Math.sqrt(x * x + y * y) * $scope.glbs.radius[$scope.prefs.unit];
         var eledist = e;
@@ -1098,7 +1123,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.speakText = function(text) {
-        try {
+              try {
 
             musicControl.isactive(function(err, cb) {
                 if (err) {
@@ -1119,7 +1144,7 @@ angular.module('starter.controllers', [])
                         if (stopMusic) {             
                             musicControl.togglepause(function(err, cb) {
                                     if (err) {
-                                        console.error(err);
+                                        console.error(err, event, cb);
                                     }
                                     return;
                                 });
@@ -1127,7 +1152,7 @@ angular.module('starter.controllers', [])
                         };
                     musicControl.togglepause(function(err, cb) {
                         if (err) {
-                            console.error(err);
+                            console.error(err, event, cb);
                         }
                         speechSynthesis.speak(utterance);
                         return;
@@ -1137,21 +1162,21 @@ angular.module('starter.controllers', [])
                 }
             });
         } catch (exception) {
-            console.debug("SpeechSynthesisUtterance not available : " + exception);
+            console.debug('SpeechSynthesisUtterance not available : ' + exception);
         }
     };
 
     $scope.testRunSpeak = function() {
-        $scope.session = {};
+              $scope.session = {};
         $scope.session.equirect = 3.24;
-        $scope.session.avspeed = 11.21;
-        $scope.session.avpace = "5:28";
-        $scope.session.time = "1:28:23";
+        $scope.session.avspeed = 10.21;
+        $scope.session.avpace = '5:48';
+        $scope.session.time = '1:28:23';
         $scope.runSpeak();
     };
 
     $scope.runSpeak = function() {
-        var speechText = '';
+              var speechText = '';
         if ($scope.prefs.distvocalannounce) {
             speechText += $scope.session.equirect.toFixed(2) + ' ' + $scope.translateFilter('_kilometers') + ' ';
         }
@@ -1177,7 +1202,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.recordPosition = function(position) {
-        if ($scope.mustdelay === false) {
+              if ($scope.mustdelay === false) {
             var latnew = position.coords.latitude;
             var lonnew = position.coords.longitude;
             var timenew = position.timestamp;
@@ -1192,7 +1217,10 @@ angular.module('starter.controllers', [])
             $scope.$apply(function() {
                 $scope.session.accuracy = position.coords.accuracy;
                 console.log('Accuracy:'+$scope.session.accuracy);
-                if ((position.coords.accuracy <= $scope.prefs.minrecordingaccuracy) && (timenew > $scope.session.recclicked) && ($scope.session.latold != 'x') && ($scope.session.lonold != 'x')) {
+                if ((position.coords.accuracy <= $scope.prefs.minrecordingaccuracy) &&
+                        (timenew > $scope.session.recclicked) &&
+                        ($scope.session.latold !== 'x') && 
+                        ($scope.session.lonold !== 'x')) {
                     //Elapsed time
                     elapsed = timenew - $scope.session.firsttime;
                     var hour = Math.floor(elapsed / 3600000);
@@ -1207,8 +1235,8 @@ angular.module('starter.controllers', [])
                 if ((position.coords.accuracy >= $scope.prefs.minrecordingaccuracy) && 
                         ($scope.session.gpsGoodSignalToggle === true) && 
                         (timenew > $scope.session.recclicked) && 
-                        ($scope.session.latold != 'x') && 
-                        ($scope.session.lonold != 'x')) {
+                        ($scope.session.latold !== 'x') && 
+                        ($scope.session.lonold !== 'x')) {
                     // In case we lost gps we should announce it
                     $scope.session.gpsGoodSignalToggle = false;
                     //$scope.speakText("GPS Lost");
@@ -1228,7 +1256,7 @@ angular.module('starter.controllers', [])
                     
 
                     // Not first point
-                    if ($scope.session.latold != 'x' && $scope.session.lonold != 'x') {
+                    if ($scope.session.latold !== 'x' && $scope.session.lonold !== 'x') {
 
                         //Limit ok
                         if (timenew - $scope.session.lastdisptime >= $scope.prefs.minrecordinggap) {
@@ -1252,7 +1280,7 @@ angular.module('starter.controllers', [])
                             }
 
                             //Elevation?
-                            if ($scope.session.altold != 'x') {
+                            if ($scope.session.altold !== 'x') {
                                 $scope.session.altold = altnew;
                                 if (altnew > $scope.session.maxalt) {
                                     $scope.session.maxalt = altnew;
@@ -1273,7 +1301,7 @@ angular.module('starter.controllers', [])
                                 if (avspeed) {
                                     $scope.session.avspeed = avspeed.toFixed(1);
                                 } else {
-                                    $scope.session.avspeed = "0";
+                                    $scope.session.avspeed = '0';
                                 }
 
                             }
@@ -1299,14 +1327,16 @@ angular.module('starter.controllers', [])
                             }
 
                             if (parseInt($scope.prefs.timeslowvocalinterval) > 0) {
-                                if (($scope.session.lastslowvocalannounce != -1) && ((timenew - $scope.session.lastslowvocalannounce) > $scope.prefs.timeslowvocalinterval * 60000)) /*fixme*/ {
+                                if (($scope.session.lastslowvocalannounce !== -1) &&
+                                        ((timenew - $scope.session.lastslowvocalannounce) > $scope.prefs.timeslowvocalinterval * 60000)) /*fixme*/ {
                                     $scope.session.lastslowvocalannounce = -1;
                                     $scope.session.lastfastvocalannounce = timenew;
                                     $scope.speakText($scope.translateFilter('_run_fast'));
                                 }
                             }
                             if (parseInt($scope.prefs.timefastvocalinterval) > 0) {
-                                if (($scope.session.lastfastvocalannounce != -1) && ((timenew - $scope.session.lastfastvocalannounce) > $scope.prefs.timefastvocalinterval * 60000)) /*fixme*/ {
+                                if (($scope.session.lastfastvocalannounce !== -1) &&
+                                        ((timenew - $scope.session.lastfastvocalannounce) > $scope.prefs.timefastvocalinterval * 60000)) /*fixme*/ {
                                     $scope.session.lastslowvocalannounce = timenew;
                                     $scope.session.lastfastvocalannounce = -1;
                                     $scope.speakText($scope.translateFilter('_run_slow'));
@@ -1362,7 +1392,6 @@ angular.module('starter.controllers', [])
 
                     // Record Weather
                     if ($scope.session.weather === '') {
-                        //FIXME
                         $scope.weather.byLocation({
                             'latitude': latnew,
                             'longitude': lonnew
@@ -1376,7 +1405,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.toRad = function(x) {
-        return x * Math.PI / 180;
+              return x * Math.PI / 180;
     };
 
     //$scope.errorfn = function(err) {
@@ -1384,20 +1413,20 @@ angular.module('starter.controllers', [])
     //};
 
     $scope.errorPosition = function(err) {
-        console.debug('errorPosition:' + err);
+              console.debug('errorPosition:' + err);
         $scope.session.gpsGoodSignalToggle = false;
     };
 
 
     $scope.startSession = function() {
-        $scope.running = true;
+              $scope.running = true;
 
         $scope.session = {};
         $scope.session.gpsGoodSignalToggle = false;
         $scope.session.recclicked = new Date().getTime();
         $scope.session.date = moment().format('llll');
 
-        $scope.session.mdate = moment().format("MMMM YYYY");
+        $scope.session.mdate = moment().format('MMMM YYYY');
         $scope.session.ddate = new Date().getDate();
         $scope.session.gpxData = [];
 
@@ -1475,14 +1504,14 @@ angular.module('starter.controllers', [])
 
         $scope.openModal();
     };
-
+    
 
     $scope.delayCheck = function() {
-        if ((new Date().getTime() - $scope.mustdelaytime) < $scope.prefs.delay) {
+              if ((new Date().getTime() - $scope.mustdelaytime) < $scope.prefs.delay) {
             $scope.delay = (new Date().getTime() - $scope.mustdelaytime);
             $scope.session.time = (-($scope.prefs.delay - $scope.delay) / 1000).toFixed(0);
             //Using get
-            navigator.geolocation.getCurrentPosition(function(p) {}, function(p) {}, {
+            navigator.geolocation.getCurrentPosition(function() {}, function() {}, {
                 enableHighAccuracy: true,
                 timeout: 10000,
                 maximumAge: 0
@@ -1498,7 +1527,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.saveSession = function() {
-        var sessions = [];
+              var sessions = [];
         //DOCOMPUTE        
         try {
             sessions = $scope.storageGetObj('sessions');
@@ -1527,14 +1556,14 @@ angular.module('starter.controllers', [])
             try {
                 $scope.computeSessionFromGPXData($scope.session);
             } catch (exception){
-                console.error("ComputeSessionFromGPX Failed on save:"+exception);
+                console.error('ComputeSessionFromGPX Failed on save:'+exception);
             }
             sessions.push($scope.session);
             $scope.storageSetObj('sessions', sessions);
             $scope.loadSessions();
             
-            //Automated bacup
-            setTimeout(function() {$scope.backupOnStorage('automated_forrunners.backup');}, 2000);
+            //Automated backup
+            setTimeout(function() {$scope.exportAsGPX(false);}, 2000);
         }
         $scope.storageSetObj('version', $scope._version);
     };
@@ -1560,7 +1589,7 @@ angular.module('starter.controllers', [])
             scaleShowLabels: false,
             pointHitDetectionRadius: 10,
             scaleUse2Y: true,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+            legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
         };
 
         $scope.resume.elapsed = 0;
@@ -1611,10 +1640,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk) {
+    'use strict';
     $timeout(function() {
         //Get position a first time to get better precision when we really
         //start running
-        navigator.geolocation.getCurrentPosition(function(p) {}, function(p) {}, {
+        navigator.geolocation.getCurrentPosition(function() {}, function() {}, {
             enableHighAccuracy: true,
             timeout: 60000,
             maximumAge: 0
@@ -1631,7 +1661,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('RecordsCtrl', function($scope, $timeout, ionicMaterialInk) {
-
+    'use strict';
     $scope.computeRecords = function() {
         $scope.records = {};
         var sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
@@ -1691,7 +1721,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout) {
-
+    'use strict';
     $scope.deleteSession = function(idx) {
         // confirm dialog
         var confirmPopup = $ionicPopup.confirm({
