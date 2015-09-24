@@ -842,7 +842,7 @@ angular.module('starter.controllers', [])
 
     };
 
-    $scope.exportAsGPX = function(rewrite) {
+    $scope.exportAsGPX = function(overwrite) {
         $scope.sessions.map(function(session) {
             var stordir = cordova.file.externalDataDirectory;
             if (!stordir) {
@@ -850,16 +850,18 @@ angular.module('starter.controllers', [])
             }
             
             window.resolveLocalFileSystemURL(stordir, 
-                                             function(dirEntry) {$scope.exportAGPX(dirEntry, session, rewrite);}, 
+                                             function(dirEntry) {$scope.exportAGPX(dirEntry, session, overwrite);}, 
                                              function() {
                 console.log('failed can t open fs');
             });
         });
 
-        $ionicPopup.alert({
-            title: $scope.translateFilter('_gpx_export_title'),
-            template: $scope.translateFilter('_gpx_file_exported')
-        });
+        if (overwrite) {
+            $ionicPopup.alert({
+                title: $scope.translateFilter('_gpx_export_title'),
+                template: $scope.translateFilter('_gpx_file_exported')
+            });
+        }
 
     };
 
