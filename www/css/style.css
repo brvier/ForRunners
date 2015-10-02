@@ -171,11 +171,12 @@ p {
 
 .doughnut-legend li {
     position: relative;
-    display: table;
+    /*display: table;*/
+    min-width: 180px;
 }
 
-.doughnut-legend span {
+/*.doughnut-legend span {
     padding-left: 20px;
     position: relative !important;
     text-indent: 10px;
-}
+}*/

@@ -198,6 +198,17 @@ angular.module('starter.controllers', [])
         var hrZ3 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.80;
         var hrZ4 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.90;
         var hrZ = [0,0,0,0,0];
+        var hr_color= 0;
+        $scope.session.hhr_colors = ['#dcdcdc','#97BBCD', '#46BFBD', '#FDB45C', '#F7464A'];
+        $scope.session.hr_colors = ['rgba(220,220,220,0.5)' ,'rgba(151, 187, 205, 0.5)', 'rgba(70, 191, 189, 0.5)', 'rgba(253, 180, 92, 0.5)', 'rgba(247, 70, 74, 0.5)' ];
+        $scope.session.hhr_colors = [
+            {fillColor:'rgba(220,220,220,0.5)', strokeColor: 'rgba(220,220,220,0.7)'} ,
+            {fillColor:'rgba(151, 187, 205, 0.5)', strokeColor:'rgba(151, 187, 205, 0.7)'}, 
+            {fillColor:'rgba(70, 191, 189, 0.5)', strokeColor:'rgba(70, 191, 189, 0.7)'}, 
+            {fillColor:'rgba(253, 180, 92, 0.5)', strokeColor:'rgba(253, 180, 92, 0.7)'}, 
+            {fillColor:'rgba(247, 70, 74, 0.5', strokeColor:'rgba(247, 70, 74, 0.7'} ];
+
+
 
         var gpxPoints = [];
         var lastEle = 0;
@@ -536,41 +547,63 @@ angular.module('starter.controllers', [])
             bezierCurve: true,
             pointDot: false,
             responsive: true,
-            scaleUse2Y: true,
-            legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+            legendTemplate: '' //'<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
         };
-        $scope.session.chart3_labels = [$scope.translateFilter('_hr_zone0'),
-                                        $scope.translateFilter('_hr_zone1'),
-                                        $scope.translateFilter('_hr_zone2'),
-                                        $scope.translateFilter('_hr_zone3'),
-                                        $scope.translateFilter('_hr_zone4')];
+        $scope.session.chart3_options = {
+            animation: false,
+            showTooltips: true,
+            showScale: false,
+            showLegend: true,
+            scaleIntegersOnly: true,
+            responsive: true,
+            legendTemplate : '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
+        };
+        $scope.session.chart3_labels = [$scope.translateFilter('_hr_zone0')+ ' < 60%',
+                                        $scope.translateFilter('_hr_zone1')+ ' > 60%',
+                                        $scope.translateFilter('_hr_zone2')+ ' > 70%',
+                                        $scope.translateFilter('_hr_zone3')+ ' > 80%',
+                                        $scope.translateFilter('_hr_zone4')+ ' > 90%'];
         for (var i = 0; i < hrZ.length; i++) {
             hrZ[i] = hrZ[i].toFixed(1);
         }
         $scope.session.chart3_data = hrZ;
-
+        
         $scope.session.chart_labels = [];
+        $scope.session.chart2_labels = [];
         $scope.session.chart_data = [
             [],
             []
         ];
         $scope.session.chart2_data = [
-            [],
             []
         ];
+        $scope.session.chart2_type = 'Heartrate';
         $scope.session.chart_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_altitude_meters')];
         $scope.session.chart2_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_bpms_label')];
         smallStepDetail.map(function(step) {
-            if (Math.round(step.km) === step.km) {
+            if (step.hr > hrZ4) {                             
+                hr_color = 4;
+                }  else { if ( step.hr > hrZ3) {                             
+                    hr_color = 3;
+                }  else { if ( step.hr > hrZ2) {                             
+                    hr_color = 2;
+                }  else { if ( step.hr > hrZ1) {                             
+                    hr_color = 1;
+                }  else {                             
+                    hr_color = 0;
+                }}}} 
+           if (Math.round(step.km) === step.km) {
                 $scope.session.chart_labels.push(step.km);
+                $scope.session.chart2_labels.push(step.km + '|' + $scope.session.hr_colors[hr_color]);
             } else {
                 $scope.session.chart_labels.push('');
+                $scope.session.chart2_labels.push('|' + $scope.session.hr_colors[hr_color]);
             }
 
             $scope.session.chart_data[0].push(step.speed);
             $scope.session.chart_data[1].push(step.ele);
             $scope.session.chart2_data[0].push(step.speed);
-            $scope.session.chart2_data[1].push(step.hr);
+            //$scope.session.chart2_data[1].push(step.hr); // was step.hr
             
         });
 
@@ -1218,7 +1251,7 @@ angular.module('starter.controllers', [])
 
             $scope.$apply(function() {
                 $scope.session.accuracy = position.coords.accuracy;
-                console.log('Accuracy:'+$scope.session.accuracy);
+                //console.log('Accuracy:'+$scope.session.accuracy);
                 if ((position.coords.accuracy <= $scope.prefs.minrecordingaccuracy) &&
                         (timenew > $scope.session.recclicked) &&
                         ($scope.session.latold !== 'x') && 
@@ -1275,7 +1308,7 @@ angular.module('starter.controllers', [])
                             });
                             elapsed = timenew - $scope.session.firsttime;
                             var ispeed = distances.equirect * 3600000 / (new Date(timenew) - new Date($scope.session.timeold));
-                            console.log(ispeed);
+                            //console.log(ispeed);
                             if ((ispeed < 38) && (ispeed > 2)) {
                                 $scope.session.equirect += distances.equirect;
                                 $scope.session.eledist += distances.eledist;
@@ -1368,7 +1401,7 @@ angular.module('starter.controllers', [])
                     }
                     if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
                             (position.coords.accuracy <= $scope.prefs.minrecordingaccuracy)) {
-                        console.log('Should record');
+                        //console.log('Should record');
                         var pointData = [
                             latnew.toFixed(6),
                             lonnew.toFixed(6),

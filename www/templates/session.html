@@ -86,20 +86,32 @@ markers="session.map.markers" ></leaflet>
   </div>
 </div>
 </div>
+
+<!--Graph 1 : speed vs alt -->
+<div class="content double-padding">
+    <h4 class="positive text-center">Speed VS Altitude</h4>
+</div>
 <canvas ng-if="session.paceDetails.length > 1" id="line" class="item chart chart-line ng-isolate-scope" data="session.chart_data"
-labels="session.chart_labels" chart-legend="true" series="session.chart_series"
+labels="session.chart_labels" chart-legend="true" series="session.chart_series" chart-zoneColors="session.chart_zonecolor"
 options="session.chart_options"
 style="width: 100%; height: 300px; background: white">
 </canvas>
-<canvas ng-if="session.heartRate" id="line" class="item chart chart-line ng-isolate-scope" data="session.chart2_data"
-labels="session.chart_labels" chart-legend="true" series="session.chart2_series"
-options="session.chart_options"
+
+<!--Graph 2 : speed vs heartrate -->
+<div class="content double-padding" ng-if="session.heartRate"> 
+      <h4 class="positive text-center">Speed VS HeartRate</h4>
+</div> 
+<canvas ng-if="session.heartRate" id="line" class="item chart chart-base ng-isolate-scope" chart-type="session.chart2_type" data="session.chart2_data"
+labels="session.chart2_labels" chart-legend="false" series="session.chart2_series"
+options="session.chart2_options"
 style="width: 100%; height: 300px; background: white">
 </canvas>
+
 <canvas ng-if="session.heartRate" id="doughnut" class="item chart chart-doughnut ng-isolate-scope labeled-chart-container"
       data="session.chart3_data" labels="session.chart3_labels"
       chart-legend="true"
-      colours="['#dcdcdc','#97BBCD', '#46BFBD', '#FDB45C', '#F7464A']"
+      options="session.chart3_options"
+      colours="session.hhr_colors"
       style="width: 100%; height: 300px; background: white">
 </canvas> 
 <div class="table" ng-if="session.paceDetails.length > 0">
