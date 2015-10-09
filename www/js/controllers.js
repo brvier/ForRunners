@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.7';
+    $scope._version = '0.9.8';
     $scope.weather = $weather;
 
     $scope.running = false;
