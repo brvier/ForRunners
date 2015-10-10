@@ -1,7 +1,7 @@
 # ForRunner
  
 ## ForRunners A mobile application to improve your running
-![][1] 
+![ForRunners preview][1] 
  
 ####  Modern look and feel
 * Use Material Design 
@@ -22,7 +22,7 @@
 
 [ ![Get it on Google Play][2] ][3] [ ![Get it on Google Play][4] ][3] 
 
-* * * ![][5] ![][6] ![][7] ![][8] ![][9] ![][10] ![][11] ![][12] * * * 
+![Main screen][5] ![Session][6] ![Session][7] ![Records][8] ![Session][9] ![Session][10] ![Session][11] ![Settings][12] 
 
 [Benoît HERVIER][13] - [1H2fyhNYo2JVQ4uyf5FudUa2uwsmcE1X7q][14]
 
