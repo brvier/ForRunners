@@ -20,23 +20,22 @@
 * Your records are registered by length of your run 
 * Autoconnect to your Bluetooth Smart Hearthrate sensor if you have one. 
 
-[ ![Get it on Google Play][2] ][3] [ ![Get it on Google Play][4] ][3] 
+[ ![Get it on Google Play][2] ][3]
 
 ![Main screen][5] ![Session][6] ![Session][7] ![Records][8] ![Session][9] ![Session][10] ![Session][11] ![Settings][12] 
 
-[Benoît HERVIER][13] - [1H2fyhNYo2JVQ4uyf5FudUa2uwsmcE1X7q][14]
+[Benoît HERVIER][13] - [bitcoin:1H2fyhNYo2JVQ4uyf5FudUa2uwsmcE1X7q](bitcoin:1H2fyhNYo2JVQ4uyf5FudUa2uwsmcE1X7q)
 
-[1]: http://khertan.net/img/main.png
+[1]: http://khertan.net/projects/forrunners/img/main.png
 [2]: https://developer.android.com/images/brand/en_generic_rgb_wo_60.png
 [3]: https://play.google.com/store/apps/details?id=net.khertan.forrunners
-[4]: http://khertan.net/img/qrcode.png
-[5]: http://khertan.net/screenshots/main.png
-[6]: http://khertan.net/screenshots/session.png
-[7]: http://khertan.net/screenshots/session2.png
-[8]: http://khertan.net/screenshots/records.png
-[9]: http://khertan.net/screenshots/session3.png
-[10]: http://khertan.net/screenshots/session4.png
-[11]: http://khertan.net/screenshots/session5.png
-[12]: http://khertan.net/screenshots/settings.png
+[4]: http://khertan.net/projects/forrunners/img/qrcode.png
+[5]: http://khertan.net/projects/forrunners/screenshots/main.png
+[6]: http://khertan.net/projects/forrunners/screenshots/session.png
+[7]: http://khertan.net/projects/forrunners/screenshots/session2.png
+[8]: http://khertan.net/projects/forrunners/screenshots/records.png
+[9]: http://khertan.net/projects/forrunners/screenshots/session3.png
+[10]: http://khertan.net/projects/forrunners/screenshots/session4.png
+[11]: http://khertan.net/projects/forrunners/screenshots/session5.png
+[12]: http://khertan.net/projects/forrunners/screenshots/settings.png
 [13]: http://khertan.net
-[14]: bitcoin:1H2fyhNYo2JVQ4uyf5FudUa2uwsmcE1X7q
