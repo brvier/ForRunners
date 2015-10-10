@@ -117,6 +117,10 @@ ul.circle {list-style-type: circle; padding-left: 30px;}
     transition: all .5s ease-in-out;
 }
 
+.bar-dark {
+    background-color: #000000 !important;
+}
+
 .menu.menu-left * {
     font-weight: bold;
 }
