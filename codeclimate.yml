@@ -5,5 +5,5 @@ languages:
   PHP: false
   Python: false
 exclude_paths:
-- "webpages/*"
+- "webpage/*"
 - "www/libs/*"
