@@ -29,3 +29,4 @@ Thumbs.db
 platforms/*
 plugins/*
 *.keystore
+*.key
