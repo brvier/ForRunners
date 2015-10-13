@@ -1140,7 +1140,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.calcDistances = function(oldPos, newPos) {
-              var x = $scope.toRad(newPos.lon - oldPos.lon) * Math.cos($scope.toRad(oldPos.lat + newPos.lat) / 2);
+        var x = $scope.toRad(newPos.lon - oldPos.lon) * Math.cos($scope.toRad(oldPos.lat + newPos.lat) / 2);
         var y = $scope.toRad(newPos.lat - oldPos.lat);
         var e = Math.sqrt(x * x + y * y) * $scope.glbs.radius[$scope.prefs.unit];
         var eledist = e;
@@ -1297,7 +1297,7 @@ angular.module('starter.controllers', [])
                         if (timenew - $scope.session.lastdisptime >= $scope.prefs.minrecordinggap) {
                             $scope.session.lastdisptime = timenew;
                             //Calc distances
-                            var distances = $scope.calcDistances({
+                            /*var distances = $scope.calcDistances({
                                 'lon': $scope.session.lonold,
                                 'lat': $scope.session.latold,
                                 'alt': $scope.session.altold
@@ -1305,79 +1305,99 @@ angular.module('starter.controllers', [])
                                 'lon': lonnew,
                                 'lat': latnew,
                                 'alt': altnew
-                            });
+                            });*/
+            
+                            //Distances
+                            var dLat;
+                            var dLon;
+                            var dLat1;
+                            var dLat2;
+                            var a, c, d;
+                            var dtd;
+                            var dspeed;
+
+                            dLat = (latnew - $scope.session.latold) * Math.PI / 180;
+                            dLon = (lonnew - $scope.session.lonold) * Math.PI / 180;
+                            dLat1 = ($scope.session.latold) * Math.PI / 180;
+                            dLat2 = (latnew) * Math.PI / 180;
+                            a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                                Math.cos(dLat1) * Math.cos(dLat1) *
+                                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                            c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                            d = 6371 * c;
+                            //Speed between this and previous point
+                            dtd = new Date(timenew) - new Date($scope.session.timeold);
+                            dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
+
                             elapsed = timenew - $scope.session.firsttime;
-                            var ispeed = distances.equirect * 3600000 / (new Date(timenew) - new Date($scope.session.timeold));
                             //console.log(ispeed);
-                            if ((ispeed < 38) && (ispeed > 2)) {
-                                $scope.session.equirect += distances.equirect;
-                                $scope.session.eledist += distances.eledist;
+                            if ((dspeed < 38) && (dspeed > 2)) {
+                                $scope.session.equirect += d;
+                                $scope.session.eledist += d;
+                            }
 
-                                //Elevation?
-                                if ($scope.session.altold !== 'x') {
-                                    $scope.session.altold = altnew;
-                                    if (altnew > $scope.session.maxalt) {
-                                        $scope.session.maxalt = altnew;
-                                        $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt).toFixed(1);
-                                    }
-                                    if (altnew < $scope.session.minalt) {
-                                        $scope.session.minalt = altnew;
-                                        $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt).toFixed(1);
-                                    }
-                                }
-                                $scope.session.hilldistance = $scope.session.eledist.toFixed(2);
-                                $scope.session.flatdistance = $scope.session.equirect.toFixed(2);
-                                $scope.session.distk = $scope.session.equirect.toFixed(1);
-                                if ($scope.session.equirect > 0) {
-                                    var averagePace = elapsed / ($scope.session.equirect * 60000);
-                                    $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
-                                    var avspeed = ($scope.session.equirect * 1000 / elapsed);
-                                    if (avspeed) {
-                                        $scope.session.avspeed = avspeed.toFixed(1);
-                                    } else {
-                                        $scope.session.avspeed = '0';
-                                    }
-                                }
-
-                                $scope.session.latold = latnew;
-                                $scope.session.lonold = lonnew;
+                            //Elevation?
+                            if ($scope.session.altold !== 'x') {
                                 $scope.session.altold = altnew;
-                                $scope.session.timeold = timenew;
-                                
-                                //Alert and Vocal Announce
-                                if (parseInt($scope.prefs.distvocalinterval) > 0) {
-                                    $scope.session.lastdistvocalannounce = 0;
-                                    if (($scope.session.equirect - $scope.session.lastdistvocalannounce) > $scope.prefs.distvocalinterval * 1000) {
-                                        $scope.session.lastdistvocalannounce = $scope.session.equirect;
-                                        $scope.runSpeak();
-                                    }
+                                if (altnew > $scope.session.maxalt) {
+                                    $scope.session.maxalt = altnew;
+                                    $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt).toFixed(1);
                                 }
-
-                                if (parseInt($scope.prefs.timevocalinterval) > 0) {
-                                    if ((timenew - $scope.session.lasttimevocalannounce) > $scope.prefs.timevocalinterval * 60000) /*fixme*/ {
-                                        $scope.session.lasttimevocalannounce = timenew;
-                                        $scope.runSpeak();
-                                    }
+                                if (altnew < $scope.session.minalt) {
+                                    $scope.session.minalt = altnew;
+                                    $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt).toFixed(1);
                                 }
-
-                                if (parseInt($scope.prefs.timeslowvocalinterval) > 0) {
-                                    if (($scope.session.lastslowvocalannounce !== -1) &&
-                                            ((timenew - $scope.session.lastslowvocalannounce) > $scope.prefs.timeslowvocalinterval * 60000)) /*fixme*/ {
-                                        $scope.session.lastslowvocalannounce = -1;
-                                        $scope.session.lastfastvocalannounce = timenew;
-                                        $scope.speakText($scope.translateFilter('_run_fast'));
-                                    }
-                                }
-                                if (parseInt($scope.prefs.timefastvocalinterval) > 0) {
-                                    if (($scope.session.lastfastvocalannounce !== -1) &&
-                                            ((timenew - $scope.session.lastfastvocalannounce) > $scope.prefs.timefastvocalinterval * 60000)) /*fixme*/ {
-                                        $scope.session.lastslowvocalannounce = timenew;
-                                        $scope.session.lastfastvocalannounce = -1;
-                                        $scope.speakText($scope.translateFilter('_run_slow'));
-                                    }
+                            }
+                            $scope.session.hilldistance = $scope.session.eledist.toFixed(2);
+                            $scope.session.flatdistance = $scope.session.equirect.toFixed(2);
+                            $scope.session.distk = $scope.session.equirect.toFixed(1);
+                            if ($scope.session.equirect > 0) {
+                                var averagePace = elapsed / ($scope.session.equirect * 60000);
+                                $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
+                                if (dspeed) {
+                                    $scope.session.avspeed = dspeed.toFixed(1);
+                                } else {
+                                    $scope.session.avspeed = '0';
                                 }
                             }
 
+                            $scope.session.latold = latnew;
+                            $scope.session.lonold = lonnew;
+                            $scope.session.altold = altnew;
+                            $scope.session.timeold = timenew;
+                            
+                            //Alert and Vocal Announce
+                            if (parseInt($scope.prefs.distvocalinterval) > 0) {
+                                $scope.session.lastdistvocalannounce = 0;
+                                if (($scope.session.equirect - $scope.session.lastdistvocalannounce) > $scope.prefs.distvocalinterval * 1000) {
+                                    $scope.session.lastdistvocalannounce = $scope.session.equirect;
+                                    $scope.runSpeak();
+                                }
+                            }
+
+                            if (parseInt($scope.prefs.timevocalinterval) > 0) {
+                                if ((timenew - $scope.session.lasttimevocalannounce) > $scope.prefs.timevocalinterval * 60000) /*fixme*/ {
+                                    $scope.session.lasttimevocalannounce = timenew;
+                                    $scope.runSpeak();
+                                }
+                            }
+
+                            if (parseInt($scope.prefs.timeslowvocalinterval) > 0) {
+                                if (($scope.session.lastslowvocalannounce !== -1) &&
+                                        ((timenew - $scope.session.lastslowvocalannounce) > $scope.prefs.timeslowvocalinterval * 60000)) /*fixme*/ {
+                                    $scope.session.lastslowvocalannounce = -1;
+                                    $scope.session.lastfastvocalannounce = timenew;
+                                    $scope.speakText($scope.translateFilter('_run_fast'));
+                                }
+                            }
+                            if (parseInt($scope.prefs.timefastvocalinterval) > 0) {
+                                if (($scope.session.lastfastvocalannounce !== -1) &&
+                                        ((timenew - $scope.session.lastfastvocalannounce) > $scope.prefs.timefastvocalinterval * 60000)) /*fixme*/ {
+                                    $scope.session.lastslowvocalannounce = timenew;
+                                    $scope.session.lastfastvocalannounce = -1;
+                                    $scope.speakText($scope.translateFilter('_run_slow'));
+                                }
+                            }
                         }
                     } else {
                         $scope.session.firsttime = timenew;
