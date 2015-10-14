@@ -1548,7 +1548,10 @@ angular.module('starter.controllers', [])
 
         if ($scope.prefs.debug) {
             //$scope.prefs.minrecordingaccuracy = 5000000;
+        } else {
+            $scope.prefs.minrecordingaccuracy = 11;
         }
+
         $scope.session.watchId = navigator.geolocation.watchPosition(
             $scope.recordPosition,
             $scope.errorPosition, {
