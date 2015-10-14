@@ -142,7 +142,7 @@ angular.module('starter.controllers', [])
     $scope.running = false;
     $scope.prefs = {};
 
-    $scope.prefs.minrecordingaccuracy = 14;
+    $scope.prefs.minrecordingaccuracy = 11;
     $scope.prefs.minrecordinggap = 1000;
     $scope.prefs.minrecordingspeed = 3;
     $scope.prefs.maxrecordingspeed = 38;
@@ -1327,7 +1327,7 @@ angular.module('starter.controllers', [])
                             d = 6371 * c;
                             //Speed between this and previous point
                             dtd = new Date(timenew) - new Date($scope.session.timeold);
-                            dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
+                            dspeed = (d) / (dtd / 1000 / 60 / 60);
 
                             elapsed = timenew - $scope.session.firsttime;
                             //console.log(ispeed);
@@ -1554,7 +1554,7 @@ angular.module('starter.controllers', [])
             $scope.errorPosition, {
                 enableHighAccuracy: true,
                 maximumAge: 0,
-                timeout: 1000
+                timeout: 3000
             });
 
         $scope.openModal();
@@ -1566,11 +1566,11 @@ angular.module('starter.controllers', [])
             $scope.delay = (new Date().getTime() - $scope.mustdelaytime);
             $scope.session.time = (-($scope.prefs.delay - $scope.delay) / 1000).toFixed(0);
             //Using get
-            navigator.geolocation.getCurrentPosition(function() {}, function() {}, {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            });
+            //navigator.geolocation.getCurrentPosition(function() {}, function() {}, {
+            //    enableHighAccuracy: true,
+            //    timeout: 10000,
+            //    maximumAge: 0
+            //});
             $scope.$apply();
         } else {
             $scope.mustdelay = false;
