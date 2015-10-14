@@ -84,7 +84,7 @@ angular.module('starter.controllers', [])
     this.byCityName = function(query) {
         var deferred = $q.defer();
         // Call the API using JSONP.
-        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&units=metric&q=' + encodeURI(query)).then(function(response) {
+        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&APPID=58a0c4c313ac9a047be43c97c2c719fc&units=metric&q=' + encodeURI(query)).then(function(response) {
             var statusCode = parseInt(response.data.cod, 10);
             if (statusCode === 200) {
                 // Call successful.
@@ -1249,6 +1249,9 @@ angular.module('starter.controllers', [])
                 altnew = position.coords.altitude;
             }
 
+            if ($scope.prefs.debug) {
+                console.debug('Accuracy:' + position.coords.accuracy);
+            }
             $scope.$apply(function() {
                 $scope.session.accuracy = position.coords.accuracy;
                 //console.log('Accuracy:'+$scope.session.accuracy);
@@ -1557,7 +1560,7 @@ angular.module('starter.controllers', [])
             $scope.errorPosition, {
                 enableHighAccuracy: true,
                 maximumAge: 0,
-                timeout: 3000
+                timeout: 5000
             });
 
         $scope.openModal();
