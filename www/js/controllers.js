@@ -1471,7 +1471,7 @@ angular.module('starter.controllers', [])
     //};
 
     $scope.errorPosition = function(err) {
-              console.debug('errorPosition:' + err);
+              console.debug('errorPosition:' + err.message);
         $scope.session.gpsGoodSignalToggle = false;
     };
 
