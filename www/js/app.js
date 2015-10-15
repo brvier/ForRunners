@@ -253,7 +253,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _short_description: 'Une application de géolocalisation dédiée aux coureurs.',
     _use_open_source_text : 'ForRunners utilise des librairies et du code open source',
     _by : 'Par',
-    _swipe_left: 'Glisser pour stoper',
+    _swipe_left: 'Glisser pour stopper',
     _stop: 'Stop',
     _elevationUp: 'Monté',
     _elevationDown: 'Descente',

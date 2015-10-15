@@ -1549,8 +1549,9 @@ angular.module('starter.controllers', [])
         }
 
 
+        //FIXME
         if ($scope.prefs.debug) {
-            //$scope.prefs.minrecordingaccuracy = 5000000;
+            $scope.prefs.minrecordingaccuracy = 11;
         } else {
             $scope.prefs.minrecordingaccuracy = 11;
         }
