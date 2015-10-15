@@ -8,7 +8,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
                            'net.khertan.reporter', 'leaflet-directive'])
 
 .run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+  'use strict';
+
+    $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -22,6 +24,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 })
 
 .config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $logProvider, $compileProvider) {
+  'use strict'; 
 
   $ionicConfigProvider.scrolling.jsScrolling(false);
   $logProvider.debugEnabled(false);
@@ -30,65 +33,65 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   $stateProvider
 
   .state('app', {
-    url: "/app",
+    url: '/app',
     //abstract: true,
-    templateUrl: "templates/menu.html",
+    templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
 
   .state('app.running', {
-    url: "/running",
+    url: '/running',
     views: {
       'menuContent': {
-        templateUrl: "templates/running.html"
+        templateUrl: 'templates/running.html'
       }
     }
   })
 
   .state('app.about', {
-    url: "/about",
+    url: '/about',
     views: {
       'menuContent': {
-        templateUrl: "templates/about.html"
+        templateUrl: 'templates/about.html'
       }
     }
   })
 
   .state('app.settings', {
-    url: "/settings",
+    url: '/settings',
     views: {
       'menuContent': {
-        templateUrl: "templates/settings.html"
+        templateUrl: 'templates/settings.html'
       }
     }
   })
 
 
    .state('app.records', {
-      url: "/records",
+      url: '/records',
       views: {
         'menuContent': {
-          templateUrl: "templates/records.html",
+          templateUrl: 'templates/records.html',
           controller: 'RecordsCtrl'
         }
       }
     })
 
    .state('app.sessions', {
-      url: "/sessions",
+      url: '/sessions',
       views: {
         'menuContent': {
-          templateUrl: "templates/sessions.html",
+          templateUrl: 'templates/sessions.html',
           controller: 'SessionsCtrl'
         }
       }
     })
 
   .state('app.session', {
-    url: "/sessions/:sessionId",
+    url: '/sessions/:sessionId',
     views: {
       'menuContent': {
-        templateUrl: "templates/session.html",
+        templateUrl: 'templates/session.html',
         controller: 'SessionCtrl'
       }
     }
@@ -97,18 +100,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   $urlRouterProvider.otherwise('/app/sessions');
 
   $translateProvider.translations('en-US', {
-    _language: "Language",
-    _english: "English",
-    _french: "French",
-    _vocal_announce: "Vocal Announces",
-    _duration_interval: "Duration interval",
-    _minutes: "minutes",
-    _hours: "hours",
-    _options: "Options",
-    _backup_and_restore: "Backup and Restore",
-    _restore: "Restore",
-    _backup: "Backup",
-    _distance_interval: "Distance interval",
+    _language: 'Language',
+    _english: 'English',
+    _french: 'French',
+    _vocal_announce: 'Vocal Announces',
+    _duration_interval: 'Duration interval',
+    _minutes: 'minutes',
+    _hours: 'hours',
+    _options: 'Options',
+    _backup_and_restore: 'Backup and Restore',
+    _restore: 'Restore',
+    _backup: 'Backup',
+    _distance_interval: 'Distance interval',
     _notification_slug: 'ForRunners : Recording session ...',
     _notification_message: 'Recording session ...',
     _go: 'Go !',
@@ -195,18 +198,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 
   });
   $translateProvider.translations('fr-FR', {
-    _language: "Langage",
-    _english: "Anglais",
-    _french: "Francais",
-    _vocal_announce: "Annonces vocale",
-    _duration_interval: "Interval de temps",
-    _minutes: "minutes",
-    _hours: "heures",
-    _options: "Options",
-    _restore: "Restaurer",
-    _backup: "Sauvegarder",
-    _backup_and_restore: "Sauvegardes",
-    _distance_interval: "Interval de distance",
+    _language: 'Langage',
+    _english: 'Anglais',
+    _french: 'Francais',
+    _vocal_announce: 'Annonces vocale',
+    _duration_interval: 'Interval de temps',
+    _minutes: 'minutes',
+    _hours: 'heures',
+    _options: 'Options',
+    _restore: 'Restaurer',
+    _backup: 'Sauvegarder',
+    _backup_and_restore: 'Sauvegardes',
+    _distance_interval: 'Interval de distance',
     _notification_slug: 'ForRunners : Enregistrement ...',
     _notification_message: 'Enregistrement ...',
     _go: 'Go !',
@@ -291,7 +294,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 
   });
 
-  $translateProvider.preferredLanguage("en-US");
-  $translateProvider.fallbackLanguage("en-US");
+  $translateProvider.preferredLanguage('en-US');
+  $translateProvider.fallbackLanguage('en-US');
 
 });
