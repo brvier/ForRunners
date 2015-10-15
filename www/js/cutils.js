@@ -1,5 +1,6 @@
 function average(arr) {
-	var cnt = 1;
+    'use strict'; 
+    var cnt = 1;
 	var len = arr.length;
 	var av;
 	if (arr[0] instanceof Date) {

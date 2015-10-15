@@ -100,8 +100,8 @@ Mi = (function() {
             var childOffset = child.getBoundingClientRect();
             var offset = childOffset.left * options.leftOffsetPercentage + childOffset.top;
             var delay = parseFloat(offset / speed).toFixed(2);
-            child.style.webkitTransitionDelay = delay + "s";
-            child.style.transitionDelay = delay + "s";
+            child.style.webkitTransitionDelay = delay + 's';
+            child.style.transitionDelay = delay + 's';
             child.className += ' in';
         }
 
@@ -112,8 +112,8 @@ Mi = (function() {
                 var childOffset = child.getBoundingClientRect();
                 var offset = childOffset.left * options.leftOffsetPercentage + childOffset.top;
                 var delay = parseFloat(offset / speed / options.finishDelayThrottle).toFixed(2);
-                child.querySelector('img').style.webkitTransitionDelay = delay + "s";
-                child.querySelector('img').style.transitionDelay = delay + "s";
+                child.querySelector('img').style.webkitTransitionDelay = delay + 's';
+                child.querySelector('img').style.transitionDelay = delay + 's';
                 //child.querySelector('img').className += ' in';
                 animateBlindsDom[i].parentNode.className += ' done';
             }
@@ -174,8 +174,8 @@ Mi = (function() {
             var childOffset = child.getBoundingClientRect();
             var offset = childOffset.left * options.leftOffsetPercentage + childOffset.top;
             var delay = parseFloat(offset / speed).toFixed(2);
-            child.style.webkitTransitionDelay = delay + "s";
-            child.style.transitionDelay = delay + "s";
+            child.style.webkitTransitionDelay = delay + 's';
+            child.style.transitionDelay = delay + 's';
             child.className += ' in';
         }
 
@@ -246,8 +246,8 @@ Mi = (function() {
             var childOffset = child.getBoundingClientRect();
             var offset = childOffset.left * options.leftOffsetPercentage + childOffset.top;
             var delay = parseFloat(offset / speed).toFixed(2);
-            child.style.webkitTransitionDelay = delay + "s";
-            child.style.transitionDelay = delay + "s";
+            child.style.webkitTransitionDelay = delay + 's';
+            child.style.transitionDelay = delay + 's';
             child.className += ' in';
         }
 

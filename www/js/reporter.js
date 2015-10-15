@@ -7,7 +7,7 @@ var loggingModule = angular.module('net.khertan.reporter', []);
  * stackTrace.js pintStackTrace() method. 
  */
 loggingModule.factory(
-    "traceService",
+    'traceService',
     function(){
         return({
             print: printStackTrace
@@ -20,7 +20,7 @@ loggingModule.factory(
  * use our new exceptionLoggingService which is defined below
  */
 loggingModule.provider(
-    "$exceptionHandler",{
+    '$exceptionHandler',{
         $get: function(exceptionLoggingService){
             return(exceptionLoggingService);
         }
@@ -33,8 +33,8 @@ loggingModule.provider(
  * also posts the error server side after generating a stacktrace.
  */
 loggingModule.factory(
-    "exceptionLoggingService", 
-    ["$log","$window", "traceService", 
+    'exceptionLoggingService', 
+    ['$log','$window', 'traceService', 
     function($log, $window, traceService){
         function error(exception, cause){
 
@@ -57,22 +57,22 @@ loggingModule.factory(
                         /*$http.post('http://khertan.net/report.php', {
                                 url: $window.location.href,                        
                                 message: errorMessage,
-                                type: "exception",
+                                type: 'exception',
                                 stackTrace: stackTrace,
-                                cause: ( cause || "")
+                                cause: ( cause || '')
                             });*/
                         var xmlhttp = new XMLHttpRequest();
-                        xmlhttp.open("POST","http://khertan.net/report.php",true);
+                        xmlhttp.open('POST','http://khertan.net/report.php',true);
                         xmlhttp.send(JSON.stringify({
                                 url: $window.location.href,                        
                                 message: errorMessage,
-                                type: "exception",
+                                type: 'exception',
                                 stackTrace: stackTrace,
-                                cause: ( cause || "")}));
+                                cause: ( cause || '')}));
 
                         console.error(errorMessage);
                     } catch (loggingError){
-                        $log.warn("Error server-side logging failed");
+                        $log.warn('Error server-side logging failed');
                         $log.log(loggingError);
                     }
                 }
@@ -88,8 +88,8 @@ loggingModule.factory(
  * error / debug statements from the client to the server.
  */
 loggingModule.factory(
-    "applicationLoggingService", 
-    ["$log","$window", "$http",function($log, $window, $http){
+    'applicationLoggingService', 
+    ['$log','$window', '$http',function($log, $window, $http){
         return({
             error: function(message){
                 // preserve default behaviour
@@ -100,7 +100,7 @@ loggingModule.factory(
                 $http.post('http://khertan.net/report.php',{
                         url: $window.location.href,                        
                         message: message,
-                        type: "error"
+                        type: 'error'
                     });
                 }
             },
@@ -112,7 +112,7 @@ loggingModule.factory(
                     $http.post('http://khertan.net/report.php', {
                         url: $window.location.href,                        
                         message: message,
-                        type: "debug"
+                        type: 'debug'
 	                });
                 }
             }
