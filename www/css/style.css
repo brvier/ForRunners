@@ -166,17 +166,20 @@ p {
     right: 8px;
     top: 0;
     padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .doughnut-legend ul {
     margin-left: 30px;
+
 }
 
 
 .doughnut-legend li {
     position: relative;
     /*display: table;*/
-    min-width: 180px;
+    /*min-width: 190px;*/
 }
 
 /*.doughnut-legend span {
