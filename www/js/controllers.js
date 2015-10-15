@@ -102,7 +102,7 @@ angular.module('starter.controllers', [])
     };
     this.byCityId = function(id) {
         var deferred = $q.defer();
-        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&units=metric&id=' + id).then(function(response) {
+        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&APPID=58a0c4c313ac9a047be43c97c2c719fc&units=metric&id=' + id).then(function(response) {
             var statusCode = parseInt(response.data.cod, 10);
             if (statusCode === 200) {
                 deferred.resolve(response.data);
@@ -116,7 +116,7 @@ angular.module('starter.controllers', [])
     };
     this.byLocation = function(coords) {
         var deferred = $q.defer();
-        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&units=metric&lat=' + coords.latitude + '&lon=' + coords.longitude).then(function(response) {
+        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&APPID=58a0c4c313ac9a047be43c97c2c719fc&units=metric&lat=' + coords.latitude + '&lon=' + coords.longitude).then(function(response) {
             var statusCode = parseInt(response.data.cod, 10);
             if (statusCode === 200) {
                 deferred.resolve(response.data);
@@ -1267,16 +1267,15 @@ angular.module('starter.controllers', [])
                     $scope.session.time = hour + ':' + minute + ':' + second;
                     $scope.session.elapsed = elapsed;
                     $scope.session.gpsGoodSignalToggle = true;
-
+                    console.debug('gpsGoodSignalToggle set to true');
                 }
 
                 if ((position.coords.accuracy >= $scope.prefs.minrecordingaccuracy) && 
                         ($scope.session.gpsGoodSignalToggle === true) && 
-                        (timenew > $scope.session.recclicked) && 
-                        ($scope.session.latold !== 'x') && 
-                        ($scope.session.lonold !== 'x')) {
+                        (timenew > $scope.session.recclicked)) {
                     // In case we lost gps we should announce it
                     $scope.session.gpsGoodSignalToggle = false;
+                    console.debug('gpsGoodSignalToggle set to false');
                     //$scope.speakText("GPS Lost");
                 }
 
@@ -1473,6 +1472,7 @@ angular.module('starter.controllers', [])
     $scope.errorPosition = function(err) {
               console.debug('errorPosition:' + err.message);
         $scope.session.gpsGoodSignalToggle = false;
+        console.debug('gpsGoodSignalToggle set to false');
     };
 
 
