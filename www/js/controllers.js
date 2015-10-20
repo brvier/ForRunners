@@ -136,13 +136,13 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.8';
+    $scope._version = '0.9.9';
     $scope.weather = $weather;
 
     $scope.running = false;
     $scope.prefs = {};
 
-    $scope.prefs.minrecordingaccuracy = 11;
+    $scope.prefs.minrecordingaccuracy = 14;
     $scope.prefs.minrecordinggap = 1000;
     $scope.prefs.minrecordingspeed = 3;
     $scope.prefs.maxrecordingspeed = 38;
@@ -523,7 +523,7 @@ angular.module('starter.controllers', [])
         $scope.session.paceDetails = stepDetails;
     
         //Heart Rate OK ?
-        if (heartRatesTmp2.length > 1) {
+        if (hrZ.length > 1) {
             $scope.session.heartRate = true;
         } else {$scope.session.heartRate = false;}
 
@@ -1560,8 +1560,8 @@ angular.module('starter.controllers', [])
             $scope.recordPosition,
             $scope.errorPosition, {
                 enableHighAccuracy: true,
-                maximumAge: 0,
-                timeout: 5000
+                maximumAge: 1000,
+                timeout: 2000
             });
 
         $scope.openModal();
