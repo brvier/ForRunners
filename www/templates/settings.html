@@ -85,8 +85,32 @@
         <div class="range range-positive">
              <input type="range" ng-model="prefs.heartratemin" name="heartratemin" min="50" max="220" ng-change="savePrefs()">
         </div>
+    </div>
+</div>
+
+<div class="content double-padding">
+    <h4 class="positive">{{ "_bluetooth_devices" | translate }}</h4>
+    <div class="item item-no-border" ng-repeat="device in bluetooth_devices">
+        <li class="item item-checkbox">
+                 <label class="checkbox">
+                               <input type="checkbox"
+                                      ng-change="registerBluetoothDevice(device.id)"
+                                      ng-model="device.registered">
+                 </label>
+                {{ device.name }} : {{ device.id }}
+        </li>
+    </div>
+
+    <div class="row">
+        <div class="item">
+            
+             <button class="button button-positive button-outline" ng-click="detectBLEDevice()" >
+                      {{ "_scan_ble" || translate }}
+                      </button> 
         </div>
-    
+          <div class="item" style="margin:auto;">
+            <ion-spinner ng-if="bluetooth_scanning" style="margin:auto" icon="line"></ion-spinner></div>
+       </div>
 </div>
 
 <div class="content double-padding">
