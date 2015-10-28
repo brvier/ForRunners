@@ -194,8 +194,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _heartRate:'HeartRate',
     _heartrate_max:'Max Heart Rate frequency',
     _heartrate_min:'Rest Heart Rate frequency',
-    _heartrate_label:'Bpm'
+    _heartrate_label:'Bpm',
+    _bluetooth_devices:'Bluetooth devices',
+    _scan_ble:'Search devices'
 
+
+ 
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',
@@ -290,9 +294,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _heartRate:'Frequence Cardiaque',
     _heartrate_max:'Frequence cardiaque max',
     _heartrate_min:'Frequence cardiaque au repos',
-    _heartrate_label:'Bpm'
-
-  });
+    _heartrate_label:'Bpm',
+    _bluetooth_devices:'Périphériques Bluetooth',
+    _scan_ble:'Rechercher'
+});
 
   $translateProvider.preferredLanguage('en-US');
   $translateProvider.fallbackLanguage('en-US');

@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.9';
+    $scope._version = '0.9.10';
     $scope.weather = $weather;
 
     $scope.running = false;
@@ -359,7 +359,7 @@ angular.module('starter.controllers', [])
             dtd = new Date(curDate) - new Date(oldDate);
             dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
             if (dspeed > 38) {
-                console.log("usain bold power");
+                //console.log("usain bold power");
             } else {
 
                 //Leaflet
@@ -1926,7 +1926,7 @@ angular.module('starter.controllers', [])
     $scope.deleteSession = function(idx) {
         // confirm dialog
         var confirmPopup = $ionicPopup.confirm({
-            title: 'Delete',
+            title: $scope.translateFilter('_delete'),
             template: $scope.translateFilter('_confirm_delete')
         });
         confirmPopup.then(function(res) {

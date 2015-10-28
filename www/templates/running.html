@@ -15,22 +15,22 @@
                     <div class="row">
                         <div class="item">
                             <h3 style="color: #ccc;">{{ "_distance" | translate }}</h3>
-                            <h1 style="margin-top:0px;color: #fff;">{{ session.flatdistance}} {{session.distancelabel}}</h1>
+                            <h1 style="margin-top:0px;color: #fff;">{{ session.flatdistance}} <span class='unit'>{{session.distancelabel}}</span></h1>
                         </div>
 
                         <div class="item">
                             <h3 style="color: #ccc;">{{ "_speed" | translate }}</h3>
-                            <h1 style="margin-top:0px;color: #fff;">{{session.speed}} {{session.speedlabel}}</h1>
+                            <h1 style="margin-top:0px;color: #fff;">{{session.speed}} <span class='unit'>{{session.speedlabel}}</span></h1>
                         </div>
                     </div>
                     <div class="item">
                         <h3 style="color: #ccc;">{{ "_pace" | translate }}</h3>
-                        <h1 style="margin-top:0px;color: #fff;">{{session.avpace}} {{session.pacelabel}}</h1>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.avpace}} <span class='unit'>{{session.pacelabel}}</span></h1>
                     </div>
 
                     <div class="item" ng-if="session.beatsPerMinute">
                         <h3 style="color: #ccc;">{{ "_bpm" | translate }}</h3>
-                        <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute}} {{ "_bpms_label" | translate}}</h1>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute}} <span class='unit'>{{ "_bpms_label" | translate}}</span></h1>
                     </div>
                     
                     <div class="item">
