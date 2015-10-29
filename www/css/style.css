@@ -191,3 +191,8 @@ p {
 .unit {
     font-size:24px;
 }
+
+.miniicon {
+    padding-left:15px;  
+    /*padding-right:5px;  */
+}

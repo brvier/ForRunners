@@ -1,5 +1,7 @@
 <ion-view view-title="Session">
 <ion-nav-buttons side="right">
+<button class="button button-icon button-clear ion-android-share"
+ng-click="sharePieceOfDOM()"></button>
 <button class="button button-icon button-clear ion-android-delete"
 ng-click="deleteSessionByID(session.recclicked)"></button>
 </ion-nav-buttons>
@@ -91,7 +93,7 @@ markers="session.map.markers" ></leaflet>
 <div class="content double-padding">
     <h4 class="positive text-center">Speed VS Altitude</h4>
 </div>
-<canvas ng-if="session.paceDetails.length > 1" id="line" class="item chart chart-line ng-isolate-scope" data="session.chart_data"
+<canvas ng-if="session.paceDetails.length > 1" id="speedvsalt" class="item chart chart-line ng-isolate-scope" data="session.chart_data"
 labels="session.chart_labels" chart-legend="true" series="session.chart_series"
 options="session.chart_options"
 style="width: 100%; height: 300px; background: white">
@@ -101,7 +103,7 @@ style="width: 100%; height: 300px; background: white">
 <div class="content double-padding" ng-if="session.heartRate"> 
       <h4 class="positive text-center">Speed VS HeartRate</h4>
 </div> 
-<canvas ng-if="session.heartRate" id="line" class="item chart chart-base ng-isolate-scope" chart-type="session.chart2_type" data="session.chart2_data"
+<canvas ng-if="session.heartRate" id="speedvsheartrate" class="item chart chart-base ng-isolate-scope" chart-type="session.chart2_type" data="session.chart2_data"
 labels="session.chart2_labels" chart-legend="false" series="session.chart2_series"
 options="session.chart2_options" chart-zoneColors="session.hr_colors"
 style="width: 100%; height: 300px; background: white">
@@ -111,7 +113,7 @@ style="width: 100%; height: 300px; background: white">
 <div class="content double-padding" ng-if="session.heartRate"> 
       <h4 class="positive text-center">Alt VS HeartRate</h4>
 </div> 
-<canvas ng-if="session.heartRate" id="line" class="item chart chart-base ng-isolate-scope" chart-type="session.chart4_type" data="session.chart4_data"
+<canvas ng-if="session.heartRate" id="altvsheartrate" class="item chart chart-base ng-isolate-scope" chart-type="session.chart4_type" data="session.chart4_data"
 labels="session.chart4_labels" chart-legend="false" series="session.chart4_series"
 options="session.chart4_options" chart-zoneColors="session.hr_colors"
 style="width: 100%; height: 300px; background: white">

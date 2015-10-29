@@ -165,8 +165,8 @@ angular.module('starter.controllers', [])
     $scope.prefs.timefastvocalinterval = 0; //en minutes
     $scope.prefs.timelowvocalinterval = 0; //en minutes
 
-    $scope.prefs.heartrate_max = 190;
-    $scope.prefs.heartrate_min = 80;
+    $scope.prefs.heartratemax = 190;
+    $scope.prefs.heartratemin = 80;
     $scope.prefs.registeredBLE = {};
     //$scope.prefs.registeredBLE['00:18:8C:31:3C:7E'] = 'HRS';
 
@@ -200,10 +200,10 @@ angular.module('starter.controllers', [])
     $scope.computeSessionFromGPXData = function(session) {
         $scope.session = session;
 
-        var hrZ1 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.60;
-        var hrZ2 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.70;
-        var hrZ3 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.80;
-        var hrZ4 = $scope.prefs.heartrate_min + ($scope.prefs.heartrate_max - $scope.prefs.heartrate_min) * 0.90;
+        var hrZ1 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.60);
+        var hrZ2 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.70);
+        var hrZ3 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.80);
+        var hrZ4 = parseInt($scope.prefs.heartratemin) + (parseInt($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.90);
         var hrZ = [0, 0, 0, 0, 0];
         var hr_color = 0;
         $scope.session.hhr_colors = ['#dcdcdc', '#97BBCD', '#46BFBD', '#FDB45C', '#F7464A'];
@@ -745,6 +745,7 @@ angular.module('starter.controllers', [])
         $scope.session.start = gpxPoints[0].timestamp;
         $scope.session.end = gpxPoints[gpxPoints.length - 1].timestamp;
 
+        $scope.session.overnote = (parseInt(gpxspeed) * 1000 * (miliseconds / 1000 / 60) * 0.000006 + ((Math.round(eleUp) - Math.round(eleDown)) * 0.01)).toFixed(1);
     };
 
     $scope.backupOnStorage = function(backupName) {
@@ -1028,7 +1029,15 @@ angular.module('starter.controllers', [])
             //$scope.sessions = $scope.sessions.filter(function(e) {
             //    return e;
             //});
-
+        
+            if ($scope.prefs.version !== $scope._version ) {
+                //UPDATE !
+                
+                $scope.computeAllSessionsFromGPXData();
+ 
+                $scope.prefs.version = $scope._version;
+                $scope.savePrefs();
+            }
             $scope.sessions.sort(function(a, b) {
                 var x = a.recclicked;
                 var y = b.recclicked;
@@ -1795,7 +1804,7 @@ angular.module('starter.controllers', [])
     $scope.computeResumeGraph = function() {
         $scope.resume = [];
         $scope.resume.chart_labels = [];
-        $scope.resume.chart_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_duration_minutes')];
+        $scope.resume.chart_series = [$scope.translateFilter('_overnote'), $scope.translateFilter('_duration_minutes')];
         $scope.resume.chart_data = [
             [],
             []
@@ -1821,7 +1830,7 @@ angular.module('starter.controllers', [])
         $scope.sessions.map(function(item) {
 
             $scope.resume.chart_labels.push(item.date);
-            $scope.resume.chart_data[0].push(item.speed);
+            $scope.resume.chart_data[0].push(item.overnote);
             $scope.resume.chart_data[1].push(item.duration.getUTCMinutes() + item.duration.getUTCHours() * 60);
 
             $scope.resume.avspeed += item.speed;
@@ -1979,6 +1988,65 @@ angular.module('starter.controllers', [])
         });
     };
 
+    $scope.sharePieceOfDOM = function(){
+
+        //var $sel = $(selector);
+        //var element = document.getElementById('sessmap');
+        //var element = document.getElementById('speedvsalt');
+
+        //share the image via phonegap plugin
+        window.plugins.socialsharing.share(
+            $scope.session.distance + 'Kms in ' + moment($scope.session.duration).utc().format('HH:mm') + '( '+ $scope.session.speed+' Kph )',
+            'ForRunners',
+            document.getElementById('speedvsalt').toDataURL(),
+            'http://khertan.net/',
+            function(){ 
+                //success callback
+            },
+            function(err){
+                //error callback
+                console.error('error in share', err);
+            }
+        );
+
+        /*html2canvas(element, {
+            onrendered: function(canvas) {
+                //get a drawing context from canvas
+                var context = canvas.getContext('2d');
+
+                //get the right coords to position the caption
+                var x = canvas.width / 2;
+                var y = canvas.height - 40;
+
+                //set up text properties before drawing
+                context.fillStyle = '#222';
+                context.font = '10pt "AmaticSCBold"';
+                context.textAlign = 'center';
+
+                //draw text at the specified coords
+                context.fillText('made with ForRunners © Khertan 2015', x, y);
+
+                //convert canvas data to an image data url
+                var imgDataUrl = canvas.toDataURL();
+
+                //share the image via phonegap plugin
+                window.plugins.socialsharing.share(
+                    $scope.session.distance + 'Kms in ' + moment($scope.session.duration).utc().format('HH:mm') + '( '+ $scope.session.speed+' Kph )',
+                    'ForRunners',
+                    [imgDataUrl, document.getElementById('speedvsalt').toDataURL()],
+                    'http://khertan.net/',
+                    function(){ 
+                        //success callback
+                    },
+                    function(err){
+                        //error callback
+                        console.error('error in share', err);
+                    }
+                );
+            }
+        });*/
+    };
+
 
     if ($scope.sessions === undefined) {
         $scope.loadSessions();
@@ -2007,7 +2075,7 @@ angular.module('starter.controllers', [])
         };
     }
 
-    if (($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
+    if (($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
         //PARSE GPX POINTS
         $timeout(function() {
             $scope.computeSessionFromGPXData($scope.session);

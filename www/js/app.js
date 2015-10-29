@@ -207,7 +207,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _bluetooth_devices:'Bluetooth devices',
     _scan_ble:'Search devices',
     _help: 'Help',
-    _report_issue: 'Report issue on GitHub'
+    _report_issue: 'Report issue on GitHub',
+     _gps_accuracy: 'GPS Accuracy :',
+    _gps_lost: 'GPS Connection lost',
+    _delete: 'Delete',
+    _overnote: 'Score' 
  
   });
   $translateProvider.translations('fr-FR', {
@@ -309,7 +313,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _bluetooth_devices:'Périphériques Bluetooth',
     _scan_ble:'Rechercher',
     _help: 'Aide',
-    _report_issue: 'Rapporter un bogue sur GitHub'
+    _report_issue: 'Rapporter un bogue sur GitHub',
+    _gps_accuracy: 'Precision GPS :',
+    _gps_lost: 'Connexion au GPS perdu',
+    _delete: 'Supprimer',
+    _note: 'Note'
   });
 
   $translateProvider.preferredLanguage('en-US');

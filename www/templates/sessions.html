@@ -34,7 +34,7 @@
            collection-repeat="session in sessions"
            type="item-text-wrap"
            ng-href="{{'#/app/sessions/'+$index}}"
-           class="in item item-avatar item-icon-left button-fab"
+           class="in item item-avatar  button-fab"
            ng-click="Waves.displayEffect();">
            <!--  waves-effect waves-button waves-dark push-down -->
           <span class="badge badge-left badge-balanced"
@@ -42,13 +42,14 @@
             {{ session.distk }} K
           </span>
 
+
           <h2>
             {{ session.start | ldate }}
           </h2>
 
           <p>
-            {{session.distance}} Km - {{session.speed}} Km/h<br>
-            {{session.pace | date:"m.ss"}} - {{session.duration | date:"HH:mm":"UTC"}}
+            <i class="icon ion-ios-location"></i> {{session.distance}} Km <i class="icon miniicon ion-ios-speedometer-outline"></i> {{session.speed}} Km/h <i class="icon miniicon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}}<br>
+            <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} min/km <i class="icon miniicon ion-arrow-up-a"></i> {{ session.eleUp }} m <i class="icon miniicon ion-arrow-down-a"></i> {{ session.eleDown }} m <i class="icon miniicon ion-android-star-outline"></i> {{ session.overnote }}
           </p>
 
           <!--<ion-option-button class="button-assertive" ng-click="deleteSession($index)">

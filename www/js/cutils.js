@@ -15,5 +15,5 @@ function average(arr) {
 	if (arr[0] instanceof Date) {
 		return new Date(av/cnt);
 	}
-	return av/cnt;
+	return Math.round(av/cnt);
 }

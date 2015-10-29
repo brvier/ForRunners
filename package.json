@@ -40,7 +40,8 @@
       "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.insomnia"
     },
-    "com.megster.cordova.ble"
+    "com.megster.cordova.ble",
+    "cordova-plugin-x-socialsharing"
   ],
   "cordovaPlatforms": [
     "android"
