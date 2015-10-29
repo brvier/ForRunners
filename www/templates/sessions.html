@@ -48,9 +48,10 @@
           </h2>
 
           <p>
+          <i class="icon ion-android-star-outline"></i> {{ session.overnote }}<i class="icon miniicon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} min/km <br> 
             <i class="icon ion-ios-location"></i> {{session.distance}} Km <i class="icon miniicon ion-ios-speedometer-outline"></i> {{session.speed}} Km/h <i class="icon miniicon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}}<br>
-            <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} min/km <i class="icon miniicon ion-arrow-up-a"></i> {{ session.eleUp }} m <i class="icon miniicon ion-arrow-down-a"></i> {{ session.eleDown }} m <i class="icon miniicon ion-android-star-outline"></i> {{ session.overnote }}
-          </p>
+            <i class="icon ion-arrow-up-a"></i> {{ session.eleUp }} m <i class="icon miniicon ion-arrow-down-a"></i>{{ session.eleDown }} m <br>
+         </p>
 
           <!--<ion-option-button class="button-assertive" ng-click="deleteSession($index)">
             Delete
