@@ -593,6 +593,16 @@ angular.module('starter.controllers', [])
             responsive: true,
             legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
         };
+        $scope.session.chart4_options = {
+            animation: false,
+            showTooltips: false,
+            showScale: true,
+            scaleIntegersOnly: true,
+            bezierCurve: true,
+            pointDot: false,
+            responsive: true,
+            legendTemplate: '' //'<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+        };
         $scope.session.chart3_labels = [$scope.translateFilter('_hr_zone0') + ' < 60%',
             $scope.translateFilter('_hr_zone1') + ' > 60%',
             $scope.translateFilter('_hr_zone2') + ' > 70%',
@@ -606,6 +616,7 @@ angular.module('starter.controllers', [])
 
         $scope.session.chart_labels = [];
         $scope.session.chart2_labels = [];
+        $scope.session.chart4_labels = [];
         $scope.session.chart_data = [
             [],
             []
@@ -613,9 +624,14 @@ angular.module('starter.controllers', [])
         $scope.session.chart2_data = [
             []
         ];
+        $scope.session.chart4_data = [
+            []
+        ];
         $scope.session.chart2_type = 'Heartrate';
         $scope.session.chart_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_altitude_meters')];
         $scope.session.chart2_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_bpms_label')];
+        $scope.session.chart4_type = 'Heartrate';
+        $scope.session.chart4_series = [$scope.translateFilter('_altitude_meters'), $scope.translateFilter('_bpms_label')];
         smallStepDetail.map(function(step) {
             if (step.hr > hrZ4) {
                 hr_color = 4;
@@ -637,14 +653,17 @@ angular.module('starter.controllers', [])
             if (Math.round(step.km) === step.km) {
                 $scope.session.chart_labels.push(step.km);
                 $scope.session.chart2_labels.push(step.km + '|' + $scope.session.hr_colors[hr_color]);
+                $scope.session.chart4_labels.push(step.km + '|' + $scope.session.hr_colors[hr_color]);
             } else {
                 $scope.session.chart_labels.push('');
                 $scope.session.chart2_labels.push('|' + $scope.session.hr_colors[hr_color]);
-            }
+                $scope.session.chart4_labels.push('|' + $scope.session.hr_colors[hr_color]);
+           }
 
             $scope.session.chart_data[0].push(step.speed);
             $scope.session.chart_data[1].push(step.ele);
             $scope.session.chart2_data[0].push(step.speed);
+            $scope.session.chart4_data[0].push(step.ele);
             //$scope.session.chart2_data[1].push(step.hr); // was step.hr
 
         });

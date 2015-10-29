@@ -107,6 +107,17 @@ options="session.chart2_options" chart-zoneColors="session.hr_colors"
 style="width: 100%; height: 300px; background: white">
 </canvas>
 
+<!--Graph 3 : speed vs heartrate -->
+<div class="content double-padding" ng-if="session.heartRate"> 
+      <h4 class="positive text-center">Alt VS HeartRate</h4>
+</div> 
+<canvas ng-if="session.heartRate" id="line" class="item chart chart-base ng-isolate-scope" chart-type="session.chart4_type" data="session.chart4_data"
+labels="session.chart4_labels" chart-legend="false" series="session.chart4_series"
+options="session.chart4_options" chart-zoneColors="session.hr_colors"
+style="width: 100%; height: 300px; background: white">
+</canvas>
+
+
 <canvas ng-if="session.heartRate" id="doughnut" class="item chart chart-doughnut ng-isolate-scope labeled-chart-container"
       data="session.chart3_data" labels="session.chart3_labels"
       chart-legend="true"

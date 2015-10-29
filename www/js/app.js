@@ -57,6 +57,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     }
   })
 
+  .state('app.help', {
+    url: '/help',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/help.html'
+      }
+    }
+  })
+
   .state('app.settings', {
     url: '/settings',
     views: {
@@ -152,8 +161,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _speed:'Speed',
     _pace: 'Pace',
     _debug_warning: 'Debug mode slow down severly the application',
-    _run_fast: 'Run fast !',
-    _run_slow: 'Run slower',
+    _run_fast: 'Run faster !',
+    _run_slow: 'Run slower !',
     enUS: 'English',
     frFR: 'French',
     _privacy_policy_text: 'ForRunners didn\'t communicate any informations outside of your device, except for getting maps from Openstreet.net services and if you activate debug mode. In this last case, any errors and debug message will be sent to my own server for debugging.',
@@ -196,9 +205,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _heartrate_min:'Rest Heart Rate frequency',
     _heartrate_label:'Bpm',
     _bluetooth_devices:'Bluetooth devices',
-    _scan_ble:'Search devices'
-
-
+    _scan_ble:'Search devices',
+    _help: 'Help',
+    _report_issue: 'Report issue on GitHub'
  
   });
   $translateProvider.translations('fr-FR', {
@@ -253,6 +262,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _distance:'Distance',
     _speed:'Vitesse',
     _pace: 'Allure',
+    _run_fast: 'Plus vite !',
+    _run_slow: 'Plus lentement !',
     _debug_warning: 'Le mode de debuggage ralentit séverement l\`application.',
     enUS: 'Anglais',
     frFR: 'Francais',
@@ -296,8 +307,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _heartrate_min:'Frequence cardiaque au repos',
     _heartrate_label:'Bpm',
     _bluetooth_devices:'Périphériques Bluetooth',
-    _scan_ble:'Rechercher'
-});
+    _scan_ble:'Rechercher',
+    _help: 'Aide',
+    _report_issue: 'Rapporter un bogue sur GitHub'
+  });
 
   $translateProvider.preferredLanguage('en-US');
   $translateProvider.fallbackLanguage('en-US');
