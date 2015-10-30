@@ -1828,6 +1828,8 @@ angular.module('starter.controllers', [])
             legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
         };
 
+        $scope.resume.overnote = 0;
+ 
         $scope.resume.elapsed = 0;
         $scope.resume.equirect = 0;
         $scope.resume.avspeed = 0;
@@ -1845,6 +1847,8 @@ angular.module('starter.controllers', [])
             $scope.resume.avspeed += item.speed;
             $scope.resume.elapsed += item.duration.getTime();
             $scope.resume.equirect += item.distance;
+            $scope.resume.overnote += parseFloat(item.overnote);
+
 
             if (item.speed > $scope.resume.bestspeed) {
                 $scope.resume.bestspeed = item.speed;
@@ -1865,7 +1869,8 @@ angular.module('starter.controllers', [])
         $scope.resume.flatdistance = ($scope.resume.equirect / $scope.sessions.length).toFixed(1);
         $scope.resume.avspeed = ($scope.resume.avspeed / $scope.sessions.length).toFixed(1);
         $scope.resume.avduration = new Date($scope.resume.elapsed / $scope.sessions.length);
-
+        $scope.resume.overnote = Math.round(($scope.resume.overnote / $scope.sessions.length), 1);
+ 
         $scope.resume.bestspeed = $scope.resume.bestspeed.toFixed(1);
         $scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(1);
 
