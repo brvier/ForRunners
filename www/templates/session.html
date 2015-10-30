@@ -15,6 +15,7 @@ markers="session.map.markers" ></leaflet>
 <div class="mid-bar dark-bg z1 padding">
   <h3>{{ session.start | ldate }}</h3>
   <p>
+    <i class="icon ion-star"></i> {{session.overnote}} -
     <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}} -
     <i class="icon ion-ios-location"></i> {{session.distance}} Kms -
     <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
@@ -77,6 +78,14 @@ markers="session.map.markers" ></leaflet>
     </div>
   </div>
 </div>
+
+<!--<div class="row">
+    <div class="col col-center">
+        <div class="item center">
+            <h2 class="padding outline inline"> {{ "_score" | translate }} {{ session.overnote }} </h2>
+        </div>
+    </div>
+    </div>-->
 
 <div class="row row-center" ng-if="session.weather.main.temp">
   <div class="col col-center" ng-if="session.weather.main.temp">

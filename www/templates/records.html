@@ -1,6 +1,9 @@
 <ion-view view-title="Records">
   <ion-content>
-  	<div class="item">
+    <div class="item center">
+        <h2 class="positive inline">{{ "_total" | translate }} {{ total_kms }} Kms</h2>
+    </div> 
+    <div class="item">
         <h2 class="positive">{{ "_best_records" | translate }}</h2>
         <p class="text-muted" ng-if="records.length > 0">
             {{ "_empty_records_text" | translate }} 

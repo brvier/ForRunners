@@ -211,7 +211,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
      _gps_accuracy: 'GPS Accuracy :',
     _gps_lost: 'GPS Connection lost',
     _delete: 'Delete',
-    _overnote: 'Score' 
+    _overnote: 'Score',
+    _total: 'Total :',
+    _score: 'Score :',
+    _restore_ok_content: 'Backup restored',
+    _restore_ok_title: 'Restore'
+
  
   });
   $translateProvider.translations('fr-FR', {
@@ -317,7 +322,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _gps_accuracy: 'Precision GPS :',
     _gps_lost: 'Connexion au GPS perdu',
     _delete: 'Supprimer',
-    _note: 'Note'
+    _note: 'Note',
+    _total: 'Total :',
+    _score: 'Score :',
+    _restore_ok_content: 'Sauvegarde restauré',
+    _restore_ok_title: 'Restauration'
   });
 
   $translateProvider.preferredLanguage('en-US');

@@ -14,6 +14,14 @@
   font-size: 14px;
 }
 
+.badge-lower {
+  left: 26px;
+  top: 40px !important;
+  width: 52px;
+  font-size: 14px;
+}
+
+
 .item-divider{
     position: -webkit-sticky !important;
     position: sticky !important;
@@ -196,3 +204,23 @@ p {
     padding-left:15px;  
     /*padding-right:5px;  */
 }
+
+.wrap {
+    white-space: normal;    
+}
+
+.leftpad {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.rightpad {
+    margin-left: 10px;
+}
+
+
+.center {
+    text-align: center;
+}
+
+

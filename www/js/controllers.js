@@ -1038,12 +1038,21 @@ angular.module('starter.controllers', [])
                 $scope.prefs.version = $scope._version;
                 $scope.savePrefs();
             }
+
             $scope.sessions.sort(function(a, b) {
                 var x = a.recclicked;
                 var y = b.recclicked;
                 return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
             });
 
+            if ($scope.prefs.debug === true) {
+                $scope.sessions.sort(function(a, b) {
+                    var x = a.overnote;
+                    var y = b.overnote;
+                    return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
+                });
+
+            }
             /*var previousKey = '';
       $scope.sessions.map(function (session, idx) {
           if (session.mdate != previousKey) {
@@ -1892,7 +1901,8 @@ angular.module('starter.controllers', [])
     $scope.computeRecords = function() {
         $scope.records = {};
         var sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
-
+        $scope.total_kms = 0;
+        
         if (sessions) {
             for (var idx = 0; idx < sessions.length; idx++) {
                 var session = sessions[idx];
@@ -1913,6 +1923,7 @@ angular.module('starter.controllers', [])
                     };
 
                 }
+                $scope.total_kms += session.distance;
 
                 if ($scope.records[session.distk].speed < session.speed) {
                     $scope.records[session.distk].speed = session.speed;
