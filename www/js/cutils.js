@@ -1,4 +1,4 @@
-function average(arr) {
+function average(arr, prec) {
     'use strict'; 
     var cnt = 1;
 	var len = arr.length;
@@ -15,5 +15,5 @@ function average(arr) {
 	if (arr[0] instanceof Date) {
 		return new Date(av/cnt);
 	}
-	return Math.round(av/cnt);
+	return Math.round(av/cnt * (prec+1)) / (prec+1);
 }

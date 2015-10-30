@@ -446,7 +446,7 @@ angular.module('starter.controllers', [])
                             pace: new Date(gpxpacetmp),
                             speed: gpxspeedtmp,
                             km: (mz * dMaxTemp) / 1000,
-                            hr: average(heartRatesTmp)
+                            hr: average(heartRatesTmp, 0)
                         });
                         timeStartTmp = new Date(gpxPoints[p].timestamp);
                         mz++;
@@ -467,7 +467,7 @@ angular.module('starter.controllers', [])
                             speed: gpxspeedtmp,
                             km: (mz2 * dMaxTemp2 / 10) / 100,
                             ele: (eleStartTmp + curEle) / 2,
-                            hr: average(heartRatesTmp2)
+                            hr: average(heartRatesTmp2, 0)
                         });
                         timeStartTmp2 = new Date(gpxPoints[p].timestamp);
                         mz2++;
@@ -487,7 +487,7 @@ angular.module('starter.controllers', [])
                         pace: new Date(gpxpacetmp),
                         speed: gpxspeedtmp,
                         km: Math.round(dTotal * 10) / 10,
-                        hr: average(heartRatesTmp)
+                        hr: average(heartRatesTmp, 0)
                     });
                     timeEndTmp2 = new Date(gpxPoints[p].timestamp);
                     timeDiff = timeEndTmp2 - timeStartTmp2;
@@ -500,7 +500,7 @@ angular.module('starter.controllers', [])
                         speed: gpxspeedtmp,
                         km: Math.round(dTotal * 10) / 10,
                         ele: (eleStartTmp + curEle) / 2,
-                        hr: average(heartRatesTmp2)
+                        hr: average(heartRatesTmp2, 0)
                     });
                 }
 
@@ -1943,9 +1943,9 @@ angular.module('starter.controllers', [])
                 $scope.records[session.distk].paces.push(session.pace);
                 $scope.records[session.distk].speeds.push(session.speed);
                 $scope.records[session.distk].durations.push(session.duration);
-                $scope.records[session.distk].av_pace = average($scope.records[session.distk].paces);
-                $scope.records[session.distk].av_speed = average($scope.records[session.distk].speeds);
-                $scope.records[session.distk].av_duration = average($scope.records[session.distk].durations);
+                $scope.records[session.distk].av_pace = average($scope.records[session.distk].paces, 0);
+                $scope.records[session.distk].av_speed = average($scope.records[session.distk].speeds, 1);
+                $scope.records[session.distk].av_duration = average($scope.records[session.distk].durations, 0);
             }
         }
 
