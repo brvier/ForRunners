@@ -39,12 +39,13 @@
            <!--  waves-effect waves-button waves-dark push-down -->
           <span class="badge badge-left badge-balanced"
                 style="color:white !important; display: block; vertical-align: middle; text-align:center;">
-            {{ session.distk }} K
+              {{ session.distk }} K<br>
+              <!--<small>{{ session.overnote }} <i class="icon ion-star"></i></small>--!>
           </span>
-          <span ng-class="session.overnote >= resume.overnote ? 'badge-positive' : 'badge-energized'" class="badge badge-lower badge-energized" 
-                style="color:white !important; display: block; vertical-align: middle; text-align:center;">
-            {{ session.overnote }}
-          </span>
+          <span class="badge badge-lower" 
+            style="display: block; vertical-align: middle; text-align:center; font-size:11px; width: 30px; margin-left:5px;">
+                {{ session.overnote }} <i class="icon ion-star"></i>
+                </span>
 
 
 

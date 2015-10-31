@@ -153,6 +153,7 @@ angular.module('starter.controllers', [])
     $scope.prefs.avgpacevocalannounce = true;
     $scope.prefs.avgspeedvocalannounce = true;
     $scope.prefs.language = 'English';
+    $scope.prefs.heartrateannounce = false;
 
     $scope.prefs.delay = 10 * 1000;
     $scope.prefs.usedelay = true;
@@ -1372,6 +1373,7 @@ angular.module('starter.controllers', [])
         $scope.session.avspeed = 10.21;
         $scope.session.avpace = '5:48';
         $scope.session.time = '1:28:23';
+        $scope.session.beatsPerMinute = 160;
         $scope.runSpeak();
     };
 
@@ -1397,7 +1399,10 @@ angular.module('starter.controllers', [])
             speechText += $scope.session.avpace.split(':')[0] + ' ' + $scope.translateFilter('_minutes') + ' ' + $scope.translateFilter('_and') + ' ';
             speechText += $scope.session.avpace.split(':')[1] + ' ' + $scope.translateFilter('_seconds_per_kilometers');
         }
-
+        if (($scope.prefs.heartrateannounce === true) && ($scope.session.beatsPerMinute > 0)) {
+            speechText += ', ' + $scope.session.beatsPerMinute + ' ' + $scope.translateFilter('_bpms') + ' ';
+        }
+ 
         $scope.speakText(speechText);
     };
 
@@ -2012,10 +2017,10 @@ angular.module('starter.controllers', [])
 
         //share the image via phonegap plugin
         window.plugins.socialsharing.share(
-            $scope.session.distance + 'Kms in ' + moment($scope.session.duration).utc().format('HH:mm') + '( '+ $scope.session.speed+' Kph )',
+            $scope.session.distance + ' Kms in ' + moment($scope.session.duration).utc().format('HH:mm') + ' ( '+ $scope.session.speed+' Kph ) tracked with #ForRunners',
             'ForRunners',
             document.getElementById('speedvsalt').toDataURL(),
-            'http://khertan.net/',
+            'http://khertan.net/projects/forrunners/',
             function(){ 
                 //success callback
             },

@@ -66,6 +66,13 @@
   toggle-class="toggle-positive">
   {{ "_announce_average_pace" | translate }}
   </ion-toggle>
+  <ion-toggle ng-model="prefs.heartrateannounce"
+  ng-checked="prefs.heartrateannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_heartrate" | translate }}
+  </ion-toggle>
+  
 </div>
 
 <div class="content double-padding">
@@ -115,12 +122,6 @@
 
 <div class="content double-padding">
   <h4 class="positive">{{ "_fraction" | translate }}</h4>
-  <ion-toggle ng-model="prefs.fractionvocalannounce"
-  ng-checked="prefs.fractionvocalannounce"
-  ng-change="savePrefs()"
-  toggle-class="toggle-positive">
-  {{ "_announce_fraction" | translate }}
-  </ion-toggle>
   <div class="item item-no-border">
     <div class="input-label">
       {{ "_duration_slow_interval" | translate }} : {{ prefs.timeslowvocalinterval }} {{ "_minutes" | translate}}
