@@ -41,7 +41,12 @@
       "id": "nl.x-services.plugins.insomnia"
     },
     "com.megster.cordova.ble",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    {
+      "locator": "https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin",
+      "id": "com.jcesarmobile.filepicker"
+    },
+    "org.apache.cordova.device"
   ],
   "cordovaPlatforms": [
     "android"

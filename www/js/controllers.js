@@ -137,6 +137,8 @@ angular.module('starter.controllers', [])
     'use strict';
 
     $scope._version = '0.9.10';
+    $scope.onIOS = device.platform == "iOS";
+    console.log(device.platform);
     $scope.weather = $weather;
 
     $scope.running = false;
@@ -855,6 +857,16 @@ angular.module('starter.controllers', [])
         };
 
         reader.readAsText(file);
+    };
+
+    $scope.iosFilePicker = function() {
+        window.FilePicker.pickFile(function(url) {
+            $scope.importGPX(url);
+        }, function(err){
+            $ionicPopup.alert({
+            title: $scope.translateFilter('_gpx_import_title'),
+            template: err
+        });});
     };
 
     $scope.importGPXs = function(element) {
