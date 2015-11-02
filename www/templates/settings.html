@@ -160,14 +160,15 @@
   <button ng-click="backupOnStorage('forrunners.backup');" class="button icon-left ion-ios-download button-positive button-block">{{ "_backup" | translate }}</button>
   <button ng-click="restoreFromStorage()" class="button button-outline icon-left ion-ios-upload-outline button-assertive button-block">{{ "_restore" | translate }}</button>
   <button ng-click="exportAsGPX(true)" class="button icon-left ion-pin button-positive button-block">{{ "_export_as_gpx" | translate }}</button>
-  <button ng-if="!onIOS" onclick="document.getElementById('gpxFile').click();" class="button icon-left ion-pin button-positive button-block">{{ "_import_gpxs" | translate }}
+  <button ng-if="platform !== 'iOS'" onclick="document.getElementById('gpxFile').click();" class="button icon-left ion-pin button-positive button-block">{{ "_import_gpxs" | translate }}
   <input type="file"  multiple="multiple" name="gpxFile"
   class="button icon-left ion-pin button-positive button-block"
   id="gpxFile" class="form-control"
   onchange="angular.element(this).scope().importGPXs(this)"
   style="display: none;">
   </button>
-  <button ng-if="onIOS" onclick="iosFilePicker();"></button>
+  <button ng-if="platform === 'iOS'" onclick="iosFilePicker();"
+      class="button icon-left ion-pin button-positive button-block"></button>
 </div>
 <div class="content double-padding">
   <h4 class="positive">{{ "_debug_tools" | translate }}</h4>
