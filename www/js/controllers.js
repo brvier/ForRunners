@@ -137,8 +137,8 @@ angular.module('starter.controllers', [])
     'use strict';
 
     $scope._version = '0.9.10';
-    $scope.onIOS = device.platform == "iOS";
-    console.log(device.platform);
+    $scope.onIOS = (window.device.platform === 'iOS');
+    console.log(window.device.platform);
     $scope.weather = $weather;
 
     $scope.running = false;
