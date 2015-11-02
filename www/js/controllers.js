@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.10';
+    $scope._version = '0.9.11';
     try {
         $scope.platform = window.device.platform;
         console.log(window.device.platform);
@@ -865,13 +865,14 @@ angular.module('starter.controllers', [])
     };
 
     $scope.iosFilePicker = function() {
+        var utis = ['public.data', 'public.item', 'public.content', 'public.file-url'];
         window.FilePicker.pickFile(function(url) {
             $scope.importGPX(url);
         }, function(err){
             $ionicPopup.alert({
             title: $scope.translateFilter('_gpx_import_title'),
             template: err
-        });});
+        }, utis);});
     };
 
     $scope.importGPXs = function(element) {
