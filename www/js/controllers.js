@@ -1250,29 +1250,30 @@ angular.module('starter.controllers', [])
 
     $scope.heartRateOnDisconnect = function(reason) {
         console.debug('BLE Disconnected:' + reason);
-        $scope.session.beatsPerMinute = null;
-        $scope.heartRateScan();
     };
 
     $scope.heartRateScan = function() {
         // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
-        ble.scan([$scope.glbs.heartRate.service], 5,
-            //onScan
-            function(peripheral) {
-                console.debug('Found ' + JSON.stringify(peripheral));
+        if (($scope.prefs.registeredBLE.length > 0) & ($scope.session.beatsPerMinute === null)) {
+            ble.scan([$scope.glbs.heartRate.service], 5,
+                //onScan
+                function(peripheral) {
+                    console.debug('Found ' + JSON.stringify(peripheral));
 
-                if (peripheral.id in $scope.prefs.registeredBLE) {
-                    //foundHeartRateMonitor = true;
-                    ble.connect(peripheral.id,
-                        $scope.heartRateOnConnect,
-                        $scope.heartRateOnDisconnect);
-                } else {
-                    console.debug('Device ' + peripheral.id + ' not registered');
+                    if (peripheral.id in $scope.prefs.registeredBLE) {
+                        //foundHeartRateMonitor = true;
+                        ble.connect(peripheral.id,
+                            $scope.heartRateOnConnect,
+                            $scope.heartRateOnDisconnect);
+                    } else {
+                        console.debug('Device ' + peripheral.id + ' not registered');
+                    }
+
+                }, function() {
+                    console.error('BluetoothLE scan failed');
                 }
-
-            }, function() {
-                console.error('BluetoothLE scan failed');
-            });
+            );
+        }
     };
 
     $scope.stopSession = function() {
@@ -1319,6 +1320,12 @@ angular.module('starter.controllers', [])
         } catch (exception) {
             console.debug('ERROR: cordova.plugins.insomnia allowSleepAgain');
         }
+
+        try {
+            clearInterval($scope.btscanintervalid);
+        } catch (exception) {
+        }
+
 
         $scope.closeModal();
     };
@@ -1736,7 +1743,7 @@ angular.module('starter.controllers', [])
         }
 
         try {
-            $scope.heartRateScan();
+            $scope.btscanintervalid = setInterval($scope.heartRateScan, 10000);
         } catch (exception) {
             console.debug('ERROR: BLEScan:' + exception);
         }
