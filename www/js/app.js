@@ -216,8 +216,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _total: 'Total :',
     _score: 'Score :',
     _restore_ok_content: 'Backup restored',
-    _restore_ok_title: 'Restore'
-
+    _restore_ok_title: 'Restore',
+    _use_google_elevation_api: 'Use Google Elevation API'
+ 
  
   });
   $translateProvider.translations('fr-FR', {
@@ -328,7 +329,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _total: 'Total :',
     _score: 'Score :',
     _restore_ok_content: 'Sauvegarde restauré',
-    _restore_ok_title: 'Restauration'
+    _restore_ok_title: 'Restauration',
+    _use_google_elevation_api: 'Utiliser l API Elevation Google'
   });
 
   $translateProvider.preferredLanguage('en-US');

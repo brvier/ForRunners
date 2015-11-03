@@ -153,6 +153,13 @@
   toggle-class="toggle-positive">
   {{ "_keep_screen_on" | translate }}
   </ion-toggle>
+  <ion-toggle ng-model="prefs.usegoogleelevationapi"
+  ng-checked="prefs.usegoogleelevationapi"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_use_google_elevation_api" | translate }}
+  </ion-toggle>
+
 
 </div>
 <div class="content double-padding">
