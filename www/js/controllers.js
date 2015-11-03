@@ -260,7 +260,7 @@ angular.module('starter.controllers', [])
                 console.log(error);
                 //$scope.computeSessionFromGPXPoints(session, gpxPoints);
             });
-        };
+        }
     };
 
     $scope.computeSessionFromGPXData = function(session) { 
@@ -817,7 +817,6 @@ angular.module('starter.controllers', [])
         $scope.session.overnote = (parseInt(gpxspeed) * 1000 * (miliseconds / 1000 / 60) * 0.000006 + ((Math.round(eleUp) - Math.round(eleDown)) * 0.01)).toFixed(1);
 
         //And now save
-        var anid = undefined;
         $scope.sessions.map(function(item, idx){
             if (item.recclicked === $scope.session.recclicked) {
                 $scope.sessions[idx] = $scope.session;
@@ -1325,7 +1324,7 @@ angular.module('starter.controllers', [])
 
     $scope.heartRateScan = function() {
         // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
-        if (($scope.prefs.registeredBLE.length > 0) & ($scope.session.beatsPerMinute === null)) {
+        if (($scope.prefs.registeredBLE.length > 0) && ($scope.session.beatsPerMinute === null)) {
             ble.scan([$scope.glbs.heartRate.service], 5,
                 //onScan
                 function(peripheral) {
@@ -1520,7 +1519,7 @@ angular.module('starter.controllers', [])
             }
             $scope.$apply(function() {
                 $scope.session.accuracy = position.coords.accuracy;
-
+                $scope.session.accuracy_fixed = position.coords.accuracy.toFixed(0);
 
                 if ((position.coords.accuracy <= $scope.prefs.minrecordingaccuracy) &&
                     (timenew > $scope.session.recclicked) &&
