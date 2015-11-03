@@ -231,6 +231,12 @@ angular.module('starter.controllers', [])
         console.log(gpx_path);
         encpath = L.polyline(gpx_path).encodePath();
         
+        //Do it before and talk after
+        //Thats here for preventing waiting too long an answer which could be
+        //long to get on slow mobile network and so the session is displayed
+        //with a 0 km run
+        $scope.computeSessionFromGPXPoints(session, gpxPoints); 
+        
         if ($scope.prefs.usegoogleelevationapi === true) {
             //https://maps.googleapis.com/maps/api/elevation/json?path=enc: 
             $http({url:'https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyDoUe8tyV_IUmAC4oOYC2Zuh-_npXAu5TU&locations=enc:' + encpath ,
@@ -247,24 +253,19 @@ angular.module('starter.controllers', [])
                     } else {
                         console.log('Failed google elevation api');
                         console.log(response.data);
-                        $scope.computeSessionFromGPXPoints(session, gpxPoints);
+                        //$scope.computeSessionFromGPXPoints(session, gpxPoints);
                     }
             }, function(error) {
                 // Unable to connect to API.
                 console.log(error);
-                $scope.computeSessionFromGPXPoints(session, gpxPoints);
+                //$scope.computeSessionFromGPXPoints(session, gpxPoints);
             });
-        } else {
-            $scope.computeSessionFromGPXPoints(session, gpxPoints); 
-        }
-       
+        };
     };
 
     $scope.computeSessionFromGPXData = function(session) { 
        $scope.session = session;
        $scope.computeSessionSimplifyAndFixElevation(session);
-
-         
     };
 
     $scope.computeSessionFromGPXPoints = function(session, gpxPoints) {
@@ -406,7 +407,7 @@ angular.module('starter.controllers', [])
             //Speed between this and previous point
             dtd = new Date(curDate) - new Date(oldDate);
             dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
-            if (dspeed > 38) {
+            if (dspeed > 38 + 200) {
                 //console.log("usain bold power");
             } else {
 
@@ -814,6 +815,16 @@ angular.module('starter.controllers', [])
         $scope.session.end = gpxPoints[gpxPoints.length - 1].timestamp;
 
         $scope.session.overnote = (parseInt(gpxspeed) * 1000 * (miliseconds / 1000 / 60) * 0.000006 + ((Math.round(eleUp) - Math.round(eleDown)) * 0.01)).toFixed(1);
+
+        //And now save
+        var anid = undefined;
+        $scope.sessions.map(function(item, idx){
+            if (item.recclicked === $scope.session.recclicked) {
+                $scope.sessions[idx] = $scope.session;
+                $scope.storageSetObj('sessions', $scope.sessions);
+                $scope.loadSessions();
+            }
+        });
     };
 
     $scope.backupOnStorage = function(backupName) {
@@ -1877,15 +1888,16 @@ angular.module('starter.controllers', [])
                     url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 }
             };
+            sessions.push($scope.session);
+            $scope.storageSetObj('sessions', sessions);
+            $scope.loadSessions();
+ 
             try {
                 $scope.computeSessionFromGPXData($scope.session);
             } catch (exception) {
                 console.error('ComputeSessionFromGPX Failed on save:' + exception);
             }
-            sessions.push($scope.session);
-            $scope.storageSetObj('sessions', sessions);
-            $scope.loadSessions();
-
+ 
             //Automated backup
             setTimeout(function() {
                 $scope.exportAsGPX(false);
@@ -1931,11 +1943,12 @@ angular.module('starter.controllers', [])
         $scope.sessions.map(function(item) {
 
             $scope.resume.chart_labels.push(item.date);
-            $scope.resume.chart_data[0].push(item.overnote);
-            $scope.resume.chart_data[1].push(item.duration.getUTCMinutes() + item.duration.getUTCHours() * 60);
-
+           try {
+             $scope.resume.chart_data[1].push(item.duration.getUTCMinutes() + item.duration.getUTCHours() * 60);
+             $scope.resume.chart_data[0].push(item.overnote);
+             $scope.resume.elapsed += item.duration.getTime();
+            } catch(err) {console.error('item.duration.getUTCMinutes'); }
             $scope.resume.avspeed += item.speed;
-            $scope.resume.elapsed += item.duration.getTime();
             $scope.resume.equirect += item.distance;
             $scope.resume.overnote += parseFloat(item.overnote);
 
