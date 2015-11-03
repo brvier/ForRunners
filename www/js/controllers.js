@@ -178,7 +178,8 @@ angular.module('starter.controllers', [])
     $scope.prefs.registeredBLE = {};
     //$scope.prefs.registeredBLE['00:18:8C:31:3C:7E'] = 'HRS';
 
-
+    $scope.prefs.usegoogleelevationapi = false;
+ 
     // Load Sessions
     $timeout(function() {
         $scope.loadSessions();
@@ -205,9 +206,68 @@ angular.module('starter.controllers', [])
         $scope.computeResumeGraph();
     };
 
-    $scope.computeSessionFromGPXData = function(session) {
-        $scope.session = session;
+    $scope.computeSessionSimplifyAndFixElevation = function(session) {
+        var encpath = '';
+        var gpx_path = [];
+        var gpxPoints = [];
+        var lastEle = 0;
+        simplify($scope.session.gpxData, 0.00003).map(function(item) {
+            if (!isNaN(parseFloat(item[3]))) {
+                lastEle = parseFloat(item[3]);
+            } else {
+                lastEle = 'x';
+            }
+            gpxPoints.push({
+                lat: parseFloat(item[0]),
+                lng: parseFloat(item[1]),
+                timestamp: item[2],
+                ele: lastEle,
+                hr: parseFloat(item[4]),
+                accuracy: parseInt(item[5])
+            });
+            gpx_path.push([parseFloat(item[0]), parseFloat(item[1])]);
+        });
 
+        console.log(gpx_path);
+        encpath = L.polyline(gpx_path).encodePath();
+        
+        if ($scope.prefs.usegoogleelevationapi === true) {
+            //https://maps.googleapis.com/maps/api/elevation/json?path=enc: 
+            $http({url:'https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyDoUe8tyV_IUmAC4oOYC2Zuh-_npXAu5TU&locations=enc:' + encpath ,
+                method:'GET',
+                }).then(function(response) {
+                    if (response.data.status === 'OK') {
+                        console.log('Great');
+                        console.log(response.data);
+                        for (var idx in gpxPoints) {
+                            gpxPoints[idx].ele = response.data.results[idx].elevation;                        
+                        }
+                        session.fixedElevation = true;
+                        $scope.computeSessionFromGPXPoints(session, gpxPoints);
+                    } else {
+                        console.log('Failed google elevation api');
+                        console.log(response.data);
+                        $scope.computeSessionFromGPXPoints(session, gpxPoints);
+                    }
+            }, function(error) {
+                // Unable to connect to API.
+                console.log(error);
+                $scope.computeSessionFromGPXPoints(session, gpxPoints);
+            });
+        } else {
+            $scope.computeSessionFromGPXPoints(session, gpxPoints); 
+        }
+       
+    };
+
+    $scope.computeSessionFromGPXData = function(session) { 
+       $scope.session = session;
+       $scope.computeSessionSimplifyAndFixElevation(session);
+
+         
+    };
+
+    $scope.computeSessionFromGPXPoints = function(session, gpxPoints) {
         var hrZ1 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.60);
         var hrZ2 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.70);
         var hrZ3 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.80);
@@ -232,26 +292,6 @@ angular.module('starter.controllers', [])
             fillColor: 'rgba(247, 70, 74, 0.5',
             strokeColor: 'rgba(247, 70, 74, 0.7'
         }];
-
-
-
-        var gpxPoints = [];
-        var lastEle = 0;
-        simplify($scope.session.gpxData, 0.000008).map(function(item) {
-            if (!isNaN(parseFloat(item[3]))) {
-                lastEle = parseFloat(item[3]);
-            } else {
-                lastEle = 'x';
-            }
-            gpxPoints.push({
-                lat: parseFloat(item[0]),
-                lng: parseFloat(item[1]),
-                timestamp: item[2],
-                ele: lastEle,
-                hr: parseFloat(item[4]),
-                accuracy: parseInt(item[5])
-            });
-        });
 
         //Max and min for leaflet and ele
         var minHeight = gpxPoints[0].ele;
@@ -499,17 +539,19 @@ angular.module('starter.controllers', [])
                     });
                     timeEndTmp2 = new Date(gpxPoints[p].timestamp);
                     timeDiff = timeEndTmp2 - timeStartTmp2;
-                    gpxpacetmp = (timeDiff) / (dTemp / 1000);
-                    gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
-                    gpxspeedtmp = (Math.round((dTemp2 / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
-                    gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
-                    smallStepDetail.push({
-                        pace: new Date(gpxpacetmp),
-                        speed: gpxspeedtmp,
-                        km: Math.round(dTotal * 10) / 10,
-                        ele: (eleStartTmp + curEle) / 2,
-                        hr: average(heartRatesTmp2, 0)
-                    });
+                    if (timeDiff > 0) {
+                        gpxpacetmp = (timeDiff) / (dTemp / 1000);
+                        gpxpacetmp = (Math.round(gpxpacetmp * 100) / 100) * 1;
+                        gpxspeedtmp = (Math.round((dTemp2 / 1000) * 100) / 100) / (timeDiff / 1000 / 60 / 60);
+                        gpxspeedtmp = Math.round(gpxspeedtmp * 100) / 100;
+                        smallStepDetail.push({
+                            pace: new Date(gpxpacetmp),
+                            speed: gpxspeedtmp,
+                            km: Math.round(dTotal * 10) / 10,
+                            ele: (eleStartTmp + curEle) / 2,
+                            hr: average(heartRatesTmp2, 0)
+                        });
+                    }
                 }
 
 
@@ -678,27 +720,45 @@ angular.module('starter.controllers', [])
 
         // altitude
         // simplification altitude
+        if ($scope.session.fixedElevation) {
+            eleUp = 0; //parseFloat(elePoints[0][3]);
+            eleDown = 0; //parseFloat(elePoints[0][3]);
+            for (p = 0; p < gpxPoints.length; p++) {
+                curEle = gpxPoints[p].ele;
 
-        var elePoints = simplify($scope.session.gpxData, 0.0002);
-        eleUp = 0; //parseFloat(elePoints[0][3]);
-        eleDown = 0; //parseFloat(elePoints[0][3]);
+                if (p > 0) {
 
-        for (p = 0; p < elePoints.length; p++) {
-            curEle = elePoints[p][3];
+                    oldEle = gpxPoints[p - 1].ele;
 
-            if (p > 0) {
+                    if (curEle > oldEle) {
+                        eleUp += (curEle) - (oldEle);
+                    } else if (curEle < oldEle) {
+                        eleDown += (oldEle) - (curEle);
+                    }
 
-                oldEle = elePoints[p - 1][3];
-
-                if (curEle > oldEle) {
-                    eleUp += (curEle) - (oldEle);
-                } else if (curEle < oldEle) {
-                    eleDown += (oldEle) - (curEle);
                 }
+            }
+        } else {
+            var elePoints = simplify($scope.session.gpxData, 0.0002);
+            eleUp = 0; //parseFloat(elePoints[0][3]);
+            eleDown = 0; //parseFloat(elePoints[0][3]);
 
+            for (p = 0; p < elePoints.length; p++) {
+                curEle = elePoints[p][3];
+
+                if (p > 0) {
+
+                    oldEle = elePoints[p - 1][3];
+
+                    if (curEle > oldEle) {
+                        eleUp += (curEle) - (oldEle);
+                    } else if (curEle < oldEle) {
+                        eleDown += (oldEle) - (curEle);
+                    }
+
+                }
             }
         }
-
 
         var gpxStart = gpxPoints[0].timestamp;
         var gpxEnd = gpxPoints[gpxPoints.length - 1].timestamp;
@@ -2114,7 +2174,7 @@ angular.module('starter.controllers', [])
         };
     }
 
-    if (($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
+    if (($scope.session.fixedElevation === undefined) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
         //PARSE GPX POINTS
         $timeout(function() {
             $scope.computeSessionFromGPXData($scope.session);
