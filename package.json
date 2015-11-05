@@ -46,7 +46,11 @@
       "locator": "https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin",
       "id": "com.jcesarmobile.filepicker"
     },
-    "org.apache.cordova.device"
+    "org.apache.cordova.device",
+    {
+      "locator": "https://github.com/MaginSoft/MFileChooser.git",
+      "id": "com.maginsoft.mfilechooser"
+    }
   ],
   "cordovaPlatforms": [
     "android"

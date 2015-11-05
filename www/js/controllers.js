@@ -139,7 +139,12 @@ angular.module('starter.controllers', [])
     $scope._version = '0.9.11';
     try {
         $scope.platform = window.device.platform;
-        console.log(window.device.platform);
+        $scope.android_version = window.device.version;
+        if ($scope.platform === 'Android') {
+            if (window.device.version.lastIndexOf('4', 0) === 0) {
+               $scope.platform = 'OldAndroid';
+            }
+        }
     } catch(err) {
         $scope.platform = 'Browser';
         console.log(err);
@@ -945,6 +950,21 @@ angular.module('starter.controllers', [])
         }, utis);});
     };
 
+    $scope.fileChooser = function() {
+        if ($scope.platform === 'iOS') {
+            $scope.iosFilePicker();
+        } else if ($scope.platform === 'OldAndroid' ) {
+            window.plugins.mfilechooser.open(['.gpx'], function (uri) {
+                $scope.importGPX(uri);
+                }, function (error) {
+                    console.log(error);
+                });
+        } else {
+           document.getElementById('gpxFile').click(); 
+        }   
+     };
+
+
     $scope.importGPXs = function(element) {
         for (var idx in element.files) {
             if (typeof element.files[idx] === 'object') {
@@ -1257,20 +1277,20 @@ angular.module('starter.controllers', [])
         $scope.bluetooth_scanning = true;
 
         try {
-            ble.startScan([], function(device) {
+            ble.startScan([], function(bledevice) {
                 $scope.$apply(function() {
-                    if (!(device.id in $scope.bluetooth_devices)) {
-                        if (device.id in $scope.prefs.registeredBLE) {
-                            $scope.bluetooth_devices[device.id] = {
-                                'id': device.id,
-                                'name': device.name,
+                    if (!(bledevice.id in $scope.bluetooth_devices)) {
+                        if (bledevice.id in $scope.prefs.registeredBLE) {
+                            $scope.bluetooth_devices[bledevice.id] = {
+                                'id': bledevice.id,
+                                'name': bledevice.name,
                                 'registered': true
                             };
 
                         } else {
-                            $scope.bluetooth_devices[device.id] = {
-                                'id': device.id,
-                                'name': device.name,
+                            $scope.bluetooth_devices[bledevice.id] = {
+                                'id': bledevice.id,
+                                'name': bledevice.name,
                                 'registered': false
                             };
                         }
@@ -1320,11 +1340,13 @@ angular.module('starter.controllers', [])
 
     $scope.heartRateOnDisconnect = function(reason) {
         console.debug('BLE Disconnected:' + reason);
+        $scope.session.beatsPerMinute = null;
     };
 
     $scope.heartRateScan = function() {
         // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
-        if (($scope.prefs.registeredBLE.length > 0) && ($scope.session.beatsPerMinute === null)) {
+        console.log('scope.heartRateScan');
+        if ((Object.keys($scope.prefs.registeredBLE).length > 0) && ($scope.session.beatsPerMinute === null)) {
             ble.scan([$scope.glbs.heartRate.service], 5,
                 //onScan
                 function(peripheral) {
@@ -1813,6 +1835,7 @@ angular.module('starter.controllers', [])
         }
 
         try {
+            $scope.session.beatsPerMinute = null;
             $scope.btscanintervalid = setInterval($scope.heartRateScan, 10000);
         } catch (exception) {
             console.debug('ERROR: BLEScan:' + exception);
