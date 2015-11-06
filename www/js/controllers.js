@@ -137,18 +137,19 @@ angular.module('starter.controllers', [])
     'use strict';
 
     $scope._version = '0.9.11';
+    $timeout(function(){
     try {
         $scope.platform = window.device.platform;
         $scope.android_version = window.device.version;
         if ($scope.platform === 'Android') {
-            if (window.device.version.lastIndexOf('4', 0) === 0) {
+            if (parseInt(window.device.version) < 5) {
                $scope.platform = 'OldAndroid';
             }
         }
     } catch(err) {
         $scope.platform = 'Browser';
         console.log(err);
-    }
+    }}, 1000);
     $scope.weather = $weather;
 
     $scope.running = false;
@@ -950,15 +951,13 @@ angular.module('starter.controllers', [])
         }, utis);});
     };
 
-    $scope.fileChooser = function() {
+    $scope.doFileChooser = function() {
         if ($scope.platform === 'iOS') {
             $scope.iosFilePicker();
         } else if ($scope.platform === 'OldAndroid' ) {
-            window.plugins.mfilechooser.open(['.gpx'], function (uri) {
-                $scope.importGPX(uri);
-                }, function (error) {
-                    console.log(error);
-                });
+            fileChooser.open(function(uri){
+                 $scope.importGPX(uri);
+            });
         } else {
            document.getElementById('gpxFile').click(); 
         }   

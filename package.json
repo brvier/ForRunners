@@ -19,7 +19,6 @@
     "com.ionic.keyboard",
     "cordova-plugin-geolocation",
     "cordova-plugin-device",
-    "cordova-plugin-console",
     "cordova-plugin-whitelist",
     {
       "locator": "https://github.com/domaemon/org.apache.cordova.plugin.tts.git",
@@ -48,9 +47,10 @@
     },
     "org.apache.cordova.device",
     {
-      "locator": "https://github.com/MaginSoft/MFileChooser.git",
-      "id": "com.maginsoft.mfilechooser"
-    }
+      "locator": "http://github.com/don/cordova-filechooser.git",
+      "id": "com.megster.cordova.FileChooser"
+    },
+    "cordova-plugin-console"
   ],
   "cordovaPlatforms": [
     "android"

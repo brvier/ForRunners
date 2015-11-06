@@ -12,7 +12,7 @@
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="BackupWebStorage" value="none" />
+    <preference name="BackupWebStorage" value="local" />
     <preference name="keepRunning" value="true" />
     <preference name="LoadingDialog" value="My Title,My Message" />
     <preference name="SplashScreen" value="screen" />
@@ -23,7 +23,7 @@
     </feature>
     <platform name="android">
         <preference name="android-minSdkVersion" value="18" />
-        <preference name="android-targetSdkVersion" value="19" />
+        <preference name="android-targetSdkVersion" value="18" />
         <preference name="LoadingDialog" value="My Title,My Message" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="DefaultVolumeStream" value="media" />
