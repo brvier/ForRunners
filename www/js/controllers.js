@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.11';
+    $scope._version = '0.9.12';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -950,7 +950,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.iosFilePicker = function() {
-        var utis = ['public.data', 'public.item', 'public.content', 'public.file-url'];
+        var utis = ['public.data', 'public.item', 'public.content', 'public.file-url', 'public.text'];
         window.FilePicker.pickFile(function(url) {
             $scope.importGPX(url);
         }, function(err){
