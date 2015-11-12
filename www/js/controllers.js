@@ -641,15 +641,6 @@ angular.module('starter.controllers', [])
             responsive: true,
             legendTemplate: '' //'<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
         };
-        $scope.session.chart3_options = {
-            animation: false,
-            showTooltips: true,
-            showScale: false,
-            showLegend: true,
-            scaleIntegersOnly: true,
-            responsive: true,
-            legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-        };
         $scope.session.chart4_options = {
             animation: false,
             showTooltips: false,
@@ -689,6 +680,8 @@ angular.module('starter.controllers', [])
         $scope.session.chart2_series = [$scope.translateFilter('_speed_kph'), $scope.translateFilter('_bpms_label')];
         $scope.session.chart4_type = 'Heartrate';
         $scope.session.chart4_series = [$scope.translateFilter('_altitude_meters'), $scope.translateFilter('_bpms_label')];
+        $scope.session.avg_hr = [];
+        $scope.session.chart3_type = 'DoughnutWithValue';
         smallStepDetail.map(function(step) {
             if (step.hr > hrZ4) {
                 hr_color = 4;
@@ -723,8 +716,24 @@ angular.module('starter.controllers', [])
             $scope.session.chart4_data[0].push(step.ele);
             //$scope.session.chart2_data[1].push(step.hr); // was step.hr
 
+            //Calc avg hr
+            $scope.session.avg_hr.push(step.hr);
         });
 
+        $scope.session.avg_hr = average($scope.session.avg_hr, 0);
+
+        $scope.session.chart3_options = {
+            animation: false,
+            animationEasing : 'easeOutBounce',
+            showTooltips: true,
+            showScale: false,
+            showLegend: true,
+            scaleIntegersOnly: true,
+            responsive: true,
+            legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>',
+            averageValue: $scope.session.avg_hr
+        };
+        
         // altitude
         // simplification altitude
         if ($scope.session.fixedElevation) {
@@ -2214,6 +2223,10 @@ angular.module('starter.controllers', [])
             }
         };
     }
+
+    angular.element(document).ready(function () {
+
+   })
 
     if (($scope.session.fixedElevation === undefined) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
         //PARSE GPX POINTS
