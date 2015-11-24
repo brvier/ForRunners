@@ -206,13 +206,13 @@ angular.module('starter.controllers', [])
 
     $scope.computeAllSessionsFromGPXData = function() {
         $scope.sessions.map(function(session) {
-            $scope.computeSessionFromGPXData(session);
+            $scope.computeSessionFromGPXData(session, false);
         });
         $scope.storageSetObj('sessions', $scope.sessions);
         $scope.computeResumeGraph();
     };
 
-    $scope.computeSessionSimplifyAndFixElevation = function(session) {
+    $scope.computeSessionSimplifyAndFixElevation = function(session, doSave) {
         var encpath = '';
         var gpx_path = [];
         var gpxPoints = [];
@@ -241,7 +241,7 @@ angular.module('starter.controllers', [])
         //Thats here for preventing waiting too long an answer which could be
         //long to get on slow mobile network and so the session is displayed
         //with a 0 km run
-        $scope.computeSessionFromGPXPoints(session, gpxPoints); 
+        $scope.computeSessionFromGPXPoints(session, gpxPoints, doSave); 
         
         if ($scope.prefs.usegoogleelevationapi === true) {
             //https://maps.googleapis.com/maps/api/elevation/json?path=enc: 
@@ -255,7 +255,7 @@ angular.module('starter.controllers', [])
                             gpxPoints[idx].ele = response.data.results[idx].elevation;                        
                         }
                         session.fixedElevation = true;
-                        $scope.computeSessionFromGPXPoints(session, gpxPoints);
+                        $scope.computeSessionFromGPXPoints(session, gpxPoints, doSave);
                     } else {
                         console.log('Failed google elevation api');
                         console.log(response.data);
@@ -269,12 +269,12 @@ angular.module('starter.controllers', [])
         }
     };
 
-    $scope.computeSessionFromGPXData = function(session) { 
+    $scope.computeSessionFromGPXData = function(session, doSave) { 
        $scope.session = session;
-       $scope.computeSessionSimplifyAndFixElevation(session);
+       $scope.computeSessionSimplifyAndFixElevation(session, doSave);
     };
 
-    $scope.computeSessionFromGPXPoints = function(session, gpxPoints) {
+    $scope.computeSessionFromGPXPoints = function(session, gpxPoints, doSave) {
         var hrZ1 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.60);
         var hrZ2 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.70);
         var hrZ3 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.80);
@@ -832,11 +832,14 @@ angular.module('starter.controllers', [])
         $scope.session.overnote = (parseInt(gpxspeed) * 1000 * (miliseconds / 1000 / 60) * 0.000006 + ((Math.round(eleUp) - Math.round(eleDown)) * 0.01)).toFixed(1);
 
         //And now save
+        //FIX SAVE
         $scope.sessions.map(function(item, idx){
             if (item.recclicked === $scope.session.recclicked) {
                 $scope.sessions[idx] = $scope.session;
-                $scope.storageSetObj('sessions', $scope.sessions);
-                $scope.loadSessions();
+                if (doSave === true) {
+                    $scope.storageSetObj('sessions', $scope.sessions);
+                    $scope.loadSessions();
+                }
             }
         });
     };
@@ -1149,11 +1152,11 @@ angular.module('starter.controllers', [])
         
             if ($scope.prefs.version !== $scope._version ) {
                 //UPDATE !
-                
-                $scope.computeAllSessionsFromGPXData();
- 
-                $scope.prefs.version = $scope._version;
-                $scope.savePrefs();
+                $timeout(function() { 
+                    $scope.computeAllSessionsFromGPXData();
+                    $scope.prefs.version = $scope._version;
+                    $scope.savePrefs();
+                }, 1000);
             }
 
             $scope.sessions.sort(function(a, b) {
@@ -1923,7 +1926,7 @@ angular.module('starter.controllers', [])
             $scope.loadSessions();
  
             try {
-                $scope.computeSessionFromGPXData($scope.session);
+                $scope.computeSessionFromGPXData($scope.session, true);
             } catch (exception) {
                 console.error('ComputeSessionFromGPX Failed on save:' + exception);
             }
@@ -2087,6 +2090,7 @@ angular.module('starter.controllers', [])
             }
         }
 
+        $scope.total_kms = $scope.total_kms.toFixed(1);
 
     };
 
@@ -2226,12 +2230,12 @@ angular.module('starter.controllers', [])
 
     angular.element(document).ready(function () {
 
-   })
+   });
 
     if (($scope.session.fixedElevation === undefined) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
         //PARSE GPX POINTS
         $timeout(function() {
-            $scope.computeSessionFromGPXData($scope.session);
+            $scope.computeSessionFromGPXData($scope.session, false);
             $scope.saveSessionModifications();
         }, 300);
     }

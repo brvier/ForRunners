@@ -29,6 +29,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   $ionicConfigProvider.scrolling.jsScrolling(false);
   $logProvider.debugEnabled(false);
   $compileProvider.debugInfoEnabled(false);
+  if (device.platform === 'firefoxos') {
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(file|https?|ftp|mailto|app):/);
+  }
 
   $stateProvider
 
@@ -194,6 +197,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _open_source_content: 'Open Source Content',
     _bpm: 'Heart rate',
     _bpms_label: 'bpms',
+    _vocal_bpms_label: 'beats per minutes',
     _donation: 'If you want to see this app elvoving or only thanks me, you can make a donation in bitcoin :',
     _keep_screen_on: 'Keep Screen on while running',
     _hr_zone0:'Recovery',
@@ -217,8 +221,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _score: 'Score :',
     _restore_ok_content: 'Backup restored',
     _restore_ok_title: 'Restore',
-    _use_google_elevation_api: 'Use Google Elevation API'
- 
+    _use_google_elevation_api: 'Use Google Elevation API',
+    _speed_vs_altitude: 'Speed VS Altitude',
+    _speed_vs_heartrate: 'Speed VS HeartRate',
+    _altitude_vs_heartrate: 'Altitude VS HeartRate'
  
   });
   $translateProvider.translations('fr-FR', {
@@ -307,6 +313,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _open_source_content: 'Open Source Content',
     _bpm: 'Heart rate',
     _bpms_label: 'bpms',
+    _vocal_bpms_label: 'battement par minutes',
     _donation: 'Si vous souhaitez voir cette application évoluer ou tout simplement me remercier, vous pouvez effectuer une donation en bitcoin :',
     _keep_screen_on: 'Garder l\'écran allumé pendant la course',
     _hr_zone0:'Récupération active',
@@ -330,7 +337,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _score: 'Score :',
     _restore_ok_content: 'Sauvegarde restauré',
     _restore_ok_title: 'Restauration',
-    _use_google_elevation_api: 'Utiliser l API Elevation Google'
+    _use_google_elevation_api: 'Utiliser l API Elevation Google',
+    _speed_vs_altitude: 'Vitesse et Altitude',
+    _speed_vs_heartrate: 'Vitesse et Fréquence Cardiaque',
+    _altitude_vs_heartrate: 'Altitude et Fréquence Cardiaque'
   });
 
   $translateProvider.preferredLanguage('en-US');
