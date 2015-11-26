@@ -2232,7 +2232,7 @@ angular.module('starter.controllers', [])
 
    });
 
-    if (($scope.session.fixedElevation === undefined) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
+    if ((($scope.session.fixedElevation === undefined) && ($scope.prefs.usegoogleelevationapi === true)) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
         //PARSE GPX POINTS
         $timeout(function() {
             $scope.computeSessionFromGPXData($scope.session, false);

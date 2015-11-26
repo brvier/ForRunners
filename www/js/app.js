@@ -29,10 +29,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   $ionicConfigProvider.scrolling.jsScrolling(false);
   $logProvider.debugEnabled(false);
   $compileProvider.debugInfoEnabled(false);
-  if (device.platform === 'firefoxos') {
-    $compileProvider.aHrefSanitizationWhitelist(/^\s*(file|https?|ftp|mailto|app):/);
-  }
-
+  try {
+    if (window.device.platform === 'firefoxos') {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(file|https?|ftp|mailto|app):/);
+  }} catch(err) {}
+ 
   $stateProvider
 
   .state('app', {
