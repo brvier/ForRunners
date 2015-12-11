@@ -33,7 +33,6 @@
       "id": "de.appplant.cordova.plugin.background-mode"
     },
     "cordova-plugin-globalization",
-    "cordova-plugin-file",
     "org.apache.cordova.splashscreen",
     {
       "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
@@ -46,13 +45,17 @@
       "id": "com.jcesarmobile.filepicker"
     },
     "org.apache.cordova.device",
+    "cordova-plugin-console",
+    "cordova-plugin-file",
     {
-      "locator": "http://github.com/don/cordova-filechooser.git",
-      "id": "com.megster.cordova.FileChooser"
-    },
-    "cordova-plugin-console"
+      "locator": "../../Téléchargements/cordova-plugin-file-27288cd",
+      "id": "org.apache.cordova.file"
+    }
   ],
   "cordovaPlatforms": [
-    "android"
+    {
+      "platform": "android",
+      "locator": "https://github.com/apache/cordova-firefoxos"
+    }
   ]
 }

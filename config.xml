@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="net.khertan.forrunners" version="0.9.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.khertan.forrunners" version="0.9.13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>ForRunners</name>
   <description>
     A gps tracker for runners
@@ -24,7 +24,14 @@
   <feature name="StatusBar">
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
+  <platform name="firefoxos">
+      <icon height="512" src="/icon/icon-512.png" width="512" />
+      <icon height="128" src="/icon/icon-128.png" width="128" />
+      <icon height="90" src="/icon/icon-90.png" width="90" />
+      <icon height="60" src="/icon/icon-60.png" width="60" />
+  </platform>
   <platform name="android">
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
     <preference name="android-minSdkVersion" value="18"/>
     <preference name="android-targetSdkVersion" value="18"/>
     <preference name="LoadingDialog" value="My Title,My Message"/>
@@ -66,5 +73,4 @@
     <icon src="resources/wp8/icon/ApplicationIcon.png" width="99" height="99"/>
     <icon src="resources/wp8/icon/Background.png" width="159" height="159"/>
   </platform>
-  <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
 </widget>

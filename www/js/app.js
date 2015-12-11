@@ -52,6 +52,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     }
   })
 
+  .state('app.filepicker', {
+    url: '/filepicker',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/filepicker.html'
+      }
+    }
+  })
+
+
   .state('app.about', {
     url: '/about',
     views: {
@@ -346,5 +356,66 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 
   $translateProvider.preferredLanguage('en-US');
   $translateProvider.fallbackLanguage('en-US');
+
+})
+
+
+.factory('$FileFactory', function($q) {
+    'use strict';
+    var File = function() { };
+
+    File.prototype = {
+
+        getParentDirectory: function(path) {
+            var deferred = $q.defer();
+            window.resolveLocalFileSystemURL(path, function(fileSystem) {
+                fileSystem.getParent(function(result) {
+                    deferred.resolve(result);
+                }, function(error) {
+                    deferred.reject(error);
+                });
+            }, function(error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
+
+       getEntriesAtRoot: function() {
+            var deferred = $q.defer();
+            window.resolveLocalFileSystemURL(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+                var directoryReader = fileSystem.root.createReader();
+                directoryReader.readEntries(function(entries) {
+                    deferred.resolve(entries);
+                }, function(error) {
+                    deferred.reject(error);
+                });
+            }, function(error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+       },
+
+        getEntries: function(path) {
+            var deferred = $q.defer();
+            window.resolveLocalFileSystemURL(path, function(fileSystem) {
+                if (fileSystem.isDirectory) {
+                    var directoryReader = fileSystem.createReader();
+                    directoryReader.readEntries(function(entries) {
+                        deferred.resolve(entries);
+                    }, function(error) {
+                        deferred.reject(error);
+                    });
+                } else {
+                    deferred.resolve(fileSystem);
+                }
+            }, function(error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        }
+
+    };
+
+    return File;
 
 });

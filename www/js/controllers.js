@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.12';
+    $scope._version = '0.9.13';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -917,7 +917,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.importGPX = function(file) {
-
+        console.log(file);
         var reader = new FileReader();
 
         reader.onloadend = function() {
@@ -964,15 +964,13 @@ angular.module('starter.controllers', [])
     };
 
     $scope.doFileChooser = function() {
-        if ($scope.platform === 'iOS') {
+       if ($scope.platform === 'iOS') {
             $scope.iosFilePicker();
         } else if ($scope.platform === 'OldAndroid' ) {
-            fileChooser.open(function(uri){
-                 $scope.importGPX(uri);
-            });
+              $state.go('app.filepicker');
         } else {
            document.getElementById('gpxFile').click(); 
-        }   
+        }  
      };
 
 
@@ -1125,9 +1123,11 @@ angular.module('starter.controllers', [])
             $scope.sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
 
             // Remove Duplicate
-            $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
-                return self.indexOf(item) === pos;
-            });
+            if ($scope.sessions !== null) {
+                $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
+                    return self.indexOf(item) === pos;
+                });
+            }
 
             // Clear divider that could be still here
             /*$scope.sessions.map(function (value, idx) {
@@ -1159,13 +1159,15 @@ angular.module('starter.controllers', [])
                 }, 1000);
             }
 
-            $scope.sessions.sort(function(a, b) {
-                var x = a.recclicked;
-                var y = b.recclicked;
-                return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
-            });
+            if ($scope.sessions !== null) {
+                $scope.sessions.sort(function(a, b) {
+                    var x = a.recclicked;
+                    var y = b.recclicked;
+                    return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
+                });
+            }
 
-            if ($scope.prefs.debug === true) {
+            if (($scope.prefs.debug === true) && ($scope.sessions !== null)) {
                 $scope.sessions.sort(function(a, b) {
                     var x = a.overnote;
                     var y = b.overnote;
@@ -2239,4 +2241,40 @@ angular.module('starter.controllers', [])
             $scope.saveSessionModifications();
         }, 300);
     }
+})
+
+.controller('FilePickerController', function($scope, $ionicPlatform, $FileFactory, $ionicHistory) {
+    'use strict';
+    var fs = new $FileFactory();
+
+    $ionicPlatform.ready(function() {
+        fs.getEntries('file:///storage').then(function(result) {
+            $scope.files = result;
+        }, function(error) {
+            console.error(error);
+        });
+
+        $scope.getContents = function(path) {
+            fs.getEntries(path).then(function(result) {
+                if (result instanceof FileEntry) {
+                    var view = $ionicHistory.backView();
+                    if (view) {
+                        view.go();
+                    }
+                    result.file(function(gotFile) {
+                        $scope.importGPX(gotFile);
+                    }, function(err) {console.error(err);})
+                        
+                } else {
+                    $scope.files = result;
+                    $scope.files.unshift({name: '[parent]'});
+                    fs.getParentDirectory(path).then(function(result) {
+                        result.name = '[parent]';
+                        $scope.files[0] = result;
+                    });
+                }
+            });
+        }
+    });
+
 });
