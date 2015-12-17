@@ -185,7 +185,8 @@ angular.module('starter.controllers', [])
     //$scope.prefs.registeredBLE['00:18:8C:31:3C:7E'] = 'HRS';
 
     $scope.prefs.usegoogleelevationapi = false;
- 
+    $scope.bluetooth_scanning = false;
+
     // Load Sessions
     $timeout(function() {
         $scope.loadSessions();
