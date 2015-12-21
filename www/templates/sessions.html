@@ -31,16 +31,14 @@
       <ion-list class="animate-fade-slide-in-right"> <!-- class="animate-fade-slide-in-right" -->
 
         <a 
-           collection-repeat="session in sessions"
+           ng-repeat="session in list_sessions track by session.recclicked"
            type="item-text-wrap"
            ng-href="{{'#/app/sessions/'+$index}}"
            class="in item item-avatar button-fab"
-           ng-click="Waves.displayEffect();">
-           <!--  waves-effect waves-button waves-dark push-down -->
+           ng-click="">
           <span class="badge badge-left badge-balanced"
                 style="color:white !important; display: block; vertical-align: middle; text-align:center;">
               {{ session.distk }} K<br>
-              <!--<small>{{ session.overnote }} <i class="icon ion-star"></i></small>--!>
           </span>
           <span class="badge badge-lower" 
             style="display: block; vertical-align: middle; text-align:center; font-size:11px; width: 30px; margin-left:5px;">
@@ -55,14 +53,13 @@
             {{session.distance}} Km - {{session.duration | date:"HH:mm":"UTC"}} - {{session.pace | date:"m.ss"}} min/km<br>
             {{session.speed}} Km/h - {{ session.eleUp }} m up / {{ session.eleDown }} m down
          </p>
-
-          <!--<ion-option-button class="button-assertive" ng-click="deleteSession($index)">
-            Delete
-          </ion-option-button>-->
-
         </a>
 
     </ion-list>
+    <ion-infinite-scroll
+        on-infinite="loadMoreData()"
+            distance="20%">
+            </ion-infinite-scroll>
   </ion-content>
 
 </ion-view>

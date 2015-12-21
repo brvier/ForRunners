@@ -3,8 +3,6 @@ angular.module('starter.controllers', [])
 .filter('ldate', function() {
     'use strict';
     return function(date) {
-        // Using ES6 filter method
-
         return moment(date).format('llll');
     };
 })
@@ -12,8 +10,6 @@ angular.module('starter.controllers', [])
 .filter('duration', function() {
     'use strict';
     return function(date) {
-        // Using ES6 filter method
-
         return moment(date).format('HH:mm');
     };
 })
@@ -21,8 +17,6 @@ angular.module('starter.controllers', [])
 .filter('translatei18', function($filter) {
     'use strict';
     return function(text) {
-        // Using ES6 filter method
-
         return $filter('translate')(text.replace('-', ''));
     };
 })
@@ -182,7 +176,6 @@ angular.module('starter.controllers', [])
     $scope.prefs.heartratemax = 190;
     $scope.prefs.heartratemin = 80;
     $scope.prefs.registeredBLE = {};
-    //$scope.prefs.registeredBLE['00:18:8C:31:3C:7E'] = 'HRS';
 
     $scope.prefs.usegoogleelevationapi = false;
     $scope.bluetooth_scanning = false;
@@ -245,7 +238,6 @@ angular.module('starter.controllers', [])
         $scope.computeSessionFromGPXPoints(session, gpxPoints, doSave); 
         
         if ($scope.prefs.usegoogleelevationapi === true) {
-            //https://maps.googleapis.com/maps/api/elevation/json?path=enc: 
             $http({url:'https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyDoUe8tyV_IUmAC4oOYC2Zuh-_npXAu5TU&locations=enc:' + encpath ,
                 method:'GET',
                 }).then(function(response) {
@@ -263,9 +255,7 @@ angular.module('starter.controllers', [])
                         //$scope.computeSessionFromGPXPoints(session, gpxPoints);
                     }
             }, function(error) {
-                // Unable to connect to API.
                 console.log(error);
-                //$scope.computeSessionFromGPXPoints(session, gpxPoints);
             });
         }
     };
@@ -945,7 +935,6 @@ angular.module('starter.controllers', [])
             });
 
             $scope.session.recclicked = new Date(gpxPoints[0].time).getTime();
-            //$scope.computeSessionFromGPXData($scope.session);
             //Save session already compute session
             $scope.saveSession();
         };
@@ -1130,27 +1119,6 @@ angular.module('starter.controllers', [])
                 });
             }
 
-            // Clear divider that could be still here
-            /*$scope.sessions.map(function (value, idx) {
-        if (value.isDivider === true) {
-          $scope.sessions.splice(idx, 1);
-        }
-      });*/
-            // Temp fix
-            //$scope.sessions.map(function(session, idx) {
-            //    $scope.sessions[idx].map.tiles = {url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'};
-            //});
-
-            // Temp fix
-            /*$scope.sessions.map(function(session, idx) {
-                $scope.sessions[idx].distk = session.distance.toFixed(0);
-            });*/
-
-            // Filter null
-            //$scope.sessions = $scope.sessions.filter(function(e) {
-            //    return e;
-            //});
-        
             if ($scope.prefs.version !== $scope._version ) {
                 //UPDATE !
                 $timeout(function() { 
@@ -1174,29 +1142,34 @@ angular.module('starter.controllers', [])
                     var y = b.overnote;
                     return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
                 });
-
             }
-            /*var previousKey = '';
-      $scope.sessions.map(function (session, idx) {
-          if (session.mdate != previousKey) {
-              previousKey = session.mdate;
-              $scope.sessions.splice(idx, 0, {'mdate':session.mdate,
-                                              'isDivider':true});
-          }
-      });*/
 
-            // Set Motion
-            //ionicMaterialMotion.fadeSlideInRight();
-
-            /*$timeout(function () {
-          ionicMaterialMotion.fadeSlideInRight();
-      }, 300);*/
+            $scope.list_sessions = $scope.sessions.slice(0,10);
 
         } catch (exception) {
             console.error(exception);
             $scope.sessions = [];
         }
     };
+
+    $scope.moredata = false;
+    $scope.loadMoreData=function()
+    {
+        if ($scope.sessions) {
+            if ($scope.list_sessions.length < $scope.sessions.length) {
+                $scope.list_sessions.push($scope.sessions[$scope.list_sessions.length]); }
+                if($scope.sessions.length > $scope.list_sessions.length )
+                {
+                    $scope.moredata=true;
+                } else {
+                    $scope.moredata=false;
+                }
+            }
+        $scope.$broadcast('scroll.infiniteScrollComplete');
+        
+    };
+    $scope.list_sessions=[];
+
 
     $scope.glbs = {
         heartRate: {
@@ -1245,18 +1218,7 @@ angular.module('starter.controllers', [])
     }, 100);
 
     $scope.openModal = function() {
-        /*$ionicModal.fromTemplateUrl('templates/running.html', {
-      scope: $scope,
-      animation: 'slide-in-up',
-      hardwareBackButtonClose: false
-    }).then(function (modal) {
-      $scope.modal = modal;
-      $scope.modal.show();
-    });
-    $scope.$on('backbutton', function () {
-        console.log('Nothing');
-  });*/
-        $state.go('app.running');
+               $state.go('app.running');
 
     };
 
@@ -1277,9 +1239,6 @@ angular.module('starter.controllers', [])
 
     $scope.detectBLEDevice = function() {
         $scope.bluetooth_devices = {};
-        //$scope.prefs.registeredBLE = {};
-        //$scope.prefs.registeredBLE['00:18:8C:31:3C:7E'] = 'HRS';
-       // $scope.prefs.registeredBLE.map(function(k) {
         
         for (var prop in $scope.prefs.registeredBLE) {
             $scope.bluetooth_devices[prop] = {
@@ -1879,12 +1838,6 @@ angular.module('starter.controllers', [])
         if ((new Date().getTime() - $scope.mustdelaytime) < $scope.prefs.delay) {
             $scope.delay = (new Date().getTime() - $scope.mustdelaytime);
             $scope.session.time = (-($scope.prefs.delay - $scope.delay) / 1000).toFixed(0);
-            //Using get
-            //navigator.geolocation.getCurrentPosition(function() {}, function() {}, {
-            //    enableHighAccuracy: true,
-            //    timeout: 10000,
-            //    maximumAge: 0
-            //});
             $scope.$apply();
         } else {
             $scope.mustdelay = false;
@@ -2019,7 +1972,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk) {
+.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk, ionicMaterialMotion) {
     'use strict';
     $timeout(function() {
         //Get position a first time to get better precision when we really
@@ -2033,14 +1986,14 @@ angular.module('starter.controllers', [])
         // Compute Resume Graph
         $timeout(function() {
             $scope.computeResumeGraph();
+            ionicMaterialMotion.ripple();
+            //Too slow effect
             ionicMaterialInk.displayEffect();
-
         }, 300);
     }, 300);
-
 })
 
-.controller('RecordsCtrl', function($scope, $timeout, ionicMaterialInk) {
+.controller('RecordsCtrl', function($scope, $timeout) {
     'use strict';
     $scope.computeRecords = function() {
         $scope.records = {};
@@ -2100,12 +2053,12 @@ angular.module('starter.controllers', [])
     $scope.computeRecords();
 
     $timeout(function() {
-        ionicMaterialInk.displayEffect();
+        //ionicMaterialInk.displayEffect();
     }, 300);
 
 })
 
-.controller('SessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout) {
+.controller('SessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate) {
     'use strict';
     $scope.deleteSession = function(idx) {
         // confirm dialog
@@ -2231,15 +2184,19 @@ angular.module('starter.controllers', [])
         };
     }
 
+    // Horrible hack to workarround a resize issue with chart.js and ng
     angular.element(document).ready(function () {
-
-   });
+       $timeout(function() {
+            $ionicScrollDelegate.resize();   
+       }, 1000);  
+    });
 
     if ((($scope.session.fixedElevation === undefined) && ($scope.prefs.usegoogleelevationapi === true)) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
         //PARSE GPX POINTS
         $timeout(function() {
             $scope.computeSessionFromGPXData($scope.session, false);
             $scope.saveSessionModifications();
+            $ionicScrollDelegate.resize();
         }, 300);
     }
 })
@@ -2264,7 +2221,7 @@ angular.module('starter.controllers', [])
                     }
                     result.file(function(gotFile) {
                         $scope.importGPX(gotFile);
-                    }, function(err) {console.error(err);})
+                    }, function(err) {console.error(err);});
                         
                 } else {
                     $scope.files = result;
@@ -2275,7 +2232,7 @@ angular.module('starter.controllers', [])
                     });
                 }
             });
-        }
+        };
     });
 
 });
