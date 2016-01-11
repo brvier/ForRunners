@@ -21,6 +21,12 @@ angular.module('starter.controllers', [])
     };
 })
 
+.filter('unsafe', function($sce) {
+    'use strict';
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+})
 
 .directive('navBarClass', function() {
     'use strict';
@@ -130,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.13';
+    $scope._version = '0.9.14';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -154,6 +160,7 @@ angular.module('starter.controllers', [])
     $scope.prefs.minrecordingspeed = 3;
     $scope.prefs.maxrecordingspeed = 38;
     $scope.prefs.unit = 'kms';
+    $scope.prefs.first_run = true;
 
     $scope.prefs.timevocalannounce = true;
     $scope.prefs.distvocalannounce = true;
@@ -914,8 +921,17 @@ angular.module('starter.controllers', [])
         reader.onloadend = function() {
             var x2js = new X2JS();
             var json = x2js.xml_str2json(this.result);
-            var gpxPoints = json.gpx.trk.trkseg.trkpt;
 
+            var gpxPoints = [];
+                
+            if (json.gpx.trk.trkseg instanceof Array) {
+                json.gpx.trk.trkseg.map(function(item) {
+                    gpxPoints = gpxPoints.concat(item.trkpt);
+                });
+            } else {
+                gpxPoints = json.gpx.trk.trkseg.trkpt;
+            }
+            
             //NOW RECOMPUTE AND CREATE
             $scope.session = {};
             $scope.session.gpxData = [];
@@ -1972,7 +1988,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk, ionicMaterialMotion) {
+.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk, ionicMaterialMotion, $state) {
     'use strict';
     $timeout(function() {
         //Get position a first time to get better precision when we really
@@ -1990,6 +2006,12 @@ angular.module('starter.controllers', [])
             //Too slow effect
             ionicMaterialInk.displayEffect();
         }, 300);
+        
+        if ($scope.prefs.first_run === true) {
+            $scope.prefs.first_run = false;
+            $scope.savePrefs();
+            $state.go('app.help');        
+        }
     }, 300);
 })
 
@@ -2108,7 +2130,7 @@ angular.module('starter.controllers', [])
             $scope.session.distance + ' Kms in ' + moment($scope.session.duration).utc().format('HH:mm') + ' ( '+ $scope.session.speed+' Kph ) tracked with #ForRunners',
             'ForRunners',
             document.getElementById('speedvsalt').toDataURL(),
-            'http://khertan.net/projects/forrunners/',
+            'http://khertan.net/#forrunners',
             function(){ 
                 //success callback
             },
@@ -2235,4 +2257,32 @@ angular.module('starter.controllers', [])
         };
     });
 
+})
+
+.controller('HelpCtrl', function($scope, $state) {
+    'use strict';
+    $scope.help_cur = 1;
+    $scope.next = function() {
+        $scope.help_cur += 1;
+        $scope.go();
+    };
+    $scope.previous = function() {
+        $scope.help_cur -= 1;
+        if ($scope.help_cur <= 0) {
+            $scope.help_cur = 1;
+        }
+        $scope.go();
+    };
+
+
+    $scope.go = function() {
+        if (($scope.help_cur >= 1) || ($scope.help_cur <= 6)){
+            $scope.help_path = 'img/help_'+$scope.help_cur+'.svg';
+            $scope.help_subtitle = $scope.translateFilter('_help_subtitle_'+$scope.help_cur);
+            $scope.help_desc = $scope.translateFilter('_help_desc_'+$scope.help_cur); 
+        } else if ($scope.help_cur === 7) {
+            $state.go('app.sessions');            
+        }
+    };
+    $scope.go();
 });

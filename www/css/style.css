@@ -227,3 +227,15 @@ p {
     text-align: center;
 }
 
+
+.img-responsive{
+width: 100%;
+height: auto;
+}
+
+.img-help{
+width: 75%;
+height: auto;
+}
+
+

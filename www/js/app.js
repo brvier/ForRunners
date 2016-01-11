@@ -28,8 +28,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 
   $ionicConfigProvider.scrolling.jsScrolling(true);
   $ionicConfigProvider.views.maxCache(0);
-  $logProvider.debugEnabled(true);
-  $compileProvider.debugInfoEnabled(true);
+  $logProvider.debugEnabled(false);
+  $compileProvider.debugInfoEnabled(false);
   try {
     if (window.device.platform === 'firefoxos') {
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(file|https?|ftp|mailto|app):/);
@@ -72,15 +72,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     }
   })
 
-  .state('app.help', {
-    url: '/help',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/help.html'
-      }
-    }
-  })
-
   .state('app.settings', {
     url: '/settings',
     views: {
@@ -117,6 +108,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
       'menuContent': {
         templateUrl: 'templates/session.html',
         controller: 'SessionCtrl'
+      }
+    }
+  })
+  
+  
+  .state('app.help', {
+    url: '/help',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/help.html',
+        controller: 'HelpCtrl'
       }
     }
   });
@@ -203,7 +205,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _fraction: 'Interval training',
     _duration_slow_interval: 'Slow interval',
     _duration_fast_interval: 'Fast interval',
-    _welcome_text: 'It s look like that\'s the first time you use ForRunners. You can start recording your run with the plus button below or by import older running session from GPX files in the settings.',
+    _welcome_text: 'It s look like that\'s the first time you use ForRunners. You can start recording your run with the plus button below or by importing older running session from GPX files in the settings.',
     _announce_fraction: 'Interval announce',
     _empty_records_text: 'You haven\'t any runnning session recorded yet, so any records to defeat.',
     _open_source_content: 'Open Source Content',
@@ -236,8 +238,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _use_google_elevation_api: 'Use Google Elevation API',
     _speed_vs_altitude: 'Speed VS Altitude',
     _speed_vs_heartrate: 'Speed VS HeartRate',
-    _altitude_vs_heartrate: 'Altitude VS HeartRate'
- 
+    _altitude_vs_heartrate: 'Altitude VS HeartRate',
+    _help_subtitle_1: 'Welcome on ForRunners ! This little help will try to explain you the main concept of ForRunners. Use the next and previous button below to navigate in this help.',
+    _help_desc_1: 'The main screen presents all your running sessions. <br><br><b>1-</b> This button start a new running session<br><br><b>2-</b> Average statistics calculated from all your sessions<br><br><b>3-</b> Your best running records<br><br><b>4-</b> Rounded length of the session<br><br><b>5-</b> A score representing difficulty of your run<br><br><b>6-</b> A graph showing the score evolution and duration evolution',
+    _help_subtitle_2: 'This is the detail of a session, showing your run on a map, with detailed statistics and graphics.',
+    _help_desc_2: '<b>1-</b> The OpenStreetMap map, showing your run<br><br><b>2-</b> The blue marker are kilometer marker, while the green "S" marker is for "Start" and red "E" marker for "End"<br><br><b>3-</b> This icon is for sharing your run<br><br><b>4-</b> This icon is for deleting your session<br><br><b>5-</b> Date of your running session with resume values.',
+    _help_desc_3: '<b>1-</b> Date<br><br><b>2-</b> Average speed<br><br><b>3-</b> Average pace<br><br><b>4-</b> Distance<br><br><b>5-</b> Duration hh:mm<br><br><b>6-</b> Total elevation in meters<br><br><b>7-</b> Total down in meter<br><br><b>8-</b> Weather at the date of the run<br><br><b>9-</b> Score, Duration, Distance, Pace<br><br>',
+    _help_subtitle_3: '',
+    _help_subtitle_4: '',
+    _help_desc_4: 'X axis (2) hold kilometers and y axis (3) show speed, while the colors (1) show heartrate zone (Require a bluetooth heartrate monitor and a compatible smartphone)',
+    _help_subtitle_5: '',
+    _help_desc_5: 'X axis (2) hold kilometers and y axis (3) show altitude, while the colors (1) show heartrate zone (Require a bluetooth 4.0 heartrate monitor and a compatible smartphone)',
+    _help_subtitle_6: '',
+    _help_desc_6: '<b>1-</b> Average heart rate during your session<br><br><b>2-</b> Graphic showing duration in each heart rate zone<br><br><b>3- </b> Table with pace, speed and heartrate by kilometers.<br><br>Now clic next and start your first running session or import past sessions from preferences.'
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',
@@ -352,7 +365,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _use_google_elevation_api: 'Utiliser l API Elevation Google',
     _speed_vs_altitude: 'Vitesse et Altitude',
     _speed_vs_heartrate: 'Vitesse et Fréquence Cardiaque',
-    _altitude_vs_heartrate: 'Altitude et Fréquence Cardiaque'
+    _altitude_vs_heartrate: 'Altitude et Fréquence Cardiaque',
+    _help_subtitle_1: 'Bienvenue sur ForRunners ! Cette aide va essayer de vous expliquer brievement le concept de base de l\'interface de ForRunners. Utiliser les boutons suivant et précédant pour naviger dans cette aide.',
+    _help_desc_1: 'L\'écran principal présente la liste de vos courses.<br><br><b>1-</b> Ce bouton commence une nouvelle session<br><br><b>2-</b> Moyenne de toutes les sessions<br><br><b>3-</b> Les records de toutes les sessions<br><br><b>4-</b> Longueur arrondi d une session en kilometres<br><br><b>5-</b> Une note representant la difficulté.<br><br><b>6-</b> Un graphique montrant votre évolution',
+    _help_subtitle_2: 'Ceci est la vue détaillée d\'une course, avec graphiques et statistiques',
+    _help_desc_2: '<b>1-</b> La carte en provenance d\'OpenStreetMap map<br><br><b>2-</b> Les marqueurs bleu représentent chaque kilometres, tandis que le "S" vert montre le début et le "E" rouge la fin<br><br><b>3-</b> Une icon permettant de partager votre course sur twitter, par texto ou autre<br><br><b>4-</b> Cette icon permet d\'effacer une session<br><br><b>5-</b> Date de la session avec un resumé des principales informations.',
+    _help_desc_3: '<b>1-</b> Date<br><br><b>2-</b> Vitesse moyenne<br><br><b>3-</b> Allure moyenne<br><br><b>4-</b> Distance<br><br><b>5-</b> Durée hh:mm<br><br><b>6-</b> Monté en metres<br><br><b>7-</b> Descente en metres<br><br><b>8-</b> La météo au moment de la course<br><br><b>9-</b> Note, Durée, Distance, Allure<br><br>',
+    _help_subtitle_3: '',
+    _help_subtitle_4: '',
+    _help_desc_4: 'L\'axe des X (2) indique les kilometres, et l axe Y (1) montre la vitesse, tandis que les couleurs correspondent aux zone de fréquences cardiaque (1)(Nécéssite un capteur de fréquence cardiaque Bluetooth 4.0 et un téléphone compatible)',
+    _help_subtitle_5: '',
+    _help_desc_5: 'L\'axe des X (2) indique les kilometres, et l axe Y (1) montre l\'altitude, tandis que les couleurs correspondent aux zone de fréquences cardiaque (1)(Nécéssite un capteur de fréquence cardiaque Bluetooth 4.0 et un téléphone compatible)',
+    _help_subtitle_6: '',
+    _help_desc_6: '<b>1-</b> Fréquence cardiaque moyenne<br><br><b>2-</b> Graphique montrant la durée dans chaque zone cardiaque.<br><br><b>3- </b> Un tableau montrant la vitesse, l\'allure et la fréquence cardiaque par kilometres.<br><br>Cliquez sur le bouton next et effectué votre première session ou importez d\'anciennes sessions.'
   });
 
   $translateProvider.preferredLanguage('en-US');

@@ -1,26 +1,27 @@
-<ion-view view-title="Help">
+<ion-view view-title="{{ '_help' | translate }}">
   <ion-content>
 
-    <div class="hero no-header flat" style="background: url(img/about-bg.jpg) center; background-size: cover;">
-        <div class="content">
-            <div class="app-icon"></div>
-            <h1 style="color: #fff;">ForRunners</h1>
-        </div>
+    <div class="list padding">
+        <a class="item" href="#">
+            <p style="text-align:justify;white-space:normal;margin-bottom:15px;"><b>{{ help_subtitle }}</b></p>
+            <center><img src="{{ help_path }}" class="img-help"></center>
+            <p style="text-align:justify;white-space:normal;" ng-bind-html="help_desc | unsafe" ></p>
+        </a>
     </div>
 
-
-    <div class="mid-bar dark-bg z1 padding">
-      <h3>{{ "_by" | translate }} Benoît HERVIER (Khertan)</h3>
-      <p>http://khertan.net/</p>
+    <div class="row">
+      <div class="col col-50">
+        <button class="button button-full button-positive" ng-click="previous()">
+            Previous
+        </button>     
+     </div>
+<div class="col col-50">      
+       <button class="button button-full button-positive" ng-click="next()">
+            Next
+        </button>       
+</div>    
     </div>
-
-    <div class="content double-padding">
-        <h4 class="positive">{{ "_help" | translate }}</h4>
-      <p class="text-muted">
-        {{ "_help_text" | translate }}
-      </p>
-
-    </div>
-   
   </ion-content>
+
 </ion-view>
+
