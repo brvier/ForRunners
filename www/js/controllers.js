@@ -2267,12 +2267,13 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('HelpCtrl', function($scope, $state) {
+.controller('HelpCtrl', function($scope, $state, $ionicScrollDelegate) {
     'use strict';
     $scope.help_cur = 1;
     $scope.next = function() {
         $scope.help_cur += 1;
         $scope.go();
+        $ionicScrollDelegate.scrollTop();
     };
     $scope.previous = function() {
         $scope.help_cur -= 1;
@@ -2280,6 +2281,7 @@ angular.module('starter.controllers', [])
             $scope.help_cur = 1;
         }
         $scope.go();
+        $ionicScrollDelegate.scrollTop();
     };
 
 
