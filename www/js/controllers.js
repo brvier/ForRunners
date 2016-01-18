@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.14';
+    $scope._version = '0.9.15';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -167,6 +167,14 @@ angular.module('starter.controllers', [])
     $scope.prefs.avgpacevocalannounce = true;
     $scope.prefs.avgspeedvocalannounce = true;
     $scope.prefs.language = 'English';
+    try {
+        navigator.globalization.getPreferredLanguage(
+        function (language) { $scope.prefs.language = language.value; console.log($scope.prefs.language);},
+        function () {console.debug('Error getting language\n');}
+    );} catch(err) {
+         console.log('Globalization module not available' + err);
+    }
+
     $scope.prefs.heartrateannounce = false;
 
     $scope.prefs.delay = 10 * 1000;

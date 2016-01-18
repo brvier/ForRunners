@@ -50,7 +50,8 @@
     {
       "locator": "../../Téléchargements/cordova-plugin-file-27288cd",
       "id": "org.apache.cordova.file"
-    }
+    },
+    "org.apache.cordova.globalization"
   ],
   "cordovaPlatforms": [
     {

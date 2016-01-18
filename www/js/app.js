@@ -250,7 +250,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _help_subtitle_5: '',
     _help_desc_5: 'X axis (2) hold kilometers and y axis (3) show altitude, while the colors (1) show heartrate zone (Require a bluetooth 4.0 heartrate monitor and a compatible smartphone)',
     _help_subtitle_6: '',
-    _help_desc_6: '<b>1-</b> Average heart rate during your session<br><br><b>2-</b> Graphic showing duration in each heart rate zone<br><br><b>3- </b> Table with pace, speed and heartrate by kilometers.<br><br>Now clic next and start your first running session or import past sessions from preferences.'
+    _help_desc_6: '<b>1-</b> Average heart rate during your session<br><br><b>2-</b> Graphic showing duration in each heart rate zone<br><br><b>3- </b> Table with pace, speed and heartrate by kilometers.<br><br>Now clic next and start your first running session or import past sessions from preferences.',
+    _previous:'Previous',
+    _next:'Next'
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',
@@ -377,7 +379,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _help_subtitle_5: '',
     _help_desc_5: 'L\'axe des X (2) indique les kilometres, et l axe Y (1) montre l\'altitude, tandis que les couleurs correspondent aux zone de fréquences cardiaque (1)(Nécéssite un capteur de fréquence cardiaque Bluetooth 4.0 et un téléphone compatible)',
     _help_subtitle_6: '',
-    _help_desc_6: '<b>1-</b> Fréquence cardiaque moyenne<br><br><b>2-</b> Graphique montrant la durée dans chaque zone cardiaque.<br><br><b>3- </b> Un tableau montrant la vitesse, l\'allure et la fréquence cardiaque par kilometres.<br><br>Cliquez sur le bouton next et effectué votre première session ou importez d\'anciennes sessions.'
+    _help_desc_6: '<b>1-</b> Fréquence cardiaque moyenne<br><br><b>2-</b> Graphique montrant la durée dans chaque zone cardiaque.<br><br><b>3- </b> Un tableau montrant la vitesse, l\'allure et la fréquence cardiaque par kilometres.<br><br>Cliquez sur le bouton next et effectué votre première session ou importez d\'anciennes sessions.',
+    _previous: 'Precédent',
+    _next: 'Suivant',
   });
 
   $translateProvider.preferredLanguage('en-US');

@@ -1,4 +1,4 @@
-<ion-view view-title="{{ '_help' | translate }}">
+<ion-view view-title="ForRunners">
   <ion-content>
 
     <div class="list padding">
@@ -10,16 +10,16 @@
     </div>
 
     <div class="row">
-      <div class="col col-50">
-        <button class="button button-full button-positive" ng-click="previous()">
-            Previous
+        <div class="col col-50">
+        <button  ng-if="help_cur > 1" class="button button-full button-positive" ng-click="previous()">
+            {{ "_previous" | translate }}
         </button>     
      </div>
-<div class="col col-50">      
-       <button class="button button-full button-positive" ng-click="next()">
-            Next
+     <div class="col col-50">      
+        <button  ng-if="help_cur < 6" class="button button-full button-positive" ng-click="next()">
+           {{ "_next" | translate }}
         </button>       
-</div>    
+     </div>    
     </div>
   </ion-content>
 
