@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.15';
+    $scope._version = '0.9.16';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -1415,6 +1415,14 @@ angular.module('starter.controllers', [])
         } catch (exception) {
         }
 
+        if ($scope.platform === 'FirefoxOS') {
+            try {
+                $scope.screen_lock.unlock();
+            } catch(exception) {}
+            try {
+                $scope.gps_lock.unlock();
+            } catch(exception) {}
+        }
 
         $scope.closeModal();
     };
@@ -1806,6 +1814,9 @@ angular.module('starter.controllers', [])
         $scope.session.weather = '';
         $scope.session.temp = '';
 
+        $scope.screen_lock = null;
+        $scope.gps_lock = null;
+
         $scope.mustdelay = ($scope.prefs.useDelay === true);
         $scope.delay = new Date().getTime();
         if ($scope.mustdelay === true) {
@@ -1845,7 +1856,17 @@ angular.module('starter.controllers', [])
         } else {
             $scope.prefs.minrecordingaccuracy = 22;
         }
-
+        
+        if ($scope.platform === "FirefoxOS") {
+            try {
+                $scope.gps_lock = window.navigator.requestWakeLock('gps');
+                if ($scope.prefs.keepscreenon === true) {
+                    $scope.screen_lock = window.navigator.requestWakeLock('screen');
+                }
+            } catch (exception) {
+                console.debug('ERROR: Can\'t set background GPS or keep screen on setting for FirefoxOS:' + exception);
+            }
+        }
         $scope.session.watchId = navigator.geolocation.watchPosition(
             $scope.recordPosition,
             $scope.errorPosition, {
