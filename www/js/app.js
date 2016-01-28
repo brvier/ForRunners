@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalprecht.translate', 'ionic-material',
-                           'net.khertan.reporter', 'leaflet-directive', 'ionMdInput'])
+                           'leaflet-directive', 'ionMdInput'])
 
 .run(function($ionicPlatform) {
   'use strict';
@@ -28,13 +28,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
 
   $ionicConfigProvider.scrolling.jsScrolling(true);
   $ionicConfigProvider.views.maxCache(0);
-  $logProvider.debugEnabled(false);
-  $compileProvider.debugInfoEnabled(false);
+  $logProvider.debugEnabled(true);
+  $compileProvider.debugInfoEnabled(true);
   try {
-    if (window.device.platform === 'firefoxos') {
+   console.log(window.device.platform);
+   if (window.device.platform === 'FirefoxOS') {
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(file|https?|ftp|mailto|app):/);
   }} catch(err) {}
- 
+
   $stateProvider
 
   .state('app', {
