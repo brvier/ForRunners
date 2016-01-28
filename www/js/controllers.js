@@ -1135,7 +1135,7 @@ angular.module('starter.controllers', [])
         // Remove Session with note <= 0.1
         if ($scope.sessions !== null) {
             console.log('Cleaning session!');
-            $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
+            $scope.sessions = $scope.sessions.filter(function(item) {
                 return (parseFloat(item.overnote) > 0.1);
             });
         }
@@ -1174,9 +1174,9 @@ angular.module('starter.controllers', [])
             if ($scope.sessions !== null) {
                 $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
                     if (pos > 0)
-                        return item.recclicked !== self[pos-1].recclicked;
-                    else;
-                        return true;
+                        {return item.recclicked !== self[pos-1].recclicked;}
+                    else
+                        {return true;}
                 });
             }
 
