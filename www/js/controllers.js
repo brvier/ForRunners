@@ -923,7 +923,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.importGPX = function(file) {
-        console.log(file);
+        console.log('importGPX:'+file);
         var reader = new FileReader();
 
         reader.onloadend = function() {
@@ -1175,6 +1175,8 @@ angular.module('starter.controllers', [])
                 $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
                     if (pos > 0)
                         return item.recclicked !== self[pos-1].recclicked;
+                    else;
+                        return true;
                 });
             }
 
@@ -1206,7 +1208,7 @@ angular.module('starter.controllers', [])
     {
         if ($scope.sessions) {
             if ($scope.list_sessions.length < $scope.sessions.length) {
-                $scope.list_sessions.push($scope.sessions[$scope.list_sessions.length]); 
+                $scope.list_sessions.push($scope.sessions[$scope.list_sessions.length-1]); 
             }
             if($scope.sessions.length > $scope.list_sessions.length )
             {
@@ -2056,7 +2058,7 @@ angular.module('starter.controllers', [])
         // Compute Resume Graph
         $timeout(function() {
             $scope.computeResumeGraph();
-            ionicMaterialMotion.ripple();
+            //ionicMaterialMotion.ripple();
             //Too slow effect
             ionicMaterialInk.displayEffect();
         }, 300);
