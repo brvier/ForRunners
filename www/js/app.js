@@ -27,9 +27,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   'use strict'; 
 
   $ionicConfigProvider.scrolling.jsScrolling(true);
-  $ionicConfigProvider.views.maxCache(0);
-  $logProvider.debugEnabled(true);
-  $compileProvider.debugInfoEnabled(true);
+  //$ionicConfigProvider.views.maxCache(0);
+  $logProvider.debugEnabled(false);
+  $compileProvider.debugInfoEnabled(false);
   try {
    console.log(window.device.platform);
    if (window.device.platform === 'FirefoxOS') {

@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.16';
+    $scope._version = '0.9.17';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -1131,17 +1131,27 @@ angular.module('starter.controllers', [])
         //console.log('Really ? No Prefs ?');
     }
 
+    $scope.cleanSessions = function() {
+        // Remove Session with note <= 0.1
+        if ($scope.sessions !== null) {
+            console.log('Cleaning session!');
+            $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
+                return (parseFloat(item.overnote) > 0.1);
+            });
+        }
+    };
 
     $scope.loadSessions = function() {
         try {
             $scope.sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
 
-            // Remove Duplicate
+            // Remove Duplicate object
             if ($scope.sessions !== null) {
                 $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
                     return self.indexOf(item) === pos;
                 });
             }
+
 
             if ($scope.prefs.version !== $scope._version ) {
                 //UPDATE !
@@ -1154,21 +1164,36 @@ angular.module('starter.controllers', [])
 
             if ($scope.sessions !== null) {
                 $scope.sessions.sort(function(a, b) {
-                    var x = a.recclicked;
-                    var y = b.recclicked;
+                    var x = parseInt(a.recclicked);
+                    var y = parseInt(b.recclicked);
                     return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
                 });
             }
+
+            // Remove Duplicate recclicked (already sorted)
+            if ($scope.sessions !== null) {
+                $scope.sessions = $scope.sessions.filter(function(item, pos, self) {
+                    if (pos > 0)
+                        return item.recclicked !== self[pos-1].recclicked;
+                });
+            }
+
 
             if (($scope.prefs.debug === true) && ($scope.sessions !== null)) {
+                $scope.cleanSessions();
                 $scope.sessions.sort(function(a, b) {
-                    var x = a.overnote;
-                    var y = b.overnote;
+                    var x = parseFloat(a.overnote);
+                    var y = parseFloat(b.overnote);
                     return (((x < y) ? -1 : ((x > y) ? 1 : 0)) * -1);
                 });
             }
 
-            $scope.list_sessions = $scope.sessions.slice(0,10);
+            if ($scope.sessions) {
+                if ($scope.sessions.length > 10) {
+                    $scope.list_sessions = $scope.sessions.slice(0,10);}
+                else {
+                    $scope.list_sessions = $scope.sessions;}
+            }
 
         } catch (exception) {
             console.error(exception);
@@ -1181,14 +1206,15 @@ angular.module('starter.controllers', [])
     {
         if ($scope.sessions) {
             if ($scope.list_sessions.length < $scope.sessions.length) {
-                $scope.list_sessions.push($scope.sessions[$scope.list_sessions.length]); }
-                if($scope.sessions.length > $scope.list_sessions.length )
-                {
-                    $scope.moredata=true;
-                } else {
-                    $scope.moredata=false;
-                }
+                $scope.list_sessions.push($scope.sessions[$scope.list_sessions.length]); 
             }
+            if($scope.sessions.length > $scope.list_sessions.length )
+            {
+                $scope.moredata=true;
+            } else {
+                $scope.moredata=false;
+            }
+        }
         $scope.$broadcast('scroll.infiniteScrollComplete');
         
     };
@@ -1850,14 +1876,13 @@ angular.module('starter.controllers', [])
         }
 
 
-        //FIXME
         if ($scope.prefs.debug) {
             $scope.prefs.minrecordingaccuracy = 22;
         } else {
             $scope.prefs.minrecordingaccuracy = 22;
         }
         
-        if ($scope.platform === "FirefoxOS") {
+        if ($scope.platform === 'FirefoxOS') {
             try {
                 $scope.gps_lock = window.navigator.requestWakeLock('gps');
                 if ($scope.prefs.keepscreenon === true) {
