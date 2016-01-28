@@ -1073,6 +1073,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.exportAsGPX = function(overwrite) {
+        try {
         $scope.sessions.map(function(session) {
             var stordir = cordova.file.externalDataDirectory;
             if (!stordir) {
@@ -1093,6 +1094,9 @@ angular.module('starter.controllers', [])
                 title: $scope.translateFilter('_gpx_export_title'),
                 template: $scope.translateFilter('_gpx_file_exported')
             });
+        }
+        } catch(err) {
+            console.error('Export as GPX failed : ' + err);
         }
 
     };
@@ -1208,7 +1212,7 @@ angular.module('starter.controllers', [])
     {
         if ($scope.sessions) {
             if ($scope.list_sessions.length < $scope.sessions.length) {
-                $scope.list_sessions.push($scope.sessions[$scope.list_sessions.length-1]); 
+                $scope.list_sessions.push($scope.sessions[$scope.list_sessions.length]); 
             }
             if($scope.sessions.length > $scope.list_sessions.length )
             {
