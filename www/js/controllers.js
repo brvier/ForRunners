@@ -2319,6 +2319,19 @@ angular.module('starter.controllers', [])
 
 })
 
+.controller('SettingsCtrl', function($scope) {
+    'use strict';
+    $scope.promptForRating = function() {
+        AppRate.preferences.storeAppURL.android = 'market://details?id=net.khertan.forrunners';
+        AppRate.preferences.promptAgainForEachNewVersion = false;
+        AppRate.promptForRating();
+    }
+    
+    if (console.log($scope.sessions.length) > 5) {
+        $scope.promptForRating();
+    }
+}) 
+
 .controller('HelpCtrl', function($scope, $state, $ionicScrollDelegate) {
     'use strict';
     $scope.help_cur = 1;
