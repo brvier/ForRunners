@@ -72,6 +72,12 @@
   toggle-class="toggle-positive">
   {{ "_announce_heartrate" | translate }}
   </ion-toggle>
+  <ion-toggle ng-model="prefs.gpslostannounce"
+  ng-checked="prefs.gpslostannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_gpslost" | translate }}
+  </ion-toggle>
   
 </div>
 
@@ -108,16 +114,15 @@
         </li>
     </div>
 
-    <div class="row">
-        <div class="item">
-            
-             <button class="button button-positive button-outline" ng-click="detectBLEDevice()" >
-                      {{ "_scan_ble" | translate }}
-                      </button> 
-        </div>
-        <div class="item">
-            <ion-spinner ng-if="bluetooth_scanning" style="margin:auto" icon="line"></ion-spinner></div>
-       </div>
+    <div class="item" ng-if="bluetooth_scanning"> 
+        <ion-spinner ng-if="bluetooth_scanning" style="margin:auto" icon="line"></ion-spinner></div>
+    </div>
+
+    <div class="item">
+            <button class="button button-block button-positive" ng-click="detectBLEDevice()" >
+                    {{ "_scan_ble" | translate }}
+            </button> 
+    </div>
 </div>
 
 <div class="content double-padding">

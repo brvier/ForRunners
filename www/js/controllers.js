@@ -176,6 +176,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.prefs.heartrateannounce = false;
+    $scope.prefs.gpslostannounce = true;
 
     $scope.prefs.delay = 10 * 1000;
     $scope.prefs.usedelay = true;
@@ -263,6 +264,7 @@ angular.module('starter.controllers', [])
                             gpxPoints[idx].ele = response.data.results[idx].elevation;                        
                         }
                         session.fixedElevation = true;
+                        console.debug('Recompute from google elevation api')
                         $scope.computeSessionFromGPXPoints(session, gpxPoints, doSave);
                     } else {
                         console.log('Failed google elevation api');
@@ -272,7 +274,7 @@ angular.module('starter.controllers', [])
             }, function(error) {
                 console.log(error);
             });
-        }
+        }        
     };
 
     $scope.computeSessionFromGPXData = function(session, doSave) { 
@@ -281,6 +283,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.computeSessionFromGPXPoints = function(session, gpxPoints, doSave) {
+        console.debug('computeSessionFromGPXPoints')
         var hrZ1 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.60);
         var hrZ2 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.70);
         var hrZ3 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.80);
@@ -1398,6 +1401,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.stopSession = function() {
+        $scope.session.saving  =true;
         navigator.geolocation.clearWatch($scope.session.watchId);
         if ($scope.session.gpxData.length > 0) {
             //Session cleaning
@@ -1427,6 +1431,7 @@ angular.module('starter.controllers', [])
             delete $scope.session.timeslowvocalinterval;
             delete $scope.session.lastfastvocalannounce;
 
+            $scope.session.fixedElevation = undefined;
             $scope.saveSession();
             $scope.computeResumeGraph();
         }
@@ -1457,6 +1462,7 @@ angular.module('starter.controllers', [])
         }
 
         $scope.closeModal();
+        $scope.session.saving = false;
     };
 
     $scope.calcDistances = function(oldPos, newPos) {
@@ -1585,7 +1591,14 @@ angular.module('starter.controllers', [])
                     ($scope.session.latold !== 'x') &&
                     ($scope.session.lonold !== 'x')) {
                     $scope.session.gpsGoodSignalToggle = true;
-                    console.debug('gpsGoodSignalToggle set to true');
+                    //console.debug('gpsGoodSignalToggle set to true');
+                    //console.debug($scope.prefs.gpslostannounce);
+                    //console.debug(timenew);
+                    //console.debug($scope.gpslostlastannounce);
+                    if (($scope.prefs.gpslostannounce)) {
+                            //$scope.speakText($scope.translateFilter('_gps_got'));
+                            $scope.gpslostlastannounce = timenew;
+                    }
                 }
 
                 if ((position.coords.accuracy >= $scope.prefs.minrecordingaccuracy) &&
@@ -1593,8 +1606,14 @@ angular.module('starter.controllers', [])
                     (timenew > $scope.session.recclicked)) {
                     // In case we lost gps we should announce it
                     $scope.session.gpsGoodSignalToggle = false;
-                    console.debug('gpsGoodSignalToggle set to false');
-                    //$scope.speakText("GPS Lost");
+                    //console.debug('gpsGoodSignalToggle set to false');
+                    //console.debug($scope.prefs.gpslostannounce);
+                    //console.debug(timenew);
+                    //console.debug($scope.gpslostlastannounce);
+                    if (($scope.prefs.gpslostannounce) && ((timenew - 10) > $scope.gpslostlastannounce)) {
+                        $scope.speakText($scope.translateFilter('_gps_lost'));
+                        $scope.gpslostlastannounce = timenew;
+                    }
                 }
 
                 if ($scope.session.firsttime !== 0) {
@@ -1799,9 +1818,15 @@ angular.module('starter.controllers', [])
     //};
 
     $scope.errorPosition = function(err) {
-        console.debug('errorPosition:' + err.message);
+        console.debug('errorPosition:' + err.message + ':' + err.code);
         $scope.session.gpsGoodSignalToggle = false;
         console.debug('gpsGoodSignalToggle set to false');
+        console.debug( $scope.gpslostlastannounce);
+        console.debug($scope.session.lastrecordtime);
+        if ($scope.prefs.gpslostannounce) {
+                $scope.speakText($scope.translateFilter('_gps_lost'));
+                $scope.gpslostlastannounce = $scope.session.lastrecordtime;
+            }
     };
 
 
@@ -1809,7 +1834,8 @@ angular.module('starter.controllers', [])
         $scope.running = true;
 
         $scope.session = {};
-        $scope.session.gpsGoodSignalToggle = false;
+        $scope.session.gpsGoodSignalToggle = true;
+        $scope.gpslostannounced = false;
         $scope.session.recclicked = new Date().getTime();
         $scope.session.date = moment().format('llll');
 
@@ -1848,6 +1874,7 @@ angular.module('starter.controllers', [])
 
         $scope.screen_lock = null;
         $scope.gps_lock = null;
+        $scope.gpslostlastannounce = 0;
 
         $scope.mustdelay = ($scope.prefs.useDelay === true);
         $scope.delay = new Date().getTime();
@@ -2008,7 +2035,7 @@ angular.module('starter.controllers', [])
         $scope.sessions.map(function(item) {
 
             $scope.resume.chart_labels.push(item.date);
-           try {
+            try {
              $scope.resume.chart_data[1].push(item.duration.getUTCMinutes() + item.duration.getUTCHours() * 60);
              $scope.resume.chart_data[0].push(item.overnote);
              $scope.resume.elapsed += item.duration.getTime();
@@ -2030,6 +2057,11 @@ angular.module('starter.controllers', [])
 
         });
 
+        if ($scope.resume.chart_labels.length > 25) {
+            $scope.resume.chart_labels = $scope.resume.chart_labels.slice(0, 24);
+            $scope.resume.chart_data[0] = $scope.resume.chart_data[0].slice(0, 24);
+            $scope.resume.chart_data[1] = $scope.resume.chart_data[1].slice(0, 24);
+        }
         $scope.resume.chart_labels.reverse();
         $scope.resume.chart_data[0].reverse();
         $scope.resume.chart_data[1].reverse();
@@ -2273,6 +2305,8 @@ angular.module('starter.controllers', [])
        }, 1000);  
     });
 
+    console.log($scope.session.map.bounds);
+
     if ((($scope.session.fixedElevation === undefined) && ($scope.prefs.usegoogleelevationapi === true)) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
         //PARSE GPX POINTS
         $timeout(function() {
@@ -2325,7 +2359,7 @@ angular.module('starter.controllers', [])
         AppRate.preferences.storeAppURL.android = 'market://details?id=net.khertan.forrunners';
         AppRate.preferences.promptAgainForEachNewVersion = false;
         AppRate.promptForRating();
-    }
+    };
     
     if (console.log($scope.sessions.length) > 5) {
         $scope.promptForRating();

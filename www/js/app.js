@@ -229,8 +229,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _scan_ble:'Search devices',
     _help: 'Help',
     _report_issue: 'Report issue on GitHub',
-     _gps_accuracy: 'GPS Accuracy :',
-    _gps_lost: 'GPS Connection lost',
+    _gps_accuracy: 'GPS Accuracy :',
     _delete: 'Delete',
     _overnote: 'Score',
     _total: 'Total :',
@@ -254,7 +253,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _help_subtitle_6: ' ',
     _help_desc_6: '<b>1-</b> Average heart rate during your session<br><br><b>2-</b> Graphic showing duration in each heart rate zone<br><br><b>3- </b> Table with pace, speed and heartrate by kilometers.<br><br>Now clic next and start your first running session or import past sessions from preferences.',
     _previous:'Previous',
-    _next:'Next'
+    _next:'Next',
+    _gps_lost:'GPS Signal lost',
+    _gps_got:'Recovered GPS Signal',
+    _announce_gpslost: 'Announce when GPS Signal lost',
+    _recording_session: 'Recording session ...'
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',
@@ -359,7 +362,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _help: 'Aide',
     _report_issue: 'Rapporter un bogue sur GitHub',
     _gps_accuracy: 'Precision GPS :',
-    _gps_lost: 'Connexion au GPS perdu',
     _delete: 'Supprimer',
     _note: 'Note',
     _total: 'Total :',
@@ -384,6 +386,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _help_desc_6: '<b>1-</b> Fréquence cardiaque moyenne<br><br><b>2-</b> Graphique montrant la durée dans chaque zone cardiaque.<br><br><b>3- </b> Un tableau montrant la vitesse, l\'allure et la fréquence cardiaque par kilometres.<br><br>Cliquez sur le bouton next et effectué votre première session ou importez d\'anciennes sessions.',
     _previous: 'Precédent',
     _next: 'Suivant',
+    _gps_lost: 'Signal GPS non disponible',
+    _gps_got: 'Signal GPS disponible',
+    _announce_gpslost: 'Annoncer la perte du signal GPS',
+    _recording_session: 'Enregistrement de la session ...'
   });
 
   $translateProvider.preferredLanguage('en-US');
