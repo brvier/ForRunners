@@ -257,7 +257,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _gps_lost:'GPS Signal lost',
     _gps_got:'Recovered GPS Signal',
     _announce_gpslost: 'Announce when GPS Signal lost',
-    _recording_session: 'Recording session ...'
+    _recording_session: 'Recording session ...',
+    _speed_in_mvt: 'Moving Speed',
+    _pace_in_mvt: 'Moving Pace'
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',
@@ -389,7 +391,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _gps_lost: 'Signal GPS non disponible',
     _gps_got: 'Signal GPS disponible',
     _announce_gpslost: 'Annoncer la perte du signal GPS',
-    _recording_session: 'Enregistrement de la session ...'
+    _recording_session: 'Enregistrement de la session ...',
+    _speed_in_mvt: 'Vitesse en mvt',
+    _pace_in_mvt: 'Allure en mvt'
   });
 
   $translateProvider.preferredLanguage('en-US');

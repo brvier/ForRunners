@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.9.17';
+    $scope._version = '0.9.18';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -169,10 +169,10 @@ angular.module('starter.controllers', [])
     $scope.prefs.language = 'English';
     try {
         navigator.globalization.getPreferredLanguage(
-        function (language) { $scope.prefs.language = language.value; console.log($scope.prefs.language);},
-        function () {console.debug('Error getting language\n');}
+        function (language) { $scope.prefs.language = language.value; console.log('Prefered language: ' + $scope.prefs.language);},
+        function () {console.error('Error getting language\n');}
     );} catch(err) {
-         console.log('Globalization module not available' + err);
+         console.info('Globalization module probably not available: ' + err);
     }
 
     $scope.prefs.heartrateannounce = false;
@@ -244,7 +244,6 @@ angular.module('starter.controllers', [])
             gpx_path.push([parseFloat(item[0]), parseFloat(item[1])]);
         });
 
-        console.log(gpx_path);
         encpath = L.polyline(gpx_path).encodePath();
         
         //Do it before and talk after
@@ -258,18 +257,13 @@ angular.module('starter.controllers', [])
                 method:'GET',
                 }).then(function(response) {
                     if (response.data.status === 'OK') {
-                        console.log('Great');
-                        console.log(response.data);
                         for (var idx in gpxPoints) {
                             gpxPoints[idx].ele = response.data.results[idx].elevation;                        
                         }
                         session.fixedElevation = true;
-                        console.debug('Recompute from google elevation api')
                         $scope.computeSessionFromGPXPoints(session, gpxPoints, doSave);
                     } else {
-                        console.log('Failed google elevation api');
-                        console.log(response.data);
-                        //$scope.computeSessionFromGPXPoints(session, gpxPoints);
+                        console.log('Can t retrieve data from google elevation api');
                     }
             }, function(error) {
                 console.log(error);
@@ -397,6 +391,7 @@ angular.module('starter.controllers', [])
         var dspeed;
         var a, c, d;
         var idx = 0;
+        var dwithoutpause = 0;
 
         for (var p = 0; p < gpxPoints.length; p++) {
 
@@ -422,7 +417,7 @@ angular.module('starter.controllers', [])
             //Speed between this and previous point
             dtd = new Date(curDate) - new Date(oldDate);
             dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
-            if (dspeed > 38 + 200) {
+            if (dspeed > 38) {
                 //console.log("usain bold power");
             } else {
 
@@ -455,6 +450,11 @@ angular.module('starter.controllers', [])
                     {
                         maxHeartRate = curHeartRate;
                     }
+                }
+
+                //Time without same
+                if (dspeed > 2) {
+                    dwithoutpause += dtd
                 }
 
                 if (p > 0) {
@@ -628,6 +628,8 @@ angular.module('starter.controllers', [])
             $scope.session.heartRate = true;
         }
 
+        //Version of computation
+        $scope.session.version = $scope._version;
         //Graph speed / ele
         $scope.session.chart_options = {
             animation: false,
@@ -823,12 +825,15 @@ angular.module('starter.controllers', [])
 
         var gpxspeed = (Math.round(dTotal * 100) / 100) / (miliseconds / 1000 / 60 / 60);
         gpxspeed = Math.round(gpxspeed * 100) / 100;
-
+        var gpxspeedwithoutpause = Math.round(((Math.round(dTotal * 100) / 100) / (dwithoutpause / 1000 / 60 / 60))*100) / 100;
+        var gpxpacewithoutpause = new Date(dwithoutpause / dTotal);
         $scope.session.gpxMaxHeight = Math.round(maxHeight);
         $scope.session.gpxMinHeight = Math.round(minHeight);
         $scope.session.distance = Math.round(dTotal * 100) / 100;
         $scope.session.pace = gpxpace;
         $scope.session.speed = gpxspeed;
+        $scope.session.speedinmvt = gpxspeedwithoutpause; 
+        $scope.session.paceinmvt = gpxpacewithoutpause;
         $scope.session.eleUp = Math.round(eleUp);
         $scope.session.eleDown = Math.round(eleDown);
         $scope.session.distk = $scope.session.distance.toFixed(0);
@@ -883,13 +888,13 @@ angular.module('starter.controllers', [])
                         type: 'text/plain'
                     }));
                 }, function() {
-                    console.error('failed can t create writer');
+                    console.error('GPX Export : failed can t create writer');
                 });
             }, function() {
-                console.error('failed to get file');
+                console.error('GPX Export : failed to get file');
             });
         }, function() {
-            console.error('failed can t open fs');
+            console.error('GPX Export : failed can t open fs');
         });
     };
 
@@ -918,15 +923,15 @@ angular.module('starter.controllers', [])
                 });
 
             }, function() {
-                console.error('failed to get file');
+                console.error('Restore failed to get file');
             });
         }, function() {
-            console.error('failed can t open fs');
+            console.error('Restore failed to open fs');
         });
     };
 
     $scope.importGPX = function(file) {
-        console.log('importGPX:'+file);
+        console.log('importing GPX:'+file);
         var reader = new FileReader();
 
         reader.onloadend = function() {
@@ -1160,14 +1165,14 @@ angular.module('starter.controllers', [])
             }
 
 
-            if ($scope.prefs.version !== $scope._version ) {
+            //if ($scope.prefs.version !== $scope._version ) {
                 //UPDATE !
-                $timeout(function() { 
-                    $scope.computeAllSessionsFromGPXData();
-                    $scope.prefs.version = $scope._version;
-                    $scope.savePrefs();
-                }, 1000);
-            }
+                //$timeout(function() { 
+                //    $scope.computeAllSessionsFromGPXData();
+                //    $scope.prefs.version = $scope._version;
+                //    $scope.savePrefs();
+                //}, 1000);
+            //}
 
             if ($scope.sessions !== null) {
                 $scope.sessions.sort(function(a, b) {
@@ -1350,7 +1355,7 @@ angular.module('starter.controllers', [])
             }, 5000);
         } catch (exception) {                                                   
             $scope.bluetooth_scanning = false;
-            console.debug('ERROR: ble not available');   
+            console.info('BluetoothLE not available');   
         }  
     };
 
@@ -1377,7 +1382,6 @@ angular.module('starter.controllers', [])
 
     $scope.heartRateScan = function() {
         // https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml
-        console.log('scope.heartRateScan');
         if ((Object.keys($scope.prefs.registeredBLE).length > 0) && ($scope.session.beatsPerMinute === null)) {
             ble.scan([$scope.glbs.heartRate.service], 5,
                 //onScan
@@ -1401,69 +1405,72 @@ angular.module('starter.controllers', [])
     };
 
     $scope.stopSession = function() {
-        $scope.session.saving  =true;
-        navigator.geolocation.clearWatch($scope.session.watchId);
-        if ($scope.session.gpxData.length > 0) {
-            //Session cleaning
-            delete $scope.session.accuracy;
-            delete $scope.session.elapsed;
-            delete $scope.session.firsttime;
-            delete $scope.session.elevation;
-            delete $scope.session.time;
-            delete $scope.session.pace;
-            delete $scope.session.speed;
-            delete $scope.session.maxspeed;
-            delete $scope.session.equirect;
-            delete $scope.session.eledist;
-            delete $scope.session.altold;
-            delete $scope.session.latold;
-            delete $scope.session.lonold;
-            delete $scope.session.latold;
-            delete $scope.session.lastdisptime;
-            delete $scope.session.maxalt;
-            delete $scope.session.minalt;
-            delete $scope.session.hilldistance;
-            delete $scope.session.flatdistance;
-            delete $scope.session.avpace;
-            delete $scope.session.avspeed;
-            delete $scope.session.lastdistvocalannounce;
-            delete $scope.session.lasttimevocalannounce;
-            delete $scope.session.timeslowvocalinterval;
-            delete $scope.session.lastfastvocalannounce;
+        $scope.session.saving = true;
+        $timeout(function() {
+            navigator.geolocation.clearWatch($scope.session.watchId);
+            if ($scope.session.gpxData.length > 0) {
+                //Session cleaning
+                delete $scope.session.accuracy;
+                delete $scope.session.elapsed;
+                delete $scope.session.firsttime;
+                delete $scope.session.elevation;
+                delete $scope.session.time;
+                delete $scope.session.pace;
+                delete $scope.session.speed;
+                delete $scope.session.maxspeed;
+                delete $scope.session.equirect;
+                delete $scope.session.eledist;
+                delete $scope.session.altold;
+                delete $scope.session.latold;
+                delete $scope.session.lonold;
+                delete $scope.session.latold;
+                delete $scope.session.lastdisptime;
+                delete $scope.session.maxalt;
+                delete $scope.session.minalt;
+                delete $scope.session.hilldistance;
+                delete $scope.session.flatdistance;
+                delete $scope.session.avpace;
+                delete $scope.session.avspeed;
+                delete $scope.session.lastdistvocalannounce;
+                delete $scope.session.lasttimevocalannounce;
+                delete $scope.session.timeslowvocalinterval;
+                delete $scope.session.lastfastvocalannounce;
 
-            $scope.session.fixedElevation = undefined;
-            $scope.saveSession();
-            $scope.computeResumeGraph();
-        }
-        $scope.running = false;
-        try {
-            cordova.plugins.backgroundMode.disable();
-        } catch (exception) {
-            console.debug('ERROR: cordova.plugins.backgroundMode disable');
-        }
-        try {
-            window.plugins.insomnia.allowSleepAgain();
-        } catch (exception) {
-            console.debug('ERROR: cordova.plugins.insomnia allowSleepAgain');
-        }
-
-        try {
-            clearInterval($scope.btscanintervalid);
-        } catch (exception) {
-        }
-
-        if ($scope.platform === 'FirefoxOS') {
+                $scope.session.fixedElevation = undefined;
+                $scope.saveSession();
+                $scope.computeResumeGraph();
+            }
+            $scope.running = false;
             try {
-                $scope.screen_lock.unlock();
-            } catch(exception) {}
+                cordova.plugins.backgroundMode.disable();
+            } catch (exception) {
+                console.debug('ERROR: cordova.plugins.backgroundMode disable');
+            }
             try {
-                $scope.gps_lock.unlock();
-            } catch(exception) {}
-        }
+                window.plugins.insomnia.allowSleepAgain();
+            } catch (exception) {
+                console.debug('ERROR: cordova.plugins.insomnia allowSleepAgain');
+            }
 
-        $scope.closeModal();
-        $scope.session.saving = false;
-    };
+            try {
+                clearInterval($scope.btscanintervalid);
+            } catch (exception) {
+            }
+
+            if ($scope.platform === 'FirefoxOS') {
+                try {
+                    $scope.screen_lock.unlock();
+                } catch(exception) {}
+                try {
+                    $scope.gps_lock.unlock();
+                } catch(exception) {}
+            }
+
+            $scope.closeModal();
+            $scope.session.saving = false;
+        }, 10);
+
+   };
 
     $scope.calcDistances = function(oldPos, newPos) {
         var x = $scope.toRad(newPos.lon - oldPos.lon) * Math.cos($scope.toRad(oldPos.lat + newPos.lat) / 2);
@@ -1610,7 +1617,7 @@ angular.module('starter.controllers', [])
                     //console.debug($scope.prefs.gpslostannounce);
                     //console.debug(timenew);
                     //console.debug($scope.gpslostlastannounce);
-                    if (($scope.prefs.gpslostannounce) && ((timenew - 10) > $scope.gpslostlastannounce)) {
+                    if (($scope.prefs.gpslostannounce) && ((timenew - 30) > $scope.gpslostlastannounce)) {
                         $scope.speakText($scope.translateFilter('_gps_lost'));
                         $scope.gpslostlastannounce = timenew;
                     }
@@ -1823,7 +1830,7 @@ angular.module('starter.controllers', [])
         console.debug('gpsGoodSignalToggle set to false');
         console.debug( $scope.gpslostlastannounce);
         console.debug($scope.session.lastrecordtime);
-        if ($scope.prefs.gpslostannounce) {
+        if (($scope.prefs.gpslostannounce)) {
                 $scope.speakText($scope.translateFilter('_gps_lost'));
                 $scope.gpslostlastannounce = $scope.session.lastrecordtime;
             }
@@ -2213,10 +2220,6 @@ angular.module('starter.controllers', [])
 
     $scope.sharePieceOfDOM = function(){
 
-        //var $sel = $(selector);
-        //var element = document.getElementById('sessmap');
-        //var element = document.getElementById('speedvsalt');
-
         //share the image via phonegap plugin
         window.plugins.socialsharing.share(
             $scope.session.distance + ' Kms in ' + moment($scope.session.duration).utc().format('HH:mm') + ' ( '+ $scope.session.speed+' Kph ) tracked with #ForRunners',
@@ -2305,9 +2308,23 @@ angular.module('starter.controllers', [])
        }, 1000);  
     });
 
-    console.log($scope.session.map.bounds);
-
-    if ((($scope.session.fixedElevation === undefined) && ($scope.prefs.usegoogleelevationapi === true)) || ($scope.session.overnote === undefined) || ($scope.session.gpxPoints === undefined) || ($scope.prefs.debug === true) || ($scope.session.paceDetails === undefined) || ($scope.session.map.paths === undefined) || ($scope.session.map.bounds === undefined) || ($scope.session.map.markers === undefined)) {
+    if ((($scope.session.fixedElevation === undefined) && ($scope.prefs.usegoogleelevationapi === true)) 
+            || ($scope.session.overnote === undefined) 
+            || ($scope.session.gpxPoints === undefined) 
+            || ($scope.prefs.debug === true) 
+            || ($scope.session.paceDetails === undefined) 
+            || ($scope.session.map.paths === undefined) 
+            || ($scope.session.map.bounds === undefined) 
+            || ($scope.session.map.markers === undefined)
+            || ($scope.session.version !== $scope._version)) {
+        console.info('Recompute session:');
+        console.info('\t fixedElevation:' + $scope.session.fixedElevation);
+        console.info('\t usegoogleelevationapi:' + $scope.prefs.usegoogleelevationapi);
+        console.info('\t overnote:' + $scope.session.overnote);
+        console.info('\t gpxPoints:' + $scope.session.gpxPoints);
+        console.info('\t paceDetails:' + $scope.session.paceDetails);
+        console.info('\t version' + $scope.session.version);
+ 
         //PARSE GPX POINTS
         $timeout(function() {
             $scope.computeSessionFromGPXData($scope.session, false);
@@ -2361,7 +2378,7 @@ angular.module('starter.controllers', [])
         AppRate.promptForRating();
     };
     
-    if (console.log($scope.sessions.length) > 5) {
+    if ($scope.sessions.length > 5) {
         $scope.promptForRating();
     }
 }) 

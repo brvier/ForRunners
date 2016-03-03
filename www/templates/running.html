@@ -42,10 +42,17 @@
                     </div>
             </div>
         </div>
-
+         <div class="row">
+ 
+        <div class="col text-center">
+            <div class="item">
+                    <h3 ng-if="session.saving === true" style="color: #ccc;">{{ "_recording_session" | translate }}</h3>
+                </div>
+            </div>
+        </div>
+ 
         <ion-slide-box show-pager="false">
-        <h3 ng-if="saving === true" style="color: #ccc;">{{ "_recording_session" | translate }}</h3>
-            <ion-slide><button  ng-class="session.gpsGoodSignalToggle === false ? 'button-assertive' : 'button-positive'" class="button button-block ">{{ "_swipe_left" | translate }}</button></ion-slide>
+           <ion-slide><button  ng-class="session.gpsGoodSignalToggle === false ? 'button-assertive' : 'button-positive'" class="button button-block ">{{ "_swipe_left" | translate }}</button></ion-slide>
             <ion-slide><button ng-click="stopSession()" class="button button-block button-assertive">{{ "_stop" | translate }}</button></ion-slide>
         </ion-slide-box>
 

@@ -79,6 +79,25 @@ markers="session.map.markers" ></leaflet>
   </div>
 </div>
 
+<div class="row">
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.speedinmvt}} Km/h</h2>
+      <p  style="text-align: center">{{ "_speed_in_mvt" | translate }}</p>
+    </div>
+  </div>
+  <div class="col col-10 col-center"  style="text-align: center">
+    <i class="icon ion-speedometer positive" style="text-align: center;font-size: 32px;"></i>
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+        <h2  style="text-align: center">{{ session.paceinmvt | date:"m.ss"}} </h2>
+      <p  style="text-align: center">{{ "_pace_in_mvt" | translate }}</p>
+    </div>
+  </div>
+</div>
+
+
 <!--<div class="row">
     <div class="col col-center">
         <div class="item center">
