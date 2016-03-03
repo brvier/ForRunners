@@ -277,7 +277,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.computeSessionFromGPXPoints = function(session, gpxPoints, doSave) {
-        console.debug('computeSessionFromGPXPoints')
+        console.debug('computeSessionFromGPXPoints');
         var hrZ1 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.60);
         var hrZ2 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.70);
         var hrZ3 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.80);
@@ -454,7 +454,7 @@ angular.module('starter.controllers', [])
 
                 //Time without same
                 if (dspeed > 2) {
-                    dwithoutpause += dtd
+                    dwithoutpause += dtd;
                 }
 
                 if (p > 0) {
