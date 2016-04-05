@@ -32,32 +32,30 @@
       "locator": "https://github.com/katzer/cordova-plugin-background-mode.git",
       "id": "de.appplant.cordova.plugin.background-mode"
     },
-    "cordova-plugin-globalization",
     "org.apache.cordova.splashscreen",
     {
       "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.insomnia"
     },
-    "com.megster.cordova.ble",
     "cordova-plugin-x-socialsharing",
     {
       "locator": "https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin",
       "id": "com.jcesarmobile.filepicker"
     },
     "org.apache.cordova.device",
-    "cordova-plugin-console",
     "cordova-plugin-file",
     {
       "locator": "../../Téléchargements/cordova-plugin-file-27288cd",
       "id": "org.apache.cordova.file"
     },
     "org.apache.cordova.globalization",
-    "cordova-plugin-apprate"
+    "com.megster.cordova.ble",
+    "cordova-plugin-globalization"
   ],
   "cordovaPlatforms": [
     {
       "platform": "android",
-      "locator": "https://github.com/apache/cordova-firefoxos"
+      "locator": "firefoxos"
     }
   ]
 }

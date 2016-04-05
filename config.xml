@@ -25,28 +25,31 @@
     <param name="ios-package" onload="true" value="CDVStatusBar"/>
   </feature>
   <platform name="firefoxos">
-      <icon height="512" src="/icon/icon-512.png" width="512" />
-      <icon height="128" src="/icon/icon-128.png" width="128" />
-      <icon height="90" src="/icon/icon-90.png" width="90" />
-      <icon height="60" src="/icon/icon-60.png" width="60" />
+    <icon height="512" src="/icon/icon-512.png" width="512"/>
+    <icon height="128" src="/icon/icon-128.png" width="128"/>
+    <icon height="90" src="/icon/icon-90.png" width="90"/>
+    <icon height="60" src="/icon/icon-60.png" width="60"/>
   </platform>
   <platform name="android">
     <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
-    <preference name="android-minSdkVersion" value="18"/>
-    <preference name="android-targetSdkVersion" value="18"/>
-    <preference name="LoadingDialog" value="My Title,My Message"/>
-    <preference name="AndroidLaunchMode" value="singleInstance"/>
-    <preference name="DefaultVolumeStream" value="media"/>
-    <preference name="AndroidPersistentFileLocation" value="Internal"/>
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>
     <icon src="resources/android/icon/drawable-hdpi-icon.png" density="hdpi"/>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" density="xhdpi"/>
     <icon src="resources/android/icon/drawable-xxhdpi-icon.png" density="xxhdpi"/>
     <icon src="resources/android/icon/drawable-xxxhdpi-icon.png" density="xxxhdpi"/>
+    <preference name="android-minSdkVersion" value="18"/>
+    <preference name="android-targetSdkVersion" value="18"/>
+    <preference name="LoadingDialog" value="My Title,My Message"/>
+    <preference name="AndroidLaunchMode" value="singleInstance"/>
+    <preference name="DefaultVolumeStream" value="media"/>
+    <preference name="AndroidPersistentFileLocation" value="Internal"/>
     <splash src="resources/android/splash/drawable-port-ldpi-screen.png" density="port-ldpi"/>
     <splash src="resources/android/splash/drawable-port-mdpi-screen.png" density="port-mdpi"/>
     <splash src="resources/android/splash/drawable-port-hdpi-screen.png" density="port-hdpi"/>
+    <preference name="AutoHideSplashScreen" value="false" />  
+    <preference name="SplashScreenDelay" value="10000" />  
+    <preference name="ShowSplashScreenSpinner" value="false" />  
   </platform>
   <platform name="ios">
     <icon src="resources/ios/icon/icon.png" width="57" height="57"/>

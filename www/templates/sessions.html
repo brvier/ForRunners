@@ -57,7 +57,8 @@
 
     </ion-list>
     <ion-infinite-scroll
-        on-infinite="loadMoreData()"
+            ng-if="hasMoreData()"
+            on-infinite="loadMoreData()"
             distance="20%">
             </ion-infinite-scroll>
   </ion-content>

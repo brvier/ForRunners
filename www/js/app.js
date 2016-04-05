@@ -13,6 +13,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
+    console.log('Ionic platform ready');
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
@@ -20,21 +21,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
   });
 })
 
 .config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $logProvider, $compileProvider) {
   'use strict'; 
 
-  $ionicConfigProvider.scrolling.jsScrolling(true);
+  $ionicConfigProvider.scrolling.jsScrolling(false);
   //$ionicConfigProvider.views.maxCache(0);
   $logProvider.debugEnabled(false);
   $compileProvider.debugInfoEnabled(false);
   try {
    console.log(window.device.platform);
-   if (window.device.platform === 'FirefoxOS') {
+   if (window.device.platform === 'firefoxos') {
+        console.log('compileProvider.aHrefSanitizationWhitelist');
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(file|https?|ftp|mailto|app):/);
-  }} catch(err) {}
+  }} catch(err) {console.log('compilerProvider err:'+err);}
+
 
   $stateProvider
 
@@ -259,7 +263,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _announce_gpslost: 'Announce when GPS Signal lost',
     _recording_session: 'Recording session ...',
     _speed_in_mvt: 'Moving Speed',
-    _pace_in_mvt: 'Moving Pace'
+    _pace_in_mvt: 'Moving Pace',
+    _spm_label: 'spm',
+    _power: 'Power',
+    _cadence: 'Step Rate'
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',
@@ -285,6 +292,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _gpx_export_title: 'Export GPX',
     _gpx_file_exported: 'Toute vos sessions ont été exportées au format GPX.',
     _import_gpxs: 'Importer des fichiers GPX',
+    _export_as_gpx: 'Export vers des fichiers GPX',
     _gpx_import_title: 'Import GPX',
     _gpx_file_imported: 'Tous les fichiers ont été importés.',
     _backup_ok_title: 'Sauvegarde',
@@ -393,7 +401,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _announce_gpslost: 'Annoncer la perte du signal GPS',
     _recording_session: 'Enregistrement de la session ...',
     _speed_in_mvt: 'Vitesse en mvt',
-    _pace_in_mvt: 'Allure en mvt'
+    _pace_in_mvt: 'Allure en mvt',
+    _spm_label: 'ppm',
+    _power: 'Power',
+    _cadence: 'Cadence'
   });
 
   $translateProvider.preferredLanguage('en-US');
