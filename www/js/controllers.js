@@ -136,7 +136,7 @@ angular.module('starter.controllers', [])
     leafletData, leafletBoundsHelpers, $FileFactory) {
     'use strict';
 
-    $scope._version = '0.9.18';
+    $scope._version = '0.10.1';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;

@@ -50,7 +50,8 @@
     },
     "org.apache.cordova.globalization",
     "com.megster.cordova.ble",
-    "cordova-plugin-globalization"
+    "cordova-plugin-globalization",
+    "cordova-plugin-mauron85-background-geolocation"
   ],
   "cordovaPlatforms": [
     {
