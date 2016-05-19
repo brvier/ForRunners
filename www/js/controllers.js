@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('app.controllers', [])
 
 .filter('ldate', function() {
     'use strict';
@@ -77,63 +77,9 @@ angular.module('starter.controllers', [])
     };
 })
 
-// Service to communicate with OpenWeatherMap API.
-.factory('$weather', function($q, $http) {
-    'use strict';
-    var API_ROOT = 'http://api.openweathermap.org/data/2.5/';
-    this.byCityName = function(query) {
-        var deferred = $q.defer();
-        // Call the API using JSONP.
-        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&APPID=58a0c4c313ac9a047be43c97c2c719fc&units=metric&q=' + encodeURI(query)).then(function(response) {
-            var statusCode = parseInt(response.data.cod, 10);
-            if (statusCode === 200) {
-                // Call successful.
-                deferred.resolve(response.data);
-            } else {
-                // Something went wrong. Probably the city doesn't exist.
-                deferred.reject(response.data.message);
-            }
-        }, function(error) {
-            // Unable to connect to API.
-            deferred.reject(error);
-        });
-        // Return a promise.
-        return deferred.promise;
-    };
-    this.byCityId = function(id) {
-        var deferred = $q.defer();
-        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&APPID=58a0c4c313ac9a047be43c97c2c719fc&units=metric&id=' + id).then(function(response) {
-            var statusCode = parseInt(response.data.cod, 10);
-            if (statusCode === 200) {
-                deferred.resolve(response.data);
-            } else {
-                deferred.reject(response.data.message);
-            }
-        }, function(error) {
-            deferred.reject(error);
-        });
-        return deferred.promise;
-    };
-    this.byLocation = function(coords) {
-        var deferred = $q.defer();
-        $http.jsonp(API_ROOT + '/weather?callback=JSON_CALLBACK&APPID=58a0c4c313ac9a047be43c97c2c719fc&units=metric&lat=' + coords.latitude + '&lon=' + coords.longitude).then(function(response) {
-            var statusCode = parseInt(response.data.cod, 10);
-            if (statusCode === 200) {
-                deferred.resolve(response.data);
-            } else {
-                deferred.reject(response.data.message);
-            }
-        }, function(error) {
-            deferred.reject(error);
-        });
-        return deferred.promise;
-    };
-    return this;
-})
-
 .controller('AppCtrl', function($state, $scope, $ionicModal, $ionicPopup, $timeout, $interval, $ionicPlatform,
     $ionicHistory, $weather, $http, $translate, $filter, $ionicScrollDelegate,
-    leafletData, leafletBoundsHelpers, $FileFactory) {
+    leafletData, leafletBoundsHelpers) {
     'use strict';
 
     $scope._version = '0.10.1';
@@ -161,7 +107,6 @@ angular.module('starter.controllers', [])
     $scope.prefs.maxrecordingspeed = 38;
     $scope.prefs.unit = 'kms';
     $scope.prefs.first_run = true;
-
     $scope.prefs.timevocalannounce = true;
     $scope.prefs.distvocalannounce = true;
     $scope.prefs.avgpacevocalannounce = true;
@@ -965,7 +910,7 @@ angular.module('starter.controllers', [])
     };
 
     /*$scope.importAllGpx = function(){
-        var fs = new $FileFactory();
+        var fs = new FileFactory();
         fs.getEntries('file:///storage/emulated/0/Android/data/net.khertan.forrunners/files/').then(function(result) {
             $scope.files = result;
             $scope.getContents = function(path) {
@@ -1113,6 +1058,9 @@ angular.module('starter.controllers', [])
         }  
      };
 
+    $scope.sendLogs = function() {
+        window.open('mailto:khertan@khertan.net?subject=ForRunners Log&body=' + JSON.stringify(window.initialLogs, null, 2));
+    };
 
     $scope.importGPXs = function(element) {
         for (var idx in element.files) {
@@ -1148,7 +1096,8 @@ angular.module('starter.controllers', [])
         }, function(fileEntry) {
             fileEntry.createWriter(function(writer) {
                 // Already in JSON Format
-                writer.onwrite = function() {};
+                writer.onwrite = function() {
+                };
                 writer.onerror = function(e) {
                     $ionicPopup.alert({
                         title: $scope.translateFilter('_gpx_error_title'),
@@ -1230,6 +1179,7 @@ angular.module('starter.controllers', [])
                     console.log('failed can t open fs');
                 });
         });
+        
 
         if (overwrite) {
             $ionicPopup.alert({
@@ -1390,7 +1340,7 @@ angular.module('starter.controllers', [])
     
     $scope.postLoadSessions = function() {
          try {
-            if ($scope.sessions === undefined) {
+            if ($scope.sessions === null) {
                 $scope.sessions = [];    
             }
         
@@ -1705,8 +1655,12 @@ angular.module('starter.controllers', [])
     $scope.stopSession = function() {
         $scope.session.saving = true;
         $timeout(function() {
-            //navigator.geolocation.clearWatch($scope.session.watchId);
-            backgroundGeoLocation.stop();
+            if ($scope.platform === 'android') {
+                GPSLocation.clearWatch($scope.session.watchId);
+            } else {
+                navigator.geolocation.clearWatch($scope.session.watchId);
+            }
+            //backgroundGeoLocation.stop();
             $interval.cancel($scope.runningTimeInterval);
             if ($scope.session.gpxData.length > 0) {
                 //Session cleaning
@@ -1752,6 +1706,14 @@ angular.module('starter.controllers', [])
             } catch (exception) {
                 console.debug('ERROR: cordova.plugins.insomnia allowSleepAgain');
             }
+
+            try {
+                window.powerManagement.release(function() {
+                        console.log('Wakelock released');
+                }, function() {
+                        console.log('Failed to release wakelock');
+                });
+            } catch (exception) {}
 
             try {
                 clearInterval($scope.btscanintervalid);
@@ -1856,23 +1818,22 @@ angular.module('starter.controllers', [])
     };
 
     $scope.recordPosition = function(pos) {
-        //console.debug(pos);
         if ($scope.mustdelay === false) {
-            var latnew = pos.latitude;
-            var lonnew = pos.longitude;
-            var timenew = pos.time;
+            var latnew = pos.coords.latitude;
+            var lonnew = pos.coords.longitude;
+            var timenew = pos.timestamp;
             var altnew = 'x';
             var elapsed = 0;
 
-            if (typeof pos.altitude === 'number') {
-                altnew = pos.altitude;
+            if (typeof pos.coords.altitude === 'number') {
+                altnew = pos.coords.altitude;
             }
 
             $scope.$apply(function() {
-                $scope.session.accuracy = pos.accuracy;
-                $scope.session.accuracy_fixed = pos.accuracy.toFixed(0);
+                $scope.session.accuracy = pos.coords.accuracy;
+                $scope.session.accuracy_fixed = pos.coords.accuracy.toFixed(0);
 
-                if ((pos.accuracy <= $scope.prefs.minrecordingaccuracy) &&
+                if ((pos.coords.accuracy <= $scope.prefs.minrecordingaccuracy) &&
                     (timenew > $scope.session.recclicked) &&
                     ($scope.session.latold !== 'x') &&
                     ($scope.session.lonold !== 'x')) {
@@ -1883,7 +1844,7 @@ angular.module('starter.controllers', [])
                     }
                 }
 
-                if ((pos.accuracy >= $scope.prefs.minrecordingaccuracy) &&
+                if ((pos.coords.accuracy >= $scope.prefs.minrecordingaccuracy) &&
                     ($scope.session.gpsGoodSignalToggle === true) &&
                     (timenew > $scope.session.recclicked)) {
                     // In case we lost gps we should announce it
@@ -1903,10 +1864,11 @@ angular.module('starter.controllers', [])
                     $scope.session.time = hour + ':' + minute + ':' + second;
                     $scope.session.elapsed = elapsed;
 
-                    if ((pos.accuracy <= $scope.prefs.minrecordingaccuracy)) {
+                    if ((pos.coords.accuracy <= $scope.prefs.minrecordingaccuracy)) {
                         // Instant speed
-                        if (pos.speed) {
-                            $scope.session.speeds.push(pos.speed);
+                        if (pos.coords.speed) {
+                            console.debug('GPS give us a speed');
+                            $scope.session.speeds.push(pos.coords.speed);
                             if ($scope.session.speeds.length > 5) {
                                 $scope.session.speeds.shift();
                             }
@@ -1951,7 +1913,7 @@ angular.module('starter.controllers', [])
 
                                 elapsed = timenew - $scope.session.firsttime;
                                 //console.log(ispeed);
-                                if ((dspeed > 2)) {
+                                if ((dspeed > 1)) {
                                     $scope.session.equirect += d;
                                     $scope.session.eledist += d;
                                 }
@@ -2043,7 +2005,7 @@ angular.module('starter.controllers', [])
                     $scope.session.smoothed_speed = [];
                 }
                 if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
-                    (pos.accuracy <= $scope.prefs.minrecordingaccuracy)) {
+                    (pos.coords.accuracy <= $scope.prefs.minrecordingaccuracy)) {
                     //console.log('Should record');
                     var pointData = [
                         latnew.toFixed(6),
@@ -2051,8 +2013,8 @@ angular.module('starter.controllers', [])
                         new Date(timenew).toISOString() //.replace(/\.\d\d\d/, '')
                     ];
 
-                    if (typeof pos.altitude === 'number') {
-                        pointData.push(pos.altitude);
+                    if (typeof pos.coords.altitude === 'number') {
+                        pointData.push(pos.coords.altitude);
                     } else {
                         pointData.push('x');
                     }
@@ -2063,7 +2025,7 @@ angular.module('starter.controllers', [])
                         pointData.push('x');
                     }
 
-                    pointData.push(pos.accuracy);
+                    pointData.push(pos.coords.accuracy);
  
                     if ($scope.session.instantCadence) {
                         pointData.push($scope.session.instantCadence);
@@ -2100,7 +2062,6 @@ angular.module('starter.controllers', [])
 
             });
         }
-        backgroundGeoLocation.finish();
     };
 
     $scope.toRad = function(x) {
@@ -2115,12 +2076,10 @@ angular.module('starter.controllers', [])
         console.debug('errorPosition:' + err.message + ':' + err.code);
         $scope.session.gpsGoodSignalToggle = false;
         console.debug('gpsGoodSignalToggle set to false');
-        console.debug( $scope.gpslostlastannounce);
-        console.debug($scope.session.lastrecordtime);
         if (($scope.prefs.gpslostannounce)) {
                 $scope.speakText($scope.translateFilter('_gps_lost'));
                 $scope.gpslostlastannounce = $scope.session.lastrecordtime;
-            }
+        }
     };
 
 
@@ -2184,9 +2143,44 @@ angular.module('starter.controllers', [])
                 text: $scope.translateFilter('_notification_message')
             });
             cordova.plugins.backgroundMode.enable();
+            cordova.plugins.backgroundMode.onactivate = function() {
+                console.log('backgroundMode onActivate');
+                $scope.session.watchBgId = GPSLocation.watchPosition(
+                    $scope.recordPosition,
+                    $scope.errorPosition, {
+                        enableHighAccuracy: true,
+                        maximumAge: 0,
+                        timeout: 3000
+                });
+ 
+            };
+
+
+            cordova.plugins.backgroundMode.ondeactivate = function(){
+                  // after several times of interval log, this get called
+                  console.log('backgroundMode.ondeactivate');
+            };
+        
         } catch (exception) {
             console.debug('ERROR: cordova.plugins.backgroundMode not enabled');
         }
+
+        window.powerManagement.dim(function() {
+              console.log('Wakelock acquired');
+        }, function() {
+              console.log('Failed to acquire wakelock');
+        });
+        window.powerManagement.dim(function() {
+              console.log('Wakelock acquired');
+        }, function() {
+              console.log('Failed to acquire wakelock');
+        });
+
+        window.powerManagement.setReleaseOnPause(false, function() {
+              console.log('setReleaseOnPause successfully');
+        }, function() {
+              console.log('Failed to set');
+        });
 
         if ($scope.prefs.keepscreenon === true) {
             try {
@@ -2220,13 +2214,25 @@ angular.module('starter.controllers', [])
                 console.debug('ERROR: Can\'t set background GPS or keep screen on setting for FirefoxOS:' + exception);
             }
         }
-        /*$scope.session.watchId = navigator.geolocation.watchPosition(
-            $scope.recordPosition,
-            $scope.errorPosition, {
-                enableHighAccuracy: true,
-                maximumAge: 0,
-                timeout: 3000
-        });*/
+        
+        if ($scope.platform === 'android') {
+            $scope.session.watchId = GPSLocation.watchPosition(
+                $scope.recordPosition,
+                $scope.errorPosition, {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 3000
+            });
+        } else {
+             $scope.session.watchId = navigator.geolocation.watchPosition(
+                $scope.recordPosition,
+                $scope.errorPosition, {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 3000
+            });
+        }
+
         //Timer to update time
         $scope.runningTimeInterval = $interval(function() {
                 if ($scope.session.firsttime > 0) {
@@ -2239,6 +2245,9 @@ angular.module('starter.controllers', [])
                 }
         }, 2000);
 
+        
+        
+        /*
         backgroundGeoLocation.configure($scope.recordPosition, $scope.errorPosition, {
             desiredAccuracy: $scope.prefs.minrecordingaccuracy,
             locationService: backgroundGeoLocation.service.ANDROID_DISTANCE_FILTER,
@@ -2256,7 +2265,7 @@ angular.module('starter.controllers', [])
             debug: $scope.prefs.debug, // <-- enable this hear sounds for background-geolocation life-cycle.
             stopOnTerminate: false, // <-- enable this to clear background location settings when the app terminates
         });
-        backgroundGeoLocation.start();
+        backgroundGeoLocation.start();*/
         $scope.openModal();
 
     };
@@ -2339,7 +2348,7 @@ angular.module('starter.controllers', [])
         }
         //$scope.storageSetObj('version', $scope._version);
     };
- 
+
     $scope.savePrefs = function() {
         $scope.storageSetObj('prefs', $scope.prefs);
         $scope.setLang();
@@ -2633,9 +2642,9 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('FilePickerController', function($scope, $ionicPlatform, $FileFactory, $ionicHistory) {
+.controller('FilePickerController', function($scope, $ionicPlatform, FileFactory, $ionicHistory) {
     'use strict';
-    var fs = new $FileFactory();
+    var fs = new FileFactory();
 
     $ionicPlatform.ready(function() {
         fs.getEntries('file:///storage').then(function(result) {
@@ -2669,7 +2678,8 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('SettingsCtrl', function($scope) {
+
+.controller('SettingsCtrl', function() {
     'use strict';
     //$scope.promptForRating = function() {
         //AppRate.preferences.storeAppURL.android = 'market://details?id=net.khertan.forrunners';

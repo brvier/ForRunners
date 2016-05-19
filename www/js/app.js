@@ -1,28 +1,56 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalprecht.translate', 'ionic-material',
+angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', 'pascalprecht.translate', 'ionic-material',
                            'leaflet-directive', 'ionMdInput'])
 
 .run(function($ionicPlatform) {
   'use strict';
 
     $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    console.log('Ionic platform ready');
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
-    }
+        console.log('Ionic platform ready');
 
-  });
+        // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+        // for form inputs)
+        if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        }
+        if (window.StatusBar) {
+            StatusBar.styleDefault();
+        }
+        window.oldConsole = { error: console.error, log: console.log, warn: console.warn, info: console.info };
+            window.initialLogs = [];
+
+        console.log = function () {
+            var argsArr = Array.prototype.slice.call(arguments);
+        window.oldConsole.log.apply(this, argsArr);
+        window.initialLogs.push(argsArr);
+        };
+
+        console.error = function() {
+                var argsArr = Array.prototype.slice.call(arguments);
+        window.oldConsole.error.apply(this, argsArr);
+        window.initialLogs.push(argsArr);
+        };
+
+        console.info = function () { 
+                var argsArr = Array.prototype.slice.call(arguments);
+        window.oldConsole.info.apply(this, argsArr);
+        window.initialLogs.push(argsArr);
+        };
+
+        console.warn = function ()  {
+        var argsArr = Array.prototype.slice.call(arguments);
+        window.oldConsole.warn.apply(this, argsArr);
+        window.initialLogs.push(argsArr);
+        };
+
+        window.onerror = function() { 
+            // route errors to console.error for now
+            var argsArr = Array.prototype.slice.call(arguments);
+        window.oldConsole.error.apply(this, argsArr);
+        window.initialLogs.push(argsArr);
+        };
+    
+        console.log(window.device);
+    });
 })
 
 .config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $logProvider, $compileProvider) {
@@ -33,7 +61,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
   $logProvider.debugEnabled(false);
   $compileProvider.debugInfoEnabled(false);
   try {
-   console.log(window.device.platform);
    if (window.device.platform === 'firefoxos') {
         console.log('compileProvider.aHrefSanitizationWhitelist');
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(file|https?|ftp|mailto|app):/);
@@ -266,7 +293,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _pace_in_mvt: 'Moving Pace',
     _spm_label: 'spm',
     _power: 'Power',
-    _cadence: 'Step Rate'
+    _cadence: 'Step Rate',
+    _sendlogs: 'Send logs',
+    _duration_interval_detail: 'Announce informations at regular interval',
+    _distance_interval_detail: 'Announce informations at kilometer interval',
+    _heartrate_min_detail: 'Your resting heart rate, measured just after wake up',
+    _heartrate_max_detail: 'Your maximum heart rate in a 4 minutes sprint just after a 20 minutes warmup.'
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',
@@ -404,71 +436,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'chart.js', 'pascalpr
     _pace_in_mvt: 'Allure en mvt',
     _spm_label: 'ppm',
     _power: 'Power',
-    _cadence: 'Cadence'
-  });
+    _cadence: 'Cadence',
+    _sendlogs: 'Envoyer les logs',
+    _duration_interval_detail: 'Effectuer les annonces vocales a interval de temps',
+    _distance_interval_detail: 'Effectuer les annonces vocales a interval de kilometres',
+    _heartrate_max_detail: 'Votre fréquence cardiaque sur un sprint de 4 minutes après un échauffement de 20 minutes',
+    _heartrate_min_detail: 'Votre fréquence cardiaque au repos, mesuré après le reveil.'
+ });
 
   $translateProvider.preferredLanguage('en-US');
   $translateProvider.fallbackLanguage('en-US');
-
-})
-
-
-.factory('$FileFactory', function($q) {
-    'use strict';
-    var File = function() { };
-
-    File.prototype = {
-
-        getParentDirectory: function(path) {
-            var deferred = $q.defer();
-            window.resolveLocalFileSystemURL(path, function(fileSystem) {
-                fileSystem.getParent(function(result) {
-                    deferred.resolve(result);
-                }, function(error) {
-                    deferred.reject(error);
-                });
-            }, function(error) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-        },
-
-       getEntriesAtRoot: function() {
-            var deferred = $q.defer();
-            window.resolveLocalFileSystemURL(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-                var directoryReader = fileSystem.root.createReader();
-                directoryReader.readEntries(function(entries) {
-                    deferred.resolve(entries);
-                }, function(error) {
-                    deferred.reject(error);
-                });
-            }, function(error) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-       },
-
-        getEntries: function(path) {
-            var deferred = $q.defer();
-            window.resolveLocalFileSystemURL(path, function(fileSystem) {
-                if (fileSystem.isDirectory) {
-                    var directoryReader = fileSystem.createReader();
-                    directoryReader.readEntries(function(entries) {
-                        deferred.resolve(entries);
-                    }, function(error) {
-                        deferred.reject(error);
-                    });
-                } else {
-                    deferred.resolve(fileSystem);
-                }
-            }, function(error) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-        }
-
-    };
-
-    return File;
 
 });

@@ -238,4 +238,8 @@ width: 75%;
 height: auto;
 }
 
-
+small {
+    font-size: 70%;
+    white-space: normal;
+    width:100%;
+}
