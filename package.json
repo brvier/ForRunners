@@ -58,7 +58,12 @@
     },
     "cordova-plugin-crosswalk-webview",
     "cordova-plugin-gpslocation",
-    "cordova-plugin-file-transfer"
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-camera",
+    {
+      "locator": "https://github.com/napolitano/cordova-plugin-intent",
+      "id": "com.napolitano.cordova.plugin.intent"
+    }
   ],
   "cordovaPlatforms": [
     "android"

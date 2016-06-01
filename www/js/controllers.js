@@ -82,7 +82,7 @@ angular.module('app.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.10.1';
+    $scope._version = '0.11.1';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -94,13 +94,20 @@ angular.module('app.controllers', [])
         }
     } catch(err) {
         $scope.platform = 'Browser';
-        console.log(err);
+        console.warn(err);
     }}, 1000);
     $scope.weather = $weather;
 
+    try {
+        window.plugins.intent.getCordovaIntent(function (intent) {
+            console.debug(intent);
+        }, function () {});
+    } catch(err) {
+        console.warn(err);
+    }
     $scope.running = false;
     $scope.prefs = {};
-
+   
     $scope.prefs.minrecordingaccuracy = 14;
     $scope.prefs.minrecordinggap = 1000;
     $scope.prefs.minrecordingspeed = 3;
@@ -148,7 +155,11 @@ angular.module('app.controllers', [])
 
     $timeout(function() {
         $scope.detectBLEDevice();
-    }, 3000);
+    }, 2000);
+
+    $timeout(function() {
+        $scope.loadEquipments();
+    }, 2500);
 
     $scope.dateTimeReviver = function(key, value) {
         if ((key === 'duration') || (key === 'pace')) {
@@ -293,9 +304,9 @@ angular.module('app.controllers', [])
 
     $scope.computeSessionFromGPXPoints = function(session, gpxPoints, doSave) {
         console.debug('computeSessionFromGPXPoints');
-        var hrZ1 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.60);
-        var hrZ2 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.70);
-        var hrZ3 = parseInt($scope.prefs.heartratemin) + parseInt(($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.80);
+        var hrZ1 = parseInt($scope.prefs.heartratemin) + (parseInt($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.60);
+        var hrZ2 = parseInt($scope.prefs.heartratemin) + (parseInt($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.70);
+        var hrZ3 = parseInt($scope.prefs.heartratemin) + (parseInt($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.80);
         var hrZ4 = parseInt($scope.prefs.heartratemin) + (parseInt($scope.prefs.heartratemax - $scope.prefs.heartratemin) * 0.90);
         var hrZ = [0, 0, 0, 0, 0];
         var hr_color = 0;
@@ -418,9 +429,6 @@ angular.module('app.controllers', [])
         var dwithoutpause = 0;
 
         for (var p = 0; p < gpxPoints.length; p++) {
-
-            //gpxPoints.map(function(item) {
-
             curLat = gpxPoints[p].lat;
             curLng = gpxPoints[p].lng;
             curEle = gpxPoints[p].ele;
@@ -443,9 +451,10 @@ angular.module('app.controllers', [])
             //Speed between this and previous point
             dtd = new Date(curDate) - new Date(oldDate);
             dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
-            //if (dspeed > 38) {
-                //console.log("usain bold power");
-            //} else {
+            console.log(d);
+            if (d < 0.0001) {
+                console.log('stop point');
+            } else {
 
                 //Leaflet
                 paths.p1.latlngs.push({
@@ -480,7 +489,7 @@ angular.module('app.controllers', [])
 
                 if (p > 0) {
                     //Time without same
-                    if (dspeed > 0) {
+                    if (dspeed > 0.01) {
                         dwithoutpause += dtd;
                     }
 
@@ -623,7 +632,7 @@ angular.module('app.controllers', [])
                             stryde: average(strydeTmp2, 0)
                         });
                     }
-               // }
+                }
 
 
 
@@ -891,7 +900,9 @@ angular.module('app.controllers', [])
             if (item.recclicked === $scope.session.recclicked) {
                 $scope.sessions[idx] = $scope.session;
                 if (doSave === true) {
+                    try {
                     $scope.writeSessionsToFile($scope.sessions);
+                    } catch(err) {console.warn(err);}
                     if ($scope.platform === 'Browser') {
                         $scope.storageSetObj('sessions', $scope.sessions);}
                     $scope.updateList();
@@ -901,7 +912,9 @@ angular.module('app.controllers', [])
         });
         if ((!saved) && (doSave)){
             $scope.sessions.push($scope.session);
-            $scope.writeSessionsToFile($scope.sessions);
+            try{
+                $scope.writeSessionsToFile($scope.sessions);}
+            catch(err) {console.warn(err);}
             if ($scope.platform === 'Browser') {
                 $scope.storageSetObj('sessions', $scope.sessions);}
             $scope.updateList(); 
@@ -1179,8 +1192,6 @@ angular.module('app.controllers', [])
                     console.log('failed can t open fs');
                 });
         });
-        
-
         if (overwrite) {
             $ionicPopup.alert({
                 title: $scope.translateFilter('_gpx_export_title'),
@@ -1205,9 +1216,6 @@ angular.module('app.controllers', [])
 
     $scope.setLang = function() {
         var lang = 'en-US';
-        //console.log($scope.prefs.language);
-        //if ($scope.prefs.language === 'English') {lang = 'en-US';}
-        //else if ($scope.prefs.language === 'Francais') {lang = 'fr-FR';}
         if ($scope.prefs.language) {
             lang = $scope.prefs.language;
         }
@@ -1215,7 +1223,6 @@ angular.module('app.controllers', [])
         moment.locale(lang);
     };
 
-    //$scope.translate = $translate.filter('translate');
     $scope.translateFilter = $filter('translate');
 
     var prefs = $scope.storageGetObj('prefs');
@@ -1223,10 +1230,8 @@ angular.module('app.controllers', [])
         for (var prop in prefs) {
             $scope.prefs[prop] = prefs[prop];
         }
-        //console.log('Prefs load ended');
         $scope.setLang();
     } else {
-        //console.log('Really ? No Prefs ?');
     }
 
     $scope.cleanSessions = function() {
@@ -1276,6 +1281,11 @@ angular.module('app.controllers', [])
     $scope.writeSessionsToFile = function(sessions) {
         $scope.writeToFile(sessions, 'sessions.gpxs');
     };
+
+    $scope.writeEquipmentsToFile = function(equipments) {
+        $scope.writeToFile(equipments, 'equipments.gpxs');
+    };
+
 
     $scope.writeResumeToFile = function(resume) {
         $scope.writeToFile(resume, 'resume');
@@ -1327,14 +1337,41 @@ angular.module('app.controllers', [])
         });
     };
 
-    $scope.loadSessions = function() {
+    $scope.loadEquipmentsFromFile = function() {
+                $scope.loadFromFile('equipments.gpxs', function(datas) {
+                    $scope.equipments = datas;
+                    //do post load here
+                }, function(err){
+                    console.warn('LoadEquipmentsFromFile failed :'+err);
+                    $timeout(function(){
+                        try{
+                            $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);}
+                        catch(err){
+                            $scope.equipments=[];
+                        }
+                        //do post load here
+                    }, 100);
+                });
+    };
+
+   $scope.loadEquipments = function() {
+        try {
+            $scope.loadEquipmentsFromFile();
+        } catch (exception) {
+            console.warn(exception);
+            $timeout(function(){
+                $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);}, 100);
+        }
+    };
+ 
+   $scope.loadSessions = function() {
         try {
             $scope.loadSessionsFromFile();
-       } catch (exception) {
-            console.error(exception);
+        } catch (exception) {
+            console.warn(exception);
             $timeout(function(){
-            $scope.sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
-            $scope.postLoadSessions();}, 100);
+                $scope.sessions = JSON.parse(localStorage.getItem('sessions'), $scope.dateTimeReviver);
+                $scope.postLoadSessions();}, 100);
         }
     };
     
@@ -1370,11 +1407,10 @@ angular.module('app.controllers', [])
                 navigator.splashscreen.hide();}
 
             try {
-            $scope.loadResumeFromFile();
+                $scope.loadResumeFromFile();
             } catch(err) {
                 $scope.computeResumeGraph();
             }
-            //$scope.computeResumeGraph();
            
         } catch (exception) {
             console.error(exception);
@@ -1657,8 +1693,10 @@ angular.module('app.controllers', [])
         $timeout(function() {
             if ($scope.platform === 'android') {
                 GPSLocation.clearWatch($scope.session.watchId);
+                console.debug('Session recording stopped');
             } else {
                 navigator.geolocation.clearWatch($scope.session.watchId);
+                console.debug('Session recording stopped');
             }
             //backgroundGeoLocation.stop();
             $interval.cancel($scope.runningTimeInterval);
@@ -1818,6 +1856,7 @@ angular.module('app.controllers', [])
     };
 
     $scope.recordPosition = function(pos) {
+        console.debug('recordPosition');
         if ($scope.mustdelay === false) {
             var latnew = pos.coords.latitude;
             var lonnew = pos.coords.longitude;
@@ -2068,10 +2107,6 @@ angular.module('app.controllers', [])
         return x * Math.PI / 180;
     };
 
-    //$scope.errorfn = function(err) {
-    //    console.debug('errorfn:' + err);
-    //};
-
     $scope.errorPosition = function(err) {
         console.debug('errorPosition:' + err.message + ':' + err.code);
         $scope.session.gpsGoodSignalToggle = false;
@@ -2165,23 +2200,21 @@ angular.module('app.controllers', [])
             console.debug('ERROR: cordova.plugins.backgroundMode not enabled');
         }
 
-        window.powerManagement.dim(function() {
-              console.log('Wakelock acquired');
-        }, function() {
-              console.log('Failed to acquire wakelock');
-        });
-        window.powerManagement.dim(function() {
-              console.log('Wakelock acquired');
-        }, function() {
-              console.log('Failed to acquire wakelock');
-        });
+        try {
+            window.powerManagement.dim(function() {
+                console.log('Wakelock acquired');
+            }, function() {
+                console.log('Failed to acquire wakelock');
+            });
 
-        window.powerManagement.setReleaseOnPause(false, function() {
-              console.log('setReleaseOnPause successfully');
-        }, function() {
-              console.log('Failed to set');
-        });
-
+            window.powerManagement.setReleaseOnPause(false, function() {
+                console.log('setReleaseOnPause successfully');
+            }, function() {
+                console.log('Failed to set');
+            });
+        } catch (exception) {
+            console.warn('ERROR: cordova powerManagement not enabled');
+        }
         if ($scope.prefs.keepscreenon === true) {
             try {
                 window.plugins.insomnia.keepAwake();
@@ -2245,27 +2278,6 @@ angular.module('app.controllers', [])
                 }
         }, 2000);
 
-        
-        
-        /*
-        backgroundGeoLocation.configure($scope.recordPosition, $scope.errorPosition, {
-            desiredAccuracy: $scope.prefs.minrecordingaccuracy,
-            locationService: backgroundGeoLocation.service.ANDROID_DISTANCE_FILTER,
-            notificationIconColor: '#4CAF50',
-            notificationTitle: 'ForRunners Background tracking',
-            notificationText: 'Recording',
-            notificationIcon: 'notification_icon',
-            activityType: 'Fitness',
-            activitiesInterval: 2000,
-            stationaryRadius: 10,
-            distanceFilter: 1,
-            interval: 3000,
-            fastestInterval: 2000,
-            locationTimeout: 3,
-            debug: $scope.prefs.debug, // <-- enable this hear sounds for background-geolocation life-cycle.
-            stopOnTerminate: false, // <-- enable this to clear background location settings when the app terminates
-        });
-        backgroundGeoLocation.start();*/
         $scope.openModal();
 
     };
@@ -2328,8 +2340,13 @@ angular.module('app.controllers', [])
                 saved = true;
             }
             
-            $scope.writeSessionsToFile(sessions);
-            if ($scope.platform === 'browser') {
+            try {
+                $scope.writeSessionsToFile(sessions);
+            } catch(err) {
+                console.warn(err);
+            }
+
+            if ($scope.platform === 'Browser') {
                 $scope.storageSetObj('sessions', sessions); }
             
             try {
@@ -2339,7 +2356,6 @@ angular.module('app.controllers', [])
             }
             $scope.updateList();
             $scope.computeResumeGraph();
-
 
             //Automated backup
             setTimeout(function() {
@@ -2354,6 +2370,31 @@ angular.module('app.controllers', [])
         $scope.setLang();
     };
 
+    $scope.computeEquipmentsDatas = function() {
+        var distance = {};
+        
+        $scope.sessions.map(function(session){
+            if (!session.equipments) { 
+                session.equipments = $scope.equipments.map(function(eq){
+                    if (eq.isDefault) {return eq;}
+                });
+            }
+            session.equipments.map(function(equipment){
+                if (!distance[equipment.uuid]) {
+                    distance[equipment.uuid] = 0; }
+                distance[equipment.uuid] += session.distance;
+            });
+        });
+
+        $scope.equipments = $scope.equipments.map(function(equipment) {
+            if (distance[equipment.uuid]) {
+                equipment.distance = distance[equipment.uuid].toFixed(1); }
+            else {
+                equipment.distance = 0; }
+            return equipment;
+        });
+        //$scope.saveEquipments();            
+    };
 
     $scope.computeResumeGraph = function() {
         $scope.resume = {};
@@ -2425,7 +2466,11 @@ angular.module('app.controllers', [])
         $scope.resume.bestspeed = $scope.resume.bestspeed.toFixed(1);
         $scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(1);
 
-        $scope.writeResumeToFile($scope.resume);
+        try {
+            $scope.writeResumeToFile($scope.resume); }
+        catch(err) {
+            console.warn(err);
+        }
         $ionicScrollDelegate.resize();
 
     };
@@ -2456,6 +2501,158 @@ angular.module('app.controllers', [])
         ionicMaterialInk.displayEffect();
     }, 4000);
 })
+
+.controller('EquipmentsCtrl', function($scope, $ionicPopup) {
+    'use strict';
+    if (!$scope.$parent.equipments) {
+        $scope.$parent.equipments = $scope.$parent.loadEquipments();
+    }
+
+    $scope.fakeGuid = function(){
+        /*jslint bitwise: true*/
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
+                    return v.toString(16);
+        });
+        /*jslint bitwise: false*/
+    };
+
+    $scope.saveEquipments = function() {
+        try {
+            $scope.writeEquipmentsToFile($scope.equipments);
+        } catch(err) {console.warn(err);}
+        if ($scope.platform === 'Browser') {
+            $scope.storageSetObj('equipments', $scope.equipments);}
+        $scope.storageSetObj('version', $scope._version);
+    };
+
+
+    $scope.addEquipment = function(){
+        $scope.$parent.equipments.push({
+           'uuid': $scope.fakeGuid(),
+           'name':'Untitled Shoes',
+           'distance':0,
+           'photo':'img/defaultshoes.png' 
+        });
+    };
+
+    $scope.deleteEquipment = function(idx) {
+        // confirm dialog
+        var confirmPopup = $ionicPopup.confirm({
+            title: $scope.translateFilter('_delete_eq'),
+            template: $scope.translateFilter('_confirm_delete_eq')
+        });
+        confirmPopup.then(function(res) {
+            if (res) {
+                $scope.equipments.splice(idx, 1);
+                $scope.saveEquipments();
+            } else {
+                console.error('Error confirm delete equipment');
+            }
+        });
+    };
+
+
+    $scope.setName = function(idx) {
+        $scope.equipment = $scope.$parent.equipments[idx];
+        $ionicPopup.show({
+            template: '<input type="text" ng-model="equipment.name">',
+            title: 'Edit the name',
+            subTitle: 'Example: Sketchers Go Run Sprint',
+            scope: $scope,
+            buttons: [
+            { text: 'Cancel' },
+            {
+                text: '<b>Save</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                if (!$scope.equipment.name) {
+                    //don't allow the user to close unless he enters wifi password
+                    e.preventDefault();
+                } else {
+                    console.log($scope.equipment.name);
+                    $scope.$parent.equipments[idx] = $scope.equipment;
+                    $scope.saveEquipments();
+                    return $scope.equipment.name;
+                }
+                }
+            }
+            ]
+        });
+       console.log($scope.$parent.$parent.equipments[idx].name);
+    };
+
+    $scope.setDefault = function(idx) {
+        $scope.$parent.equipments[idx].isDefault = !$scope.$parent.equipments[idx].isDefault;
+        $scope.saveEquipments();
+    };
+
+    $scope.setPhoto = function(idx) {
+        try {
+            navigator.camera.getPicture(function(pictureURI){
+            $scope.$parent.equipments[idx].photo = pictureURI;
+            $scope.saveEquipments();
+        }, function(err){
+            $ionicPopup.alert({
+               title: $scope.translateFilter('_camera_picture_error_title'),
+                template: err});
+        }, { destinationType: Camera.DestinationType.FILE_URL});
+        } catch(err) {
+          $ionicPopup.alert({
+               title: $scope.translateFilter('_camera_picture_error_title'),
+                template: $scope.translateFilter('_camera_not_available')});
+ 
+        }
+    };
+
+    $scope.computeEquipmentsDatas();
+})
+
+/*.controller('EquipmentCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory) {
+    'use strict';
+    $scope.deleteEquipment = function(idx) {
+        // confirm dialog
+        var confirmPopup = $ionicPopup.confirm({
+            title: $scope.translateFilter('_delete'),
+            template: $scope.translateFilter('_confirm_delete')
+        });
+        confirmPopup.then(function(res) {
+            if (res) {
+                $scope.equipments.splice(idx, 1);
+                $scope.writeEquipmentsToFile($scope.equipments);
+                if ($scope.platform === 'Browser') {
+                    $scope.storageSetObj('equipments', $scope.equipments); }
+                //Back
+                var view = $ionicHistory.backView();
+                if (view) {
+                    view.go();
+                }
+            } else {
+                console.error('Error confirm delete equipment');
+            }
+        });
+    };
+
+    $scope.saveEquipmentModifications = function() {
+        $scope.equipments[$stateParams.equipmentId] = $scope.equipment;
+        $scope.writeEquipmentsToFile($scope.equipments);
+        if ($scope.platform === 'Browser') {
+            $scope.storageSetObj('equipments', $scope.equipments);}
+        $scope.storageSetObj('version', $scope._version);
+    };
+
+    $scope.deleteEquipmentByID = function(sid) {
+        $scope.equipments.map(function(value, indx) {
+            if (value.recclicked === sid) {
+                $scope.deleteEquipment(indx);
+            }
+        });
+    };
+
+    $scope.equipment = $scope.equipments[$stateParams.equipmentId];
+
+})*/
+
 
 .controller('RecordsCtrl', function($scope) {
     'use strict';
@@ -2511,8 +2708,7 @@ angular.module('app.controllers', [])
         }
 
         $scope.total_kms = $scope.total_kms.toFixed(1);
-
-    };
+   };
 
     $scope.computeRecords();
 
@@ -2552,7 +2748,7 @@ angular.module('app.controllers', [])
     $scope.saveSessionModifications = function() {
         $scope.sessions[$stateParams.sessionId] = $scope.session;
         $scope.writeSessionsToFile($scope.sessions);
-        if ($scope.platform === 'browser') {
+        if ($scope.platform === 'Browser') {
             $scope.storageSetObj('sessions', $scope.sessions);}
         $scope.storageSetObj('version', $scope._version);
     };
@@ -2561,6 +2757,34 @@ angular.module('app.controllers', [])
         $scope.sessions.map(function(value, indx) {
             if (value.recclicked === sid) {
                 $scope.deleteSession(indx);
+            }
+        });
+    };
+
+    $scope.addEquipment = function(newEq) {
+        $scope.session.equipments.push(newEq);
+        try{
+            $scope.saveSessionModifications();}
+        catch(err) {console.warn(err);}
+        if ($scope.platform === 'Browser') {
+            $scope.storageSetObj('sessions', $scope.sessions);}
+    };
+
+    $scope.removeEquipment = function(idx) {
+        var confirmPopup = $ionicPopup.confirm({
+            title: $scope.translateFilter('_delete_eq'),
+            template: $scope.translateFilter('_confirm_delete_eq')
+        });
+        confirmPopup.then(function(res) {
+            if (res) {
+                $scope.session.equipments.splice(idx,1);
+                try{
+                    $scope.saveSessionModifications();}
+                catch(err) {console.warn(err);}
+                if ($scope.platform === 'Browser') {
+                    $scope.storageSetObj('sessions', $scope.sessions);}
+            } else {
+                console.error('Error confirm delete equipment');
             }
         });
     };
@@ -2585,6 +2809,13 @@ angular.module('app.controllers', [])
     };
 
     $scope.session = $scope.sessions[$stateParams.sessionId];
+
+    $scope.equipments = $scope.$parent.$parent.equipments;
+    if (!$scope.session.equipments) {
+        $scope.session.equipments = $scope.equipments.map(function(eq){
+         if (eq.isDefault) {return eq;}
+        });
+    }
 
     if (($scope.session.map === undefined)) {
         $scope.session.map = {

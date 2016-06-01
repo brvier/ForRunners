@@ -1,5 +1,5 @@
 angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', 'pascalprecht.translate', 'ionic-material',
-                           'leaflet-directive', 'ionMdInput'])
+                           'leaflet-directive', 'ionMdInput', 'ionic-modal-select'])
 
 .run(function($ionicPlatform) {
   'use strict';
@@ -16,40 +16,43 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
             StatusBar.styleDefault();
         }
         window.oldConsole = { error: console.error, log: console.log, warn: console.warn, info: console.info };
-            window.initialLogs = [];
+        window.initialLogs = [];
 
-        console.log = function () {
-            var argsArr = Array.prototype.slice.call(arguments);
-        window.oldConsole.log.apply(this, argsArr);
-        window.initialLogs.push(argsArr);
-        };
-
-        console.error = function() {
+        if (window.cordova) {
+            console.log = function () {
                 var argsArr = Array.prototype.slice.call(arguments);
-        window.oldConsole.error.apply(this, argsArr);
-        window.initialLogs.push(argsArr);
-        };
+            window.oldConsole.log.apply(this, argsArr);
+            window.initialLogs.push(argsArr);
+            };
 
-        console.info = function () { 
-                var argsArr = Array.prototype.slice.call(arguments);
-        window.oldConsole.info.apply(this, argsArr);
-        window.initialLogs.push(argsArr);
-        };
+            console.error = function() {
+                    var argsArr = Array.prototype.slice.call(arguments);
+            window.oldConsole.error.apply(this, argsArr);
+            window.initialLogs.push(argsArr);
+            };
 
-        console.warn = function ()  {
-        var argsArr = Array.prototype.slice.call(arguments);
-        window.oldConsole.warn.apply(this, argsArr);
-        window.initialLogs.push(argsArr);
-        };
+            console.info = function () { 
+                    var argsArr = Array.prototype.slice.call(arguments);
+            window.oldConsole.info.apply(this, argsArr);
+            window.initialLogs.push(argsArr);
+            };
 
-        window.onerror = function() { 
-            // route errors to console.error for now
+            console.warn = function ()  {
             var argsArr = Array.prototype.slice.call(arguments);
-        window.oldConsole.error.apply(this, argsArr);
-        window.initialLogs.push(argsArr);
-        };
-    
-        console.log(window.device);
+            window.oldConsole.warn.apply(this, argsArr);
+            window.initialLogs.push(argsArr);
+            };
+
+            window.onerror = function() { 
+                // route errors to console.error for now
+                var argsArr = Array.prototype.slice.call(arguments);
+            window.oldConsole.error.apply(this, argsArr);
+            window.initialLogs.push(argsArr);
+            };
+        }
+        
+        if (window.device) { 
+            console.log(window.device); }
     });
 })
 
@@ -125,7 +128,17 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
       }
     })
 
-   .state('app.sessions', {
+   .state('app.equipments', {
+      url: '/equipments',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/equipments.html',
+          controller: 'EquipmentsCtrl'
+        }
+      }
+    })
+
+  .state('app.sessions', {
       url: '/sessions',
       views: {
         'menuContent': {
@@ -145,6 +158,15 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     }
   })
   
+   .state('app.equipment', {
+    url: '/equipments/:equipmentId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/equipment.html',
+        controller: 'EquipmentCtrl'
+      }
+    }
+  })
   
   .state('app.help', {
     url: '/help',
@@ -179,6 +201,8 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _and: 'and',
     _seconds_per_kilometers: 'seconds per kilometers',
     _confirm_delete: 'Are you sure you want to delete this session?',
+    _confirm_delete_eq: 'Are you sure you want to delete this equipment?',
+    _delete_eq: 'Delete',
     _gpx_export_title: 'GPX Export',
     _gpx_file_exported: 'All your sessions exported as GPX files.',
     _backup_ok_title: 'Backup',
@@ -295,6 +319,8 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _power: 'Power',
     _cadence: 'Step Rate',
     _sendlogs: 'Send logs',
+    _equipments: 'Equipments',
+    _add_equipment: 'Add a equipment',
     _duration_interval_detail: 'Announce informations at regular interval',
     _distance_interval_detail: 'Announce informations at kilometer interval',
     _heartrate_min_detail: 'Your resting heart rate, measured just after wake up',
@@ -321,6 +347,10 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _and: 'et',
     _seconds_per_kilometers: 'secondes par kilometres',
     _confirm_delete: 'Etes vous sur de vouloir supprimer cette session?',
+    _confirm_delete_eq: 'Etes vous sur de vouloir supprimer cet equipement?',
+    _delete_eq: 'Supprimer',
+    _equipments: 'Equipements',
+    _add_equipment: 'Ajouter un equipement',
     _gpx_export_title: 'Export GPX',
     _gpx_file_exported: 'Toute vos sessions ont été exportées au format GPX.',
     _import_gpxs: 'Importer des fichiers GPX',

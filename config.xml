@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="net.khertan.forrunners" version="0.10.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.khertan.forrunners" version="0.11.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ForRunners</name>
     <description>
     A gps tracker for runners
@@ -9,7 +9,7 @@
   </author>
     <content src="index.html" />
     <access origin="*" />
-    <access origin="mailto:*" launch-external="yes" />
+    <access launch-external="yes" origin="mailto:*" />
     <access origin="http://openweathermap.org/" />
     <access origin="http://a.tile.openstreetmap.org/" />
     <access origin="http://b.tile.openstreetmap.org/" />
@@ -18,7 +18,6 @@
     <allow-navigation href="http://a.tile.openstreetmap.org/" />
     <allow-navigation href="http://b.tile.openstreetmap.org/" />
     <allow-navigation href="http://c.tile.openstreetmap.org/" />
-
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -45,8 +44,8 @@
         <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
         <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
         <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
-        <preference name="android-minSdkVersion" value="22" />
-        <preference name="android-targetSdkVersion" value="22" />
+        <preference name="android-minSdkVersion" value="19" />
+        <preference name="android-targetSdkVersion" value="19" />
         <preference name="LoadingDialog" value="My Title,My Message" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="DefaultVolumeStream" value="media" />
@@ -83,4 +82,8 @@
         <icon height="99" src="resources/wp8/icon/ApplicationIcon.png" width="99" />
         <icon height="159" src="resources/wp8/icon/Background.png" width="159" />
     </platform>
+    <preference name="xwalkVersion" value="xwalk_core_library_beta:18+" />
+    <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
+    <preference name="xwalkMode" value="embedded" />
+    <preference name="xwalkMultipleApk" value="true" />
 </widget>
