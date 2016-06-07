@@ -180,10 +180,19 @@
       class="button icon-left ion-pin button-positive button-block"></button>-->
   <button ng-click="doFileChooser();" class="button icon-left ion-pin button-positive button-block">
       {{ "_import_gpxs" | translate }}
-   <input type="file"  multiple="multiple" name="gpxFile"
+  <input type="file"  multiple="multiple" name="gpxFile"
   class="button icon-left ion-pin button-positive button-block"
   id="gpxFile" class="form-control"
   onchange="angular.element(this).scope().importGPXs(this)"
+  style="display: none;">
+  </button>
+
+  <button ng-click="doFITChooser();" class="button icon-left ion-pin button-positive button-block">
+      {{ "_import_fits" | translate }}
+  <input type="file"  multiple="multiple" name="fitFile"
+  class="button icon-left ion-pin button-positive button-block"
+  id="fitFile" class="form-control"
+  onchange="angular.element(this).scope().importFITs(this)"
   style="display: none;">
   </button>
 </div>

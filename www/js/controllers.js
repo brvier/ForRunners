@@ -82,7 +82,7 @@ angular.module('app.controllers', [])
     leafletData, leafletBoundsHelpers) {
     'use strict';
 
-    $scope._version = '0.11.1';
+    $scope._version = '0.11.3';
     $timeout(function(){
     try {
         $scope.platform = window.device.platform;
@@ -962,6 +962,40 @@ angular.module('app.controllers', [])
 
     };*/
 
+    $scope.importFIT = function(file) {
+        console.log('importing FIT:'+file);
+        var reader = new FileReader();
+
+        // Require the module 
+        var EasyFit = require('../lib/easy-fit/dist/easy-fit.js').default;
+
+        reader.onloadend = function() {
+        
+            // Create a EasyFit instance (options argument is optional)
+            var easyFit = new EasyFit({
+                force: true,
+                speedUnit: 'km/h',
+                lengthUnit: 'km',
+                temperatureUnit: 'celcius',
+                elapsedRecordField: true,
+                mode: 'cascade',
+            });
+
+            // Parse your file
+            easyFit.parse(this.result, function (error, data) {
+                // Handle result of parse method
+                if (error) {
+                console.log(error);
+                } else {
+                console.log(JSON.stringify(data));
+                }
+            });
+
+        };
+
+        reader.readAsText(file);
+    };
+
 
     $scope.importGPX = function(file) {
         console.log('importing GPX:'+file);
@@ -1071,6 +1105,17 @@ angular.module('app.controllers', [])
         }  
      };
 
+    $scope.doFITChooser = function() {
+       if ($scope.platform === 'iOS') {
+            $scope.iosFilePicker();
+        } else if ($scope.platform === 'OldAndroid' ) {
+              $state.go('app.filepicker');
+        } else {
+           $timeout(function(){document.getElementById('fitFile').click();},100);
+        }  
+     };
+
+
     $scope.sendLogs = function() {
         window.open('mailto:khertan@khertan.net?subject=ForRunners Log&body=' + JSON.stringify(window.initialLogs, null, 2));
     };
@@ -1088,6 +1133,21 @@ angular.module('app.controllers', [])
         });
 
     };
+
+    $scope.importFITs = function(element) {
+        for (var idx in element.files) {
+            if (typeof element.files[idx] === 'object') {
+                $scope.importFIT(element.files[idx]);
+            }
+        }
+
+        $ionicPopup.alert({
+            title: $scope.translateFilter('_gpx_import_title'),
+            template: $scope.translateFilter('_gpx_file_imported')
+        });
+
+    };
+
 
     $scope.writeGPX = function(dirEntry, filename, session) {
         var gpxHead = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
@@ -1360,7 +1420,13 @@ angular.module('app.controllers', [])
         } catch (exception) {
             console.warn(exception);
             $timeout(function(){
-                $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);}, 100);
+                $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);                         
+                try{
+                    $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);}
+                catch(err){
+                    $scope.equipments=[];
+                }
+            }, 100);
         }
     };
  
@@ -2373,26 +2439,32 @@ angular.module('app.controllers', [])
     $scope.computeEquipmentsDatas = function() {
         var distance = {};
         
-        $scope.sessions.map(function(session){
-            if (!session.equipments) { 
-                session.equipments = $scope.equipments.map(function(eq){
-                    if (eq.isDefault) {return eq;}
+        if ($scope.equipments) {
+            $scope.sessions.map(function(session){
+                if (session.equipments === undefined) { 
+                    session.equipments = $scope.equipments.map(function(eq){
+                        if (eq.isDefault) {return eq;}
+                    }).filter(function(eq) {
+                        return eq !== undefined;
+                    });
+                }
+                session.equipments.map(function(equipment){
+                    if (!distance[equipment.uuid]) {
+                        distance[equipment.uuid] = 0; }
+                    distance[equipment.uuid] += session.distance;
                 });
-            }
-            session.equipments.map(function(equipment){
-                if (!distance[equipment.uuid]) {
-                    distance[equipment.uuid] = 0; }
-                distance[equipment.uuid] += session.distance;
             });
-        });
+        
 
-        $scope.equipments = $scope.equipments.map(function(equipment) {
-            if (distance[equipment.uuid]) {
-                equipment.distance = distance[equipment.uuid].toFixed(1); }
-            else {
-                equipment.distance = 0; }
-            return equipment;
-        });
+            $scope.equipments = $scope.equipments.map(function(equipment) {
+                if (distance[equipment.uuid]) {
+                    equipment.distance = distance[equipment.uuid].toFixed(1); }
+                else {
+                    equipment.distance = 0; }
+                return equipment;
+            });
+
+        }
         //$scope.saveEquipments();            
     };
 
@@ -2528,6 +2600,9 @@ angular.module('app.controllers', [])
 
 
     $scope.addEquipment = function(){
+        if (! $scope.$parent.equipments) {
+            $scope.$parent.equipments = [];
+        }
         $scope.$parent.equipments.push({
            'uuid': $scope.fakeGuid(),
            'name':'Untitled Shoes',
@@ -2579,7 +2654,6 @@ angular.module('app.controllers', [])
             }
             ]
         });
-       console.log($scope.$parent.$parent.equipments[idx].name);
     };
 
     $scope.setDefault = function(idx) {
@@ -2587,10 +2661,34 @@ angular.module('app.controllers', [])
         $scope.saveEquipments();
     };
 
+    $scope.savePicture = function(uri, uuid){
+        var stordir = cordova.file.externalDataDirectory;
+        if (!stordir) {
+            stordir = cordova.file.dataDirectory;
+        }
+
+        window.resolveLocalFileSystemURL(stordir,
+            function(dirEntry) {
+                dirEntry.getDirectory('images', { create: true }, function (subDirEntry) {
+                     window.resolveLocalFileSystemURI(uri, function(file) {
+                        file.moveTo(subDirEntry,uuid+'.jpg');
+                     });
+                }, function() {console.log('failed can t open fs');});
+
+            },
+            function() {
+                console.log('failed can t open fs');
+            });
+
+        
+        return stordir+'images/'+uuid+'.jpg';
+    };
+
     $scope.setPhoto = function(idx) {
         try {
             navigator.camera.getPicture(function(pictureURI){
-            $scope.$parent.equipments[idx].photo = pictureURI;
+            var newURI = $scope.savePicture(pictureURI, $scope.$parent.equipments[idx].uuid);
+            $scope.$parent.equipments[idx].photo = newURI;
             $scope.saveEquipments();
         }, function(err){
             $ionicPopup.alert({
@@ -2811,7 +2909,7 @@ angular.module('app.controllers', [])
     $scope.session = $scope.sessions[$stateParams.sessionId];
 
     $scope.equipments = $scope.$parent.$parent.equipments;
-    if (!$scope.session.equipments) {
+    if ((!$scope.session.equipments) && ($scope.equipments)) {
         $scope.session.equipments = $scope.equipments.map(function(eq){
          if (eq.isDefault) {return eq;}
         });
