@@ -967,7 +967,8 @@ angular.module('app.controllers', [])
         var reader = new FileReader();
 
         // Require the module 
-        var EasyFit = require('../lib/easy-fit/dist/easy-fit.js').default;
+        //var EasyFit = require('easy-fit').default;
+        var EasyFit = window.easyFit.default;
 
         reader.onloadend = function() {
         
@@ -987,13 +988,29 @@ angular.module('app.controllers', [])
                 if (error) {
                 console.log(error);
                 } else {
-                console.log(JSON.stringify(data));
-                }
-            });
+                    console.log(JSON.stringify(data));
 
+                   for (var sessions_idx in data.activity.sessions) {
+                        $scope.session = {};
+                        $scope.session.gpxData = [];
+
+                        for (var lap_idx in data.activity.sessions[sessions_idx].laps) {
+                            for (var record_idx in data.activity.sessions[sessions_idx].laps[lap_idx].records) {
+                                var pnt = data.activity.sessions[sessions_idx].laps[lap_idx].records[record_idx];
+                                $scope.session.gpxData.push([pnt.position_lat, pnt.position_long, pnt.timestamp, pnt.altitude, pnt.heart_rate, 0, pnt.cadence, pnt.power, pnt.vertical_oscillation]);
+                            }
+                        }
+ 
+                        $scope.session.recclicked = new Date($scope.session.gpxData[0][2]).getTime();
+                        //Save session already compute session
+                        $scope.saveSession();
+                   } 
+
+               }
+            });
         };
 
-        reader.readAsText(file);
+        reader.readAsArrayBuffer(file);
     };
 
 
