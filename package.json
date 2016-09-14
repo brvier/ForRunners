@@ -16,7 +16,6 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "com.ionic.keyboard",
     "cordova-plugin-geolocation",
     "cordova-plugin-device",
     "cordova-plugin-whitelist",
@@ -32,7 +31,7 @@
       "locator": "https://github.com/katzer/cordova-plugin-background-mode.git",
       "id": "de.appplant.cordova.plugin.background-mode"
     },
-    "org.apache.cordova.splashscreen",
+    "cordova-plugin-splashscreen",
     {
       "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.insomnia"
@@ -42,16 +41,11 @@
       "locator": "https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin",
       "id": "com.jcesarmobile.filepicker"
     },
-    "org.apache.cordova.device",
+    "cordova-plugin-device",
     "cordova-plugin-file",
-    {
-      "locator": "../../Téléchargements/cordova-plugin-file-27288cd",
-      "id": "org.apache.cordova.file"
-    },
-    "org.apache.cordova.globalization",
-    "com.megster.cordova.ble",
     "cordova-plugin-globalization",
-    "cordova-plugin-mauron85-background-geolocation",
+    "cordova-plugin-ble-central",
+    "cordova-plugin-globalization",
     {
       "locator": "https://github.com/boltex/cordova-plugin-powermanagement.git",
       "id": "at.gofg.sportscomputer.powermanagement"

@@ -20,7 +20,7 @@
     <div class="content double-padding" ng-if="sessions.length < 1">
       <h4 class="positive">Welcome on ForRunners</h4>
       <p class="text-muted">
-        {{ "_welcome_text" | translate }} 
+        {{ "_welcome_text" | translate }}
       </p>
     </div>
 
@@ -31,10 +31,17 @@
        </canvas>
     </div>
 
+    <!--<div class="item card-item">
+       <canvas ng-if="resume.radar_labels.length > 1" id="radar" class="chart chart-radar ng-isolate-scope" data="resume.radar_data"
+          labels="resume.radar_labels" chartLegend="false" series="resume.radar_series" options="resume.radar_options"
+          style="background: white; width: 100%;">
+       </canvas>
+    </div>-->
+
       <ion-list class="animate-fade-slide-in-right"> <!-- class="animate-fade-slide-in-right" -->
 
-        <a 
-           ng-repeat="session in list_sessions track by session.recclicked"
+        <a
+           ng-repeat="session in sessions track by session.recclicked"
            type="item-text-wrap"
            ng-href="{{'#/app/sessions/'+$index}}"
            class="in item item-avatar button-fab"
@@ -43,7 +50,7 @@
                 style="color:white !important; display: block; vertical-align: middle; text-align:center;">
               {{ session.distk }} K<br>
           </span>
-          <span class="badge badge-lower" 
+          <span class="badge badge-lower"
             style="display: block; vertical-align: middle; text-align:center; font-size:11px; width: 30px; margin-left:5px;">
                 {{ session.overnote }} <i class="icon ion-star"></i>
           </span>
@@ -59,11 +66,11 @@
         </a>
 
     </ion-list>
-    <ion-infinite-scroll
+          <!--<ion-infinite-scroll
             ng-if="hasMoreData()"
             on-infinite="loadMoreData()"
             distance="20%">
-            </ion-infinite-scroll>
+          </ion-infinite-scroll>-->
   </ion-content>
 
 </ion-view>

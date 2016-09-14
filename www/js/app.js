@@ -10,8 +10,9 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
+
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
@@ -31,7 +32,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
             window.initialLogs.push(argsArr);
             };
 
-            console.info = function () { 
+            console.info = function () {
                     var argsArr = Array.prototype.slice.call(arguments);
             window.oldConsole.info.apply(this, argsArr);
             window.initialLogs.push(argsArr);
@@ -43,21 +44,21 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
             window.initialLogs.push(argsArr);
             };
 
-            window.onerror = function() { 
+            window.onerror = function() {
                 // route errors to console.error for now
                 var argsArr = Array.prototype.slice.call(arguments);
             window.oldConsole.error.apply(this, argsArr);
             window.initialLogs.push(argsArr);
             };
         }
-        
-        if (window.device) { 
+
+        if (window.device) {
             console.log(window.device); }
     });
 })
 
 .config(function($stateProvider, $urlRouterProvider, $translateProvider, $ionicConfigProvider, $logProvider, $compileProvider) {
-  'use strict'; 
+  'use strict';
 
   $ionicConfigProvider.scrolling.jsScrolling(false);
   //$ionicConfigProvider.views.maxCache(0);
@@ -157,7 +158,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
       }
     }
   })
-  
+
    .state('app.equipment', {
     url: '/equipments/:equipmentId',
     views: {
@@ -167,7 +168,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
       }
     }
   })
-  
+
   .state('app.help', {
     url: '/help',
     views: {
