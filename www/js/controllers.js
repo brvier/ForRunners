@@ -594,7 +594,8 @@ angular.module('app.controllers', [])
                         km: Math.round(dTotal * 10) / 10,
                         hr: average(heartRatesTmp, 0),
                         cadence: average(cadenceTmp, 0),
-                        power: average(powerTmp, 0)
+                        power: average(powerTmp, 0),
+                        stryde: average(strydeTmp, 1)
                     });
                     timeEndTmp2 = new Date(gpxPoints[p].timestamp);
                     timeDiff = timeEndTmp2 - timeStartTmp2;
@@ -611,7 +612,7 @@ angular.module('app.controllers', [])
                             hr: average(heartRatesTmp2, 0),
                             cadence: average(cadenceTmp2, 0),
                             power: average(powerTmp2, 0),
-                            stryde: average(strydeTmp2, 0)
+                            stryde: average(strydeTmp2, 1)
                         });
                     }
                 }
@@ -964,11 +965,16 @@ angular.module('app.controllers', [])
                 });
             };
 
+            var idx=0;
             $scope.session_files.forEach(function(file){
                 if (file.name.slice(-5) === '.json') {
-                      $scope.getContents(file.nativeURL);
+                      $timeout(function(){$scope.getContents(file.nativeURL);}, idx*1000);
+                      idx+=1;
                 }
             });
+
+            if(navigator && navigator.splashscreen) {
+                navigator.splashscreen.hide();}
 
 
         }, function(error) {
@@ -2173,11 +2179,13 @@ angular.module('app.controllers', [])
                                     $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
                                     $scope.session.avspeed = (elapsed / $scope.session.equirect).toFixed(1);
                                 }
-                                $scope.session.speeds.push(dspeed.toFixed(2));
-                                if ($scope.session.speeds.length > 5) {
-                                    $scope.session.speeds.shift();
+                                if (pos.coords.speed !== undefined) {
+                                  $scope.session.speeds.push(pos.coords.speed * 3.6);
+                                  if ($scope.session.speeds.length > 10) {
+                                      $scope.session.speeds.slice(-10);
+                                  }
+                                  $scope.session.speed = average($scope.session.speeds,1).toFixed(1);
                                 }
-                                $scope.session.speed = (average($scope.session.speeds,2) * $scope.glbs.speed[$scope.prefs.unit]).toFixed(1);
                                 var currentPace = $scope.glbs.pace[$scope.prefs.unit] / $scope.session.speed;
                                 $scope.session.pace = Math.floor(currentPace) + ':' + ('0' + Math.floor(currentPace % 1 * 60)).slice(-2);
                                 if ($scope.session.maxspeed < $scope.session.speed) {
@@ -2644,13 +2652,13 @@ angular.module('app.controllers', [])
 
         };*/
 
-        $scope.resume.chart_options = {
-            responsive: true,
-            animation: false,
-            showScale: false,
-            scaleShowLabels: false,
-            legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
-        };
+        //$scope.resume.chart_options = {
+        //    responsive: true,
+        //    animation: false,
+        //    showScale: false,
+        //    scaleShowLabels: false,
+        //    legendTemplate: '<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+        //};
 
 
         $scope.sessions.map(function(item) {
