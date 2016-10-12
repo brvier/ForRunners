@@ -80,7 +80,7 @@
   toggle-class="toggle-positive">
   {{ "_announce_gpslost" | translate }}
   </ion-toggle>
-  
+
 </div>
 
 <div class="content double-padding">
@@ -118,14 +118,14 @@
         </li>
     </div>
 
-    <div class="item" ng-if="bluetooth_scanning"> 
+    <div class="item" ng-if="bluetooth_scanning">
         <ion-spinner icon="line"></ion-spinner></div>
     </div>
 
     <div class="item">
             <button class="button button-block button-positive" ng-click="detectBLEDevice()" >
                     {{ "_scan_ble" | translate }}
-            </button> 
+            </button>
     </div>
 </div>
 
@@ -196,7 +196,7 @@
   style="display: none;">
   </button>
 </div>
-    
+
 <div class="content double-padding">
   <h4 class="positive">{{ "_debug_tools" | translate }}</h4>
   <button ng-click="testRunSpeak(0,20);" class="button button-royal button-block">{{ "_debug_test_vocal" | translate }}</button>
@@ -206,7 +206,8 @@
   toggle-class="toggle-positive">
   {{ "_debug_mode" | translate }}<br><small>{{ "_debug_warning" | translate }}</small>
   </ion-toggle>
-  <button ng-click="sendLogs();" class="button button-royal button-block">{{"_sendlogs" | translate }}</button>
+  <!--<button ng-click="sendLogs();" class="button button-royal button-block">{{"_sendlogs" | translate }}</button>-->
+  <button ng-click="recomputeEverythings();" class="button button-royal button-block">DEBUG: Recompute Everythings</button>
   <!--<button ng-click="importAllGpx();" class="button button-royal
       button-block">{"_import_all_gpx" | translate }}</button>-->
 </div>

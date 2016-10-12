@@ -3,13 +3,13 @@
 <button class="button button-icon button-clear ion-android-share-alt"
 ng-click="sharePieceOfDOM()"></button>
 <button class="button button-icon button-clear ion-android-delete"
-ng-click="deleteSessionByID(session.recclicked)"></button>
+ng-click="deleteSessionRecID(session.recclicked)"></button>
 </ion-nav-buttons>
 <ion-content>
 <!--<div id="mapContainer"  style="width: 100%; height: 350px; background: white"></div>-->
 <leaflet id="sessmap" height="300px" width="100%" defaults="session.map.defaults" paths="session.map.paths"
 bounds="session.map.bounds"
-controls="session.map.controls"                                                                                  
+controls="session.map.controls"
 tiles="session.map.tiles"
 markers="session.map.markers" ></leaflet>
 <div class="mid-bar dark-bg z1 padding">
@@ -31,7 +31,7 @@ markers="session.map.markers" ></leaflet>
   </div>
   <div class="col col-10 col-center"  style="text-align: center">
     <i class="icon ion-ios-speedometer positive" style="text-align: center;font-size: 32px;"></i>
-      
+
   </div>
   <div class="col col-left">
     <div class="item" style="text-align: center">
@@ -135,7 +135,7 @@ markers="session.map.markers" ></leaflet>
 </div>
 </div>
 
-<div class="content double-padding"> 
+<div class="content double-padding">
     <h4 class="positive text-center">{{ "_equipments" | translate }}</h4>
 </div>
 <div>
@@ -147,10 +147,10 @@ markers="session.map.markers" ></leaflet>
                 </a>
                  <div class="row">
                     <div class="col center">
-                    <button class="button button-small button-clear button-stable icon-right ion-plus" 
-                            on-select="addEquipment(newValue);" 
-                            modal-select 
-                            ng-model="session.equipment" 
+                    <button class="button button-small button-clear button-stable icon-right ion-plus"
+                            on-select="addEquipment(newValue);"
+                            modal-select
+                            ng-model="session.equipment"
                             options="equipments"
                             hide-reset="true"
                             modal-title="Select an equipment">
@@ -165,7 +165,7 @@ markers="session.map.markers" ></leaflet>
 </div>
 
 <!-- IN DEVEL
-<div class="content double-padding"> 
+<div class="content double-padding">
     <h4 class="positive text-center">{{ "_mood" | translate }}</h4>
 </div>
 
@@ -188,9 +188,9 @@ style="width: 100%; height: 300px; background: white">
 </canvas>
 
 <!--Graph 2 : speed vs heartrate -->
-<div class="content double-padding" ng-if="session.heartRate"> 
+<div class="content double-padding" ng-if="session.heartRate">
     <h4 class="positive text-center">{{ "_speed_vs_heartrate" | translate }}</h4>
-</div> 
+</div>
 <canvas ng-if="session.heartRate" id="speedvsheartrate" class="item chart chart-base ng-isolate-scope" chart-type="session.chart2_type" data="session.chart2_data"
 labels="session.chart2_labels" chart-legend="false" series="session.chart2_series"
 options="session.chart2_options" chart-zoneColors="session.hr_colors"
@@ -198,18 +198,18 @@ style="width: 100%; height: 300px; background: white">
 </canvas>
 
 <!--Graph 3 : speed vs heartrate -->
-<div class="content double-padding" ng-if="session.heartRate"> 
+<div class="content double-padding" ng-if="session.heartRate">
     <h4 class="positive text-center">{{ "_altitude_vs_heartrate" | translate }}</h4>
-</div> 
+</div>
 <canvas ng-if="session.heartRate" id="altvsheartrate" class="item chart chart-base ng-isolate-scope" chart-type="session.chart4_type" data="session.chart4_data"
 labels="session.chart4_labels" chart-legend="false" series="session.chart4_series"
 options="session.chart4_options" chart-zoneColors="session.hr_colors"
 style="width: 100%; height: 300px; background: white">
 </canvas>
 
-<div class="content double-padding" ng-if="session.heartRate"> 
+<div class="content double-padding" ng-if="session.heartRate">
     <h4 class="positive text-center">{{ "_heartRate" | translate }}</h4>
-</div> 
+</div>
 
 <canvas ng-if="session.heartRate" id="doughnut" class="item chart chart-base ng-isolate-scope labeled-chart-container"
       data="session.chart3_data" labels="session.chart3_labels"
@@ -218,7 +218,7 @@ style="width: 100%; height: 300px; background: white">
       options="session.chart3_options"
       colours="session.hhr_colors"
       style="width: 100%; height: 300px; background: white">
-</canvas> 
+</canvas>
 
 <div class="table" ng-if="session.paceDetails.length > 0">
     <div class="row row-center row-header" style="text-align: center" >

@@ -55,6 +55,90 @@ angular.module('app.services', [])
     return this;
 })
 
+.factory('SessionFactory', function($q) {
+    'use string';
+    var Session = function() { };
+
+    Session.prototype = {
+        dateTimeReviver: function(key, value) {
+            if ((key === 'duration') || (key === 'pace')) {
+                if (typeof value === 'string') {
+                    return new Date(value);
+                }
+            }
+            return value;
+        },
+        loadFromFile: function(recclicked) {
+              var deferred = $q.defer();
+              var path = cordova.file.externalApplicationStorageDirectory + 'sessions/' + recclicked + '.json';
+              if (typeof window.resolveLocalFileSystemURL === 'function') {
+                  window.resolveLocalFileSystemURL(path, function(fileEntry) {
+                      fileEntry.file(function(file) {
+                          var reader = new FileReader();
+                          reader.onloadend = function() {
+                              deferred.resolve(JSON.parse(this.result, Session.dateTimeReviver));
+                          };
+                          reader.readAsText(file);
+                      });
+                  }, function(err) {
+                      deferred.reject(err);
+                  });
+              }
+              return deferred.promise;
+        },
+        saveToFile: function(session) {
+          var deferred = $q.defer();
+          var filename = session.recclicked.toString() + '.json';
+          var path = cordova.file.externalApplicationStorageDirectory;
+          try {
+              window.resolveLocalFileSystemURL(path, function(dirEntry) {
+                  dirEntry.getDirectory('sessions', {
+                      create: true
+                  }, function(subDirEntry) {
+                      subDirEntry.getFile(filename, {
+                          create: true
+                      }, function(fileEntry) {
+                          fileEntry.createWriter(function(writer) {
+                              // Already in JSON Format
+                              writer.onwrite = function() {};
+                              writer.onwriteend = function() {
+                                  deferred.resolve();
+                              };
+                              writer.onerror = function(e) {
+                                  deferred.reject(e);
+                              };
+                              writer.fileName = filename;
+                              writer.write(new Blob([JSON.stringify(session)], {
+                                  type: 'text/plain'
+                              }));
+                          }, function(e) {
+                              console.error('Cant write ' + filename);
+                              deferred.reject(e);
+                          });
+                      }, function(e) {
+                          console.error('Cant write 2nd ' + filename);
+                          deferred.reject(e);
+                      });
+                  }, function(e) {
+                      console.error('Cant write 3th ' + filename);
+                      deferred.reject(e);
+                  });
+
+              }, function(e) {
+                  console.error('Cant write 4th ' + filename);
+                  deferred.reject(e);
+              });
+          } catch (err) {
+              console.error('writeSessionsToFile:' + err);
+              deferred.reject(err);
+          }
+          return deferred.promise;
+        }
+    };
+
+    return Session;
+})
+
 .factory('FileFactory', function($q) {
     'use strict';
     var File = function() { };
@@ -112,5 +196,5 @@ angular.module('app.services', [])
     };
 
     return File;
-
-});
+  }
+);

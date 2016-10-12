@@ -5,19 +5,19 @@
 </div>
   <ion-content>
 
-    <div class="item item-icon-left card-item" ng-if="sessions.length > 1">
+    <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
         <i class="icon ion-trophy energized"></i>
         <h2>{{ "_average" | translate }}</h2>
-        <p>{{resume.flatdistance}} Kms - {{resume.avduration | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
+        <p>{{resume.avdistance}} Kms - {{resume.avduration | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
     </div>
 
-    <div class="item item-icon-left card-item">
+    <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
         <i class="icon ion-ribbon-b energized"></i>
         <h2>{{ "_records" | translate }}</h2>
         <p>{{resume.bestdistance}} Kms - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed}} Km/h</p>
     </div>
 
-    <div class="content double-padding" ng-if="sessions.length < 1">
+    <div class="content double-padding" ng-if="(fullyLoaded == true) && (sessions.length < 1)">
       <h4 class="positive">Welcome on ForRunners</h4>
       <p class="text-muted">
         {{ "_welcome_text" | translate }}
@@ -41,9 +41,9 @@
       <ion-list class="animate-fade-slide-in-right"> <!-- class="animate-fade-slide-in-right" -->
 
         <a
-           ng-repeat="session in sessions track by session.recclicked"
+           ng-repeat="session in sortedSessionsIndex track by session.recclicked"
            type="item-text-wrap"
-           ng-href="{{'#/app/sessions/'+$index}}"
+           ng-href="{{'#/app/sessions/'+session.recclicked}}"
            class="in item item-avatar button-fab"
            ng-click="">
           <span class="badge badge-left badge-balanced"

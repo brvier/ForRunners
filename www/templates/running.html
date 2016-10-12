@@ -3,7 +3,6 @@
 
 <ion-content class="black-bg">
 
-
         <div class="row">
             <div class="col text-center">
 
@@ -39,12 +38,12 @@
                             <h1 style="margin-top:0px;color: #fff;">{{session.instantPower}} <span class='unit'>Watts</span></h1>
                         </div>
                     </div>
- 
+
                     <div class="item" ng-if="session.beatsPerMinute">
                         <h3 style="color: #ccc;">{{ "_bpm" | translate }}</h3>
                         <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute}} <span class='unit'>{{ "_bpms_label" | translate}}</span></h1>
                     </div>
-                    
+
                     <div class="item">
                         <h3 ng-if="session.gpsGoodSignalToggle === false" style="color: #c11;">{{ "_gps_lost" | translate }}</h3>
                         <h3 style="color: #ccc;">{{ "_gps_accuracy" | translate }} {{ session.accuracy_fixed }} m</h3>
@@ -58,7 +57,7 @@
                 </div>
             </div>
         </div>
- 
+
         <ion-slide-box show-pager="false">
            <ion-slide><button  ng-class="session.gpsGoodSignalToggle === false ? 'button-assertive' : 'button-positive'" class="button button-block ">{{ "_swipe_left" | translate }}</button></ion-slide>
             <ion-slide><button ng-click="stopSession()" class="button button-block button-assertive">{{ "_stop" | translate }}</button></ion-slide>

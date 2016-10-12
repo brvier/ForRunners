@@ -19,7 +19,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
         window.oldConsole = { error: console.error, log: console.log, warn: console.warn, info: console.info };
         window.initialLogs = [];
 
-        if (window.cordova) {
+        /*if (window.cordova) {
             console.log = function () {
                 var argsArr = Array.prototype.slice.call(arguments);
             window.oldConsole.log.apply(this, argsArr);
@@ -50,7 +50,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
             window.oldConsole.error.apply(this, argsArr);
             window.initialLogs.push(argsArr);
             };
-        }
+        }*/
 
         if (window.device) {
             console.log(window.device); }
