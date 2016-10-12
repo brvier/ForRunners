@@ -2630,8 +2630,11 @@ angular.module('app.controllers', [])
               if ($scope.sessionsIndex.hasOwnProperty(recclicked)) {
                 var idx = $scope.sessionsIndex[recclicked];
                 if (idx.equipmentUUIDs !== undefined) {
-                  for (var uuid in idx.equipmentUUIDs) {
-                    distance[uuid] = idx.distance;
+                  for (var eidx in idx.equipmentUUIDs) {
+                    if (distance[idx.equipmentUUIDs[eidx]] === undefined) {
+                        distance[idx.equipmentUUIDs[eidx]] = 0;
+                    }
+                    distance[idx.equipmentUUIDs[eidx]] += idx.distance;
                   }
                 }
               }

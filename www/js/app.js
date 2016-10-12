@@ -131,12 +131,14 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
 
    .state('app.equipments', {
       url: '/equipments',
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/equipments.html',
           controller: 'EquipmentsCtrl'
         }
       }
+
     })
 
   .state('app.sessions', {
