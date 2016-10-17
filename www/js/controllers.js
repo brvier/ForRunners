@@ -797,7 +797,6 @@ angular.module('app.controllers', [])
             $scope.session.chart_data[1].push(step.ele);
             $scope.session.chart2_data[0].push(step.speed);
             $scope.session.chart4_data[0].push(step.ele);
-            //$scope.session.chart2_data[1].push(step.hr); // was step.hr
 
             //Calc avg hr
             $scope.session.avg_hr.push(step.hr);
@@ -871,8 +870,6 @@ angular.module('app.controllers', [])
         seconds = tmpMilliseconds / 1000;
         seconds = Math.floor(seconds);
 
-        //var gpxdur = new Date("Sun May 10 2015 " + hours + ":" + minutes + ":" + seconds + " GMT+0200");
-
         var gpxpace = (miliseconds) / dTotal;
         gpxpace = (Math.round(gpxpace * 100) / 100) * 1;
         gpxpace = new Date(gpxpace);
@@ -898,9 +895,6 @@ angular.module('app.controllers', [])
         $scope.session.end = gpxPoints[gpxPoints.length - 1].timestamp;
 
         $scope.session.overnote = (parseInt(gpxspeedwithoutpause) * 1000 * (miliseconds / 1000 / 60) * 0.000006 + ((Math.round(eleUp) - Math.round(eleDown)) * 0.04)).toFixed(1);
-
-        //And now save
-        //FIX SAVE
 
         $scope.sessions[idx] = $scope.session;
         try {
@@ -1034,8 +1028,7 @@ angular.module('app.controllers', [])
         console.log('importing FIT:' + file);
         var reader = new FileReader();
 
-        // Require the module
-        //var EasyFit = require('easy-fit').default;
+        // Require the moduleP
         var EasyFit = window.easyFit.default;
 
         reader.onloadend = function() {
@@ -1889,7 +1882,7 @@ angular.module('app.controllers', [])
                 //Set default equipments
                 if ((!$scope.session.equipments) && ($scope.equipments)) {
                     $scope.session.equipments = $scope.equipments.map(function(eq) {
-                        if (eq.isDefault) {
+                        if (eq.isDefault === true) {
                             return eq;
                         }
                         return undefined;
@@ -2652,8 +2645,8 @@ angular.module('app.controllers', [])
 
 .controller('EquipmentsCtrl', function($scope, $ionicPopup) {
     'use strict';
-    if (!$scope.$parent.equipments) {
-        $scope.$parent.equipments = $scope.$parent.loadEquipments();
+    if (!$scope.equipments) {
+        $scope.equipments = $scope.$parent.loadEquipments();
     }
 
     $scope.fakeGuid = function() {
@@ -2680,10 +2673,10 @@ angular.module('app.controllers', [])
 
 
     $scope.addEquipment = function() {
-        if (!$scope.$parent.equipments) {
-            $scope.$parent.equipments = [];
+        if (!$scope.equipments) {
+            $scope.equipments = [];
         }
-        $scope.$parent.equipments.push({
+        $scope.equipments.push({
             'uuid': $scope.fakeGuid(),
             'name': 'Untitled Shoes',
             'distance': 0,
@@ -2709,7 +2702,7 @@ angular.module('app.controllers', [])
 
 
     $scope.setName = function(idx) {
-        $scope.equipment = $scope.$parent.equipments[idx];
+        $scope.equipment = $scope.equipments[idx];
         $ionicPopup.show({
             template: '<input type="text" ng-model="equipment.name">',
             title: 'Edit the name',
@@ -2726,7 +2719,7 @@ angular.module('app.controllers', [])
                         e.preventDefault();
                     } else {
                         console.log($scope.equipment.name);
-                        $scope.$parent.equipments[idx] = $scope.equipment;
+                        $scope.equipments[idx] = $scope.equipment;
                         $scope.saveEquipments();
                         return $scope.equipment.name;
                     }
@@ -2736,7 +2729,7 @@ angular.module('app.controllers', [])
     };
 
     $scope.setDefault = function(idx) {
-        $scope.$parent.equipments[idx].isDefault = !$scope.$parent.equipments[idx].isDefault;
+        $scope.equipments[idx].isDefault = !$scope.equipments[idx].isDefault;
         $scope.saveEquipments();
     };
 
@@ -2769,8 +2762,8 @@ angular.module('app.controllers', [])
     $scope.setPhoto = function(idx) {
         try {
             navigator.camera.getPicture(function(pictureURI) {
-                var newURI = $scope.savePicture(pictureURI, $scope.$parent.equipments[idx].uuid);
-                $scope.$parent.equipments[idx].photo = newURI;
+                var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
+                $scope.equipments[idx].photo = newURI;
                 $scope.saveEquipments();
             }, function(err) {
                 $ionicPopup.alert({

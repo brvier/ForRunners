@@ -8,8 +8,8 @@
                     <h2 ng-click="setName($index);">{{equipment.name}}</h2>
                     <p>{{equipment.distance}} Kms
                     <div class="icon">
-                        <i ng-click="setDefault($index);" ng-if="equipment.isDefault" class="ion-ios-circle-outline muted padding-left padding-right"></i>
-                        <i ng-click="setDefault($index);" ng-if="!equipment.isDefault" class="ion-ios-checkmark-outline muted padding-left padding-right"></i>
+                        <i ng-click="setDefault($index);" ng-if="!equipment.isDefault" class="ion-ios-circle-outline muted padding-left padding-right"></i>
+                        <i ng-click="setDefault($index);" ng-if="equipment.isDefault" class="ion-ios-checkmark-outline muted padding-left padding-right"></i>
                         <i ng-click="deleteEquipment($index);" class="ion-trash-a muted padding-left"></i>
                     </div></p>
                 </a>
