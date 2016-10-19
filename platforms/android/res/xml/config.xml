@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="net.khertan.forrunners" version="1.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="TTS">
+        <param name="android-package" value="org.apache.cordova.plugin.TTS" />
+    </feature>
+    <feature name="SpeechSynthesis">
+        <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis" />
+    </feature>
+    <feature name="BackgroundMode">
+        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Insomnia">
+        <param name="android-package" value="nl.xservices.plugins.Insomnia" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="PowerManagement">
+        <param name="android-package" value="org.apache.cordova.powermanagement.PowerManagement" />
+    </feature>
+    <feature name="GPSLocation">
+        <param name="android-package" value="fr.louisbl.cordova.gpslocation.CordovaGPSLocation" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="IntentPlugin">
+        <param name="android-package" value="com.napolitano.cordova.plugin.intent.IntentPlugin" />
+    </feature>
+    <preference default="20+" name="xwalkVersion" />
+    <preference default="xwalk_core_library_canary:17+" name="xwalkLiteVersion" />
+    <preference default="--disable-pull-to-refresh-effect" name="xwalkCommandLine" />
+    <preference default="embedded" name="xwalkMode" />
+    <preference default="true" name="xwalkMultipleApk" />
+    <preference default="16" name="android-minSdkVersion" />
+    <feature name="MusicControl">
+        <param name="android-package" value="net.khertan.plugin.MusicControl" />
+    </feature>
+    <feature name="BLE">
+        <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
+    </feature>
+    <name>ForRunners</name>
+    <description>
+    A gps tracker for runners
+    </description>
+    <author email="khertan@khertan.net" href="http://khertan.net/">
+      Benoît HERVIER (Khertan)
+  </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <access launch-external="yes" origin="mailto:*" />
+    <access origin="http://openweathermap.org/" />
+    <access origin="http://a.tile.openstreetmap.org/" />
+    <access origin="http://b.tile.openstreetmap.org/" />
+    <access origin="http://c.tile.openstreetmap.org/" />
+    <access origin="https://maps.googleapis.com/" />
+    <allow-navigation href="http://a.tile.openstreetmap.org/" />
+    <allow-navigation href="http://b.tile.openstreetmap.org/" />
+    <allow-navigation href="http://c.tile.openstreetmap.org/" />
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
+    <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
+    <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
+    <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+    <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
+    <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
+    <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
+    <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="KeepRunning" value="True" />
+    <preference name="webView" value="org.crosswalk.engine.XWalkWebViewEngine" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="BackupWebStorage" value="local" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="10000" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="android-manifest/application/activity/@android:launchMode" value="singleTask" />
+    <preference name="xwalkVersion" value="20+" />
+    <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
+    <preference name="xwalkMode" value="embedded" />
+    <preference name="xwalkMultipleApk" value="true" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="19" />
+    <preference name="LoadingDialog" value="My Title,My Message" />
+    <preference name="AndroidLaunchMode" value="singleInstance" />
+    <preference name="DefaultVolumeStream" value="media" />
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+</widget>

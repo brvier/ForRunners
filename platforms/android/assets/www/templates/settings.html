@@ -1,0 +1,215 @@
+<ion-view view-title="{{ '_settings' | translate }}">
+<ion-content>
+
+<div class="content double-padding">
+  <h4 class="positive">{{ "_language" | translate }}</h4>
+
+  <div class="list">
+    <label class="item item-input item-select">
+      <div class="input">
+        {{ prefs.language | translatei18 }}
+      </div>
+      <select ng-model="prefs.language" ng-change="savePrefs()">
+        <option value="en-US"> {{ "_english" | translate }} </option>
+        <option value="fr-FR"> {{ "_french" | translate }}</option>
+      </select>
+    </label>
+  </div>
+
+
+</div>
+<div class="content double-padding">
+  <h4 class="positive">{{ "_vocal_announce" | translate }}</h4>
+  <ion-toggle ng-model="prefs.togglemusic"
+  ng-checked="prefs.togglemusic"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_toggle_music_on_announce" | translate }}
+  </ion-toggle>
+  <div class="item item-no-border">
+    <div class="input">
+      {{ "_duration_interval" | translate }} : {{ prefs.timevocalinterval }} {{ "_minutes" | translate}}
+      <br><small>{{ "_duration_interval_detail" | translate }}</small>
+    </div>
+    <div class="range range-positive">
+      <input type="range" ng-model="prefs.timevocalinterval" name="timevocalinterval" min="0" max="30" ng-change="savePrefs()">
+    </div>
+  </div>
+  <div class="item item-no-border">
+    <div class="input">
+      {{ "_distance_interval" | translate }} : {{ prefs.distvocalinterval }} kms
+      <br><small>{{ "_distance_interval_detail" | translate }}</small>
+    </div>
+    <div class="range range-positive">
+      <input type="range" ng-model="prefs.distvocalinterval" name="distvocalinterval" min="0" max="30" ng-change="savePrefs()">
+    </div>
+  </div>
+  <ion-toggle ng-model="prefs.distvocalannounce"
+  ng-checked="prefs.distvocalannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_distance" | translate }}
+  </ion-toggle>
+  <ion-toggle ng-model="prefs.timevocalannounce"
+  ng-checked="prefs.timevocalannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_time" | translate }}
+  </ion-toggle>
+  <ion-toggle ng-model="prefs.avgspeedvocalannounce"
+  ng-checked="prefs.avgspeedvocalannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_average_speed" | translate }}
+  </ion-toggle>
+  <ion-toggle ng-model="prefs.avgpacevocalannounce"
+  ng-checked="prefs.avgpacevocalannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_average_pace" | translate }}
+  </ion-toggle>
+  <ion-toggle ng-model="prefs.heartrateannounce"
+  ng-checked="prefs.heartrateannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_heartrate" | translate }}
+  </ion-toggle>
+  <ion-toggle ng-model="prefs.gpslostannounce"
+  ng-checked="prefs.gpslostannounce"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_announce_gpslost" | translate }}
+  </ion-toggle>
+
+</div>
+
+<div class="content double-padding">
+    <h4 class="positive">{{ "_heartRate" | translate }}</h4>
+    <div class="item item-no-border">
+        <div class="input">
+            {{ "_heartrate_max" | translate }} : {{ prefs.heartratemax }} {{ "_heartrate_label" | translate}}
+            <br><small>{{ "_heartrate_max_detail" | translate }}</small>
+        </div>
+       <div class="range range-positive">
+             <input type="range" ng-model="prefs.heartratemax" name="heartratemax" min="50" max="220" ng-change="savePrefs()">
+       </div>
+    </div>
+    <div class="item item-no-border">
+        <div class="input">
+            {{ "_heartrate_min" | translate }} : {{ prefs.heartratemin }} {{ "_heartrate_label" | translate}}
+            <br><small>{{ "_heartrate_min_detail" | translate }}</small>
+        </div>
+        <div class="range range-positive">
+             <input type="range" ng-model="prefs.heartratemin" name="heartratemin" min="50" max="220" ng-change="savePrefs()">
+        </div>
+    </div>
+</div>
+
+<div class="content double-padding">
+    <h4 class="positive">{{ "_bluetooth_devices" | translate }}</h4>
+    <div class="item item-no-border" ng-repeat="device in bluetooth_devices">
+        <li class="item item-checkbox">
+                 <label class="checkbox">
+                               <input type="checkbox"
+                                      ng-change="registerBluetoothDevice(device.id)"
+                                      ng-model="device.registered">
+                 </label>
+                 {{ device.name }} : {{ device.id }}
+        </li>
+    </div>
+
+    <div class="item" ng-if="bluetooth_scanning">
+        <ion-spinner icon="line"></ion-spinner></div>
+    </div>
+
+    <div class="item">
+            <button class="button button-block button-positive" ng-click="detectBLEDevice()" >
+                    {{ "_scan_ble" | translate }}
+            </button>
+    </div>
+</div>
+
+<div class="content double-padding">
+  <h4 class="positive">{{ "_fraction" | translate }}</h4>
+  <div class="item item-no-border">
+    <div class="input">
+      {{ "_duration_slow_interval" | translate }} : {{ prefs.timeslowvocalinterval }} {{ "_minutes" | translate}}
+    </div>
+    <div class="range range-positive">
+      <input type="range" ng-model="prefs.timeslowvocalinterval" name="timevocalinterval" min="0" max="30" ng-change="savePrefs()">
+    </div>
+  </div>
+  <div class="item item-no-border">
+    <div class="input">
+      {{ "_duration_fast_interval" | translate }} : {{ prefs.timefastvocalinterval }} {{ "_minutes" | translate}}
+    </div>
+    <div class="range range-positive">
+      <input type="range" ng-model="prefs.timefastvocalinterval" name="timevocalinterval" min="0" max="30" ng-change="savePrefs()">
+    </div>
+  </div>
+</div>
+
+<div class="content double-padding">
+  <h4 class="positive">{{ "_options" | translate }}</h4>
+  <ion-toggle ng-model="prefs.useDelay"
+  ng-checked="prefs.useDelay"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_delay_start" | translate }}
+  </ion-toggle>
+  <ion-toggle ng-model="prefs.keepscreenon"
+  ng-checked="prefs.keepscreenon"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_keep_screen_on" | translate }}
+  </ion-toggle>
+  <ion-toggle ng-model="prefs.usegoogleelevationapi"
+  ng-checked="prefs.usegoogleelevationapi"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_use_google_elevation_api" | translate }}
+  </ion-toggle>
+</div>
+
+<div class="content double-padding">
+    <h4 class="positive">{{ "_backup_and_restore" | translate }}</h4>
+  <button ng-click="exportAsGPX(true)" class="button icon-left ion-pin button-positive button-block">{{ "_export_as_gpx" | translate }}</button>
+  <!--<button ng-if="platform === 'Android'" onclick="document.getElementById('gpxFile').click();" class="button icon-left ion-pin button-positive button-block">{{ "_import_gpxs" | translate }}-->
+ <!--</button>-->
+  <!--<button ng-if="platform === 'iOS'" onclick="iosFilePicker();"
+      class="button icon-left ion-pin button-positive button-block"></button>-->
+  <button ng-click="doFileChooser();" class="button icon-left ion-pin button-positive button-block">
+      {{ "_import_gpxs" | translate }}
+  <input type="file"  multiple="multiple" name="gpxFile"
+  class="button icon-left ion-pin button-positive button-block"
+  id="gpxFile" class="form-control"
+  onchange="angular.element(this).scope().importGPXs(this)"
+  style="display: none;">
+  </button>
+
+  <button ng-click="doFITChooser();" class="button icon-left ion-pin button-positive button-block">
+      {{ "_import_fits" | translate }}
+  <input type="file"  multiple="multiple" name="fitFile"
+  class="button icon-left ion-pin button-positive button-block"
+  id="fitFile" class="form-control"
+  onchange="angular.element(this).scope().importFITs(this)"
+  style="display: none;">
+  </button>
+</div>
+
+<div class="content double-padding">
+  <h4 class="positive">{{ "_debug_tools" | translate }}</h4>
+  <button ng-click="testRunSpeak(0,20);" class="button button-royal button-block">{{ "_debug_test_vocal" | translate }}</button>
+  <ion-toggle ng-model="prefs.debug"
+  ng-checked="prefs.debug"
+  ng-change="savePrefs()"
+  toggle-class="toggle-positive">
+  {{ "_debug_mode" | translate }}<br><small>{{ "_debug_warning" | translate }}</small>
+  </ion-toggle>
+  <!--<button ng-click="sendLogs();" class="button button-royal button-block">{{"_sendlogs" | translate }}</button>-->
+  <button ng-click="recomputeEverythings();" class="button button-royal button-block">DEBUG: Recompute Everythings</button>
+  <!--<button ng-click="importAllGpx();" class="button button-royal
+      button-block">{"_import_all_gpx" | translate }}</button>-->
+</div>
+</ion-content>
+</ion-view>

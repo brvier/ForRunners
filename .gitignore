@@ -26,7 +26,6 @@ ehthumbs.db
 Thumbs.db 
 *.un~
 
-platforms/*
 plugins/*
 *.keystore
 *.key

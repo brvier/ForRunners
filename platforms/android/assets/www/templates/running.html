@@ -1,0 +1,73 @@
+<!--<ion-modal-view hardwareBackButtonClose=false backdropClickToClose=false>-->
+<ion-view  hide-back-button=true can-swipe-back=false view-title="ForRunners" nav-bar-class="bar-dark">
+
+<ion-content class="black-bg">
+
+        <div class="row">
+            <div class="col text-center">
+
+                    <div class="item">
+                        <h3 style="color: #ccc;">{{ "_time" | translate }}</h3>
+                        <h1 style="margin-top:5px;color: #fff;">{{ session.time }}</h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="item">
+                            <h3 style="color: #ccc;">{{ "_distance" | translate }}</h3>
+                            <h1 style="margin-top:0px;color: #fff;">{{ session.flatdistance}} <span class='unit'>{{session.distancelabel}}</span></h1>
+                        </div>
+
+                        <div class="item">
+                            <h3 style="color: #ccc;">{{ "_speed" | translate }}</h3>
+                            <h1 style="margin-top:0px;color: #fff;">{{session.speed}} <span class='unit'>{{session.speedlabel}}</span></h1>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <h3 style="color: #ccc;">{{ "_pace" | translate }}</h3>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.avpace}} <span class='unit'>{{session.pacelabel}}</span></h1>
+                    </div>
+
+                    <div class="row">
+                        <div class="item" ng-if="session.instantCadence">
+                            <h3 style="color: #ccc;">{{ "_cadence" | translate }}</h3>
+                            <h1 style="margin-top:0px;color: #fff;">{{ session.instantCadence}} <span class='unit'>{{ "_spm_label" | translate }}</span></h1>
+                        </div>
+
+                        <div class="item" ng-if="session.instantPower">
+                            <h3 style="color: #ccc;">{{ "_power" | translate }}</h3>
+                            <h1 style="margin-top:0px;color: #fff;">{{session.instantPower}} <span class='unit'>Watts</span></h1>
+                        </div>
+                    </div>
+
+                    <div class="item" ng-if="session.beatsPerMinute">
+                        <h3 style="color: #ccc;">{{ "_bpm" | translate }}</h3>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute}} <span class='unit'>{{ "_bpms_label" | translate}}</span></h1>
+                    </div>
+
+                    <div class="item">
+                        <h3 ng-if="session.gpsGoodSignalToggle === false" style="color: #c11;">{{ "_gps_lost" | translate }}</h3>
+                        <h3 style="color: #ccc;">{{ "_gps_accuracy" | translate }} {{ session.accuracy_fixed }} m</h3>
+                    </div>
+            </div>
+        </div>
+         <div  ng-if="session.saving === true" class="row">
+            <div class="col text-center">
+                <div class="item">
+                    <h3 style="color: #ccc;">{{ "_recording_session" | translate }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <ion-slide-box show-pager="false">
+           <ion-slide><button  ng-class="session.gpsGoodSignalToggle === false ? 'button-assertive' : 'button-positive'" class="button button-block ">{{ "_swipe_left" | translate }}</button></ion-slide>
+            <ion-slide><button ng-click="stopSession()" class="button button-block button-assertive">{{ "_stop" | translate }}</button></ion-slide>
+        </ion-slide-box>
+
+    </ion-content>
+
+
+<!--<ion-footer-bar align-title="left" class="bar-royal">
+
+</ion-footer-bar> -->
+<!--  </ion-modal-view> -->
+</ion-view>
