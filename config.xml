@@ -57,6 +57,7 @@
         <preference name="AutoHideSplashScreen" value="false" />
         <preference name="SplashScreenDelay" value="10000" />
         <preference name="ShowSplashScreenSpinner" value="false" />
+        <!--hook type="after_prepare" src="hooks/after_prepare/020_add_android_gradle_properties.js" /-->
     </platform>
     <platform name="ios">
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
