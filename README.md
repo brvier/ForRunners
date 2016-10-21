@@ -1,4 +1,4 @@
-# ForRunner
+# ForRunners
 
 [![Join the chat at https://gitter.im/khertan/ForRunners](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/khertan/ForRunners?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
  
