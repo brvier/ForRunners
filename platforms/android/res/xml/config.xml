@@ -51,12 +51,6 @@
     <feature name="IntentPlugin">
         <param name="android-package" value="com.napolitano.cordova.plugin.intent.IntentPlugin" />
     </feature>
-    <preference default="20+" name="xwalkVersion" />
-    <preference default="xwalk_core_library_canary:17+" name="xwalkLiteVersion" />
-    <preference default="--disable-pull-to-refresh-effect" name="xwalkCommandLine" />
-    <preference default="embedded" name="xwalkMode" />
-    <preference default="true" name="xwalkMultipleApk" />
-    <preference default="16" name="android-minSdkVersion" />
     <feature name="MusicControl">
         <param name="android-package" value="net.khertan.plugin.MusicControl" />
     </feature>
@@ -93,7 +87,6 @@
     <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="KeepRunning" value="True" />
-    <preference name="webView" value="org.crosswalk.engine.XWalkWebViewEngine" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -102,10 +95,6 @@
     <preference name="SplashScreenDelay" value="10000" />
     <preference name="Orientation" value="portrait" />
     <preference name="android-manifest/application/activity/@android:launchMode" value="singleTask" />
-    <preference name="xwalkVersion" value="20+" />
-    <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect" />
-    <preference name="xwalkMode" value="embedded" />
-    <preference name="xwalkMultipleApk" value="true" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="19" />
     <preference name="LoadingDialog" value="My Title,My Message" />

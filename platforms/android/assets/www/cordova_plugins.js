@@ -435,7 +435,6 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.5.1",
     "cordova-plugin-camera": "2.2.0",
     "com.napolitano.cordova.plugin.intent": "0.1.3",
-    "cordova-plugin-crosswalk-webview": "2.0.0",
     "net.khertan.plugin.MusicControl": "0.0.1",
     "cordova-custom-config": "2.0.3"
 };

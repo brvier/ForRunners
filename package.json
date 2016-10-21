@@ -1,6 +1,6 @@
 {
   "name": "forrunners",
-  "version": "1.0.0",
+  "version": "1.0.9",
   "description": "ForRunners: A gps tracker for runners",
   "dependencies": {
     "gulp": "^3.5.6",
@@ -50,7 +50,6 @@
       "locator": "https://github.com/boltex/cordova-plugin-powermanagement.git",
       "id": "at.gofg.sportscomputer.powermanagement"
     },
-    "cordova-plugin-crosswalk-webview",
     "cordova-plugin-gpslocation",
     "cordova-plugin-file-transfer",
     "cordova-plugin-camera",
