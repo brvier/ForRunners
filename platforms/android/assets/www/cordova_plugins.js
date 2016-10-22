@@ -411,6 +411,14 @@ module.exports = [
         "clobbers": [
             "window.musicControl"
         ]
+    },
+    {
+        "id": "cordova-plugin-app-version.AppVersionPlugin",
+        "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
+        "pluginId": "cordova-plugin-app-version",
+        "clobbers": [
+            "cordova.getAppVersion"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -436,7 +444,8 @@ module.exports.metadata =
     "cordova-plugin-camera": "2.2.0",
     "com.napolitano.cordova.plugin.intent": "0.1.3",
     "net.khertan.plugin.MusicControl": "0.0.1",
-    "cordova-custom-config": "2.0.3"
+    "cordova-custom-config": "2.0.3",
+    "cordova-plugin-app-version": "0.1.9"
 };
 // BOTTOM OF METADATA
 });

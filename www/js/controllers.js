@@ -82,7 +82,14 @@ angular.module('app.controllers', [])
     leafletData, leafletBoundsHelpers, FileFactory, SessionFactory, $q) {
     'use strict';
 
-    $scope._version = '1.0.5';
+    try {
+        cordova.getAppVersion.getVersionNumber().then(function (version) {
+        $scope._version = version;
+        });
+    } catch (err) {
+        console.err('Version Plugin Missing!');
+    }
+
     try {
         $scope.platform = window.device.platform;
         $scope.android_version = window.device.version.toLowerCase();

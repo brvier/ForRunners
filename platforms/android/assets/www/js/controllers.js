@@ -82,7 +82,7 @@ angular.module('app.controllers', [])
     leafletData, leafletBoundsHelpers, FileFactory, SessionFactory, $q) {
     'use strict';
 
-    $scope._version = '1.0.5';
+    $scope._version = '1.1.0';
     try {
         $scope.platform = window.device.platform;
         $scope.android_version = window.device.version.toLowerCase();

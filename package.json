@@ -56,7 +56,8 @@
     {
       "locator": "https://github.com/napolitano/cordova-plugin-intent",
       "id": "com.napolitano.cordova.plugin.intent"
-    }
+    },
+    "cordova-plugin-app-version"
   ],
   "cordovaPlatforms": [
     "android"
