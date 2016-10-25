@@ -29,3 +29,5 @@ Thumbs.db
 plugins/*
 *.keystore
 *.key
+
+platforms/android/CordovaLib/build/*

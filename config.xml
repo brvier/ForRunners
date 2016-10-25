@@ -46,7 +46,7 @@
         <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
         <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
         <preference name="android-minSdkVersion" value="19" />
-        <preference name="android-targetSdkVersion" value="19" />
+        <preference name="android-targetSdkVersion" value="25" />
         <preference name="LoadingDialog" value="My Title,My Message" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="DefaultVolumeStream" value="media" />

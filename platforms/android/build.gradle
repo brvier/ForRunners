@@ -90,6 +90,12 @@ ext {
 // PLUGIN GRADLE EXTENSIONS START
 // PLUGIN GRADLE EXTENSIONS END
 
+android { 
+  lintOptions { 
+      abortOnError false 
+    }
+}
+
 def hasBuildExtras = file('build-extras.gradle').exists()
 if (hasBuildExtras) {
     apply from: 'build-extras.gradle'
