@@ -1357,14 +1357,20 @@ angular.module('app.controllers', [])
 
     $scope.storageSetObj = function(key, value) {
         try {
-            localStorage.setItem(key, JSON.stringify(value));
+            //localStorage.setItem(key, JSON.stringify(value));
+            NativeStorage.setItem(key, value, function(){}, function(err){console.error('Native Storage SET Failed:' + err);});
         } catch (err) {
-            console.error(err);
+            console.error(err); 
         }
     };
 
-    $scope.storageGetObj = function(key) {
-        return JSON.parse(localStorage.getItem(key));
+    $scope.storageGetObj = function(key, success, error) {
+        //return JSON.parse(localStorage.getItem(key));
+        try {
+            NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);error();});
+        } catch (err) {
+            console.error(err); 
+        }
     };
 
     $scope.setLang = function() {
@@ -1455,11 +1461,11 @@ angular.module('app.controllers', [])
         $scope.sessionsIndex[session.recclicked] = $scope.resumeSessionForIndex(session);
         $scope.sortSessions();
 
-        if ($scope.platform === 'Browser') {
-            $scope.storageSetObj('index', $scope.sessionsIndex);
-        } else {
-            $scope.writeToFile($scope.sessionsIndex, 'sessions.index');
-        }
+        //if ($scope.platform === 'Browser') {
+        $scope.storageSetObj('index', $scope.sessionsIndex);
+        //} else {
+         //   $scope.writeToFile($scope.sessionsIndex, 'sessions.index');
+        //}
     };
 
     $scope.writeEquipmentsToFile = function(equipments) {
@@ -1467,11 +1473,11 @@ angular.module('app.controllers', [])
     };
 
     $scope.writeResumeToFile = function(resume) {
-        if ($scope.platform === 'Browser') {
-            $scope.storageSetObj('resume', resume);
-            return;
-        }
-        $scope.writeToFile(resume, 'resume');
+        //if ($scope.platform === 'Browser') {
+        $scope.storageSetObj('resume', resume);
+         //   return;
+        //}
+       // $scope.writeToFile(resume, 'resume');
     };
 
     $scope.loadFromFile = function(filename, success, fail) {
@@ -1553,7 +1559,8 @@ angular.module('app.controllers', [])
     };
 
     $scope.loadSessionsIndex = function() {
-      $scope.loadFromFile('sessions.index',
+
+      $scope.storageGetObj('index',
         function(datas) {
           console.log('Load index');
           $scope.sessionsIndex = datas;
@@ -1573,25 +1580,38 @@ angular.module('app.controllers', [])
         function(err) {
           console.log(err);
           $scope.loadAllJsonSessions();
-        });
+        });      
+      /*$scope.loadFromFile('sessions.index',
+        function(datas) {
+          console.log('Load index');
+          $scope.sessionsIndex = datas;
+          for (var recclicked in $scope.sessionsIndex) {
+            if ($scope.sessionsIndex.hasOwnProperty(recclicked)) {
+              if (typeof $scope.sessionsIndex[recclicked].duration === 'string') {
+                  $scope.sessionsIndex[recclicked].duration= new Date($scope.sessionsIndex[recclicked].duration);
+              }
+              if (typeof $scope.sessionsIndex[recclicked].pace === 'string') {
+                  $scope.sessionsIndex[recclicked].pace = new Date($scope.sessionsIndex[recclicked].pace);
+              }
+            }
+          }
+          $scope.sortSessions();
+          $scope.loadAllJsonSessions();
+        },
+        function(err) {
+          console.log(err);
+          $scope.loadAllJsonSessions();
+        });*/
     };
 
     // Run
     // Load Resume
-    if ($scope.platform === 'Browser') {
-        try {
-            $scope.resume = $scope.storageGetObj('resume');
-        } catch (e) {
-            console.log(e);
-        }
-    } else {
-        $scope.loadFromFile('resume', function(datas) {
-            $scope.resume = datas;
-        }, function(err) {
-            console.error('LoadResumeFromFile failed :' + err);
-        });
-    }
-
+    $scope.storageGetObj('resume', 
+        function(resume){
+            $timeout(function(){$scope.resume=resume; console.log('Resume loaded from native storage');},0)}, 
+        function(err){
+            console.log(err);});
+    
     // Load Session Index
     $scope.loadSessionsIndex();
 
@@ -1605,13 +1625,13 @@ angular.module('app.controllers', [])
 
     $scope.translateFilter = $filter('translate');
 
-    var prefs = $scope.storageGetObj('prefs');
-    if (prefs) {
-        for (var prop in prefs) {
-            $scope.prefs[prop] = prefs[prop];
-        }
-        $scope.setLang();
-    } else {}
+    $scope.storageGetObj('prefs', function(prefs){
+        if (prefs) {
+            for (var prop in prefs) {
+                $scope.prefs[prop] = prefs[prop];
+            }
+            $scope.setLang();
+        }},function(err){console.log(err);});
 
     if (navigator && navigator.splashscreen) {
         navigator.splashscreen.hide();
@@ -2615,7 +2635,8 @@ angular.module('app.controllers', [])
         $scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(1);
 
         try {
-            $scope.writeResumeToFile($scope.resume);
+            //$scope.writeResumeToFile($scope.resume);
+            $scope.storageSetObj('resume', $scope.resume);
         } catch (err) {
             console.warn(err);
         }
