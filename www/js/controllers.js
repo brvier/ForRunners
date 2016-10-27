@@ -3090,15 +3090,15 @@ angular.module('app.controllers', [])
 .controller('SettingsCtrl', function($scope) {
     'use strict';
 
-    $scope.promptForRating = function() {
+    //$scope.promptForRating = function() {
         //AppRate.preferences.storeAppURL.android = 'market://details?id=net.khertan.forrunners';
         //AppRate.preferences.promptAgainForEachNewVersion = false;
         //AppRate.promptForRating();
-    };
+    //};
 
-    if ($scope.sessions.length > 8) {
-        $scope.promptForRating();
-    }
+    //if ($scope.sessions.length > 8) {
+    //    $scope.promptForRating();
+    //}
 })
 
 .controller('HelpCtrl', function($scope, $state, $ionicScrollDelegate) {

@@ -17,7 +17,7 @@
         <p>{{resume.bestdistance}} Kms - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed}} Km/h</p>
     </div>
 
-    <div class="content double-padding" ng-if="(fullyLoaded == true) && (sessions.length < 1)">
+    <div class="content double-padding" ng-if="sortedSessionsIndex === undefined">
       <h4 class="positive">Welcome on ForRunners</h4>
       <p class="text-muted">
         {{ "_welcome_text" | translate }}
