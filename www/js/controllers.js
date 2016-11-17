@@ -87,7 +87,7 @@ angular.module('app.controllers', [])
         $scope._version = version;
         });
     } catch (err) {
-        console.err('Version Plugin Missing!');
+        console.error('Version Plugin Missing!');
     }
 
     try {
@@ -1367,7 +1367,7 @@ angular.module('app.controllers', [])
     $scope.storageGetObj = function(key, success, error) {
         //return JSON.parse(localStorage.getItem(key));
         try {
-            NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);error();});
+            NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);});
         } catch (err) {
             console.error(err); 
         }
