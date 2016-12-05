@@ -43,7 +43,6 @@
     },
     "cordova-plugin-device",
     "cordova-plugin-file",
-    "cordova-plugin-globalization",
     "cordova-plugin-ble-central",
     "cordova-plugin-globalization",
     {

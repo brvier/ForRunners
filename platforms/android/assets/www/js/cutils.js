@@ -2,6 +2,7 @@ function average(arr, prec) {
     'use strict'; 
     var cnt = 1;
   var len = arr.length;
+  if (len==0) return 0;
   var av;
   if (arr[0] instanceof Date) {
       av = arr[0].getTime();

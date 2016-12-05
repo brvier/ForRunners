@@ -285,22 +285,6 @@ module.exports = [
         "runs": true
     },
     {
-        "id": "cordova-plugin-globalization.GlobalizationError",
-        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
-        "pluginId": "cordova-plugin-globalization",
-        "clobbers": [
-            "window.GlobalizationError"
-        ]
-    },
-    {
-        "id": "cordova-plugin-globalization.globalization",
-        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
-        "pluginId": "cordova-plugin-globalization",
-        "clobbers": [
-            "navigator.globalization"
-        ]
-    },
-    {
         "id": "cordova-plugin-ble-central.ble",
         "file": "plugins/cordova-plugin-ble-central/www/ble.js",
         "pluginId": "cordova-plugin-ble-central",
@@ -421,6 +405,22 @@ module.exports = [
         ]
     },
     {
+        "id": "cordova-plugin-globalization.GlobalizationError",
+        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "id": "cordova-plugin-globalization.globalization",
+        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
+    },
+    {
         "id": "cordova-plugin-nativestorage.mainHandle",
         "file": "plugins/cordova-plugin-nativestorage/www/mainHandle.js",
         "pluginId": "cordova-plugin-nativestorage",
@@ -454,7 +454,6 @@ module.exports.metadata =
     "cordova-plugin-insomnia": "4.2.0",
     "com.jcesarmobile.filepicker": "1.1.1",
     "cordova-plugin-file": "4.2.0",
-    "cordova-plugin-globalization": "1.0.3",
     "cordova-plugin-ble-central": "1.1.1",
     "at.gofg.sportscomputer.powermanagement": "1.1.0",
     "cordova-plugin-gpslocation": "1.0.0",
@@ -464,6 +463,7 @@ module.exports.metadata =
     "net.khertan.plugin.MusicControl": "0.0.1",
     "cordova-custom-config": "2.0.3",
     "cordova-plugin-app-version": "0.1.9",
+    "cordova-plugin-globalization": "1.0.4",
     "cordova-plugin-nativestorage": "2.0.2"
 };
 // BOTTOM OF METADATA

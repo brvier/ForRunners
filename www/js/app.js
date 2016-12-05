@@ -1,5 +1,5 @@
-angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', 'pascalprecht.translate', 'ionic-material',
-                           'leaflet-directive', 'ionMdInput', 'ionic-modal-select'])
+angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', 'pascalprecht.translate', //'ionic-material', 'ionMdInput',
+                           'leaflet-directive', 'ionic-modal-select'])
 
 .run(function($ionicPlatform) {
   'use strict';

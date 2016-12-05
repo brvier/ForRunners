@@ -1225,7 +1225,6 @@ angular.module('app.controllers', [])
     };
 
     $scope.importFITs = function(element) {
-
         for (var idx in element.files) {
             if (typeof element.files[idx] === 'object') {
                 $scope.importFIT(element.files[idx]);
@@ -1367,7 +1366,7 @@ angular.module('app.controllers', [])
     $scope.storageGetObj = function(key, success, error) {
         //return JSON.parse(localStorage.getItem(key));
         try {
-            NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);});
+            NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);error();});
         } catch (err) {
             console.error(err); 
         }
@@ -2544,16 +2543,16 @@ angular.module('app.controllers', [])
                 }
               }
             }
-        }
 
-        $scope.equipments = $scope.equipments.map(function(equipment) {
-            if (distance[equipment.uuid]) {
-                equipment.distance = distance[equipment.uuid].toFixed(1);
-            } else {
-                equipment.distance = 0;
-            }
-            return equipment;
-        });
+            $scope.equipments = $scope.equipments.map(function(equipment) {
+                if (distance[equipment.uuid]) {
+                    equipment.distance = distance[equipment.uuid].toFixed(1);
+                } else {
+                    equipment.distance = 0;
+                }
+                return equipment;
+            });
+        }
 
     };
 
@@ -2646,7 +2645,8 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk, ionicMaterialMotion, $state) {
+//.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk, ionicMaterialMotion, $state) {
+.controller('SessionsCtrl', function($scope, $timeout, $state) {
     'use strict';
 
     $timeout(function() {
@@ -2667,7 +2667,7 @@ angular.module('app.controllers', [])
 
     // Compute Resume Graph
     $timeout(function() {
-        ionicMaterialInk.displayEffect();
+//        ionicMaterialInk.displayEffect();
     }, 4000);
 })
 

@@ -12,8 +12,8 @@
     <!-- ionic css -->
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
-    <link href="lib/waves/dist/waves.min.css" rel="stylesheet">
-    <link href="lib/ion-md-input/css/ion-md-input.min.css" rel="stylesheet">
+    <!--<link href="lib/waves/dist/waves.min.css" rel="stylesheet">-->
+    <!--<link href="lib/ion-md-input/css/ion-md-input.min.css" rel="stylesheet">-->
 
     <!-- nokia here css
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css"> -->
@@ -73,13 +73,13 @@
     <!--script src="js/ionic_select.js"></script-->
   </head>
 
-  <body ng-app="app">
+  <body>
 
   <ion-nav-view></ion-nav-view>
 
   <!-- ionic material js -->
-  <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
-  <script src="lib/ion-md-input/js/ion-md-input.min.js"></script>
+  <!--<script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+  <script src="lib/ion-md-input/js/ion-md-input.min.js"></script>-->
   <script src="lib/x2js/xml2json.min.js"></script>
   <script src="lib/html2canvas/build/html2canvas.min.js"></script>
 
@@ -115,4 +115,22 @@
   </script>-->
 
   </body>
+
+  <script>
+   function bootstrapAngular() {
+      console.log('Bootstraping angularjs');
+      var domElement = document.querySelector('body');
+      angular.bootstrap(domElement, ['app']);
+   }
+   
+   if (document.URL.indexOf( 'http://' ) === -1 
+        && document.URL.indexOf( 'https://' ) === -1) {
+    console.log("Running in Cordova/PhoneGap");
+    document.addEventListener("deviceready", bootstrapAngular, false);
+   } else {
+      console.log("Running in browser");
+      bootstrapAngular();
+   }
+ </script>
+
 </html>
