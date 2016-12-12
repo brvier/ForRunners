@@ -1607,7 +1607,7 @@ angular.module('app.controllers', [])
     // Load Resume
     $scope.storageGetObj('resume', 
         function(resume){
-            $timeout(function(){$scope.resume=resume; console.log('Resume loaded from native storage');},0)}, 
+            $timeout(function(){$scope.resume=resume; console.log('Resume loaded from native storage');},0);}, 
         function(err){
             console.log(err);});
     
