@@ -28,16 +28,15 @@
 
 [Benoît HERVIER][13] - [bitcoin:1H2fyhNYo2JVQ4uyf5FudUa2uwsmcE1X7q](bitcoin:1H2fyhNYo2JVQ4uyf5FudUa2uwsmcE1X7q)
 
-[1]: http://khertan.net/projects/forrunners/img/main.png
-[2]: https://developer.android.com/images/brand/en_generic_rgb_wo_60.png
-[3]: https://play.google.com/store/apps/details?id=net.khertan.forrunners
-[4]: http://khertan.net/projects/forrunners/img/qrcode.png
-[5]: http://khertan.net/projects/forrunners/screenshots/main.png
-[6]: http://khertan.net/projects/forrunners/screenshots/session.png
-[7]: http://khertan.net/projects/forrunners/screenshots/session2.png
-[8]: http://khertan.net/projects/forrunners/screenshots/records.png
-[9]: http://khertan.net/projects/forrunners/screenshots/session3.png
-[10]: http://khertan.net/projects/forrunners/screenshots/session4.png
-[11]: http://khertan.net/projects/forrunners/screenshots/session5.png
-[12]: http://khertan.net/projects/forrunners/screenshots/settings.png
+[1]:  http://khertan.net/images/forrunners/nexus-main-left.png
+[2]:  https://developer.android.com/images/brand/en_generic_rgb_wo_60.png
+[3]:  https://play.google.com/store/apps/details?id=net.khertan.forrunners
+[5]:  http://khertan.net/images/forrunners/main.png
+[6]:  http://khertan.net/images/forrunners/session.png
+[7]:  http://khertan.net/images/forrunners/session2.png
+[8]:  http://khertan.net/images/forrunners/records.png
+[9]:  http://khertan.net/images/forrunners/session3.png
+[10]: http://khertan.net/images/forrunners/session4.png
+[11]: http://khertan.net/images/forrunners/settings.png
+[12]: http://khertan.net/images/forrunners/settings2.png
 [13]: http://khertan.net
