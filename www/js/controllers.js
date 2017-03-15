@@ -221,7 +221,7 @@ angular.module('app.controllers', [])
             }
 
             if (isNaN(item[3]) && (idx - 1 > 0)) {
-                console.log(idx + ':' + $scope.parseFloatOr(item[3]));
+                console.log(idx + ':' + $scope.parseFloatOr(item[3]) + ':' + $scope.parseFloatOr(datas[idx - 1][3]));
                 item[3] = datas[idx - 1][3];
             }
 
@@ -244,6 +244,11 @@ angular.module('app.controllers', [])
         //var encpath = '';
         var gpx_path = [];
         var gpxPoints = [];
+
+        if ($scope.session.nottracked === true){
+            //Manually edited session we cant recompute them
+            return;
+        }
 
         gpxPoints = simplifyGPX($scope.computeKalmanLatLng($scope.session.gpxData), 0.00002);
 
@@ -463,7 +468,7 @@ angular.module('app.controllers', [])
             //Speed between this and previous point
             dtd = new Date(curDate) - new Date(oldDate);
             dspeed = (Math.round((d) * 100) / 100) / (dtd / 1000 / 60 / 60);
-            console.log(d);
+            //console.log(d);
             if (d < 0.0001) {
                 console.log('stop point');
             } else {
@@ -662,6 +667,10 @@ angular.module('app.controllers', [])
         //Points
         $scope.session.gpxPoints = gpxPoints;
 
+        if ($scope.session.type === undefined) {
+            $scope.session.type = 'Run';
+        }
+
         //Maps markers
         if ($scope.session.map === undefined) {
             $scope.session.map = {
@@ -833,17 +842,15 @@ angular.module('app.controllers', [])
         eleDown = 0; //parseFloat(elePoints[0][3]);
         for (p = 0; p < gpxPoints.length; p++) {
             curEle = gpxPoints[p].ele;
-
             if (p > 0) {
-
                 oldEle = gpxPoints[p - 1].ele;
-
+                console.log(curEle);
+                console.log(oldEle);
                 if (curEle > oldEle) {
                     eleUp += (curEle) - (oldEle);
                 } else if (curEle < oldEle) {
                     eleDown += (oldEle) - (curEle);
                 }
-
             }
         }
 
@@ -2258,17 +2265,18 @@ angular.module('app.controllers', [])
 
                     $scope.session.gpxData.push(pointData);
                     $scope.session.lastrecordtime = timenew;
+
+	                // Record Weather
+	                if ($scope.session.weather === '') {
+	                    $scope.weather.byLocation({
+	                        'latitude': latnew,
+	                        'longitude': lonnew
+	                    }).then(function(weather) {
+	                        $scope.session.weather = weather;
+	                    });
+	                }
                 }
 
-                // Record Weather
-                if ($scope.session.weather === '') {
-                    $scope.weather.byLocation({
-                        'latitude': latnew,
-                        'longitude': lonnew
-                    }).then(function(weather) {
-                        $scope.session.weather = weather;
-                    });
-                }
 
             });
         }
@@ -2329,7 +2337,8 @@ angular.module('app.controllers', [])
             avpace: '00:00',
             speeds: [],
             weather: '',
-            temp: ''
+            temp: '',
+            type: 'Running'
         };
 
         $scope.screen_lock = null;
