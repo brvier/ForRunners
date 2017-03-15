@@ -221,7 +221,7 @@ angular.module('app.controllers', [])
             }
 
             if (isNaN(item[3]) && (idx - 1 > 0)) {
-                console.log(idx + ':' + $scope.parseFloatOr(item[3]) + ':' + $scope.parseFloatOr(datas[idx - 1][3]));
+                //console.log(idx + ':' + $scope.parseFloatOr(item[3]) + ':' + $scope.parseFloatOr(datas[idx - 1][3]));
                 item[3] = datas[idx - 1][3];
             }
 
@@ -273,7 +273,7 @@ angular.module('app.controllers', [])
             var encpaths = gpx_paths.map(function(path) {
                 return L.polyline(path).encodePath();
             });
-            console.log(encpaths);
+            //console.log(encpaths);
             encpaths.map(function(encpath, encidx) {
                 $http({
                     url: 'https://maps.googleapis.com/maps/api/elevation/json?key=AIzaSyCIxn6gS4TePkbl7Pdu49JHoMR6POMafdg&locations=enc:' + encpath,
@@ -989,7 +989,7 @@ angular.module('app.controllers', [])
 		          if (navigator && navigator.splashscreen) {
 			        navigator.splashscreen.hide();
 				  }
-		                    return deferred.promise;
+		          return deferred.promise;
               }
             }
 
@@ -1035,8 +1035,10 @@ angular.module('app.controllers', [])
             console.error(error);
             console.error('Load OLD SESSION FILE !!');
             $scope.migrateFromOldSessionFile();
+    		if (navigator && navigator.splashscreen) {
+		        navigator.splashscreen.hide();
+    	    }
         });
-
         return deferred.promise;
     };
 
@@ -1590,9 +1592,7 @@ angular.module('app.controllers', [])
         },
         function(err) {
           console.log(err);
-          $scope.loadAllJsonSessions();
-
-
+          $scope.loadAllJsonSessions();          
         });      
       /*$scope.loadFromFile('sessions.index',
         function(datas) {
