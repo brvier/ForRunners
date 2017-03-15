@@ -25,7 +25,7 @@
     <preference name="KeepRunning" value="True" />
     <preference name="LoadingDialog" value="My Title,My Message" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="4000" />
+    <preference name="SplashScreenDelay" value="20000" />
     <preference name="Orientation" value="portrait" />
     <preference name="android-manifest/application/activity/@android:launchMode" value="singleTask" />
     <feature name="StatusBar">
@@ -55,7 +55,7 @@
         <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
         <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
         <preference name="AutoHideSplashScreen" value="false" />
-        <preference name="SplashScreenDelay" value="10000" />
+        <preference name="SplashScreenDelay" value="20000" />
         <preference name="ShowSplashScreenSpinner" value="false" />
     </platform>
     <platform name="ios">

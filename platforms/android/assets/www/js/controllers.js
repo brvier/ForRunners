@@ -667,9 +667,9 @@ angular.module('app.controllers', [])
         //Points
         $scope.session.gpxPoints = gpxPoints;
 
-        //if ($scope.session.type === undefined) {
+        if ($scope.session.type === undefined) {
             $scope.session.type = 'Run';
-        //}
+        }
 
         //Maps markers
         if ($scope.session.map === undefined) {
@@ -986,7 +986,10 @@ angular.module('app.controllers', [])
             if (($scope.sortedSessionsIndex !== undefined) & ($scope.resume !== undefined)) {
               if ((result.length === $scope.sortedSessionsIndex.length) & ($scope.resume.avspeed !== 'NaN') & ($scope.resume.avdistance != 'NaN')) {
                   console.log('Resume and Index OK, not loading sessions');
-                  return deferred.promise;
+		          if (navigator && navigator.splashscreen) {
+			        navigator.splashscreen.hide();
+				  }
+		                    return deferred.promise;
               }
             }
 
@@ -1580,12 +1583,16 @@ angular.module('app.controllers', [])
               }
             }
           }
+
+
           $scope.sortSessions();
           $scope.loadAllJsonSessions();
         },
         function(err) {
           console.log(err);
           $scope.loadAllJsonSessions();
+
+
         });      
       /*$scope.loadFromFile('sessions.index',
         function(datas) {
@@ -1638,11 +1645,6 @@ angular.module('app.controllers', [])
             }
             $scope.setLang();
         }},function(err){console.log(err);});
-
-    if (navigator && navigator.splashscreen) {
-        navigator.splashscreen.hide();
-    }
-
 
     $scope.glbs = {
         heartRate: {
@@ -2265,17 +2267,18 @@ angular.module('app.controllers', [])
 
                     $scope.session.gpxData.push(pointData);
                     $scope.session.lastrecordtime = timenew;
+
+	                // Record Weather
+	                if ($scope.session.weather === '') {
+	                    $scope.weather.byLocation({
+	                        'latitude': latnew,
+	                        'longitude': lonnew
+	                    }).then(function(weather) {
+	                        $scope.session.weather = weather;
+	                    });
+	                }
                 }
 
-                // Record Weather
-                if ($scope.session.weather === '') {
-                    $scope.weather.byLocation({
-                        'latitude': latnew,
-                        'longitude': lonnew
-                    }).then(function(weather) {
-                        $scope.session.weather = weather;
-                    });
-                }
 
             });
         }

@@ -986,7 +986,10 @@ angular.module('app.controllers', [])
             if (($scope.sortedSessionsIndex !== undefined) & ($scope.resume !== undefined)) {
               if ((result.length === $scope.sortedSessionsIndex.length) & ($scope.resume.avspeed !== 'NaN') & ($scope.resume.avdistance != 'NaN')) {
                   console.log('Resume and Index OK, not loading sessions');
-                  return deferred.promise;
+		          if (navigator && navigator.splashscreen) {
+			        navigator.splashscreen.hide();
+				  }
+		                    return deferred.promise;
               }
             }
 
@@ -1580,12 +1583,16 @@ angular.module('app.controllers', [])
               }
             }
           }
+
+
           $scope.sortSessions();
           $scope.loadAllJsonSessions();
         },
         function(err) {
           console.log(err);
           $scope.loadAllJsonSessions();
+
+
         });      
       /*$scope.loadFromFile('sessions.index',
         function(datas) {
@@ -1638,11 +1645,6 @@ angular.module('app.controllers', [])
             }
             $scope.setLang();
         }},function(err){console.log(err);});
-
-    if (navigator && navigator.splashscreen) {
-        navigator.splashscreen.hide();
-    }
-
 
     $scope.glbs = {
         heartRate: {
