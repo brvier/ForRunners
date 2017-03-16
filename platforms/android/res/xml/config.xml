@@ -60,6 +60,9 @@
     <feature name="NativeStorage">
         <param name="android-package" value="NativeStorage" />
     </feature>
+    <feature name="ActivityRecognitionPlugin">
+        <param name="android-package" value="cordova.plugin.activity.recognition.ActivityRecognitionPlugin" />
+    </feature>
     <feature name="BLE">
         <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
     </feature>

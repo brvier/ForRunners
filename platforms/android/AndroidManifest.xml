@@ -10,6 +10,8 @@
             </intent-filter>
         </activity>
         <service android:name="de.appplant.cordova.plugin.background.ForegroundService" />
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <service android:name="cordova.plugin.activity.recognition.ActivityRecognitionIntentService" />
     </application>
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="25" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -21,4 +23,5 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.hardware.camera.autofocus" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
 </manifest>

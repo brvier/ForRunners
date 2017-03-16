@@ -29,6 +29,14 @@
                         {
                             "xml": "<service android:name=\"de.appplant.cordova.plugin.background.ForegroundService\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<meta-data android:name=\"com.google.android.gms.version\" android:value=\"@integer/google_play_services_version\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<service android:name=\"cordova.plugin.activity.recognition.ActivityRecognitionIntentService\" />",
+                            "count": 1
                         }
                     ],
                     "/manifest": [
@@ -46,6 +54,10 @@
                         },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"com.google.android.gms.permission.ACTIVITY_RECOGNITION\" />",
                             "count": 1
                         }
                     ]
@@ -133,6 +145,10 @@
                         {
                             "xml": "<feature name=\"NativeStorage\"><param name=\"android-package\" value=\"NativeStorage\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"ActivityRecognitionPlugin\"><param name=\"android-package\" value=\"cordova.plugin.activity.recognition.ActivityRecognitionPlugin\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": [
@@ -213,6 +229,12 @@
             "PACKAGE_NAME": "net.khertan.forrunners"
         },
         "cordova-plugin-nativestorage": {
+            "PACKAGE_NAME": "net.khertan.forrunners"
+        },
+        "cordova-plugin-googleplayservices": {
+            "PACKAGE_NAME": "net.khertan.forrunners"
+        },
+        "cordova-plugin-activity-recognition": {
             "PACKAGE_NAME": "net.khertan.forrunners"
         }
     },
@@ -655,6 +677,14 @@
             "id": "cordova-plugin-nativestorage.NativeStorageError",
             "file": "plugins/cordova-plugin-nativestorage/www/NativeStorageError.js",
             "pluginId": "cordova-plugin-nativestorage"
+        },
+        {
+            "id": "cordova-plugin-activity-recognition.ActivityRecognition",
+            "file": "plugins/cordova-plugin-activity-recognition/www/ActivityRecognition.js",
+            "pluginId": "cordova-plugin-activity-recognition",
+            "clobbers": [
+                "cordova.plugins.ActivityRecognition"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -680,6 +710,8 @@
         "cordova-custom-config": "2.0.3",
         "cordova-plugin-app-version": "0.1.9",
         "cordova-plugin-globalization": "1.0.4",
-        "cordova-plugin-nativestorage": "2.0.2"
+        "cordova-plugin-nativestorage": "2.0.2",
+        "cordova-plugin-googleplayservices": "19.0.3",
+        "cordova-plugin-activity-recognition": "1.0.0"
     }
 }

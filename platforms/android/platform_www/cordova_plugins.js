@@ -437,6 +437,14 @@ module.exports = [
         "id": "cordova-plugin-nativestorage.NativeStorageError",
         "file": "plugins/cordova-plugin-nativestorage/www/NativeStorageError.js",
         "pluginId": "cordova-plugin-nativestorage"
+    },
+    {
+        "id": "cordova-plugin-activity-recognition.ActivityRecognition",
+        "file": "plugins/cordova-plugin-activity-recognition/www/ActivityRecognition.js",
+        "pluginId": "cordova-plugin-activity-recognition",
+        "clobbers": [
+            "cordova.plugins.ActivityRecognition"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -464,7 +472,9 @@ module.exports.metadata =
     "cordova-custom-config": "2.0.3",
     "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-globalization": "1.0.4",
-    "cordova-plugin-nativestorage": "2.0.2"
+    "cordova-plugin-nativestorage": "2.0.2",
+    "cordova-plugin-googleplayservices": "19.0.3",
+    "cordova-plugin-activity-recognition": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

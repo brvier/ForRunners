@@ -993,6 +993,10 @@ angular.module('app.controllers', [])
               }
             }
 
+            console.log('Loading all sessions');
+            //console.log(result.length);
+            //console.log($scope.sortedSessionsIndex.length);
+
             // Else load all sessions
             $scope.session_files = result.sort(function(a, b) {
                 var x = parseInt(a.name.slice(0, -5));
@@ -1021,6 +1025,10 @@ angular.module('app.controllers', [])
                               $scope.fullyLoaded = true;
                               $scope.computeResumeGraph();
                               $scope.cleanIndex();
+                              console.log('All sessions loaded');
+                              if (navigator && navigator.splashscreen) {
+                                navigator.splashscreen.hide();
+                              }
                               deferred.resolve(true);
                           }
                         });
@@ -1446,6 +1454,7 @@ angular.module('app.controllers', [])
           speed: session.speed,
           eleUp: session.eleUp,
           eleDown: session.eleDown,
+          type: session.type,
           equipmentUUIDs: session.equipments.map(function(eq){
             if (eq) {
               return eq.uuid;
@@ -1463,6 +1472,7 @@ angular.module('app.controllers', [])
           }
         }
       }
+      $scope.storageSetObj('index', $scope.sessionsIndex);
     };
 
     $scope.updateIndex = function(session) {
@@ -1946,6 +1956,12 @@ angular.module('app.controllers', [])
             } catch (exception) {}
 
             try {
+                cordova.plugins.ActivityRecognition.Dissconnect();
+            } catch(exception) {
+                console.debug('ERROR: window.ActivityRecognition not enabled')
+            }
+
+            try {
                 clearInterval($scope.btscanintervalid);
             } catch (exception) {}
 
@@ -2046,8 +2062,22 @@ angular.module('app.controllers', [])
         $scope.speakText(speechText);
     };
 
+    $scope.activityCallback = function(obj){
+        console.log('ActivityType:' + obj.ActivityType);
+        console.log('Probability:' + obj.Probability);
+        if (obj.Probability > 80) {
+            $scope.session.type = obj.ActivityType;
+        }
+    };
+
+    $scope.activityErrorCallback = function(obj){
+        console.error(obj);
+    };
     $scope.recordPosition = function(pos) {
-        console.debug('recordPosition');
+
+        //FIXME GetActivity
+        console.debug('getActivity ' + cordova.plugins.ActivityRecognition.GetActivity($scope.activityCallback, $scope.activityErrorCallback));
+
         if ($scope.mustdelay === false) {
             var latnew = pos.coords.latitude;
             var lonnew = pos.coords.longitude;
@@ -2125,7 +2155,7 @@ angular.module('app.controllers', [])
                                 dspeed = (d) / (dtd / 1000 / 60 / 60);
 
                                 elapsed = timenew - $scope.session.firsttime;
-                                //console.log(ispeed);
+                                console.log(pos.coords.speed);
                                 if ((dspeed > 1)) {
                                     $scope.session.equirect += d;
                                     $scope.session.eledist += d;
@@ -2151,11 +2181,13 @@ angular.module('app.controllers', [])
                                     $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
                                     $scope.session.avspeed = (elapsed / $scope.session.equirect).toFixed(1);
                                 }
-                                if (pos.coords.speed !== undefined) {
-                                    $scope.session.speeds.push(pos.coords.speed * 3.6);
-                                    $scope.session.speeds.slice(-5);
-                                    $scope.session.speed = average($scope.session.speeds, 1).toFixed(1);
-                                }
+
+                                //Calulate Instant speed average on last 5 points
+                                //$scope.session.speeds.push(dspeed);
+                                //$scope.session.speeds.slice(-5);
+                                //$scope.session.speed = average($scope.session.speeds, 1).toFixed(1);
+                                $scope.session.speed = pos.coords.speed;
+
                                 var currentPace = $scope.glbs.pace[$scope.prefs.unit] / $scope.session.speed;
                                 $scope.session.pace = Math.floor(currentPace) + ':' + ('0' + Math.floor(currentPace % 1 * 60)).slice(-2);
                                 if ($scope.session.maxspeed < $scope.session.speed) {
@@ -2400,6 +2432,15 @@ angular.module('app.controllers', [])
         } catch (exception) {
             console.warn('ERROR: cordova powerManagement not enabled');
         }
+
+        try {
+            cordova.plugins.ActivityRecognition.Connect(
+                function(msg){console.log(msg);},
+                function(msg){console.log(msg);});
+        } catch(exception) {
+            console.debug('ERROR: window.ActivityRecognition not enabled')
+        }
+
         if ($scope.prefs.keepscreenon === true) {
             try {
                 window.plugins.insomnia.keepAwake();
@@ -2905,6 +2946,8 @@ angular.module('app.controllers', [])
                 $scope.deleteFileSession(recid);
                 delete $scope.sessionsIndex[recid];
                 $scope.sortSessions();
+                $scope.storageSetObj('index', $scope.sessionsIndex);
+
                 //Back
                 var view = $ionicHistory.backView();
                 if (view) {

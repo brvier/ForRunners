@@ -12,15 +12,21 @@
   left: 26px;
   width: 52px;
   font-size: 14px;
+  top: 40px !important;
 }
 
 .badge-lower {
   left: 26px;
-  top: 40px !important;
+  top: 60px !important;
   width: 52px;
   font-size: 14px;
 }
 
+.badge-upper {
+  left: 38px;
+  width: 52px;
+  font-size: 18px;
+}
 
 .item-divider{
     position: -webkit-sticky !important;
@@ -57,6 +63,9 @@
   border-style: none;
 }
 
+.item-dark {
+    background-color: #000 !important;
+}
 /*.title-left {
   text-align: left;
   left:0px;
