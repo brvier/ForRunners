@@ -2409,7 +2409,9 @@ angular.module('app.controllers', [])
             cordova.plugins.backgroundMode.setDefaults({
                 title: 'ForRunners',
                 ticker: $scope.translateFilter('_notification_slug'),
-                text: $scope.translateFilter('_notification_message')
+                text: $scope.translateFilter('_notification_message'),
+                color: 'FFF',
+                hidden: false,
             });
             cordova.plugins.backgroundMode.enable();
             cordova.plugins.backgroundMode.onactivate = function() {
