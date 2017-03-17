@@ -1958,7 +1958,7 @@ angular.module('app.controllers', [])
             try {
                 cordova.plugins.ActivityRecognition.Dissconnect();
             } catch(exception) {
-                console.debug('ERROR: window.ActivityRecognition not enabled')
+                console.debug('ERROR: window.ActivityRecognition not enabled');
             }
 
             try {
@@ -2156,7 +2156,8 @@ angular.module('app.controllers', [])
 
                                 elapsed = timenew - $scope.session.firsttime;
                                 console.log(pos.coords.speed);
-                                if ((dspeed > 1)) {
+                                //if ((dspeed > 1)) {
+                                if ((pos.coords.speed * 3.6) > 1) {
                                     $scope.session.equirect += d;
                                     $scope.session.eledist += d;
                                 }
@@ -2186,7 +2187,7 @@ angular.module('app.controllers', [])
                                 //$scope.session.speeds.push(dspeed);
                                 //$scope.session.speeds.slice(-5);
                                 //$scope.session.speed = average($scope.session.speeds, 1).toFixed(1);
-                                $scope.session.speed = pos.coords.speed;
+                                $scope.session.speed = pos.coords.speed * 3.6;
 
                                 var currentPace = $scope.glbs.pace[$scope.prefs.unit] / $scope.session.speed;
                                 $scope.session.pace = Math.floor(currentPace) + ':' + ('0' + Math.floor(currentPace % 1 * 60)).slice(-2);
