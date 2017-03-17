@@ -1956,7 +1956,9 @@ angular.module('app.controllers', [])
             } catch (exception) {}
 
             try {
-                cordova.plugins.ActivityRecognition.Dissconnect();
+                cordova.plugins.ActivityRecognition.StopActivityUpdates(function(msg){
+                    cordova.plugins.ActivityRecognition.Dissconnect(function(msg){},function(msg){});
+                },function(msg){});
             } catch(exception) {
                 console.debug('ERROR: window.ActivityRecognition not enabled');
             }
@@ -2042,9 +2044,9 @@ angular.module('app.controllers', [])
             speechText += ', ';
             var hs = $scope.session.time.split(':')[0];
             if (parseInt(hs, 10) > 0) {
-                speechText += hs + ' ' + $scope.translateFilter('_hours') + ' ' + $scope.translateFilter('_and') + ' ';
+                speechText += parseInt(hs).toFixed(0) + ' ' + $scope.translateFilter('_hours') + ' ' + $scope.translateFilter('_and') + ' ';
             }
-            speechText += $scope.session.time.split(':')[1] + ' ' + $scope.translateFilter('_minutes');
+            speechText += parseInt($scope.session.time.split(':')[1]).toFixed(0) + ' ' + $scope.translateFilter('_minutes');
         }
 
         if ($scope.prefs.avgspeedvocalannounce) {
@@ -2052,8 +2054,8 @@ angular.module('app.controllers', [])
         }
         if ($scope.prefs.avgpacevocalannounce) {
             speechText += ', ';
-            speechText += $scope.session.avpace.split(':')[0] + ' ' + $scope.translateFilter('_minutes') + ' ' + $scope.translateFilter('_and') + ' ';
-            speechText += $scope.session.avpace.split(':')[1] + ' ' + $scope.translateFilter('_seconds_per_kilometers');
+            speechText += parseInt($scope.session.avpace.split(':')[0]).toFixed(0) + ' ' + $scope.translateFilter('_minutes') + ' ' + $scope.translateFilter('_and') + ' ';
+            speechText += parseInt($scope.session.avpace.split(':')[1]).toFixed(0) + ' ' + $scope.translateFilter('_seconds_per_kilometers');
         }
         if (($scope.prefs.heartrateannounce === true) && ($scope.session.beatsPerMinute > 0)) {
             speechText += ', ' + $scope.session.beatsPerMinute + ' ' + $scope.translateFilter('_bpms') + ' ';
@@ -2064,9 +2066,23 @@ angular.module('app.controllers', [])
 
     $scope.activityCallback = function(obj){
         console.log('ActivityType:' + obj.ActivityType);
-        console.log('Probability:' + obj.Probability);
-        if (obj.Probability > 80) {
-            $scope.session.type = obj.ActivityType;
+        console.log('Probability:' + obj.Propability);
+        if (obj.Propability > 80) {
+            if (obj.ActivityType == 'In Vechicle') {
+                $scope.session.type = obj.ActivityType;
+            } else if (obj.ActivityType == 'On Bicycle') {
+                $scope.session.type = 'Ride';
+            } else if (obj.ActivityType == 'Running') {
+                $scope.session.type = 'Run';
+            } else if (obj.ActivityType == 'On Foot') {
+                $scope.session.type = 'Walk';
+            } else if (obj.ActivityType == 'Still') {
+                $scope.session.type = 'Standing';
+            } else if (obj.ActivityType == 'Tilting') {
+                $scope.session.type = 'Tilt';
+            } else if (obj.ActivityType == 'Walking') {
+                $scope.session.type = 'Walk';
+            }
         }
     };
 
@@ -2155,7 +2171,7 @@ angular.module('app.controllers', [])
                                 dspeed = (d) / (dtd / 1000 / 60 / 60);
 
                                 elapsed = timenew - $scope.session.firsttime;
-                                console.log(pos.coords.speed);
+                                //console.log(pos.coords.speed);
                                 //if ((dspeed > 1)) {
                                 if ((pos.coords.speed * 3.6) > 1) {
                                     $scope.session.equirect += d;
@@ -2187,8 +2203,11 @@ angular.module('app.controllers', [])
                                 //$scope.session.speeds.push(dspeed);
                                 //$scope.session.speeds.slice(-5);
                                 //$scope.session.speed = average($scope.session.speeds, 1).toFixed(1);
-                                $scope.session.speed = pos.coords.speed * 3.6;
-
+                                //$scope.session.speed = pos.coords.speed * 3.6;
+                                $scope.session.speeds.push(pos.coords.speed * 3.6);
+                                $scope.session.speeds.slice(-5);
+                                $scope.session.speed = average($scope.session.speeds, 1).toFixed(1);
+                                
                                 var currentPace = $scope.glbs.pace[$scope.prefs.unit] / $scope.session.speed;
                                 $scope.session.pace = Math.floor(currentPace) + ':' + ('0' + Math.floor(currentPace % 1 * 60)).slice(-2);
                                 if ($scope.session.maxspeed < $scope.session.speed) {
@@ -2254,7 +2273,7 @@ angular.module('app.controllers', [])
                     $scope.session.minalt = 99999;
                     $scope.session.maxalt = 0;
                     $scope.session.elevation = '0';
-                    $scope.session.smoothed_speed = [];
+                    $scope.session.speeds = [];
                 }
                 if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
                     (pos.coords.accuracy <= $scope.prefs.minrecordingaccuracy)) {
@@ -2436,10 +2455,13 @@ angular.module('app.controllers', [])
 
         try {
             cordova.plugins.ActivityRecognition.Connect(
-                function(msg){console.log(msg);},
+                function(msg){
+                    console.log(msg);
+                    cordova.plugins.ActivityRecognition.StartActivityUpdates(10, function(msg){console.log(msg);}, function(msg){console.log(msg);});
+                },
                 function(msg){console.log(msg);});
         } catch(exception) {
-            console.debug('ERROR: window.ActivityRecognition not enabled')
+            console.debug('ERROR: window.ActivityRecognition not enabled');
         }
 
         if ($scope.prefs.keepscreenon === true) {

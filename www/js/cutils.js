@@ -7,7 +7,7 @@ function average(arr, prec) {
 if (len===0) return 0;
 
 if (arr[0] instanceof Date) {
-    av = arr[i].getTime();
+    av = arr[0].getTime();
 } else {
 	av = arr[0];
 }
@@ -15,7 +15,11 @@ if (arr[0] instanceof Date) {
 for (var i = 1; i < len; i++) {
   
   if (arr[0] instanceof Date) {
-    av += arr[i].getTime();
+    if (arr[i] instanceof Date) {
+      av = arr[i].getTime();
+    } else {
+      console.log(arr[i]);
+    }
     cnt++;
   } else if (!isNaN(arr[i])) {
     av += arr[i];

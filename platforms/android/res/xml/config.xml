@@ -63,6 +63,10 @@
     <feature name="ActivityRecognitionPlugin">
         <param name="android-package" value="cordova.plugin.activity.recognition.ActivityRecognitionPlugin" />
     </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="BLE">
         <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
     </feature>
@@ -103,6 +107,7 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="Orientation" value="portrait" />
     <preference name="android-manifest/application/activity/@android:launchMode" value="singleTask" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="25" />
     <preference name="LoadingDialog" value="My Title,My Message" />

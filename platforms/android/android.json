@@ -149,6 +149,10 @@
                         {
                             "xml": "<feature name=\"ActivityRecognitionPlugin\"><param name=\"android-package\" value=\"cordova.plugin.activity.recognition.ActivityRecognitionPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": [
@@ -235,6 +239,9 @@
             "PACKAGE_NAME": "net.khertan.forrunners"
         },
         "cordova-plugin-activity-recognition": {
+            "PACKAGE_NAME": "net.khertan.forrunners"
+        },
+        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "net.khertan.forrunners"
         }
     },
@@ -685,6 +692,14 @@
             "clobbers": [
                 "cordova.plugins.ActivityRecognition"
             ]
+        },
+        {
+            "id": "cordova-plugin-statusbar.statusbar",
+            "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+            "pluginId": "cordova-plugin-statusbar",
+            "clobbers": [
+                "window.StatusBar"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -712,6 +727,7 @@
         "cordova-plugin-globalization": "1.0.4",
         "cordova-plugin-nativestorage": "2.0.2",
         "cordova-plugin-googleplayservices": "19.0.3",
-        "cordova-plugin-activity-recognition": "1.0.0"
+        "cordova-plugin-activity-recognition": "1.0.0",
+        "cordova-plugin-statusbar": "2.2.2"
     }
 }

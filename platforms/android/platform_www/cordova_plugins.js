@@ -445,6 +445,14 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.ActivityRecognition"
         ]
+    },
+    {
+        "id": "cordova-plugin-statusbar.statusbar",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -474,7 +482,8 @@ module.exports.metadata =
     "cordova-plugin-globalization": "1.0.4",
     "cordova-plugin-nativestorage": "2.0.2",
     "cordova-plugin-googleplayservices": "19.0.3",
-    "cordova-plugin-activity-recognition": "1.0.0"
+    "cordova-plugin-activity-recognition": "1.0.0",
+    "cordova-plugin-statusbar": "2.2.2"
 };
 // BOTTOM OF METADATA
 });
