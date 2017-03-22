@@ -46,9 +46,11 @@
            ng-href="{{'#/app/sessions/'+session.recclicked}}"
            class="in item item-avatar button-fab"
            ng-click="">
-           <span class="badge badge-upper">  
+           <span class="badge badge-upper">
+              <i ng-if="session.type=='Walk'" class="icon ion-android-walk positive"></i>
               <i ng-if="session.type=='Run'" class="icon ion-android-walk positive"></i>
               <i ng-if="session.type=='Ride'" class="icon ion-android-bicycle positive"></i>
+              <i ng-if="!session.type" class="icon ion-android-walk positive"></i>
            </span>
            <span class="badge badge-left badge-balanced"          
                 style="color:white !important; display: block; vertical-align: middle; text-align:center;">

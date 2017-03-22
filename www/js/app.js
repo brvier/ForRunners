@@ -374,7 +374,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _announce_time: 'Annoncer le temps',
     _announce_average_speed: 'Annoncer la vitesse moyenne',
     _announce_average_pace: 'Annoncer l allure moyenne',
-    _announce_heartrate: 'Announcer la fréquence cardiaque',
+    _announce_heartrate: 'Annoncer la fréquence cardiaque',
     _delay_start: 'Report du depart de 10 secondes',
     _export_ans_gpx: 'Exporter en GPX',
     _debug_tools: 'Outils de debug',

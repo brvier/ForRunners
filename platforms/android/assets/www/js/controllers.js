@@ -844,8 +844,6 @@ angular.module('app.controllers', [])
             curEle = gpxPoints[p].ele;
             if (p > 0) {
                 oldEle = gpxPoints[p - 1].ele;
-                console.log(curEle);
-                console.log(oldEle);
                 if (curEle > oldEle) {
                     eleUp += (curEle) - (oldEle);
                 } else if (curEle < oldEle) {
@@ -1076,7 +1074,7 @@ angular.module('app.controllers', [])
                 if (error) {
                     console.log(error);
                 } else {
-                    console.log(JSON.stringify(data));
+                    //console.log(JSON.stringify(data));
 
                     for (var sessions_idx in data.activity.sessions) {
                         $scope.session = {};
@@ -2409,7 +2407,9 @@ angular.module('app.controllers', [])
             cordova.plugins.backgroundMode.setDefaults({
                 title: 'ForRunners',
                 ticker: $scope.translateFilter('_notification_slug'),
-                text: $scope.translateFilter('_notification_message')
+                text: $scope.translateFilter('_notification_message'),
+                color: 'FFF',
+                hidden: false,
             });
             cordova.plugins.backgroundMode.enable();
             cordova.plugins.backgroundMode.onactivate = function() {
@@ -2595,6 +2595,19 @@ angular.module('app.controllers', [])
             $scope.exportAsGPX(false);
         }, 5000);
     };
+
+    $scope.checkPrefs = function() {
+        if (($scope.prefs.useVocalAnnounce == true) &&
+            ($scope.prefs.timevocalinterval <= 0) && 
+            ($scope.prefs.distvocalinterval <= 0)) {
+                $scope.prefs.useVocalAnnounce = false;
+            
+        } else if (($scope.prefs.useVocalAnnounce == false) &&
+            ($scope.prefs.timevocalinterval = 0) && 
+            ($scope.prefs.distvocalinterval = 0)) {
+                $scope.prefs.useVocalAnnounce = true;   
+        }
+    }
 
     $scope.savePrefs = function() {
         $scope.storageSetObj('prefs', $scope.prefs);
@@ -2865,9 +2878,11 @@ angular.module('app.controllers', [])
     $scope.setPhoto = function(idx) {
         try {
             navigator.camera.getPicture(function(pictureURI) {
-                var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
-                $scope.equipments[idx].photo = newURI;
-                $scope.saveEquipments();
+                $scope.$apply(function(){
+                    var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
+                    $scope.equipments[idx].photo = newURI;
+                    $scope.saveEquipments();            
+                })
             }, function(err) {
                 $ionicPopup.alert({
                     title: $scope.translateFilter('_camera_picture_error_title'),
@@ -2980,6 +2995,11 @@ angular.module('app.controllers', [])
                 console.error('Error confirm delete session');
             }
         });
+    };
+
+    $scope.editSession = function(rid){
+        console.log('FIXME Open edit dialog')
+
     };
 
     $scope.saveSessionModifications = function() {

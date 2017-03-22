@@ -844,8 +844,6 @@ angular.module('app.controllers', [])
             curEle = gpxPoints[p].ele;
             if (p > 0) {
                 oldEle = gpxPoints[p - 1].ele;
-                console.log(curEle);
-                console.log(oldEle);
                 if (curEle > oldEle) {
                     eleUp += (curEle) - (oldEle);
                 } else if (curEle < oldEle) {
@@ -1076,7 +1074,7 @@ angular.module('app.controllers', [])
                 if (error) {
                     console.log(error);
                 } else {
-                    console.log(JSON.stringify(data));
+                    //console.log(JSON.stringify(data));
 
                     for (var sessions_idx in data.activity.sessions) {
                         $scope.session = {};
@@ -1922,6 +1920,7 @@ angular.module('app.controllers', [])
                 delete $scope.session.timeslowvocalinterval;
                 delete $scope.session.lastfastvocalannounce;
                 delete $scope.session.kalmanDist;
+                //delete $scope.session.types;
                 $scope.session.fixedElevation = undefined;
 
                 //Set default equipments
@@ -2068,20 +2067,18 @@ angular.module('app.controllers', [])
         console.log('ActivityType:' + obj.ActivityType);
         console.log('Probability:' + obj.Propability);
         if (obj.Propability > 80) {
-            if (obj.ActivityType == 'In Vechicle') {
-                $scope.session.type = obj.ActivityType;
-            } else if (obj.ActivityType == 'On Bicycle') {
-                $scope.session.type = 'Ride';
+            if (obj.ActivityType == 'On Bicycle') {
+                $scope.session.types.Ride += 1;
             } else if (obj.ActivityType == 'Running') {
-                $scope.session.type = 'Run';
+                $scope.session.types.Run += 1;
             } else if (obj.ActivityType == 'On Foot') {
-                $scope.session.type = 'Walk';
-            } else if (obj.ActivityType == 'Still') {
-                $scope.session.type = 'Standing';
+                $scope.session.types.Run += 1;
             } else if (obj.ActivityType == 'Tilting') {
-                $scope.session.type = 'Tilt';
+                $scope.session.types.Tilt += 1;
             } else if (obj.ActivityType == 'Walking') {
-                $scope.session.type = 'Walk';
+                $scope.session.types.Walk += 1;
+            } else {
+                console.log('Unknow activity : ' + obj.ActivityType);
             }
         }
     };
@@ -2092,7 +2089,11 @@ angular.module('app.controllers', [])
     $scope.recordPosition = function(pos) {
 
         //FIXME GetActivity
-        console.debug('getActivity ' + cordova.plugins.ActivityRecognition.GetActivity($scope.activityCallback, $scope.activityErrorCallback));
+        try {
+            cordova.plugins.ActivityRecognition.GetActivity($scope.activityCallback, $scope.activityErrorCallback);
+        } catch(err){
+            console.warn('Plugin ActivityRecognition probably not available');
+        }
 
         if ($scope.mustdelay === false) {
             var latnew = pos.coords.latitude;
@@ -2392,7 +2393,8 @@ angular.module('app.controllers', [])
             speeds: [],
             weather: '',
             temp: '',
-            type: 'Running'
+            type: 'Run',
+            types: {'Run':0, 'Ride':0, 'Walk':0, 'Drive':0, 'Tilt':0}
         };
 
         $scope.screen_lock = null;
@@ -2555,6 +2557,14 @@ angular.module('app.controllers', [])
             $scope.sessions = {};
         }
 
+        var session_type_nb = 0;
+        for (var session_type in $scope.session.types) {
+            if (session_type_nb < $scope.session.types[session_type]) {
+                session_type_nb = $scope.session.types[session_type];
+                $scope.session.type = session_type;
+            }
+        }
+
         if ($scope.session.map === undefined) {
             $scope.session.map = {
                 center: {
@@ -2596,6 +2606,15 @@ angular.module('app.controllers', [])
         setTimeout(function() {
             $scope.exportAsGPX(false);
         }, 5000);
+    };
+
+    $scope.checkPrefs = function() {
+        //console.log(prefs.useVocalAnnounce);
+        if ($scope.prefs.useVocalAnnounce !== true){
+            $scope.prefs.distvocalinterval = 0;
+            $scope.prefs.timevocalinterval = 0;
+            return;
+        } 
     };
 
     $scope.savePrefs = function() {
@@ -2867,9 +2886,11 @@ angular.module('app.controllers', [])
     $scope.setPhoto = function(idx) {
         try {
             navigator.camera.getPicture(function(pictureURI) {
-                var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
-                $scope.equipments[idx].photo = newURI;
-                $scope.saveEquipments();
+                $scope.$apply(function(){
+                    var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
+                    $scope.equipments[idx].photo = newURI;
+                    $scope.saveEquipments();            
+                });
             }, function(err) {
                 $ionicPopup.alert({
                     title: $scope.translateFilter('_camera_picture_error_title'),
@@ -2982,6 +3003,10 @@ angular.module('app.controllers', [])
                 console.error('Error confirm delete session');
             }
         });
+    };
+
+    $scope.editSession = function(rid){
+        console.log('FIXME Open edit dialog');
     };
 
     $scope.saveSessionModifications = function() {
