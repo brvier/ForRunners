@@ -2,7 +2,24 @@
   <button ng-click="startSession()" class="button button-fab button-fab-bottom-right button-assertive icon ion-play waves-effect waves-button waves-light"></button>
   <!--button ng-click="startSessionWithoutGPS()" class="button button-fab
       button-fab-bottom-right button-fab-almost-bottom-right button-royal icon ion-android-home waves-effect waves-button waves-light"></button-->
-</div>
+
+  <script id="templates/sessions_popover.html" type="text/ng-template">
+    <ion-popover-view>
+      <ion-content>
+        <div class="list">
+          <a class="item" ng-click="createManualSession();" target="_blank">
+            <i class="icon ion-android-share-alt"></i>
+            {{ _add_manually_a_session | translate }}
+          </a>
+        </div>
+      </ion-content>
+    </ion-popover-view>
+  </script>
+
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-android-more-vertical" ng-click="openPopover($event)"></button>
+  </ion-nav-buttons>
+
   <ion-content>
 
     <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">

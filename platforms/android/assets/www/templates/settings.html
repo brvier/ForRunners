@@ -30,7 +30,7 @@
 
   <ion-toggle ng-model="prefs.useVocalAnnounce"
     ng-checked="((prefs.timevocalinterval>0) || (prefs.distvocalinterval>0)) ? true : false"
-    ng-change="checkPrefs();savePrefs();}"
+    ng-change="checkPrefs();savePrefs();"
     toggle-class="toggle-positive">
     {{ "_use_vocalAnnounce" | translate }}
   </ion-toggle>
@@ -42,7 +42,7 @@
     </div>
     <div class="range range-positive">
       <input type="range" ng-model="prefs.timevocalinterval" name="timevocalinterval" min="0" max="30"
-             ng-change="checkPrefs();savePrefs();">
+             ng-change="savePrefs();">
     </div>
   </div>
   <div class="item item-no-border">
@@ -52,7 +52,7 @@
     </div>
     <div class="range range-positive">
       <input type="range" ng-model="prefs.distvocalinterval" name="distvocalinterval" min="0" max="30"
-             ng-change="checkPrefs();savePrefs()">
+             ng-change="savePrefs();">
     </div>
   </div>
 

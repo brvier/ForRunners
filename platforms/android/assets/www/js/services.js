@@ -71,6 +71,10 @@ angular.module('app.services', [])
         loadFromFile: function(recclicked) {
               var deferred = $q.defer();
               var path = cordova.file.externalApplicationStorageDirectory + 'sessions/' + recclicked + '.json';
+              if (cordova.file.externalApplicationStorageDirectory === null) {
+                path = cordova.file.dataDirectory + 'sessions/' + recclicked + '.json';;
+              }
+
               if (typeof window.resolveLocalFileSystemURL === 'function') {
                   window.resolveLocalFileSystemURL(path, function(fileEntry) {
                       fileEntry.file(function(file) {
@@ -90,6 +94,9 @@ angular.module('app.services', [])
           var deferred = $q.defer();
           var filename = session.recclicked.toString() + '.json';
           var path = cordova.file.externalApplicationStorageDirectory;
+          if (path === null) {
+            path = cordova.file.dataDirectory;
+          }
           try {
               window.resolveLocalFileSystemURL(path, function(dirEntry) {
                   dirEntry.getDirectory('sessions', {

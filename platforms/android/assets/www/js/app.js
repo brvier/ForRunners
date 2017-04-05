@@ -161,6 +161,15 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     }
   })
 
+  .state('app.edit_session', {
+    url: '/edit_sessions/:sessionId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/edit_session.html',
+        controller: 'EditSessionCtrl'
+      }
+    }
+  })
    .state('app.equipment', {
     url: '/equipments/:equipmentId',
     views: {

@@ -272,3 +272,12 @@ small {
 .button-fab-almost-bottom-right {
     bottom: 96px !important;
 }
+
+.popover {
+    left: 234px !important;
+    height: 160px;
+}
+
+.popover i {
+    margin-right: 10px;
+}

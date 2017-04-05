@@ -161,6 +161,15 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     }
   })
 
+  .state('app.edit_session', {
+    url: '/edit_sessions/:sessionId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/edit_session.html',
+        controller: 'EditSessionCtrl'
+      }
+    }
+  })
    .state('app.equipment', {
     url: '/equipments/:equipmentId',
     views: {
@@ -329,7 +338,8 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _duration_interval_detail: 'Announce informations at regular interval',
     _distance_interval_detail: 'Announce informations at kilometer interval',
     _heartrate_min_detail: 'Your resting heart rate, measured just after wake up',
-    _heartrate_max_detail: 'Your maximum heart rate in a 4 minutes sprint just after a 20 minutes warmup.'
+    _heartrate_max_detail: 'Your maximum heart rate in a 4 minutes sprint just after a 20 minutes warmup.',
+    _add_manually_a_session: 'Add a manually a session'
   });
   $translateProvider.translations('fr-FR', {
     _language: 'Langage',

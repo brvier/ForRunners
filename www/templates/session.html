@@ -1,9 +1,34 @@
 <ion-view view-title={{session.type}}>
 <ion-nav-buttons side="right">
-<button class="button button-icon button-clear ion-android-share-alt"
+<!--<button class="button button-icon button-clear ion-android-share-alt"
 ng-click="sharePieceOfDOM()"></button>
 <button class="button button-icon button-clear ion-android-delete"
-ng-click="deleteSessionRecID(session.recclicked)"></button>
+ng-click="deleteSessionRecID(session.recclicked)"></button>-->
+
+<script id="templates/session_popover.html" type="text/ng-template">
+  <ion-popover-view>
+    <ion-content>
+      <div class="list">
+        <a class="item" ng-click="sharePieceOfDOM();closePopover();" target="_blank">
+          <i class="icon ion-android-share-alt"></i>
+          Share
+        </a>
+
+        <a class="item" ng-click="closePopover();" target="_blank">
+          <i class="icon ion-edit"></i>
+          Edit
+        </a>
+        <a class="item" ng-click="deleteSessionRecID(session.recclicked);closePopover();" target="_blank">
+          <i class="icon ion-android-delete"></i>
+          Delete
+        </a>
+      </div>
+    </ion-content>
+  </ion-popover-view>
+</script>
+
+<button class="button button-icon button-clear ion-android-more-vertical" ng-click="openPopover($event)"></button>
+
 </ion-nav-buttons>
 <ion-content>
 <!--<div id="mapContainer"  style="width: 100%; height: 350px; background: white"></div>-->

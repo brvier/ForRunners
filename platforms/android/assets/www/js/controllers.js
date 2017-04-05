@@ -1374,10 +1374,11 @@ angular.module('app.controllers', [])
 
     $scope.storageSetObj = function(key, value) {
         try {
-            //localStorage.setItem(key, JSON.stringify(value));
+            //
             NativeStorage.setItem(key, value, function(){}, function(err){console.error('Native Storage SET Failed:' + err);});
         } catch (err) {
             console.error(err); 
+            localStorage.setItem(key, JSON.stringify(value));
         }
     };
 
@@ -1387,6 +1388,7 @@ angular.module('app.controllers', [])
             NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);error();});
         } catch (err) {
             console.error(err); 
+            return JSON.parse(localStorage.getItem(key));
         }
     };
 
@@ -1920,6 +1922,7 @@ angular.module('app.controllers', [])
                 delete $scope.session.timeslowvocalinterval;
                 delete $scope.session.lastfastvocalannounce;
                 delete $scope.session.kalmanDist;
+                //delete $scope.session.types;
                 $scope.session.fixedElevation = undefined;
 
                 //Set default equipments
@@ -2066,20 +2069,18 @@ angular.module('app.controllers', [])
         console.log('ActivityType:' + obj.ActivityType);
         console.log('Probability:' + obj.Propability);
         if (obj.Propability > 80) {
-            if (obj.ActivityType == 'In Vechicle') {
-                $scope.session.type = obj.ActivityType;
-            } else if (obj.ActivityType == 'On Bicycle') {
-                $scope.session.type = 'Ride';
+            if (obj.ActivityType == 'On Bicycle') {
+                $scope.session.types.Ride += 1;
             } else if (obj.ActivityType == 'Running') {
-                $scope.session.type = 'Run';
+                $scope.session.types.Run += 1;
             } else if (obj.ActivityType == 'On Foot') {
-                $scope.session.type = 'Walk';
-            } else if (obj.ActivityType == 'Still') {
-                $scope.session.type = 'Standing';
+                $scope.session.types.Run += 1;
             } else if (obj.ActivityType == 'Tilting') {
-                $scope.session.type = 'Tilt';
+                $scope.session.types.Tilt += 1;
             } else if (obj.ActivityType == 'Walking') {
-                $scope.session.type = 'Walk';
+                $scope.session.types.Walk += 1;
+            } else {
+                console.log('Unknow activity : ' + obj.ActivityType);
             }
         }
     };
@@ -2090,7 +2091,11 @@ angular.module('app.controllers', [])
     $scope.recordPosition = function(pos) {
 
         //FIXME GetActivity
-        console.debug('getActivity ' + cordova.plugins.ActivityRecognition.GetActivity($scope.activityCallback, $scope.activityErrorCallback));
+        try {
+            cordova.plugins.ActivityRecognition.GetActivity($scope.activityCallback, $scope.activityErrorCallback);
+        } catch(err){
+            console.warn('Plugin ActivityRecognition probably not available');
+        }
 
         if ($scope.mustdelay === false) {
             var latnew = pos.coords.latitude;
@@ -2390,7 +2395,8 @@ angular.module('app.controllers', [])
             speeds: [],
             weather: '',
             temp: '',
-            type: 'Running'
+            type: 'Run',
+            types: {'Run':0, 'Ride':0, 'Walk':0, 'Drive':0, 'Tilt':0}
         };
 
         $scope.screen_lock = null;
@@ -2553,6 +2559,14 @@ angular.module('app.controllers', [])
             $scope.sessions = {};
         }
 
+        var session_type_nb = 0;
+        for (var session_type in $scope.session.types) {
+            if (session_type_nb < $scope.session.types[session_type]) {
+                session_type_nb = $scope.session.types[session_type];
+                $scope.session.type = session_type;
+            }
+        }
+
         if ($scope.session.map === undefined) {
             $scope.session.map = {
                 center: {
@@ -2597,17 +2611,13 @@ angular.module('app.controllers', [])
     };
 
     $scope.checkPrefs = function() {
-        if (($scope.prefs.useVocalAnnounce == true) &&
-            ($scope.prefs.timevocalinterval <= 0) && 
-            ($scope.prefs.distvocalinterval <= 0)) {
-                $scope.prefs.useVocalAnnounce = false;
-            
-        } else if (($scope.prefs.useVocalAnnounce == false) &&
-            ($scope.prefs.timevocalinterval = 0) && 
-            ($scope.prefs.distvocalinterval = 0)) {
-                $scope.prefs.useVocalAnnounce = true;   
-        }
-    }
+        //console.log(prefs.useVocalAnnounce);
+        if ($scope.prefs.useVocalAnnounce !== true){
+            $scope.prefs.distvocalinterval = 0;
+            $scope.prefs.timevocalinterval = 0;
+            return;
+        } 
+    };
 
     $scope.savePrefs = function() {
         $scope.storageSetObj('prefs', $scope.prefs);
@@ -2734,8 +2744,43 @@ angular.module('app.controllers', [])
 })
 
 //.controller('SessionsCtrl', function($scope, $timeout, ionicMaterialInk, ionicMaterialMotion, $state) {
-.controller('SessionsCtrl', function($scope, $timeout, $state) {
+.controller('SessionsCtrl', function($scope, $timeout, $state, $ionicPopover) {
     'use strict';
+
+    $ionicPopover.fromTemplateUrl('templates/sessions_popover.html', {
+        scope: $scope,
+    }).then(function(popover) {
+        $scope.popover = popover;
+    });
+    
+    /*$ionicPopover.fromTemplateUrl('templates/edittype_popover.html', {
+        scope: $scope,
+    }).then(function(popover) {
+        $scope.edittype_popover = popover;
+    });*/
+
+    $scope.openPopover = function($event) {
+      $scope.popover.show($event);
+    };
+    
+    $scope.closePopover = function() {
+      $scope.popover.hide();
+    };
+    
+    //Cleanup the popover when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.popover.remove();
+    });
+    
+    // Execute action on hidden popover
+    $scope.$on('popover.hidden', function() {
+      // Execute action
+    });
+    
+    // Execute action on remove popover
+    $scope.$on('popover.removed', function() {
+      // Execute action
+    });
 
     $timeout(function() {
         //Get position a first time to get better precision when we really
@@ -2753,10 +2798,49 @@ angular.module('app.controllers', [])
         }
     }, 5000);
 
-    // Compute Resume Graph
-    $timeout(function() {
-//        ionicMaterialInk.displayEffect();
-    }, 4000);
+    $scope.createManualSession = function() {
+        $scope.session = {
+            gpsGoodSignalToggle: true,
+            recclicked: new Date().getTime(),
+            date: moment().format('llll'),
+
+            mdate: moment().format('MMMM YYYY'),
+            ddate: new Date().getDate(),
+            gpxData: [],
+
+            unit: $scope.prefs.unit,
+            speedlabel: $scope.glbs.speedlabel[$scope.prefs.unit],
+            pacelabel: $scope.glbs.pacelabel[$scope.prefs.unit],
+            distancelabel: $scope.glbs.distancelabel[$scope.prefs.unit],
+
+            lastrecordtime: 0,
+            elapsed: 0,
+            firsttime: 0,
+
+            latold: 'x',
+            lonold: 'x',
+            altold: 'x',
+
+            time: '00:00:00',
+            dist: 0,
+            equirect: 0,
+            eledist: 0,
+            hilldistance: '0',
+            flatdistance: '0',
+            elevation: '0',
+            maxspeed: '0',
+            speed: '0',
+            avspeed: '0',
+            avpace: '00:00',
+            speeds: [],
+            weather: '',
+            temp: '',
+            type: 'Run'
+        };
+
+        $state.go('app.edit_session');
+    };
+
 })
 
 .controller('EquipmentsCtrl', function($scope, $ionicPopup) {
@@ -2882,7 +2966,7 @@ angular.module('app.controllers', [])
                     var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
                     $scope.equipments[idx].photo = newURI;
                     $scope.saveEquipments();            
-                })
+                });
             }, function(err) {
                 $ionicPopup.alert({
                     title: $scope.translateFilter('_camera_picture_error_title'),
@@ -2969,9 +3053,45 @@ angular.module('app.controllers', [])
     $scope.computeRecords();
 })
 
-.controller('SessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate, SessionFactory) {
+.controller('SessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate, SessionFactory, $ionicPopover) {
     'use strict';
 
+    //var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
+
+    $ionicPopover.fromTemplateUrl('templates/session_popover.html', {
+        scope: $scope,
+    }).then(function(popover) {
+        $scope.popover = popover;
+    });
+    
+    /*$ionicPopover.fromTemplateUrl('templates/edittype_popover.html', {
+        scope: $scope,
+    }).then(function(popover) {
+        $scope.edittype_popover = popover;
+    });*/
+
+    $scope.openPopover = function($event) {
+      $scope.popover.show($event);
+    };
+    
+    $scope.closePopover = function() {
+      $scope.popover.hide();
+    };
+    
+    //Cleanup the popover when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.popover.remove();
+    });
+    
+    // Execute action on hidden popover
+    $scope.$on('popover.hidden', function() {
+      // Execute action
+    });
+    
+    // Execute action on remove popover
+    $scope.$on('popover.removed', function() {
+      // Execute action
+    });
 
     $scope.deleteSession = function(recid) {
         // confirm dialog
@@ -2998,8 +3118,7 @@ angular.module('app.controllers', [])
     };
 
     $scope.editSession = function(rid){
-        console.log('FIXME Open edit dialog')
-
+        console.log('FIXME Open edit dialog');
     };
 
     $scope.saveSessionModifications = function() {
@@ -3142,6 +3261,73 @@ angular.module('app.controllers', [])
     });
 
 })
+
+.controller('EditSessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate, SessionFactory, $ionicPopover) {
+    'use strict';
+
+ 
+    $scope.saveSessionModifications = function() {
+        $scope.sessions[$stateParams.sessionId] = $scope.session;
+        (new SessionFactory()).saveToFile($scope.session).then(function(){
+          $scope.updateIndex($scope.session);
+        });
+        $scope.storageSetObj('version', $scope._version);
+    };
+
+    $scope.session = $scope.sessionsIndex[$stateParams.sessionId];
+    if ($scope.session.equipments === undefined) {
+      $scope.session.equipments = [];
+    }
+    if ($scope.session.map === undefined) {
+      $scope.session.map =  {
+            center: {
+                lat: 48,
+                lng: 4,
+                zoom: 5,
+                autoDiscover: false
+            },
+            paths: {},
+            bounds: {},
+            controls: {
+                scale: true
+            },
+            markers: {},
+            tiles: {
+                url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            }
+      };
+    }
+
+    var sf = new SessionFactory();
+      sf.loadFromFile($stateParams.sessionId).then(function(datas){
+      $scope.session = datas;
+    });
+
+    $scope.saveAvgSpeed = function(avgSpeed){
+        //FIXME Compute Pace Duration Note
+
+    };
+
+    $scope.saveType = function(avgSpeed){
+        //FIXME Compute Pace Duration Note
+
+    };
+
+    $scope.saveAvgPace = function(avgPace){
+        //FIXME Compute Speed Duration Note
+    };
+
+    $scope.saveDistance = function(avgDistance){
+        //FIXME Compute Speed Pace Note
+    };
+
+    $scope.saveDuration = function(avgDuration){
+        //FIXME Compute Speed Pace Note
+    };
+
+
+})
+
 
 .controller('FilePickerController', function($scope, $ionicPlatform, FileFactory, $ionicHistory) {
     'use strict';
