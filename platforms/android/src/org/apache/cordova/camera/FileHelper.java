@@ -151,6 +151,9 @@ public class FileHelper {
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             result = cursor.getString(column_index);
+			if (cursor != null) {
+				cursor.close();
+			}
 
         } catch (Exception e) {
             result = null;

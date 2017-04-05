@@ -8,13 +8,13 @@
     <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
         <i class="icon ion-trophy energized"></i>
         <h2>{{ "_average" | translate }}</h2>
-        <p>{{resume.avdistance}} Kms - {{resume.avduration | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
+        <p>{{resume.avdistance}} Km - {{resume.avduration | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
     </div>
 
     <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
         <i class="icon ion-ribbon-b energized"></i>
         <h2>{{ "_records" | translate }}</h2>
-        <p>{{resume.bestdistance}} Kms - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed}} Km/h</p>
+        <p>{{resume.bestdistance}} Km - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed}} Km/h</p>
     </div>
 
     <div class="content double-padding" ng-if="sortedSessionsIndex === undefined">
@@ -46,10 +46,16 @@
            ng-href="{{'#/app/sessions/'+session.recclicked}}"
            class="in item item-avatar button-fab"
            ng-click="">
-          <span class="badge badge-left badge-balanced"
+           <span class="badge badge-upper">
+              <i ng-if="session.type=='Walk'" class="icon ion-android-walk positive"></i>
+              <i ng-if="session.type=='Run'" class="icon ion-android-walk positive"></i>
+              <i ng-if="session.type=='Ride'" class="icon ion-android-bicycle positive"></i>
+              <i ng-if="!session.type" class="icon ion-android-walk positive"></i>
+           </span>
+           <span class="badge badge-left badge-balanced"          
                 style="color:white !important; display: block; vertical-align: middle; text-align:center;">
               {{ session.distk }} K<br>
-          </span>
+           </span>
           <span class="badge badge-lower"
             style="display: block; vertical-align: middle; text-align:center; font-size:11px; width: 30px; margin-left:5px;">
                 {{ session.overnote }} <i class="icon ion-star"></i>

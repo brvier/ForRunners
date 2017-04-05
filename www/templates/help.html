@@ -2,11 +2,9 @@
   <ion-content>
 
     <div class="list padding">
-        <a class="item" href="#">
-            <p style="text-align:justify;white-space:normal;margin-bottom:15px;"><b>{{ help_subtitle }}</b></p>
+            <p class=="padding" style="text-align:justify;white-space:normal;margin-bottom:15px;"><b>{{ help_subtitle }}</b></p>
             <center><img src="{{ help_path }}" class="img-help"></center>
-            <p style="text-align:justify;white-space:normal;" ng-bind-html="help_desc | unsafe" ></p>
-        </a>
+            <p class="padding" style="text-align:justify;white-space:normal;" ng-bind-html="help_desc | unsafe" ></p>
     </div>
 
     <div class="row">
@@ -18,6 +16,9 @@
      <div class="col col-50">      
         <button  ng-if="help_cur < 6" class="button button-full button-positive" ng-click="next()">
            {{ "_next" | translate }}
+        </button>       
+        <button  ng-if="help_cur == 6" class="button button-full button-positive" ng-click="$ionicGoBack()">
+           {{ "_ok" | translate }}
         </button>       
      </div>    
     </div>

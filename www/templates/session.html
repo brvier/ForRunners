@@ -1,4 +1,4 @@
-<ion-view view-title="Session">
+<ion-view view-title={{session.type}}>
 <ion-nav-buttons side="right">
 <button class="button button-icon button-clear ion-android-share-alt"
 ng-click="sharePieceOfDOM()"></button>
@@ -17,7 +17,7 @@ markers="session.map.markers" ></leaflet>
   <p>
     <i class="icon ion-star"></i> {{session.overnote}} -
     <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}} -
-    <i class="icon ion-ios-location"></i> {{session.distance}} Kms -
+    <i class="icon ion-ios-location"></i> {{session.distance}} Km -
     <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
   </p>
 </div>
@@ -45,7 +45,7 @@ markers="session.map.markers" ></leaflet>
 <div class="row">
   <div class="col col-right">
     <div class="item" style="text-align: center">
-      <h2 style="text-align: center">{{session.distance}} Kms</h2>
+      <h2 style="text-align: center">{{session.distance}} Km</h2>
       <p  style="text-align: center">{{ "_distance" | translate }}</p>
     </div>
   </div>

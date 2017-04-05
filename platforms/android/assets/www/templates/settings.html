@@ -22,30 +22,42 @@
 </div>
 <div class="content double-padding">
   <h4 class="positive">{{ "_vocal_announce" | translate }}</h4>
-  <ion-toggle ng-model="prefs.togglemusic"
+  
+  <!--ion-toggle ng-model="prefs.togglemusic"
   ng-checked="prefs.togglemusic"
   ng-change="savePrefs()"
   toggle-class="toggle-positive">
   {{ "_toggle_music_on_announce" | translate }}
+  </ion-toggle-->
+
+  <ion-toggle ng-model="prefs.useVocalAnnounce"
+    ng-checked="((prefs.timevocalinterval>0) || (prefs.distvocalinterval>0)) ? true : false"
+    ng-change="checkPrefs();savePrefs();}"
+    toggle-class="toggle-positive">
+    {{ "_use_vocalAnnounce" | translate }}
   </ion-toggle>
+
   <div class="item item-no-border">
     <div class="input">
       {{ "_duration_interval" | translate }} : {{ prefs.timevocalinterval }} {{ "_minutes" | translate}}
       <br><small>{{ "_duration_interval_detail" | translate }}</small>
     </div>
     <div class="range range-positive">
-      <input type="range" ng-model="prefs.timevocalinterval" name="timevocalinterval" min="0" max="30" ng-change="savePrefs()">
+      <input type="range" ng-model="prefs.timevocalinterval" name="timevocalinterval" min="0" max="30"
+             ng-change="checkPrefs();savePrefs();">
     </div>
   </div>
   <div class="item item-no-border">
     <div class="input">
-      {{ "_distance_interval" | translate }} : {{ prefs.distvocalinterval }} kms
+      {{ "_distance_interval" | translate }} : {{ prefs.distvocalinterval }} km
       <br><small>{{ "_distance_interval_detail" | translate }}</small>
     </div>
     <div class="range range-positive">
-      <input type="range" ng-model="prefs.distvocalinterval" name="distvocalinterval" min="0" max="30" ng-change="savePrefs()">
+      <input type="range" ng-model="prefs.distvocalinterval" name="distvocalinterval" min="0" max="30"
+             ng-change="checkPrefs();savePrefs()">
     </div>
   </div>
+
   <ion-toggle ng-model="prefs.distvocalannounce"
   ng-checked="prefs.distvocalannounce"
   ng-change="savePrefs()"

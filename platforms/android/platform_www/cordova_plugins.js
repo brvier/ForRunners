@@ -285,22 +285,6 @@ module.exports = [
         "runs": true
     },
     {
-        "id": "cordova-plugin-globalization.GlobalizationError",
-        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
-        "pluginId": "cordova-plugin-globalization",
-        "clobbers": [
-            "window.GlobalizationError"
-        ]
-    },
-    {
-        "id": "cordova-plugin-globalization.globalization",
-        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
-        "pluginId": "cordova-plugin-globalization",
-        "clobbers": [
-            "navigator.globalization"
-        ]
-    },
-    {
         "id": "cordova-plugin-ble-central.ble",
         "file": "plugins/cordova-plugin-ble-central/www/ble.js",
         "pluginId": "cordova-plugin-ble-central",
@@ -421,6 +405,22 @@ module.exports = [
         ]
     },
     {
+        "id": "cordova-plugin-globalization.GlobalizationError",
+        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "id": "cordova-plugin-globalization.globalization",
+        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
+    },
+    {
         "id": "cordova-plugin-nativestorage.mainHandle",
         "file": "plugins/cordova-plugin-nativestorage/www/mainHandle.js",
         "pluginId": "cordova-plugin-nativestorage",
@@ -437,6 +437,22 @@ module.exports = [
         "id": "cordova-plugin-nativestorage.NativeStorageError",
         "file": "plugins/cordova-plugin-nativestorage/www/NativeStorageError.js",
         "pluginId": "cordova-plugin-nativestorage"
+    },
+    {
+        "id": "cordova-plugin-activity-recognition.ActivityRecognition",
+        "file": "plugins/cordova-plugin-activity-recognition/www/ActivityRecognition.js",
+        "pluginId": "cordova-plugin-activity-recognition",
+        "clobbers": [
+            "cordova.plugins.ActivityRecognition"
+        ]
+    },
+    {
+        "id": "cordova-plugin-statusbar.statusbar",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -454,7 +470,6 @@ module.exports.metadata =
     "cordova-plugin-insomnia": "4.2.0",
     "com.jcesarmobile.filepicker": "1.1.1",
     "cordova-plugin-file": "4.2.0",
-    "cordova-plugin-globalization": "1.0.3",
     "cordova-plugin-ble-central": "1.1.1",
     "at.gofg.sportscomputer.powermanagement": "1.1.0",
     "cordova-plugin-gpslocation": "1.0.0",
@@ -464,7 +479,11 @@ module.exports.metadata =
     "net.khertan.plugin.MusicControl": "0.0.1",
     "cordova-custom-config": "2.0.3",
     "cordova-plugin-app-version": "0.1.9",
-    "cordova-plugin-nativestorage": "2.0.2"
+    "cordova-plugin-globalization": "1.0.4",
+    "cordova-plugin-nativestorage": "2.0.2",
+    "cordova-plugin-googleplayservices": "19.0.3",
+    "cordova-plugin-activity-recognition": "1.0.0",
+    "cordova-plugin-statusbar": "2.2.2"
 };
 // BOTTOM OF METADATA
 });

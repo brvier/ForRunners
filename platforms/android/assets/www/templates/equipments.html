@@ -6,7 +6,7 @@
                  <a class="item item-avatar item-icon-right" ng-repeat="equipment in equipments track by $index">
                     <img ng-click="setPhoto($index);" src="{{equipment.photo}}" class="no-padding">
                     <h2 ng-click="setName($index);">{{equipment.name}}</h2>
-                    <p>{{equipment.distance}} Kms
+                    <p>{{equipment.distance}} Km
                     <div class="icon">
                         <i ng-click="setDefault($index);" ng-if="!equipment.isDefault" class="ion-ios-circle-outline muted padding-left padding-right"></i>
                         <i ng-click="setDefault($index);" ng-if="equipment.isDefault" class="ion-ios-checkmark-outline muted padding-left padding-right"></i>

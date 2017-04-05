@@ -43,7 +43,6 @@
     },
     "cordova-plugin-device",
     "cordova-plugin-file",
-    "cordova-plugin-globalization",
     "cordova-plugin-ble-central",
     "cordova-plugin-globalization",
     {
@@ -58,7 +57,8 @@
       "id": "com.napolitano.cordova.plugin.intent"
     },
     "cordova-plugin-app-version",
-    "cordova-plugin-nativestorage"
+    "cordova-plugin-nativestorage",
+    "cordova-plugin-statusbar"
   ],
   "cordovaPlatforms": [
     "android"

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="0101030" id="net.khertan.forrunners" version="1.1.3" versionCode="0101030" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="0101050" id="net.khertan.forrunners" version="1.1.5" versionCode="0101050" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
@@ -33,9 +33,6 @@
         <param name="android-package" value="org.apache.cordova.file.FileUtils" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="Globalization">
-        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
-    </feature>
     <feature name="PowerManagement">
         <param name="android-package" value="org.apache.cordova.powermanagement.PowerManagement" />
     </feature>
@@ -57,8 +54,18 @@
     <feature name="AppVersion">
         <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
     </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
     <feature name="NativeStorage">
         <param name="android-package" value="NativeStorage" />
+    </feature>
+    <feature name="ActivityRecognitionPlugin">
+        <param name="android-package" value="cordova.plugin.activity.recognition.ActivityRecognitionPlugin" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="BLE">
         <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
@@ -98,9 +105,9 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="local" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="10000" />
     <preference name="Orientation" value="portrait" />
     <preference name="android-manifest/application/activity/@android:launchMode" value="singleTask" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="25" />
     <preference name="LoadingDialog" value="My Title,My Message" />
@@ -108,5 +115,6 @@
     <preference name="DefaultVolumeStream" value="media" />
     <preference name="AndroidPersistentFileLocation" value="Internal" />
     <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="SplashScreenDelay" value="20000" />
     <preference name="ShowSplashScreenSpinner" value="false" />
 </widget>
