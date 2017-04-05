@@ -1,0 +1,114 @@
+<ion-view view-title="{{ '_edit_session' | translate }}">
+  <ion-nav-buttons side="right">
+
+    <button class="button button-icon button-clear ion-validate" ng-click="saveSessionModifications()"></button>
+
+  </ion-nav-buttons>
+
+  <ion-content>
+
+    <div class="mid-bar dark-bg z1 padding">
+      <h3>{{ session.start | ldate }}</h3>
+      <p>
+        <i class="icon ion-star"></i> {{session.overnote}} -
+        <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}} -
+        <i class="icon ion-ios-location"></i> {{session.distance}} Km -
+        <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col col-right">
+        <div class="item" style="text-align: center">
+          <h2 style="text-align: center">{{session.speed}} Km/h</h2>
+          <p  style="text-align: center">{{ "_speed_average" | translate }}</p>
+        </div>
+      </div>
+      <div class="col col-10 col-center"  style="text-align: center">
+        <i class="icon ion-ios-speedometer positive" style="text-align: center;font-size: 32px;"></i>
+
+      </div>
+      <div class="col col-left">
+        <div class="item" style="text-align: center">
+          <h2  style="text-align: center">{{ session.pace | date:"m.ss"  }}</h2>
+          <p  style="text-align: center">{{ "_pace" | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col col-right">
+        <div class="item" style="text-align: center">
+          <h2 style="text-align: center">{{session.distance}} Km</h2>
+          <p  style="text-align: center">{{ "_distance" | translate }}</p>
+        </div>
+      </div>
+      <div class="col col-10 col-center"  style="text-align: center">
+        <i class="icon ion-map positive" style="text-align: center;font-size: 32px;"></i>
+      </div>
+      <div class="col col-left">
+        <div class="item" style="text-align: center">
+          <h2  style="text-align: center">{{ session.duration |date:"HH:mm":"UTC" }}</h2>
+          <p  style="text-align: center">{{ "_time" | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-right">
+        <div class="item" style="text-align: center">
+          <h2 style="text-align: center">{{session.eleUp}} m</h2>
+          <p  style="text-align: center">{{ "_up" | translate }}</p>
+        </div>
+      </div>
+      <div class="col col-10 col-center"  style="text-align: center">
+        <i class="icon ion-ios-arrow-thin-up positive" style="text-align: center;font-size: 32px;"></i>
+        <i class="icon ion-ios-arrow-thin-down positive" style="text-align: center;font-size: 32px;"></i>
+      </div>
+      <div class="col col-left">
+        <div class="item" style="text-align: center">
+          <h2  style="text-align: center">{{ session.eleDown }} m</h2>
+          <p  style="text-align: center">{{ "_down" | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-right">
+        <div class="item" style="text-align: center">
+          <h2 style="text-align: center">{{session.speedinmvt}} Km/h</h2>
+          <p  style="text-align: center">{{ "_speed_in_mvt" | translate }}</p>
+        </div>
+      </div>
+      <div class="col col-10 col-center"  style="text-align: center">
+        <i class="icon ion-speedometer positive" style="text-align: center;font-size: 32px;"></i>
+      </div>
+      <div class="col col-left">
+        <div class="item" style="text-align: center">
+          <h2  style="text-align: center">{{ session.paceinmvt | date:"m.ss"}} </h2>
+          <p  style="text-align: center">{{ "_pace_in_mvt" | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col col-right" ng-if="session.avg_power">
+        <div class="item" style="text-align: center">
+          <h2 style="text-align: center">{{session.avg_power}} Watt</h2>
+          <p  style="text-align: center">{{ "_power" | translate }}</p>
+        </div>
+      </div>
+      <div class="col col-10 col-center" ng-if="session.avg_power && session.avg_cadence" style="text-align: center">
+        <i class="icon ion-outlet positive" style="text-align: center;font-size: 32px;"></i>
+      </div>
+      <div class="col col-left" ng-if="session.avg_cadence">
+        <div class="item" style="text-align: center">
+          <h2  style="text-align: center">{{ session.avg_cadence}} </h2>
+          <p  style="text-align: center">{{ "_cadence" | translate }}</p>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>
