@@ -43,7 +43,6 @@
 [13]: http://khertan.net
 
 ## Contribute
-![ForRunners preview][1] 
  
 ###  Translations
 All translation are located in www/js/app.js
