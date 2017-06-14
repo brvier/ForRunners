@@ -96,14 +96,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-insomnia.Insomnia",
-        "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
-        "pluginId": "cordova-plugin-insomnia",
-        "clobbers": [
-            "window.plugins.insomnia"
-        ]
-    },
-    {
         "id": "com.jcesarmobile.filepicker.FilePicker",
         "file": "plugins/com.jcesarmobile.filepicker/www/FilePicker.js",
         "pluginId": "com.jcesarmobile.filepicker",
@@ -453,6 +445,22 @@ module.exports = [
         "clobbers": [
             "window.StatusBar"
         ]
+    },
+    {
+        "id": "cordova-plugin-insomnia.Insomnia",
+        "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+        "pluginId": "cordova-plugin-insomnia",
+        "clobbers": [
+            "window.plugins.insomnia"
+        ]
+    },
+    {
+        "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
+        "file": "plugins/cordova-plugin-request-location-accuracy/www/android/RequestLocationAccuracy.js",
+        "pluginId": "cordova-plugin-request-location-accuracy",
+        "clobbers": [
+            "cordova.plugins.locationAccuracy"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -467,7 +475,6 @@ module.exports.metadata =
     "org.apache.cordova.speech.speechsynthesis": "0.1.0",
     "cordova-plugin-background-mode": "0.6.6-dev",
     "cordova-plugin-splashscreen": "3.2.2",
-    "cordova-plugin-insomnia": "4.2.0",
     "com.jcesarmobile.filepicker": "1.1.1",
     "cordova-plugin-file": "4.2.0",
     "cordova-plugin-ble-central": "1.1.1",
@@ -483,7 +490,9 @@ module.exports.metadata =
     "cordova-plugin-nativestorage": "2.0.2",
     "cordova-plugin-googleplayservices": "19.0.3",
     "cordova-plugin-activity-recognition": "1.0.0",
-    "cordova-plugin-statusbar": "2.2.2"
+    "cordova-plugin-statusbar": "2.2.2",
+    "cordova-plugin-insomnia": "4.3.0",
+    "cordova-plugin-request-location-accuracy": "2.2.1"
 };
 // BOTTOM OF METADATA
 });

@@ -103,10 +103,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
-                            "count": 1
-                        },
-                        {
                             "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -153,11 +149,25 @@
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": [
                         {
                             "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.megster.cordova.ble.central.BLECentralPlugin\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"RequestLocationAccuracy\"><param name=\"android-package\" value=\"cordova.plugin.RequestLocationAccuracy\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -191,9 +201,6 @@
             "PACKAGE_NAME": "net.khertan.forrunners"
         },
         "cordova-plugin-splashscreen": {
-            "PACKAGE_NAME": "net.khertan.forrunners"
-        },
-        "cordova-plugin-insomnia": {
             "PACKAGE_NAME": "net.khertan.forrunners"
         },
         "com.jcesarmobile.filepicker": {
@@ -243,6 +250,12 @@
         },
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "net.khertan.forrunners"
+        },
+        "cordova-plugin-insomnia": {
+            "PACKAGE_NAME": "net.khertan.forrunners2"
+        },
+        "cordova-plugin-request-location-accuracy": {
+            "PACKAGE_NAME": "net.khertan.forrunners2"
         }
     },
     "dependent_plugins": {},
@@ -340,14 +353,6 @@
             "pluginId": "cordova-plugin-splashscreen",
             "clobbers": [
                 "navigator.splashscreen"
-            ]
-        },
-        {
-            "id": "cordova-plugin-insomnia.Insomnia",
-            "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
-            "pluginId": "cordova-plugin-insomnia",
-            "clobbers": [
-                "window.plugins.insomnia"
             ]
         },
         {
@@ -700,6 +705,22 @@
             "clobbers": [
                 "window.StatusBar"
             ]
+        },
+        {
+            "id": "cordova-plugin-insomnia.Insomnia",
+            "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+            "pluginId": "cordova-plugin-insomnia",
+            "clobbers": [
+                "window.plugins.insomnia"
+            ]
+        },
+        {
+            "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
+            "file": "plugins/cordova-plugin-request-location-accuracy/www/android/RequestLocationAccuracy.js",
+            "pluginId": "cordova-plugin-request-location-accuracy",
+            "clobbers": [
+                "cordova.plugins.locationAccuracy"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -712,7 +733,6 @@
         "org.apache.cordova.speech.speechsynthesis": "0.1.0",
         "cordova-plugin-background-mode": "0.6.6-dev",
         "cordova-plugin-splashscreen": "3.2.2",
-        "cordova-plugin-insomnia": "4.2.0",
         "com.jcesarmobile.filepicker": "1.1.1",
         "cordova-plugin-file": "4.2.0",
         "cordova-plugin-ble-central": "1.1.1",
@@ -728,6 +748,8 @@
         "cordova-plugin-nativestorage": "2.0.2",
         "cordova-plugin-googleplayservices": "19.0.3",
         "cordova-plugin-activity-recognition": "1.0.0",
-        "cordova-plugin-statusbar": "2.2.2"
+        "cordova-plugin-statusbar": "2.2.2",
+        "cordova-plugin-insomnia": "4.3.0",
+        "cordova-plugin-request-location-accuracy": "2.2.1"
     }
 }

@@ -1,5 +1,5 @@
 angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', 'pascalprecht.translate', //'ionic-material', 'ionMdInput',
-                           'leaflet-directive', 'ionic-modal-select'])
+                           'leaflet-directive', 'ionic-modal-select', 'iosDblclick'])
 
 .run(function($ionicPlatform) {
   'use strict';
@@ -16,6 +16,9 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
+
+        
+
         window.oldConsole = { error: console.error, log: console.log, warn: console.warn, info: console.info };
         window.initialLogs = [];
 

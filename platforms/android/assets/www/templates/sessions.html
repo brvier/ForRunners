@@ -9,7 +9,7 @@
         <div class="list">
           <a class="item" ng-click="createManualSession();" target="_blank">
             <i class="icon ion-android-share-alt"></i>
-            {{ _add_manually_a_session | translate }}
+            {{ "_add_manually_a_session" | translate }}
           </a>
         </div>
       </ion-content>
@@ -45,7 +45,7 @@
        <canvas ng-if="resume.chart_labels.length > 1" id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
           labels="resume.chart_labels" chartLegend="false" series="resume.chart_series" options="resume.chart_options"
           style="background: white; width: 100%;">
-       </canvas>
+      </canvas>
     </div>
 
     <!--<div class="item card-item">

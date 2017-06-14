@@ -70,9 +70,16 @@ angular.module('app.services', [])
         },
         loadFromFile: function(recclicked) {
               var deferred = $q.defer();
+              if (window.device.platform === 'browser') {
+                setTimeout(function(){
+                  deferred.resolve(JSON.parse(localStorage.getItem(recclicked + '.json'), Session.dateTimeReviver));
+                }, 1);
+                return deferred.promise;
+              }
+
               var path = cordova.file.externalApplicationStorageDirectory + 'sessions/' + recclicked + '.json';
               if (cordova.file.externalApplicationStorageDirectory === null) {
-                path = cordova.file.dataDirectory + 'sessions/' + recclicked + '.json';;
+                path = cordova.file.documentsDirectory + 'sessions/' + recclicked + '.json';
               }
 
               if (typeof window.resolveLocalFileSystemURL === 'function') {
@@ -94,9 +101,17 @@ angular.module('app.services', [])
           var deferred = $q.defer();
           var filename = session.recclicked.toString() + '.json';
           var path = cordova.file.externalApplicationStorageDirectory;
-          if (path === null) {
-            path = cordova.file.dataDirectory;
-          }
+          if (window.device.platform === 'browser') {
+            setTimeout(function(){
+              localStorage.setItem(filename, JSON.stringify(session));
+              deferred.resolve();
+            }, 1);
+            return deferred.promise;
+          } else if (path === null) {
+            path = cordova.file.documentsDirectory;
+          } 
+          console.log('iOS PATH');
+          console.log(path);
           try {
               window.resolveLocalFileSystemURL(path, function(dirEntry) {
                   dirEntry.getDirectory('sessions', {

@@ -1,0 +1,18 @@
+<ion-view view-title="{{equipment.name}}">
+  <button ng-click="removeEquipment()" class="button button-fab button-fab-bottom-right button-assertive icon ion-android-add waves-effect waves-button waves-light"></button>
+  <ion-content >
+    <div class="content">
+        <img src="{{equipment.photo}}" style="max-height: 300px;">
+        <div class="mid-bar dark-bg z1 padding">
+             <h2 style="text-align: center">{{equipment.distance}} Km</h2>
+        </div>
+        <div class="list">
+            <ion-md-input placeholder="Name" highlight-color="balanced" type="text" ng-model="equipment.name"></ion-md-input>
+           <h3 style="text-align: center">{{equipment.uuid}}</h3>
+        </div>
+        <div class="padding">
+            <button ng-click="takePhotos()" class="button button-full button-positive ink">Take a photo</button>
+        </div>
+    </div>
+  </ion-content>
+</ion-view>
