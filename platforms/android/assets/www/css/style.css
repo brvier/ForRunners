@@ -274,10 +274,17 @@ small {
 }
 
 .popover {
-    left: 234px !important;
     height: 160px;
 }
 
 .popover i {
     margin-right: 10px;
+}
+
+.item h1 {
+    font-size: 32px !important;
+}
+
+.mid-bar h3 {
+    font-size: 1.5em !important;
 }

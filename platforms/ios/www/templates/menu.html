@@ -1,0 +1,41 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-nav-bar align-title="center" class="bar-positive">
+      <ion-nav-back-button class="no-text">
+      </ion-nav-back-button>
+      <ion-nav-buttons side="left">
+        <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="expanded bar bar-header disable-user-behavior">
+    <img src="img/icon.png" class="avatar motion spin fade">
+      <div class="menu-bottom">ForRunners</div>
+    </ion-header-bar>
+    <ion-content class="has-expanded-header stable-bg ">
+      <ion-list>
+        <ion-item menu-close href="#/app/sessions">
+          {{ "_sessions" | translate }}
+        </ion-item>
+        <ion-item menu-close href="#/app/records">
+          {{ "_records" | translate }}
+        </ion-item>
+        <ion-item menu-close href="#/app/equipments">
+          {{ "_equipments" | translate }}
+        </ion-item>
+        <ion-item menu-close href="#/app/settings">
+          {{ "_settings" | translate }}
+        </ion-item>
+        <ion-item menu-close href="#/app/about">
+          {{ "_about" | translate }}
+        </ion-item>
+        <ion-item menu-close href="#/app/help">
+          {{ "_help" | translate }}
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

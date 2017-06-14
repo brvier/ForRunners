@@ -58,7 +58,12 @@
     },
     "cordova-plugin-app-version",
     "cordova-plugin-nativestorage",
-    "cordova-plugin-statusbar"
+    "cordova-plugin-statusbar",
+    "cordova-plugin-console",
+    "cordova-plugin-powermanagement",
+    "cordova-plugin-request-location-accuracy",
+    "cordova-plugin-insomnia",
+    "cordova-plugin-itunesfilesharing"
   ],
   "cordovaPlatforms": [
     "android"
