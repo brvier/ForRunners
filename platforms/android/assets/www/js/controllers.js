@@ -987,6 +987,7 @@ angular.module('app.controllers', [])
         var fs = new FileFactory();
         var path;
         $scope.sessions = {};
+<<<<<<< HEAD
 
         try{
             path = cordova.file.externalApplicationStorageDirectory + 'sessions';
@@ -994,6 +995,10 @@ angular.module('app.controllers', [])
             console.warn(err);
             return deferred.failed;
         }
+=======
+        var path = cordova.file.externalApplicationStorageDirectory + 'sessions';
+
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         if (cordova.file.externalApplicationStorageDirectory === null) {
             path = cordova.file.documentsDirectory + 'sessions';            
         }
@@ -1226,6 +1231,7 @@ angular.module('app.controllers', [])
     };
 
     $scope.iosFilePicker = function() {
+<<<<<<< HEAD
         //var utis = ['public.data', 'public.item', 'public.content', 'public.file-url', 'public.text'];
         window.FilePicker.pickFile(function(path) {
 
@@ -1238,6 +1244,15 @@ angular.module('app.controllers', [])
                     } else if (file.name.slice(-4) == 'json') {
                          $scope.importJSON(file);
                     }
+=======
+        var utis = ['public.data', 'public.item', 'public.content', 'public.file-url', 'public.text'];
+        window.FilePicker.pickFile(function(path) {
+
+            window.resolveLocalFileSystemURI(path, function(fileEntry) {
+                fileEntry.file(function(file) {
+                    $scope.importGPX(file);
+
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
                 });
             }, function(err) {
                 console.error(err);
@@ -1407,6 +1422,7 @@ angular.module('app.controllers', [])
 
 $scope.storageSetObj = function(key, value) {
     try {
+<<<<<<< HEAD
             if ($scope.platform === 'Browser') {
                 localStorage.setItem(key, JSON.stringify(value));    
             } else {
@@ -1415,6 +1431,13 @@ $scope.storageSetObj = function(key, value) {
         } catch (err) {
             console.warn(err); 
             localStorage.setItem(key, value);
+=======
+            //
+            NativeStorage.setItem(key, value, function(){}, function(err){console.error('Native Storage SET Failed:' + err);});
+        } catch (err) {
+            console.warn(err); 
+            localStorage.setItem(key, JSON.stringify(value));
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         }
     };
 
@@ -1433,6 +1456,7 @@ $scope.storageSetObj = function(key, value) {
             }
         } catch (err) {
             console.warn(err); 
+<<<<<<< HEAD
             try {
                 v = localStorage.getItem(key);
                 if (typeof v === 'string') {
@@ -1442,6 +1466,9 @@ $scope.storageSetObj = function(key, value) {
             } catch (err) {
                 console.warn(err); 
             }
+=======
+            return JSON.parse(localStorage.getItem(key));
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         }
     };
 
@@ -1539,6 +1566,7 @@ $scope.storageSetObj = function(key, value) {
   };
 
 $scope.updateIndex = function(session) {
+<<<<<<< HEAD
     if (($scope.sessionsIndex === undefined) || ($scope.sessionsIndex === null)){
       $scope.sessionsIndex = {};
     }
@@ -1547,6 +1575,16 @@ $scope.updateIndex = function(session) {
 
         //if ($scope.platform === 'Browser') {
     $scope.storageSetObj('index', $scope.sessionsIndex);
+=======
+    if ($scope.sessionsIndex === undefined) {
+      $scope.sessionsIndex = {};
+  }
+  $scope.sessionsIndex[session.recclicked] = $scope.resumeSessionForIndex(session);
+  $scope.sortSessions();
+
+        //if ($scope.platform === 'Browser') {
+            $scope.storageSetObj('index', $scope.sessionsIndex);
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         //} else {
          //   $scope.writeToFile($scope.sessionsIndex, 'sessions.index');
         //}
@@ -1566,8 +1604,12 @@ $scope.updateIndex = function(session) {
 
     $scope.writeResumeToFile = function(resume) {
         //if ($scope.platform === 'Browser') {
+<<<<<<< HEAD
 
         $scope.storageSetObj('resume', resume);
+=======
+            $scope.storageSetObj('resume', resume);
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
          //   return;
         //}
        // $scope.writeToFile(resume, 'resume');
@@ -1673,10 +1715,17 @@ $scope.loadSessionsIndex = function() {
         if ($scope.sessionsIndex.hasOwnProperty(recclicked)) {
           if (typeof $scope.sessionsIndex[recclicked].duration === 'string') {
               $scope.sessionsIndex[recclicked].duration= new Date($scope.sessionsIndex[recclicked].duration);
+<<<<<<< HEAD
           }
           if (typeof $scope.sessionsIndex[recclicked].pace === 'string') {
               $scope.sessionsIndex[recclicked].pace = new Date($scope.sessionsIndex[recclicked].pace);
           }
+=======
+          }
+          if (typeof $scope.sessionsIndex[recclicked].pace === 'string') {
+              $scope.sessionsIndex[recclicked].pace = new Date($scope.sessionsIndex[recclicked].pace);
+          }
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
       }
   }
 
@@ -2284,6 +2333,10 @@ $scope.recordPosition = function(pos) {
                                 //if ((dspeed > 1)) {
                                     if (dspeed > 0.5) {
                                         $scope.session.equirect += d;
+<<<<<<< HEAD
+=======
+                                        $scope.session.eledist += d;
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
                                     }
 
                                 //Elevation?
@@ -2370,6 +2423,7 @@ $scope.recordPosition = function(pos) {
             $scope.session.latold = latnew;
             $scope.session.lonold = lonnew;
             $scope.session.time = '00:00:00';
+<<<<<<< HEAD
             $scope.session.maxspeed = 0;
             $scope.session.speed = 0;
             $scope.session.avspeed = 0;
@@ -2377,6 +2431,17 @@ $scope.recordPosition = function(pos) {
             $scope.session.minalt = 99999;
             $scope.session.maxalt = 0;
             $scope.session.elevation = 0;
+=======
+            $scope.session.hilldistance = '0';
+            $scope.session.flatdistance = '0';
+            $scope.session.maxspeed = '0';
+            $scope.session.speed = '0';
+            $scope.session.avspeed = '0';
+            $scope.session.elapsed = 0;
+            $scope.session.minalt = 99999;
+            $scope.session.maxalt = 0;
+            $scope.session.elevation = '0';
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
             $scope.session.speeds = [];
         }
         if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
@@ -2444,6 +2509,7 @@ $scope.toRad = function(x) {
     return x * Math.PI / 180;
 };
 
+<<<<<<< HEAD
 
     $scope.updateEquipments = function(session) {
         if (($scope.equipments === undefined) || ($scope.equipments === null)){
@@ -2457,6 +2523,8 @@ $scope.toRad = function(x) {
         $scope.writeEquipmentsToFile();                
     };
 
+=======
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
 $scope.errorPosition = function(err) {
     console.debug('errorPosition:' + err.message + ':' + err.code);
     $scope.session.gpsGoodSignalToggle = false;
@@ -2499,10 +2567,20 @@ $scope.startSession = function() {
         dist: 0,
         kalmanDist: new KalmanFilter(0.2, 3, 10),
         equirect: 0,
+<<<<<<< HEAD
         elevation: 0,
         maxspeed: 0,
         speed: 0,
         avspeed: 0,
+=======
+        eledist: 0,
+        hilldistance: '0',
+        flatdistance: '0',
+        elevation: '0',
+        maxspeed: '0',
+        speed: '0',
+        avspeed: '0',
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         avpace: '00:00',
         speeds: [],
         weather: '',
@@ -2516,6 +2594,7 @@ $scope.startSession = function() {
     $scope.gpslostlastannounce = 0;
 
     try {
+<<<<<<< HEAD
         if ($scope.platform === 'android') {
             cordova.plugins.locationAccuracy.request(cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(function(){
                 console.log('locationAccuracy success');
@@ -2529,6 +2608,13 @@ $scope.startSession = function() {
                 console.log('Error requesting location permissions', error);
             });
         }
+=======
+        cordova.plugins.locationAccuracy.request(cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(function(){
+            console.log('locationAccuracy success');
+        }, function(err){
+            console.log('Error requesting location permissions', error);
+        });
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     } catch(err) {
         console.error('locationAccuracy plugin seems not available:'+err);
     }
@@ -2562,8 +2648,13 @@ $scope.startSession = function() {
                 $scope.recordPosition,
                 $scope.errorPosition, {
                     enableHighAccuracy: true,
+<<<<<<< HEAD
                     maximumAge: 1000,
                     timeout: 6000
+=======
+                    maximumAge: 0,
+                    timeout: 3000
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
                 });
             
            }
@@ -2578,12 +2669,21 @@ $scope.startSession = function() {
                 console.log('backgroundMode.ondeactivate');
             };
        cordova.plugins.backgroundMode.enable();
+<<<<<<< HEAD
 
     } catch (exception) {
         console.debug('ERROR: cordova.plugins.backgroundMode not enabled');
     }
  
 
+=======
+
+    } catch (exception) {
+        console.debug('ERROR: cordova.plugins.backgroundMode not enabled');
+    }
+ 
+
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         try {
             window.powerManagement.dim(function() {
                 console.log('Wakelock acquired');
@@ -2737,7 +2837,10 @@ $scope.startSession = function() {
         try {
           (new SessionFactory()).saveToFile($scope.session).then(function(){
             $scope.updateIndex($scope.session);
+<<<<<<< HEAD
             $scope.updateEquipments($scope.session);
+=======
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         });
       } catch (err) {
         console.warn(err);
@@ -2790,7 +2893,11 @@ $scope.startSession = function() {
 
     $scope.equipments = $scope.equipments.map(function(equipment) {
         if (distance[equipment.uuid]) {
+<<<<<<< HEAD
             equipment.distance = distance[equipment.uuid];
+=======
+            equipment.distance = distance[equipment.uuid].toFixed(1);
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         } else {
             equipment.distance = 0;
         }
@@ -2868,14 +2975,24 @@ $scope.resume.chart_data[0].reverse();
 $scope.resume.chart_data[1].reverse();
 
 if (sessionIndexLength>0) {
+<<<<<<< HEAD
   $scope.resume.avdistance = ($scope.resume.avdistance / sessionIndexLength);
   $scope.resume.avspeed = ($scope.resume.avspeed / sessionIndexLength);
+=======
+  $scope.resume.avdistance = ($scope.resume.avdistance / sessionIndexLength).toFixed(1);
+  $scope.resume.avspeed = ($scope.resume.avspeed / sessionIndexLength).toFixed(1);
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
   $scope.resume.avduration = new Date($scope.resume.avduration / sessionIndexLength);
   $scope.resume.overnote = Math.round(($scope.resume.overnote / sessionIndexLength), 1);
 }
 
+<<<<<<< HEAD
 $scope.resume.bestspeed = $scope.resume.bestspeed;
 $scope.resume.bestdistance = $scope.resume.bestdistance;
+=======
+$scope.resume.bestspeed = $scope.resume.bestspeed.toFixed(1);
+$scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(1);
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
 
 try {
             //$scope.writeResumeToFile($scope.resume);
@@ -2967,6 +3084,7 @@ try {
             /*jslint bitwise: false*/
         };
 
+<<<<<<< HEAD
 
 
         $scope.saveEquipments = function() {
@@ -2993,6 +3111,33 @@ try {
             });
         };
 
+=======
+        $scope.saveEquipments = function() {
+            try {
+                $scope.writeEquipmentsToFile($scope.equipments);
+            } catch (err) {
+                console.warn(err);
+            }
+            if ($scope.platform === 'Browser') {
+                $scope.storageSetObj('equipments', $scope.equipments);
+            }
+            $scope.storageSetObj('version', $scope._version);
+        };
+
+
+        $scope.addEquipment = function() {
+            if (!$scope.equipments) {
+                $scope.equipments = [];
+            }
+            $scope.equipments.push({
+                'uuid': $scope.fakeGuid(),
+                'name': 'Untitled Shoes',
+                'distance': 0,
+                'photo': 'img/defaultshoes.png'
+            });
+        };
+
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         $scope.deleteEquipment = function(idx) {
         // confirm dialog
         var confirmPopup = $ionicPopup.confirm({
@@ -3227,7 +3372,11 @@ try {
     };
 
     $scope.editSession = function(rid){
+<<<<<<< HEAD
         $state.go('app.edit_session', {'sessionId': rid});
+=======
+        $state.go('app.edit_session', rid);
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         $scope.closePopover();
 
     };
@@ -3376,7 +3525,10 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
 .controller('EditSessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate, SessionFactory, $ionicPopover, $filter) {
     'use strict';
 
+<<<<<<< HEAD
     $scope.types = ['Run', 'Walk', 'Ride'];
+=======
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
 
     $scope.saveSessionModifications = function() {
         $scope.sessions[$stateParams.sessionId] = $scope.session;
@@ -3450,6 +3602,7 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
     });
 
     /*$scope.editSpeed = function() {
+<<<<<<< HEAD
 
         var editPopup = $ionicPopup.prompt({
          template: 'Average Speed',
@@ -3517,6 +3670,75 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
             {$scope.saveCadence(res);});
     };
 
+=======
+
+        var editPopup = $ionicPopup.prompt({
+         template: 'Average Speed',
+         title: 'Enter Average Speed',
+         inputType: 'text',
+         defaultText: $scope.session.speed.toString(),
+        });
+
+        editPopup.then(function(res) 
+            {$scope.saveAvgSpeed(res);});
+    };*/
+
+
+
+    $scope.editEleUp = function() {
+
+        var editPopup = $ionicPopup.prompt({
+         template: 'Elevation in meters',
+         title: 'Enter Elevation Up',
+         inputType: 'text',
+         defaultText: $scope.session.eleUp.toString(),
+        });
+
+        editPopup.then(function(res) 
+            {$scope.saveElevationUp(res);});
+    };
+
+
+    $scope.editEleDown = function() {
+
+        var editPopup = $ionicPopup.prompt({
+         template: 'Elevation in meters',
+         title: 'Enter Elevation Down',
+         inputType: 'text',
+         defaultText: $scope.session.eleDown.toString(),
+        });
+
+        editPopup.then(function(res) 
+            {$scope.saveElevationDown(res);});
+    };
+
+    $scope.editPower = function() {
+
+        var editPopup = $ionicPopup.prompt({
+         template: 'Power in Watts',
+         title: 'Enter Power',
+         inputType: 'text',
+         defaultText: $scope.session.avg_power.toString(),
+        });
+
+        editPopup.then(function(res) 
+            {$scope.savePower(res);});
+    };
+
+    $scope.editCadence = function() {
+
+        var editPopup = $ionicPopup.prompt({
+         template: 'Cadence',
+         title: 'Enter Cadence',
+         inputType: 'text',
+         defaultText: $scope.session.avg_cadence.toString(),
+        });
+
+        editPopup.then(function(res) 
+            {$scope.saveCadence(res);});
+    };
+
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     $scope.editDistance = function() {
 
         var editPopup = $ionicPopup.prompt({
@@ -3549,6 +3771,7 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
         $scope.session.pace = Math.floor($scope.session.distk / $scope.session.speed) + ':' + ('0' + Math.floor((($scope.session.distk / $scope.session.speed)) % 1 * 60)).slice(-2);
     };*/
 
+<<<<<<< HEAD
     $scope.saveType = function(type_){
         //FIXME Compute Pace Duration Note
         $scope.session.type = type_;
@@ -3558,10 +3781,16 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
         //FIXME Compute Pace Duration Note
         $scope.session.avg_cadence = avg_cadence;
         $scope.saveSessionModifications();
+=======
+    $scope.saveCadence = function(avg_cadence){
+        //FIXME Compute Pace Duration Note
+        $scope.session.avg_cadence = avg_cadence;
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     };
     $scope.savePower = function(avg_power){
         //FIXME Compute Pace Duration Note
         $scope.session.avg_power = avg_power;
+<<<<<<< HEAD
         $scope.saveSessionModifications();
     };
     $scope.saveElevationUp = function(eleup){
@@ -3573,6 +3802,16 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
         //FIXME Compute Pace Duration Note
         $scope.session.eleDown = eledown;
         $scope.saveSessionModifications();
+=======
+    };
+    $scope.saveEleUp = function(eleup){
+        //FIXME Compute Pace Duration Note
+        $scope.session.eleUp = eleup;
+    };
+    $scope.saveEleDown = function(eledown){
+        //FIXME Compute Pace Duration Note
+        $scope.session.eleDown = eledown;
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     };
 
     $scope.saveAvgPace = function(avgPace){
@@ -3581,11 +3820,18 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
 
     $scope.saveDistance = function(dist){
         //FIXME Compute Speed Pace Note
+<<<<<<< HEAD
         $scope.session.distance = parseFloat(dist);
         var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
         $scope.session.speed = $scope.session.distance / (elapsed / 3600);
         $scope.session.pace = Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
         $scope.saveSessionModifications();
+=======
+        $scope.session.distance = dist;
+        var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
+        $scope.session.speed = $scope.session.distance / (elapsed / 3600);
+        $scope.session.pace = Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     };
 
     $scope.saveDuration = function(duration){
@@ -3598,7 +3844,10 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
         var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
         $scope.session.speed = $scope.session.distance / (elapsed / 3600);
         $scope.session.pace = Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
+<<<<<<< HEAD
         $scope.saveSessionModifications();
+=======
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     };
 
 

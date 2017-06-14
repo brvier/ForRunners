@@ -55,12 +55,15 @@
         <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
         <param name="onload" value="true" />
     </feature>
+<<<<<<< HEAD
     <feature name="PowerManagement">
         <param name="android-package" value="com.simplec.phonegap.plugins.powermanagement.PowerManagement" />
     </feature>
     <feature name="BackgroundMode">
         <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
     </feature>
+=======
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     <feature name="Insomnia">
         <param name="android-package" value="nl.xservices.plugins.Insomnia" />
     </feature>

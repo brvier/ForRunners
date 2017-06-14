@@ -1,0 +1,321 @@
+<ion-view view-title={{session.type}}>
+<ion-nav-buttons side="right">
+<!--<button class="button button-icon button-clear ion-android-share-alt"
+ng-click="sharePieceOfDOM()"></button>
+<button class="button button-icon button-clear ion-android-delete"
+ng-click="deleteSessionRecID(session.recclicked)"></button>-->
+
+<script id="templates/session_popover.html" type="text/ng-template">
+  <ion-popover-view>
+    <ion-content>
+      <div class="list">
+        <a class="item" ng-click="sharePieceOfDOM();closePopover();" target="_blank">
+          <i class="icon ion-android-share-alt"></i>
+          Share
+        </a>
+
+        <a class="item" ng-click="editSession(session.recclicked);" target="_blank">
+          <i class="icon ion-edit"></i>
+          Edit
+        </a>
+        <a class="item" ng-click="deleteSessionRecID(session.recclicked);closePopover();" target="_blank">
+          <i class="icon ion-android-delete"></i>
+          Delete
+        </a>
+      </div>
+    </ion-content>
+  </ion-popover-view>
+</script>
+
+<button class="button button-icon button-clear ion-android-more-vertical" ng-click="openPopover($event)"></button>
+
+</ion-nav-buttons>
+<ion-content>
+<!--<div id="mapContainer"  style="width: 100%; height: 350px; background: white"></div>-->
+<leaflet id="sessmap" height="300px" width="100%" defaults="session.map.defaults" paths="session.map.paths"
+  bounds="session.map.bounds"
+  controls="session.map.controls"
+  tiles="session.map.tiles"
+  markers="session.map.markers" ></leaflet>
+<div class="mid-bar dark-bg z1 padding">
+  <h3>{{ session.start | ldate }}</h3>
+  <p>
+    <i class="icon ion-star"></i> {{session.overnote}} -
+    <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm:ss":"UTC"}} -
+    <i class="icon ion-ios-location"></i> {{session.distance | number:1}} Km -
+    <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
+  </p>
+</div>
+
+<div class="row">
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.speed | number:1}} Km/h</h2>
+      <p  style="text-align: center">{{ "_speed_average" | translate }}</p>
+    </div>
+  </div>
+  <div class="col col-10 col-center"  style="text-align: center">
+    <i class="icon ion-ios-speedometer positive" style="text-align: center;font-size: 32px;"></i>
+
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+      <h2  style="text-align: center">{{ session.pace | date:"m.ss"  }}</h2>
+      <p  style="text-align: center">{{ "_pace" | translate }}</p>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.distance | number:1}} Km</h2>
+      <p  style="text-align: center">{{ "_distance" | translate }}</p>
+    </div>
+  </div>
+  <div class="col col-10 col-center"  style="text-align: center">
+    <i class="icon ion-map positive" style="text-align: center;font-size: 32px;"></i>
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+      <h2  style="text-align: center">{{ session.duration |date:"HH:mm:ss":"UTC" }}</h2>
+      <p  style="text-align: center">{{ "_time" | translate }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.eleUp | number:1 }} m</h2>
+      <p  style="text-align: center">{{ "_up" | translate }}</p>
+    </div>
+  </div>
+  <div class="col col-10 col-center"  style="text-align: center">
+    <i class="icon ion-ios-arrow-thin-up positive" style="text-align: center;font-size: 32px;"></i>
+    <i class="icon ion-ios-arrow-thin-down positive" style="text-align: center;font-size: 32px;"></i>
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+      <h2  style="text-align: center">{{ session.eleDown | number:1 }} m</h2>
+      <p  style="text-align: center">{{ "_down" | translate }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col col-right">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.speedinmvt | number:1 }} Km/h</h2>
+      <p  style="text-align: center">{{ "_speed_in_mvt" | translate }}</p>
+    </div>
+  </div>
+  <div class="col col-10 col-center"  style="text-align: center">
+    <i class="icon ion-speedometer positive" style="text-align: center;font-size: 32px;"></i>
+  </div>
+  <div class="col col-left">
+    <div class="item" style="text-align: center">
+        <h2  style="text-align: center">{{ session.paceinmvt | date:"m.ss"}} </h2>
+      <p  style="text-align: center">{{ "_pace_in_mvt" | translate }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col col-right" ng-if="session.avg_power">
+    <div class="item" style="text-align: center">
+      <h2 style="text-align: center">{{session.avg_power | number:0 }} Watt</h2>
+      <p  style="text-align: center">{{ "_power" | translate }}</p>
+    </div>
+  </div>
+  <div class="col col-10 col-center" ng-if="session.avg_power && session.avg_cadence" style="text-align: center">
+    <i class="icon ion-outlet positive" style="text-align: center;font-size: 32px;"></i>
+  </div>
+  <div class="col col-left" ng-if="session.avg_cadence">
+    <div class="item" style="text-align: center">
+        <h2  style="text-align: center">{{ session.avg_cadence | number:1 }} </h2>
+      <p  style="text-align: center">{{ "_cadence" | translate }}</p>
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="row">
+    <div class="col col-center">
+        <div class="item center">
+            <h2 class="padding outline inline"> {{ "_score" | translate }} {{ session.overnote }} </h2>
+        </div>
+    </div>
+    </div>-->
+
+<div class="row row-center" ng-if="session.weather.main.temp">
+  <div class="col col-center" ng-if="session.weather.main.temp">
+    <div class="item weatherinfo" ng-if="session.weather.main.temp">
+      <img ng-if="session.weather.main.temp != ''" src="http://openweathermap.org/img/w/{{session.weather.weather[0].icon}}.png"/><br>
+      <p class="weatherinfo" ng-if="session.weather.main.temp">{{session.weather.main.temp}} °C</p>
+      <h2 class="weatherinfo" ng-if="session.weather.main.temp">{{session.weather.weather[0].description}}</h2>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="content double-padding">
+    <h4 class="positive text-center">{{ "_equipments" | translate }}</h4>
+</div>
+<div>
+            <div class="list">
+                 <a class="item item-avatar item-icon-right" ng-repeat="equipment in session.equipments track by $index">
+                   <img class="equipment-avatar" src="{{equipment.photo}}">
+                    <b>{{equipment.name}}</b>
+                    <i ng-click="removeEquipment($index);" class="icon ion-trash-a muted"></i>
+                </a>
+                 <div class="row">
+                    <div class="col center">
+                    <button class="button button-small button-clear button-stable icon-right ion-plus"
+                            on-select="addEquipment(newValue);"
+                            modal-select
+                            ng-model="session.equipment"
+                            options="equipments"
+                            hide-reset="true"
+                            modal-title="Select an equipment">
+                            {{ "_add_equipment" | translate }}
+                            <div class="option">
+                                <div class="item item-avatar item-avatar-left"><img class="equipment-avatar" src="{{option.photo}}"> {{option.name}}</div>
+                            </div>
+                    </button>
+                    </div>
+                </div>
+           </div>
+</div>
+
+<!-- IN DEVEL
+<div class="content double-padding">
+    <h4 class="positive text-center">{{ "_mood" | translate }}</h4>
+</div>
+
+<div>
+    <div class="button-bar">
+        <a class="button button-icon icon ion-happy"></a>
+        <a class="button button-icon icon ion-sad"></a>
+        <a class="button button-icon icon ion-sad"></a>
+    </div>
+</div> -->
+
+<!--Graph 1 : speed vs alt -->
+<div class="content double-padding">
+    <h4 class="positive text-center">{{ "_speed_vs_altitude" | translate }}</h4>
+</div>
+<canvas ng-if="session.paceDetails.length > 1" id="speedvsalt" class="item chart chart-line ng-isolate-scope" data="session.chart_data"
+labels="session.chart_labels" chart-legend="true" series="session.chart_series"
+options="session.chart_options"
+style="width: 100%; height: 300px; background: white">
+</canvas>
+
+<!--Graph 2 : speed vs heartrate -->
+<div class="content double-padding" ng-if="session.heartRate">
+    <h4 class="positive text-center">{{ "_speed_vs_heartrate" | translate }}</h4>
+</div>
+<canvas ng-if="session.heartRate" id="speedvsheartrate" class="item chart chart-base ng-isolate-scope" chart-type="session.chart2_type" data="session.chart2_data"
+labels="session.chart2_labels" chart-legend="false" series="session.chart2_series"
+options="session.chart2_options" chart-zoneColors="session.hr_colors"
+style="width: 100%; height: 300px; background: white">
+</canvas>
+
+<!--Graph 3 : speed vs heartrate -->
+<div class="content double-padding" ng-if="session.heartRate">
+    <h4 class="positive text-center">{{ "_altitude_vs_heartrate" | translate }}</h4>
+</div>
+<canvas ng-if="session.heartRate" id="altvsheartrate" class="item chart chart-base ng-isolate-scope" chart-type="session.chart4_type" data="session.chart4_data"
+labels="session.chart4_labels" chart-legend="false" series="session.chart4_series"
+options="session.chart4_options" chart-zoneColors="session.hr_colors"
+style="width: 100%; height: 300px; background: white">
+</canvas>
+
+<div class="content double-padding" ng-if="session.heartRate">
+    <h4 class="positive text-center">{{ "_heartRate" | translate }}</h4>
+</div>
+
+<canvas ng-if="session.heartRate" id="doughnut" class="item chart chart-base ng-isolate-scope labeled-chart-container"
+      data="session.chart3_data" labels="session.chart3_labels"
+      chart-legend="true"
+      chart-type="session.chart3_type"
+      options="session.chart3_options"
+      colours="session.hhr_colors"
+      style="width: 100%; height: 300px; background: white">
+</canvas>
+
+<div class="table" ng-if="session.paceDetails.length > 0">
+    <div class="row row-center row-header" style="text-align: center" >
+        <div class="col col-center">
+            <b>{{ "_km" | translate }}</b>
+        </div>
+        <div class="col col-center">
+            {{ "_pace" | translate }}
+        </div>
+        <div class="col col-center">
+            {{ "_speed" | translate }}
+        </div>
+        <div class="col col-center" ng-if="session.heartRate">
+            {{ "_bpm" | translate }}
+        </div>
+    </div>
+</div>
+
+<div class="table">
+    <div class="row row-center" style="text-align: center" collection-repeat="stepPace in session.paceDetails">
+        <div class="col col-center col-sep" >
+            <b>{{ stepPace.km }}</b>
+        </div>
+        <div class="col col-center col-sep">
+            {{ stepPace.pace | date:"m.ss" }}
+        </div>
+        <div class="col col-center col-sep">
+            {{ stepPace.speed | number:1}}
+        </div>
+        <div class="col col-center col-sep" ng-if="session.heartRate">
+            {{ stepPace.hr | number  }}
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="list card">
+<div class="row row-center">
+  <div class="col col-center">
+    <canvas id="horizontalBar" class="chart chart-base ng-isolate-scope" data="session.bchart_data"
+    labels="session.bchart_labels" chart-legend="false" series="session.bchart_series"
+    options="session.bchart_options"
+    style="width: 100%; height: 550px; background: white" chart-type="session.bchart_type">
+    </canvas>
+  </div>
+</div>
+</div>-->
+<!--<div style="" class="button-bar">
+<button style="" class="button button-stable button-block icon ion-happy"></button>
+<button style="" class="button button-stable button-block icon ion-sad"></button>
+</div>-->
+
+<!--<div class="list card">
+<div class="row row-center">
+  <div class="col col-center">
+    <p>Speed</p>
+    <canvas id="doughnut" class="chart chart-doughnut ng-isolate-scope" data="session.chart2_data"
+    labels="session.chart2_labels" legend="true"
+    options="session.chart2_options"
+    style="width: 100%; height: 350px; background: white">
+    </canvas>
+  </div>
+</div>
+</div>-->
+<!--<div class="row row-center">
+<div class="col col-center">
+  <p>Elevation</p>
+  <canvas id="line" class="chart chart-line ng-isolate-scope" data="session.chart_ele_data"
+  labels="session.chart_ele_labels" legend="false" series="session.chart_ele_series"
+  style="width: 100%; height: 350px; background: white">
+  </canvas>
+</div>
+</div>-->
+</ion-content>
+</ion-view>

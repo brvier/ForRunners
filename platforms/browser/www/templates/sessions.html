@@ -1,0 +1,99 @@
+<ion-view view-title="Sessions">
+  <button ng-click="startSession()" class="button button-fab button-fab-bottom-right button-assertive icon ion-play waves-effect waves-button waves-light"></button>
+  <!--button ng-click="startSessionWithoutGPS()" class="button button-fab
+      button-fab-bottom-right button-fab-almost-bottom-right button-royal icon ion-android-home waves-effect waves-button waves-light"></button-->
+
+  <script id="templates/sessions_popover.html" type="text/ng-template">
+    <ion-popover-view>
+      <ion-content>
+        <div class="list">
+          <a class="item" ng-click="createManualSession();" target="_blank">
+            <i class="icon ion-android-share-alt"></i>
+            {{ "_add_manually_a_session" | translate }}
+          </a>
+        </div>
+      </ion-content>
+    </ion-popover-view>
+  </script>
+
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-android-more-vertical" ng-click="openPopover($event)"></button>
+  </ion-nav-buttons>
+
+  <ion-content>
+
+    <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
+        <i class="icon ion-trophy energized"></i>
+        <h2>{{ "_average" | translate }}</h2>
+        <p>{{resume.avdistance | number:1}} Km - {{resume.avduration | date:"HH:mm:ss":"UTC" }} - {{resume.avspeed | number:1 }} Km/h</p>
+    </div>
+
+    <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
+        <i class="icon ion-ribbon-b energized"></i>
+        <h2>{{ "_records" | translate }}</h2>
+        <p>{{resume.bestdistance | number:1}} Km - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed | number:1}} Km/h</p>
+    </div>
+
+    <div class="content double-padding" ng-if="sortedSessionsIndex === undefined">
+      <h4 class="positive">Welcome on ForRunners</h4>
+      <p class="text-muted">
+        {{ "_welcome_text" | translate }}
+      </p>
+    </div>
+
+    <div class="item card-item">
+       <canvas ng-if="resume.chart_labels.length > 1" id="line" class="chart chart-line ng-isolate-scope" data="resume.chart_data"
+          labels="resume.chart_labels" chartLegend="false" series="resume.chart_series" options="resume.chart_options"
+          style="background: white; width: 100%;">
+      </canvas>
+    </div>
+
+    <!--<div class="item card-item">
+       <canvas ng-if="resume.radar_labels.length > 1" id="radar" class="chart chart-radar ng-isolate-scope" data="resume.radar_data"
+          labels="resume.radar_labels" chartLegend="false" series="resume.radar_series" options="resume.radar_options"
+          style="background: white; width: 100%;">
+       </canvas>
+    </div>-->
+
+      <ion-list class="animate-fade-slide-in-right"> <!-- class="animate-fade-slide-in-right" -->
+
+        <a
+           ng-repeat="session in sortedSessionsIndex track by session.recclicked"
+           type="item-text-wrap"
+           ng-href="{{'#/app/sessions/'+session.recclicked}}"
+           class="in item item-avatar button-fab"
+           ng-click="">
+           <span class="badge badge-upper">
+              <i ng-if="session.type=='Walk'" class="icon ion-android-walk positive"></i>
+              <i ng-if="session.type=='Run'" class="icon ion-android-walk positive"></i>
+              <i ng-if="session.type=='Ride'" class="icon ion-android-bicycle positive"></i>
+              <i ng-if="!session.type" class="icon ion-android-walk positive"></i>
+           </span>
+           <span class="badge badge-left badge-balanced"          
+                style="color:white !important; display: block; vertical-align: middle; text-align:center;">
+              {{ session.distk }} K<br>
+           </span>
+          <span class="badge badge-lower"
+            style="display: block; vertical-align: middle; text-align:center; font-size:11px; width: 30px; margin-left:5px;">
+                {{ session.overnote }} <i class="icon ion-star"></i>
+          </span>
+
+          <h2>
+            {{ session.start | ldate }}
+          </h2>
+
+          <p>
+            {{session.distance | number:1}} Km - {{session.duration | date:"HH:mm:ss":"UTC"}} - {{session.pace | date:"m.ss"}} min/km<br>
+            {{session.speed | number:1}} Km/h - {{ session.eleUp | number:0 }} m up / {{ session.eleDown | number:0 }} m down
+         </p>
+        </a>
+
+    </ion-list>
+          <!--<ion-infinite-scroll
+            ng-if="hasMoreData()"
+            on-infinite="loadMoreData()"
+            distance="20%">
+          </ion-infinite-scroll>-->
+  </ion-content>
+
+</ion-view>

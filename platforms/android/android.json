@@ -149,6 +149,10 @@
                         {
                             "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": [
@@ -743,5 +747,6 @@
         "cordova-plugin-request-location-accuracy": "2.2.1",
         "cordova-plugin-insomnia": "4.3.0",
         "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1"
+        "cordova-plugin-request-location-accuracy": "2.2.1"
     }
 }

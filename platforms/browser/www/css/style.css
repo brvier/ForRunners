@@ -1,0 +1,290 @@
+/* Empty. Add your own CSS if you like */
+
+.frame_look_feel {
+    background-color: red;
+}
+
+.weatherinfo {
+    text-align: center;
+}
+
+.badge-left {
+  left: 26px;
+  width: 52px;
+  font-size: 14px;
+  top: 40px !important;
+}
+
+.badge-lower {
+  left: 26px;
+  top: 60px !important;
+  width: 52px;
+  font-size: 14px;
+}
+
+.badge-upper {
+  left: 38px;
+  width: 52px;
+  font-size: 18px;
+}
+
+.item-divider{
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0px;
+    z-index: 3 !important;
+    background-color: white;
+    font-weight:800;
+}
+
+.divider{
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0px;
+    z-index: 3 !important;
+    vertical-align:middle;
+}
+
+.app-icon {
+    background-color: #fff;
+    background: url('../img/icon.png') center;
+    background-size: cover;
+    border-radius: 50%;
+    height: 125px;
+    margin: 0 auto;
+    width: 125px;
+}
+
+/*.wave-button {
+  padding-left: 95px;
+}*/
+
+.item {
+  border-style: none;
+}
+
+.item-dark {
+    background-color: #000 !important;
+}
+/*.title-left {
+  text-align: left;
+  left:0px;
+}*/
+.chart-container {
+  width: 100%;
+  height: 100%;
+}
+ul.circle {list-style-type: circle; padding-left: 30px;}
+
+.row-header {
+    background-color: #efefef;  
+}
+.col-sep {
+  border-bottom: 1px solid lightgray;
+}
+
+.table {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.leaflet-circle-marker{
+    background-color: blue;
+    color: white;
+    font-size: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 20px;  
+    height: 20px;
+    line-height: 18px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.leaflet-circle-marker-start{
+    background-color: green;
+    color: white;
+    font-size: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 20px;  
+    height: 20px;
+    line-height: 18px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.leaflet-circle-marker-end{
+    background-color: red;
+    color: white;
+    font-size: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 20px;  
+    height: 20px;
+    line-height: 18px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.menu .bar.bar-header.expanded {
+    background-image: url('../img/about-bg.jpg');
+    background-size: 120%;
+    background-position: 0%;
+    transition: all .5s ease-in-out;
+}
+
+.bar-dark {
+    background-color: #000000 !important;
+}
+
+.menu.menu-left * {
+    font-weight: bold;
+}
+
+h2 {
+   text-align:left;
+}
+
+p {
+   text-align:left;
+}
+
+.bar-running{
+    background-color: #000;
+    text-align:center;
+}
+
+.black-bg{
+    background-color: #000;
+}
+
+.fileUpload input.upload{
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.fileUpload  {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.doughnutwithvalue-legend{list-style-type:none;margin-top:5px;text-align:center;-webkit-padding-start:0;-moz-padding-start:0;padding-left:0}
+.doughnutwithvalue-legend li{display:inline-block;white-space:nowrap;position:relative;margin-bottom:4px;border-radius:5px;padding:2px 8px 2px 28px;font-size:smaller;cursor:default}
+.doughnutwithvalue-legend li span{display:block;position:absolute;left:0;top:0;width:20px;height:20px;border-radius:5px}
+
+.doughnutwithvalue-legend {
+    list-style: none;
+    right: 8px;
+    top: 0;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.doughnutwithvalue-legend ul {
+    margin-left: 30px;
+
+}
+
+
+.doughnutwithvalue-legend li {
+    position: relative;
+    /*display: table;*/
+    /*min-width: 190px;*/
+}
+
+/*.doughnut-legend span {
+    padding-left: 20px;
+    position: relative !important;
+    text-indent: 10px;
+}*/
+
+.unit {
+    font-size:24px;
+}
+
+.miniicon {
+    padding-left:15px;  
+    /*padding-right:5px;  */
+}
+
+.wrap {
+    white-space: normal;    
+}
+
+.leftpad {
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.rightpad {
+    margin-left: 10px;
+}
+
+
+.center {
+    text-align: center;
+}
+
+
+.img-responsive{
+width: 100%;
+height: auto;
+}
+
+.img-help{
+width: 75%;
+height: auto;
+}
+
+small {
+    font-size: 70%;
+    white-space: normal;
+    width:100%;
+}
+
+.optionList{
+    position:absolute;
+    width:100%;
+    z-index:100;
+   /* height:200px;*/
+}
+
+.equipment-avatar{
+    top:8px !important;
+}
+
+.modal-select-close-button {
+    width:100% !important;
+    max-width: 100% !important;
+}
+
+.button-fab-almost-bottom-right {
+    bottom: 96px !important;
+}
+
+.popover {
+    height: 160px;
+}
+
+.popover i {
+    margin-right: 10px;
+}
+
+.item h1 {
+    font-size: 32px !important;
+}
+
+.mid-bar h3 {
+    font-size: 1.5em !important;
+}

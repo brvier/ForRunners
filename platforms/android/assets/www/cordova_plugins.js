@@ -422,6 +422,7 @@ module.exports = [
         ]
     },
     {
+<<<<<<< HEAD
         "id": "cordova-plugin-powermanagement.powermanagement",
         "file": "plugins/cordova-plugin-powermanagement/www/powermanagement.js",
         "pluginId": "cordova-plugin-powermanagement",
@@ -436,6 +437,13 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.backgroundMode",
             "plugin.backgroundMode"
+=======
+        "id": "cordova-plugin-insomnia.Insomnia",
+        "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+        "pluginId": "cordova-plugin-insomnia",
+        "clobbers": [
+            "window.plugins.insomnia"
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         ]
     },
     {
@@ -445,6 +453,7 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.locationAccuracy"
         ]
+<<<<<<< HEAD
     },
     {
         "id": "cordova-plugin-insomnia.Insomnia",
@@ -453,6 +462,8 @@ module.exports = [
         "clobbers": [
             "window.plugins.insomnia"
         ]
+=======
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     }
 ];
 module.exports.metadata = 
@@ -480,12 +491,17 @@ module.exports.metadata =
     "cordova-plugin-googleplayservices": "19.0.3",
     "cordova-plugin-activity-recognition": "1.0.0",
     "cordova-plugin-statusbar": "2.2.2",
+<<<<<<< HEAD
     "cordova-plugin-console": "1.0.7",
     "cordova-plugin-powermanagement": "1.0.5",
     "cordova-plugin-background-mode": "0.7.2",
     "cordova-plugin-request-location-accuracy": "2.2.1",
     "cordova-plugin-insomnia": "4.3.0",
     "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1"
+=======
+    "cordova-plugin-insomnia": "4.3.0",
+    "cordova-plugin-request-location-accuracy": "2.2.1"
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
 };
 // BOTTOM OF METADATA
 });

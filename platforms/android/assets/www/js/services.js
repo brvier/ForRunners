@@ -70,7 +70,11 @@ angular.module('app.services', [])
         },
         loadFromFile: function(recclicked) {
               var deferred = $q.defer();
+<<<<<<< HEAD
               if ((window.device === undefined) || (window.device.platform === 'browser')) {
+=======
+              if (window.device.platform === 'browser') {
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
                 setTimeout(function(){
                   deferred.resolve(JSON.parse(localStorage.getItem(recclicked + '.json'), Session.dateTimeReviver));
                 }, 1);
