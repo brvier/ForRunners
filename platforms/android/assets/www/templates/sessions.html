@@ -25,13 +25,13 @@
     <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
         <i class="icon ion-trophy energized"></i>
         <h2>{{ "_average" | translate }}</h2>
-        <p>{{resume.avdistance}} Km - {{resume.avduration | date:"HH:mm":"UTC" }} - {{resume.avspeed}} Km/h</p>
+        <p>{{resume.avdistance | number:1}} Km - {{resume.avduration | date:"HH:mm:ss":"UTC" }} - {{resume.avspeed | number:1 }} Km/h</p>
     </div>
 
     <div class="item item-icon-left card-item" ng-if="sortedSessionsIndex.length > 1">
         <i class="icon ion-ribbon-b energized"></i>
         <h2>{{ "_records" | translate }}</h2>
-        <p>{{resume.bestdistance}} Km - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed}} Km/h</p>
+        <p>{{resume.bestdistance | number:1}} Km - {{resume.longesttime | date:"HH:mm":"UTC" }} - {{resume.bestspeed | number:1}} Km/h</p>
     </div>
 
     <div class="content double-padding" ng-if="sortedSessionsIndex === undefined">
@@ -83,8 +83,8 @@
           </h2>
 
           <p>
-            {{session.distance}} Km - {{session.duration | date:"HH:mm":"UTC"}} - {{session.pace | date:"m.ss"}} min/km<br>
-            {{session.speed}} Km/h - {{ session.eleUp }} m up / {{ session.eleDown }} m down
+            {{session.distance | number:1}} Km - {{session.duration | date:"HH:mm:ss":"UTC"}} - {{session.pace | date:"m.ss"}} min/km<br>
+            {{session.speed | number:1}} Km/h - {{ session.eleUp | number:0 }} m up / {{ session.eleDown | number:0 }} m down
          </p>
         </a>
 

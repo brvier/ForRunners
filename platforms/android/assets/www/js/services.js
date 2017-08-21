@@ -68,19 +68,16 @@ angular.module('app.services', [])
             }
             return value;
         },
-        loadFromFile: function(recclicked) {
+        loadFromFile: function(recclicked, app_data_path) {
               var deferred = $q.defer();
-              if (window.device.platform === 'browser') {
+              if ((window.device === undefined) || (window.device.platform === 'browser')) {
                 setTimeout(function(){
                   deferred.resolve(JSON.parse(localStorage.getItem(recclicked + '.json'), Session.dateTimeReviver));
                 }, 1);
                 return deferred.promise;
               }
 
-              var path = cordova.file.externalApplicationStorageDirectory + 'sessions/' + recclicked + '.json';
-              if (cordova.file.externalApplicationStorageDirectory === null) {
-                path = cordova.file.documentsDirectory + 'sessions/' + recclicked + '.json';
-              }
+              var path = app_data_path + 'sessions/' + recclicked + '.json';
 
               if (typeof window.resolveLocalFileSystemURL === 'function') {
                   window.resolveLocalFileSystemURL(path, function(fileEntry) {
@@ -97,21 +94,18 @@ angular.module('app.services', [])
               }
               return deferred.promise;
         },
-        saveToFile: function(session) {
+        saveToFile: function(session, app_data_path) {
           var deferred = $q.defer();
           var filename = session.recclicked.toString() + '.json';
-          var path = cordova.file.externalApplicationStorageDirectory;
+          var path = app_data_path;
           if (window.device.platform === 'browser') {
             setTimeout(function(){
               localStorage.setItem(filename, JSON.stringify(session));
               deferred.resolve();
             }, 1);
             return deferred.promise;
-          } else if (path === null) {
-            path = cordova.file.documentsDirectory;
           } 
-          console.log('iOS PATH');
-          console.log(path);
+
           try {
               window.resolveLocalFileSystemURL(path, function(dirEntry) {
                   dirEntry.getDirectory('sessions', {

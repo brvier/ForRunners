@@ -28,7 +28,7 @@
 	<div class="table">
 		<div class="row row-center" style="text-align: center" ng-repeat="record in records">
 		  <div class="col col-center col-sep" >
-		    <b>{{ record.distk }}K</b>
+		    <b>{{ record.distk | number:01 }}K</b>
 		  </div>
 		  <div class="col col-center col-sep">
 		    {{ record.speed | number:1}}

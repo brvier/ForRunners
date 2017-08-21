@@ -56,7 +56,6 @@
     </div>-->
 
       <ion-list class="animate-fade-slide-in-right"> <!-- class="animate-fade-slide-in-right" -->
-
         <a
            ng-repeat="session in sortedSessionsIndex track by session.recclicked"
            type="item-text-wrap"
@@ -79,6 +78,8 @@
           </span>
 
           <h2>
+            {{ session.cityname }}
+            <br>
             {{ session.start | ldate }}
           </h2>
 

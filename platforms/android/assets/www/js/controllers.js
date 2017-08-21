@@ -28,6 +28,7 @@ angular.module('app.controllers', [])
     };
 })
 
+
 .directive('navBarClass', function() {
     'use strict';
     return {
@@ -92,12 +93,20 @@ angular.module('app.controllers', [])
 
     try {
         $scope.platform = window.device.platform;
+        
+        if ($scope.platform === 'iOS') {
+            $scope.dataPath = cordova.file.documentsDirectory;
+        } else {
+            $scope.dataPath = cordova.file.externalApplicationStorageDirectory;
+        }
+
         $scope.android_version = window.device.version.toLowerCase();
         if ($scope.platform === 'android') {
             if (parseInt(window.device.version) < 5) {
                 $scope.platform = 'oldandroid';
             }
         }
+
     } catch (err) {
         $scope.platform = 'Browser';
         console.warn(err);
@@ -114,10 +123,10 @@ angular.module('app.controllers', [])
     $scope.running = false;
     $scope.fullyLoaded = false;
     $scope.prefs = {};
+
     $scope.prefs.minrecordingaccuracy = 14;
-    $scope.prefs.minrecordinggap = 1000;
-    $scope.prefs.minrecordingspeed = 3;
-    $scope.prefs.maxrecordingspeed = 38;
+
+    $scope.prefs.minrecordinggap = 100;
     $scope.prefs.unit = 'kms';
     $scope.prefs.first_run = true;
     $scope.prefs.timevocalannounce = true;
@@ -313,7 +322,7 @@ angular.module('app.controllers', [])
       $scope.sessionsIndex = undefined;
       $scope.sessionsIndexLength = 0;
       $scope.sortedSessionsIndex = undefined;
-      $scope.loadAllJsonSessions().then(function(fullyLoaded){
+      $scope.loadAllJsonSessions($scope.dataPath).then(function(fullyLoaded){
         for (var recid in $scope.sessions) {
           if ($scope.sessions.hasOwnProperty(recid)) {
             $scope.computeSessionFromGPXData($scope.sessions[recid], true);
@@ -468,8 +477,8 @@ angular.module('app.controllers', [])
             dLat1 = (oldLat) * Math.PI / 180;
             dLat2 = (curLat) * Math.PI / 180;
             a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(dLat1) * Math.cos(dLat1) *
-            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                Math.cos(dLat1) * Math.cos(dLat1) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
             c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             d = 6371 * c;
             //Speed between this and previous point
@@ -921,7 +930,7 @@ angular.module('app.controllers', [])
         $scope.sessions[idx] = $scope.session;
         try {
           var sf = new SessionFactory();
-          sf.saveToFile($scope.session).then(function(){
+          sf.saveToFile($scope.session, $scope.dataPath).then(function(){
             $scope.updateIndex($scope.session);
         });
       } catch (err) {
@@ -937,10 +946,7 @@ angular.module('app.controllers', [])
             $scope.storageSetObj('sessions', $scope.sessions);
             $scope.computeResumeGraph();
         } else {
-            var path = cordova.file.externalApplicationStorageDirectory + 'sessions';
-            if (cordova.file.externalApplicationStorageDirectory === null) {
-               path = cordova.file.documentsDirectory  + 'sessions';
-            }
+            var path = $scope.dataPath + 'sessions';
             $scope.remove_file = function(entry) {
                 entry.remove(function() {
                     $scope.computeResumeGraph();
@@ -981,14 +987,17 @@ angular.module('app.controllers', [])
         });
     };
 
-    $scope.loadAllJsonSessions = function() {
+    $scope.loadAllJsonSessions = function(dataPath) {
         var deferred = $q.defer();
         var fs = new FileFactory();
+        var path;
         $scope.sessions = {};
-        var path = cordova.file.externalApplicationStorageDirectory + 'sessions';
 
-        if (cordova.file.externalApplicationStorageDirectory === null) {
-            path = cordova.file.documentsDirectory + 'sessions';            
+        try{
+            path = dataPath + 'sessions';
+        } catch(err){
+            console.warn(err);
+            return deferred.failed;
         }
 
         fs.getEntries(path).then(function(result) {
@@ -1068,6 +1077,8 @@ angular.module('app.controllers', [])
 
 
     $scope.importFIT = function(file) {
+        var deferred = $q.defer();
+
         console.log('importing FIT:' + file);
         var reader = new FileReader();
 
@@ -1108,6 +1119,7 @@ angular.module('app.controllers', [])
                         $scope.session.recclicked = new Date($scope.session.gpxData[0][2]).getTime();
                         //Save session already compute session
                         $scope.saveSession();
+                        deferred.resolve();
                     }
 
                 }
@@ -1115,10 +1127,31 @@ angular.module('app.controllers', [])
         };
 
         reader.readAsArrayBuffer(file);
+        return deferred.promise;
+    };
+
+    $scope.importJSON = function(file) {
+        var deferred = $q.defer();
+
+        console.log('importing JSON:' + file);
+        var reader = new FileReader();
+
+        reader.onloadend = function() {
+            $scope.session = JSON.parse(this.result);
+            //Save session already compute session
+            $scope.saveSession();
+            deferred.resolve();
+        };
+
+        reader.readAsText(file);
+
+        return deferred.promise;
     };
 
 
     $scope.importGPX = function(file) {
+        var deferred = $q.defer();
+
         console.log('importing GPX:' + file);
         var reader = new FileReader();
 
@@ -1200,30 +1233,48 @@ angular.module('app.controllers', [])
             $scope.session.recclicked = new Date(gpxPoints[0].time).getTime();
             //Save session already compute session
             $scope.saveSession();
+
+            deferred.resolve();
         };
 
         reader.readAsText(file);
+
+        return deferred.promise;
+
     };
 
     $scope.iosFilePicker = function() {
-        var utis = ['public.data', 'public.item', 'public.content', 'public.file-url', 'public.text'];
+        //var utis = ['public.data', 'public.item', 'public.content', 'public.file-url', 'public.text'];
+        var p = [];
+
         window.FilePicker.pickFile(function(path) {
 
-            window.resolveLocalFileSystemURI(path, function(fileEntry) {
+            window.resolveLocalFileSystemURL(path, function(fileEntry) {
                 fileEntry.file(function(file) {
-                    $scope.importGPX(file);
-
+                    if (file.name.slice(-4) == '.gpx') {
+                        p.push($scope.importGPX(file));
+                    } else if (file.name.slice(-4) == '.fit') {
+                         p.push($scope.importFIT(file));
+                    } else if (file.name.slice(-4) == 'json') {
+                         p.push($scope.importJSON(file));
+                    }
                 });
             }, function(err) {
                 console.error(err);
             });
 
-
         }, function(err) {
             $ionicPopup.alert({
-                title: $scope.translateFilter('_gpx_import_title'),
+                title: $scope.translateFilter('_file_import_title'),
                 template: err
-            }, utis);
+            }); //, utis);
+        });
+
+        $q.all(p).then(function(){
+            $ionicPopup.alert({
+                title: $scope.translateFilter('_file_import_title'),
+                template: $scope.translateFilter('_file_file_imported')
+            });
         });
     };
 
@@ -1239,51 +1290,35 @@ angular.module('app.controllers', [])
         }
     };
 
-    $scope.doFITChooser = function() {
-        if ($scope.platform === 'iOS') {
-            $scope.iosFilePicker();
-        } else if ($scope.platform === 'OldAndroid') {
-            $state.go('app.filepicker');
-        } else {
-            $timeout(function() {
-                document.getElementById('fitFile').click();
-            }, 100);
-        }
-    };
-
-
     $scope.sendLogs = function() {
         window.open('mailto:khertan@khertan.net?subject=ForRunners Log&body=' + JSON.stringify(window.initialLogs, null, 2));
     };
 
-    $scope.importGPXs = function(element) {
+    $scope.importFiles = function(element) {
+        var p = [];
+
         for (var idx in element.files) {
             if (typeof element.files[idx] === 'object') {
-                $scope.importGPX(element.files[idx]);
+                var file = element.files[idx];
+                if (file.name.slice(-4) == '.gpx') {
+                    p.push($scope.importGPX(file));
+                } else if (file.name.slice(-4) == '.fit') {
+                    p.push($scope.importFIT(file));
+                } else if (file.name.slice(-4) == 'json') {
+                    p.push($scope.importJSON(file));
+                }                
             }
         }
 
-        $ionicPopup.alert({
-            title: $scope.translateFilter('_gpx_import_title'),
-            template: $scope.translateFilter('_gpx_file_imported')
+        $q.all(p).then(function(){
+            $ionicPopup.alert({
+                title: $scope.translateFilter('_file_import_title'),
+                template: $scope.translateFilter('_file_file_imported')
+            });
         });
+
         return true;
     };
-
-    $scope.importFITs = function(element) {
-        for (var idx in element.files) {
-            if (typeof element.files[idx] === 'object') {
-                $scope.importFIT(element.files[idx]);
-            }
-        }
-
-        $ionicPopup.alert({
-            title: $scope.translateFilter('_gpx_import_title'),
-            template: $scope.translateFilter('_gpx_file_imported')
-        });
-        return true;
-    };
-
 
     $scope.writeGPX = function(dirEntry, filename, session) {
         var gpxHead = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>\n';
@@ -1370,15 +1405,13 @@ angular.module('app.controllers', [])
         }
     };
 
+
     $scope.exportAsGPX = function(overwrite) {
         try {
-            $scope.loadAllJsonSessions().then(function(){
+            $scope.loadAllJsonSessions($scope.dataPath).then(function(){
                 for (var recclicked in $scope.sessions) {
                   if ($scope.sessions.hasOwnProperty(recclicked)) {
-                    var stordir = cordova.file.documentsDirectory;
-                    if (!stordir) {
-                        stordir = cordova.file.dataDirectory;
-                    }
+                    var stordir = $scope.dataPath;
 
                     window.resolveLocalFileSystemURL(stordir,
                         function(dirEntry) {
@@ -1403,21 +1436,41 @@ angular.module('app.controllers', [])
 
 $scope.storageSetObj = function(key, value) {
     try {
-            //
-            NativeStorage.setItem(key, value, function(){}, function(err){console.error('Native Storage SET Failed:' + err);});
+            if ($scope.platform === 'Browser') {
+                localStorage.setItem(key, JSON.stringify(value));    
+            } else {
+                NativeStorage.setItem(key, value, function(){}, function(err){console.error('Native Storage SET Failed:' + err);});
+            }
         } catch (err) {
             console.warn(err); 
-            localStorage.setItem(key, JSON.stringify(value));
+            localStorage.setItem(key, value);
         }
     };
 
     $scope.storageGetObj = function(key, success, error) {
         //return JSON.parse(localStorage.getItem(key));
+        var v;
         try {
-            NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);error();});
+            if ($scope.platform === 'Browser') {
+                v = localStorage.getItem(key);
+                if (typeof v === 'string') {
+                    v = JSON.parse(v);
+                }
+                return success(v);
+            } else {
+                NativeStorage.getItem(key, success, function(err){console.error('Native Storage GET '+key+' Failed:' + err);error();});
+            }
         } catch (err) {
             console.warn(err); 
-            return JSON.parse(localStorage.getItem(key));
+            try {
+                v = localStorage.getItem(key);
+                if (typeof v === 'string') {
+                    v = JSON.parse(v);
+                }
+                return success(v);
+            } catch (err) {
+                console.warn(err); 
+            }
         }
     };
 
@@ -1434,16 +1487,14 @@ $scope.storageSetObj = function(key, value) {
     };
 
     $scope.writeToFile = function(datas, filename) {
-        //var path = 'file:///storage/emulated/0/Andrsoid/data/net.khertan.forrunners/';
-        //var path = cordova.file.dataDirectory;
-        var path = cordova.file.externalApplicationStorageDirectory;
-        if (path === null) {
-            path = cordova.file.documentsDirectory;
+        if ($scope.platform === 'Browser') {
+            return;
         }
+
+        var path = $scope.dataPath;
 
         try {
             window.resolveLocalFileSystemURL(path, function(dirEntry) {
-                //cordova.file.externalDataDirectory
                 dirEntry.getFile(filename, {
                     create: true
                 }, function(fileEntry) {
@@ -1469,6 +1520,7 @@ $scope.storageSetObj = function(key, value) {
         } catch (err) {
             console.error('writeSessionsToFile:' + err);
         }
+
     };
 
     $scope.resumeSessionForIndex = function(session) {
@@ -1509,42 +1561,46 @@ $scope.storageSetObj = function(key, value) {
   };
 
 $scope.updateIndex = function(session) {
-    if ($scope.sessionsIndex === undefined) {
+    if (($scope.sessionsIndex === undefined) || ($scope.sessionsIndex === null)){
       $scope.sessionsIndex = {};
-  }
-  $scope.sessionsIndex[session.recclicked] = $scope.resumeSessionForIndex(session);
-  $scope.sortSessions();
+    }
+    $scope.sessionsIndex[session.recclicked] = $scope.resumeSessionForIndex(session);
+    $scope.sortSessions();
 
         //if ($scope.platform === 'Browser') {
-            $scope.storageSetObj('index', $scope.sessionsIndex);
+    $scope.storageSetObj('index', $scope.sessionsIndex);
         //} else {
          //   $scope.writeToFile($scope.sessionsIndex, 'sessions.index');
         //}
     };
 
     $scope.writeEquipmentsToFile = function(equipments) {
+        if ($scope.platform === 'Browser') {
+                try {
+                    localStorage.setItem('equipments', JSON.stringify($scope.equipments));
+                } catch (err) {
+                    console.warn(err);
+                }
+            return;
+        }
         $scope.writeToFile(equipments, 'equipments.gpxs');
     };
 
     $scope.writeResumeToFile = function(resume) {
         //if ($scope.platform === 'Browser') {
-            $scope.storageSetObj('resume', resume);
+
+        $scope.storageSetObj('resume', resume);
          //   return;
         //}
        // $scope.writeToFile(resume, 'resume');
    };
 
    $scope.loadFromFile = function(filename, success, fail) {
-        //var path = 'file:///storage/emulated/0/Android/data/net.khertan.forrunners/'+filename;
-        //var path = cordova.file.dataDirectory+filename;
         if ($scope.platform === 'Browser') {
             return;
         }
 
-        var path = cordova.file.externalApplicationStorageDirectory + filename;
-        if (cordova.file.externalApplicationStorageDirectory === null) {
-            path = cordova.file.documentsDirectory + filename;
-        }
+        var path = $scope.dataPath;
         if (typeof window.resolveLocalFileSystemURL === 'function') {
             window.resolveLocalFileSystemURL(path, function(fileEntry) {
                 fileEntry.file(function(file) {
@@ -1566,6 +1622,16 @@ $scope.updateIndex = function(session) {
     };
 
     $scope.loadEquipmentsFromFile = function() {
+        if ($scope.platform === 'Browser') {
+            try {
+                $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);
+            } catch (err) {
+                $scope.equipments = [];
+            }
+
+            return;
+        }
+
         $scope.loadFromFile('equipments.gpxs', function(datas) {
             $scope.equipments = datas;
             //do post load here
@@ -1588,7 +1654,6 @@ $scope.updateIndex = function(session) {
         } catch (exception) {
             console.warn(exception);
             $timeout(function() {
-                $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);
                 try {
                     $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);
                 } catch (err) {
@@ -1634,11 +1699,11 @@ $scope.loadSessionsIndex = function() {
 
 
   $scope.sortSessions();
-  $scope.loadAllJsonSessions();
+  $scope.loadAllJsonSessions($scope.dataPath);
 },
 function(err) {
   console.log(err);
-  $scope.loadAllJsonSessions();          
+  $scope.loadAllJsonSessions($scope.dataPath);          
 });      
       /*$scope.loadFromFile('sessions.index',
         function(datas) {
@@ -1948,7 +2013,6 @@ function(err) {
                 delete $scope.session.speed;
                 delete $scope.session.maxspeed;
                 delete $scope.session.equirect;
-                delete $scope.session.eledist;
                 delete $scope.session.altold;
                 delete $scope.session.latold;
                 delete $scope.session.lonold;
@@ -1956,8 +2020,6 @@ function(err) {
                 delete $scope.session.lastdisptime;
                 delete $scope.session.maxalt;
                 delete $scope.session.minalt;
-                delete $scope.session.hilldistance;
-                delete $scope.session.flatdistance;
                 delete $scope.session.avpace;
                 delete $scope.session.avspeed;
                 delete $scope.session.lastdistvocalannounce;
@@ -2172,7 +2234,6 @@ $scope.recordPosition = function(pos) {
 
             $scope.$apply(function() {
                 $scope.session.accuracy = pos.coords.accuracy;
-                $scope.session.accuracy_fixed = pos.coords.accuracy.toFixed(0);
 
                 if ((pos.coords.accuracy <= $scope.prefs.minrecordingaccuracy) &&
                     (timenew > $scope.session.recclicked) &&
@@ -2240,7 +2301,6 @@ $scope.recordPosition = function(pos) {
                                 //if ((dspeed > 1)) {
                                     if (dspeed > 0.5) {
                                         $scope.session.equirect += d;
-                                        $scope.session.eledist += d;
                                     }
 
                                 //Elevation?
@@ -2248,20 +2308,18 @@ $scope.recordPosition = function(pos) {
                                     $scope.session.altold = altnew;
                                     if (altnew > $scope.session.maxalt) {
                                         $scope.session.maxalt = altnew;
-                                        $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt).toFixed(1);
+                                        $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt);
                                     }
                                     if (altnew < $scope.session.minalt) {
                                         $scope.session.minalt = altnew;
-                                        $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt).toFixed(1);
+                                        $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt);
                                     }
                                 }
-                                $scope.session.hilldistance = $scope.session.eledist.toFixed(2);
-                                $scope.session.flatdistance = $scope.session.equirect.toFixed(2);
                                 $scope.session.distk = $scope.session.equirect.toFixed(1);
                                 if ($scope.session.equirect > 0) {
                                     var averagePace = elapsed / ($scope.session.equirect * 60000);
                                     $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
-                                    $scope.session.avspeed = (elapsed / $scope.session.equirect).toFixed(1);
+                                    $scope.session.avspeed = (elapsed / $scope.session.equirect);
                                 }
 
                                 //Calulate Instant speed average on last 5 points
@@ -2271,7 +2329,7 @@ $scope.recordPosition = function(pos) {
                                 //$scope.session.speed = pos.coords.speed * 3.6;
                                 $scope.session.speeds.push(pos.coords.speed * 3.6);
                                 $scope.session.speeds.slice(-5);
-                                $scope.session.speed = average($scope.session.speeds, 1).toFixed(1);
+                                $scope.session.speed = average($scope.session.speeds, 1);
                                 
                                 var currentPace = $scope.glbs.pace[$scope.prefs.unit] / $scope.session.speed;
                                 $scope.session.pace  = Math.floor(currentPace) + ':' + ('0' + Math.floor(currentPace % 1 * 60)).slice(-2);
@@ -2329,15 +2387,13 @@ $scope.recordPosition = function(pos) {
             $scope.session.latold = latnew;
             $scope.session.lonold = lonnew;
             $scope.session.time = '00:00:00';
-            $scope.session.hilldistance = '0';
-            $scope.session.flatdistance = '0';
-            $scope.session.maxspeed = '0';
-            $scope.session.speed = '0';
-            $scope.session.avspeed = '0';
+            $scope.session.maxspeed = 0;
+            $scope.session.speed = 0;
+            $scope.session.avspeed = 0;
             $scope.session.elapsed = 0;
             $scope.session.minalt = 99999;
             $scope.session.maxalt = 0;
-            $scope.session.elevation = '0';
+            $scope.session.elevation = 0;
             $scope.session.speeds = [];
         }
         if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
@@ -2405,6 +2461,19 @@ $scope.toRad = function(x) {
     return x * Math.PI / 180;
 };
 
+
+    $scope.updateEquipments = function(session) {
+        if (($scope.equipments === undefined) || ($scope.equipments === null)){
+          $scope.equipments = [];
+        }
+        session.equipments.map(function(equipment){
+            if (!(equipment.uuid in $scope.equipments.map(function(e){return e.uuid;}))) {
+                $scope.equipments.push(equipment);
+            }
+        });
+        $scope.writeEquipmentsToFile();                
+    };
+
 $scope.errorPosition = function(err) {
     console.debug('errorPosition:' + err.message + ':' + err.code);
     $scope.session.gpsGoodSignalToggle = false;
@@ -2447,13 +2516,10 @@ $scope.startSession = function() {
         dist: 0,
         kalmanDist: new KalmanFilter(0.2, 3, 10),
         equirect: 0,
-        eledist: 0,
-        hilldistance: '0',
-        flatdistance: '0',
-        elevation: '0',
-        maxspeed: '0',
-        speed: '0',
-        avspeed: '0',
+        elevation: 0,
+        maxspeed: 0,
+        speed: 0,
+        avspeed: 0,
         avpace: '00:00',
         speeds: [],
         weather: '',
@@ -2467,11 +2533,19 @@ $scope.startSession = function() {
     $scope.gpslostlastannounce = 0;
 
     try {
-        cordova.plugins.locationAccuracy.request(cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(function(){
-            console.log('locationAccuracy success');
-        }, function(err){
-            console.log('Error requesting location permissions', error);
-        });
+        if ($scope.platform === 'android') {
+            cordova.plugins.locationAccuracy.request(cordova.plugins.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(function(){
+                console.log('locationAccuracy success');
+            }, function(err){
+                console.log('Error requesting location permissions', error);
+            });
+        } else if ($scope.platform === 'iOS'){
+            cordova.plugins.locationAccuracy.request().then(function(){
+                console.log('locationAccuracy success');
+            }, function(err){
+                console.log('Error requesting location permissions', error);
+            });
+        }
     } catch(err) {
         console.error('locationAccuracy plugin seems not available:'+err);
     }
@@ -2505,8 +2579,8 @@ $scope.startSession = function() {
                 $scope.recordPosition,
                 $scope.errorPosition, {
                     enableHighAccuracy: true,
-                    maximumAge: 0,
-                    timeout: 3000
+                    maximumAge: 1000,
+                    timeout: 6000
                 });
             
            }
@@ -2571,9 +2645,13 @@ $scope.startSession = function() {
 
 
         if ($scope.prefs.debug) {
-            $scope.prefs.minrecordingaccuracy = 22;
+            $scope.prefs.minrecordingaccuracy = 49;
         } else {
-            $scope.prefs.minrecordingaccuracy = 22;
+            if ($scope.platform === 'iOS') {
+                $scope.prefs.minrecordingaccuracy = 33;
+            } else {
+                $scope.prefs.minrecordingaccuracy = 22;
+            }
         }
 
         if ($scope.platform === 'firefoxos') {
@@ -2674,8 +2752,9 @@ $scope.startSession = function() {
         $scope.sessions[$scope.session.recclicked] = $scope.session;
 
         try {
-          (new SessionFactory()).saveToFile($scope.session).then(function(){
+          (new SessionFactory()).saveToFile($scope.session, $scope.dataPath).then(function(){
             $scope.updateIndex($scope.session);
+            $scope.updateEquipments($scope.session);
         });
       } catch (err) {
         console.warn(err);
@@ -2728,7 +2807,7 @@ $scope.startSession = function() {
 
     $scope.equipments = $scope.equipments.map(function(equipment) {
         if (distance[equipment.uuid]) {
-            equipment.distance = distance[equipment.uuid].toFixed(1);
+            equipment.distance = distance[equipment.uuid];
         } else {
             equipment.distance = 0;
         }
@@ -2806,14 +2885,14 @@ $scope.resume.chart_data[0].reverse();
 $scope.resume.chart_data[1].reverse();
 
 if (sessionIndexLength>0) {
-  $scope.resume.avdistance = ($scope.resume.avdistance / sessionIndexLength).toFixed(1);
-  $scope.resume.avspeed = ($scope.resume.avspeed / sessionIndexLength).toFixed(1);
+  $scope.resume.avdistance = ($scope.resume.avdistance / sessionIndexLength);
+  $scope.resume.avspeed = ($scope.resume.avspeed / sessionIndexLength);
   $scope.resume.avduration = new Date($scope.resume.avduration / sessionIndexLength);
   $scope.resume.overnote = Math.round(($scope.resume.overnote / sessionIndexLength), 1);
 }
 
-$scope.resume.bestspeed = $scope.resume.bestspeed.toFixed(1);
-$scope.resume.bestdistance = $scope.resume.bestdistance.toFixed(1);
+$scope.resume.bestspeed = $scope.resume.bestspeed;
+$scope.resume.bestdistance = $scope.resume.bestdistance;
 
 try {
             //$scope.writeResumeToFile($scope.resume);
@@ -2905,6 +2984,8 @@ try {
             /*jslint bitwise: false*/
         };
 
+
+
         $scope.saveEquipments = function() {
             try {
                 $scope.writeEquipmentsToFile($scope.equipments);
@@ -2916,7 +2997,6 @@ try {
             }
             $scope.storageSetObj('version', $scope._version);
         };
-
 
         $scope.addEquipment = function() {
             if (!$scope.equipments) {
@@ -2980,17 +3060,14 @@ try {
     };
 
     $scope.savePicture = function(uri, uuid) {
-        var stordir = cordova.file.externalDataDirectory;
-        if (!stordir) {
-            stordir = cordova.file.documentsDirectory;
-        }
+        var stordir = $scope.dataPath;
 
         window.resolveLocalFileSystemURL(stordir,
             function(dirEntry) {
                 dirEntry.getDirectory('images', {
                     create: true
                 }, function(subDirEntry) {
-                    window.resolveLocalFileSystemURI(uri, function(file) {
+                    window.resolveLocalFileSystemURL(uri, function(file) {
                         file.moveTo(subDirEntry, uuid + '.jpg');
                     });
                 }, function() {
@@ -3093,13 +3170,13 @@ try {
             }
         }
 
-        $scope.total_kms = $scope.total_kms.toFixed(1);
+        $scope.total_kms = $scope.total_kms;
     };
 
     $scope.computeRecords();
 })
 
-.controller('SessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate, SessionFactory, $ionicPopover) {
+.controller('SessionCtrl', function($scope, $state, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate, SessionFactory, $ionicPopover) {
     'use strict';
 
     //var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
@@ -3164,14 +3241,14 @@ try {
     };
 
     $scope.editSession = function(rid){
-        $state.go('app.edit_session', rid);
+        $state.go('app.edit_session', {'sessionId': rid});
         $scope.closePopover();
 
     };
 
     $scope.saveSessionModifications = function() {
         $scope.sessions[$stateParams.sessionId] = $scope.session;
-        (new SessionFactory()).saveToFile($scope.session).then(function(){
+        (new SessionFactory()).saveToFile($scope.session, $scope.dataPath).then(function(){
           $scope.updateIndex($scope.session);
       });
         $scope.storageSetObj('version', $scope._version);
@@ -3263,7 +3340,7 @@ $scope.sharePieceOfDOM = function() {
 }
 
 var sf = new SessionFactory();
-sf.loadFromFile($stateParams.sessionId).then(function(datas){
+sf.loadFromFile($stateParams.sessionId, $scope.dataPath).then(function(datas){
   $scope.session = datas;
   if (($scope.session.map === undefined)) {
       $scope.session.map = {
@@ -3290,7 +3367,7 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
       ($scope.session.gpxPoints === undefined) ||
       ($scope.prefs.debug === true) ||
       ($scope.session.paceDetails === undefined) ||
-      ($scope.session.map.paths === undefined) ||
+      ($scope.session.map.paths === undefined) ||lo
       ($scope.session.map.bounds === undefined) ||
       ($scope.session.map.markers === undefined) ||
       ($scope.session.version !== $scope._version)) {
@@ -3313,10 +3390,11 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
 .controller('EditSessionCtrl', function($scope, $stateParams, $ionicPopup, $ionicHistory, $timeout, $ionicScrollDelegate, SessionFactory, $ionicPopover, $filter) {
     'use strict';
 
+    $scope.types = ['Run', 'Walk', 'Ride'];
 
     $scope.saveSessionModifications = function() {
         $scope.sessions[$stateParams.sessionId] = $scope.session;
-        (new SessionFactory()).saveToFile($scope.session).then(function(){
+        (new SessionFactory()).saveToFile($scope.session, $scope.dataPath).then(function(){
           $scope.updateIndex($scope.session);
       });
         $scope.storageSetObj('version', $scope._version);
@@ -3379,7 +3457,7 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
     }
 
     var sf = new SessionFactory();
-    sf.loadFromFile($stateParams.sessionId).then(function(datas){
+    sf.loadFromFile($stateParams.sessionId, $scope.dataPath).then(function(datas){
       if (datas !== null) {
         $scope.session = datas;
       }
@@ -3485,21 +3563,30 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
         $scope.session.pace = Math.floor($scope.session.distk / $scope.session.speed) + ':' + ('0' + Math.floor((($scope.session.distk / $scope.session.speed)) % 1 * 60)).slice(-2);
     };*/
 
+    $scope.saveType = function(type_){
+        //FIXME Compute Pace Duration Note
+        $scope.session.type = type_;
+        $scope.saveSessionModifications();
+    };
     $scope.saveCadence = function(avg_cadence){
         //FIXME Compute Pace Duration Note
         $scope.session.avg_cadence = avg_cadence;
+        $scope.saveSessionModifications();
     };
     $scope.savePower = function(avg_power){
         //FIXME Compute Pace Duration Note
         $scope.session.avg_power = avg_power;
+        $scope.saveSessionModifications();
     };
-    $scope.saveEleUp = function(eleup){
+    $scope.saveElevationUp = function(eleup){
         //FIXME Compute Pace Duration Note
         $scope.session.eleUp = eleup;
+        $scope.saveSessionModifications();
     };
-    $scope.saveEleDown = function(eledown){
+    $scope.saveElevationDown = function(eledown){
         //FIXME Compute Pace Duration Note
         $scope.session.eleDown = eledown;
+        $scope.saveSessionModifications();
     };
 
     $scope.saveAvgPace = function(avgPace){
@@ -3508,10 +3595,11 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
 
     $scope.saveDistance = function(dist){
         //FIXME Compute Speed Pace Note
-        $scope.session.distance = dist;
+        $scope.session.distance = parseFloat(dist);
         var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
         $scope.session.speed = $scope.session.distance / (elapsed / 3600);
         $scope.session.pace = Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
+        $scope.saveSessionModifications();
     };
 
     $scope.saveDuration = function(duration){
@@ -3524,6 +3612,7 @@ sf.loadFromFile($stateParams.sessionId).then(function(datas){
         var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
         $scope.session.speed = $scope.session.distance / (elapsed / 3600);
         $scope.session.pace = Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
+        $scope.saveSessionModifications();
     };
 
 

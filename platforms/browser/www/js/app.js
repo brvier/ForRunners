@@ -16,6 +16,9 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
+
+        
+
         window.oldConsole = { error: console.error, log: console.log, warn: console.warn, info: console.info };
         window.initialLogs = [];
 
@@ -340,7 +343,12 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _distance_interval_detail: 'Announce informations at kilometer interval',
     _heartrate_min_detail: 'Your resting heart rate, measured just after wake up',
     _heartrate_max_detail: 'Your maximum heart rate in a 4 minutes sprint just after a 20 minutes warmup.',
-    _add_manually_a_session: 'Add a manually a session'
+    _add_manually_a_session: 'Add a manually a session',
+    _file_file_imported: 'Imported successfully',
+    _file_import_title: 'Import',
+    _import_files: 'Import',
+    _use_vocalAnnounce: 'Voice announcements',
+    _editable: 'Touch to edit'
   });
   
   $translateProvider.translations('fr-FR', {
@@ -491,7 +499,14 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _duration_interval_detail: 'Effectuer les annonces vocales a interval de temps',
     _distance_interval_detail: 'Effectuer les annonces vocales a interval de kilometres',
     _heartrate_max_detail: 'Votre fréquence cardiaque sur un sprint de 4 minutes après un échauffement de 20 minutes',
-    _heartrate_min_detail: 'Votre fréquence cardiaque au repos, mesuré après le reveil.'
+    _heartrate_min_detail: 'Votre fréquence cardiaque au repos, mesuré après le reveil.',
+    _file_file_imported: 'Importé avec succés',
+    _file_import_title: 'Import',
+    _import_files: 'Importer',
+    _use_vocalAnnounce: 'Annonces vocales',
+    _edit_session: 'Edition',
+    _editable: 'Toucher pour modifier'
+
  });
 
 $translateProvider.translations('de-DE', {
@@ -641,7 +656,14 @@ $translateProvider.translations('de-DE', {
     _duration_interval_detail: 'Ansagen in Zeitintervallen (in Minuten)',
     _distance_interval_detail: 'Ansagen nach Distanzen (in Kilometer)',
     _heartrate_min_detail: 'Deine Herzfrequenz im Ruhezustand',
-    _heartrate_max_detail: 'Deine maximale Herzfrequenz nach 4 Minuten Sprint oder nach 20 Minuten Aufwärmtraining.'
+    _heartrate_max_detail: 'Deine maximale Herzfrequenz nach 4 Minuten Sprint oder nach 20 Minuten Aufwärmtraining.',
+    _file_file_imported: 'Erfolgreich importiert',
+    _file_import_title: 'Einführen',
+    _import_files: 'Einführen',
+    _use_vocalAnnounce: 'Gesangsansagen',
+    _edit_session: 'Ausgabe',
+    _editable: 'Berühren Sie, um zu ändern'
+
 });
   
   $translateProvider.translations('de-AT', {
@@ -791,7 +813,13 @@ $translateProvider.translations('de-DE', {
     _duration_interval_detail: 'Ansagen in Zeitintervallen (in Minuten)',
     _distance_interval_detail: 'Ansagen nach Distanzen (in Kilometer)',
     _heartrate_min_detail: 'Deine Herzfrequenz im Ruhezustand',
-    _heartrate_max_detail: 'Deine maximale Herzfrequenz nach 4 Minuten Sprint oder nach 20 Minuten Aufwärmtraining.'
+    _heartrate_max_detail: 'Deine maximale Herzfrequenz nach 4 Minuten Sprint oder nach 20 Minuten Aufwärmtraining.',
+    _file_file_imported: 'Erfolgreich importiert',
+    _file_import_title: 'Einführen',
+    _import_files: 'Einführen',
+    _use_vocalAnnounce: 'Gesangsansagen',
+    _edit_session: 'Ausgabe',
+    _editable: 'Berühren Sie, um zu ändern'
 });
   
   $translateProvider.preferredLanguage('en-US');

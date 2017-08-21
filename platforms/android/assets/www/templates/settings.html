@@ -193,23 +193,13 @@
   <!--<button ng-if="platform === 'iOS'" onclick="iosFilePicker();"
       class="button icon-left ion-pin button-positive button-block"></button>-->
   <button ng-click="doFileChooser();" class="button icon-left ion-pin button-positive button-block">
-      {{ "_import_gpxs" | translate }}
+      {{ "_import_files" | translate }}
   <input type="file"  multiple="multiple" name="gpxFile"
   class="button icon-left ion-pin button-positive button-block"
   id="gpxFile" class="form-control"
-  onchange="angular.element(this).scope().importGPXs(this)"
+  onchange="angular.element(this).scope().importFiles(this)"
   style="display: none;">
   </button>
-
-  <button ng-click="doFITChooser();" class="button icon-left ion-pin button-positive button-block">
-      {{ "_import_fits" | translate }}
-  <input type="file"  multiple="multiple" name="fitFile"
-  class="button icon-left ion-pin button-positive button-block"
-  id="fitFile" class="form-control"
-  onchange="angular.element(this).scope().importFITs(this)"
-  style="display: none;">
-  </button>
-</div>
 
 <div class="content double-padding">
   <h4 class="positive">{{ "_debug_tools" | translate }}</h4>
