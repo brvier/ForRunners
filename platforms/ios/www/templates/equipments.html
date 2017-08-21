@@ -1,0 +1,19 @@
+<ion-view view-title="Equipments">
+  <button ng-click="addEquipment()" class="button button-fab button-fab-bottom-right button-assertive icon ion-android-add waves-effect waves-button waves-light"></button>
+  <ion-content >
+    <div class="content has-header">
+             <div class="list">
+                 <a class="item item-avatar item-icon-right" ng-repeat="equipment in equipments track by $index">
+                    <img ng-click="setPhoto($index);" src="{{equipment.photo}}" class="no-padding">
+                    <h2 ng-click="setName($index);">{{equipment.name}}</h2>
+                    <p>{{equipment.distance}} Km
+                    <div class="icon">
+                        <i ng-click="setDefault($index);" ng-if="!equipment.isDefault" class="ion-ios-circle-outline muted padding-left padding-right"></i>
+                        <i ng-click="setDefault($index);" ng-if="equipment.isDefault" class="ion-ios-checkmark-outline muted padding-left padding-right"></i>
+                        <i ng-click="deleteEquipment($index);" class="ion-trash-a muted padding-left"></i>
+                    </div></p>
+                </a>
+            </div> 
+    </div>
+  </ion-content>
+</ion-view>

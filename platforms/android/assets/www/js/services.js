@@ -1,5 +1,32 @@
 angular.module('app.services', [])
 
+// Service to communicate with Nominatim OpenStreetMap API.
+.factory('$nominatim', function($q, $http) {
+    'use strict';
+    var API_ROOT = 'http://nominatim.openstreetmap.org';
+
+    this.byLocation = function(coords) {
+        var deferred = $q.defer();
+
+        if ((coords.latitude === undefined) || (coords.longitude === undefined)) {
+          deferred.reject('Undefined coords');          
+        }
+
+        $http.jsonp(API_ROOT + '/reverse?format=json&lat='+coords.latitude+'&lon='+coords.longitude+'&zoom=10&addressdetails=1&json_callback=JSON_CALLBACK').then(function(response) {
+            var statusCode = parseInt(response.status, 10);
+            if (statusCode === 200) {
+                deferred.resolve(response.data.address.city);
+            } else {
+                deferred.reject(response.data.message);
+            }
+        }, function(error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
+    return this;
+})
+
 
 // Service to communicate with OpenWeatherMap API.
 .factory('$weather', function($q, $http) {

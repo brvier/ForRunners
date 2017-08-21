@@ -1,0 +1,82 @@
+<ion-view view-title="Records">
+  <ion-content>
+    <div class="item center">
+        <h2 class="positive inline">{{ "_total" | translate }} {{ total_kms }} Km</h2>
+    </div> 
+    <div class="item">
+        <h2 class="positive">{{ "_best_records" | translate }}</h2>
+        <p class="text-muted" ng-if="records.length > 0">
+            {{ "_empty_records_text" | translate }} 
+        </p>
+    </div>
+    <div class="table">
+        <div class="row row-center row-header" style="text-align: center" nf-if="records > 0">
+            <div class="col col-center">
+                <b>{{ "_distk" | translate }}</b>
+            </div>
+            <div class="col col-center">
+                {{ "_speed" | translate }}
+            </div>
+            <div class="col col-center">
+                {{ "_pace" | translate }}
+            </div>
+            <div class="col col-center">
+                {{ "_duration" | translate }}
+            </div>
+		</div>
+	</div>
+	<div class="table">
+		<div class="row row-center" style="text-align: center" ng-repeat="record in records">
+		  <div class="col col-center col-sep" >
+		    <b>{{ record.distk | number:01 }}K</b>
+		  </div>
+		  <div class="col col-center col-sep">
+		    {{ record.speed | number:1}}
+		  </div>
+		  <div class="col col-center col-sep">
+		    {{ record.pace | date:"m.ss" }}
+		  </div>
+		  <div class="col col-center col-sep">
+		    {{ record.duration | date:"HH:mm:ss":"UTC" }}
+		  </div>
+		</div>
+	</div>
+	
+    <div class="item">
+  	    <h2 class="positive">{{ "_average_records" | translate }}</h2>
+    </div>
+    <div class="table">
+		<div class="row row-center row-header" style="text-align: center" nf-if="records > 0">
+		  <div class="col col-center">
+		    <b>{{ "_distk" | translate }}</b>
+		  </div>
+		  <div class="col col-center">
+		    {{ "_speed" | translate }}
+		  </div>
+		  <div class="col col-center">
+		    {{ "_pace" | translate }}
+		  </div>
+		  <div class="col col-center">
+		    {{ "_duration" | translate }}
+		  </div>
+		</div>
+	</div>
+
+	<div class="table">
+		<div class="row row-center" style="text-align: center" ng-repeat="record in records">
+		  <div class="col col-center col-sep" >
+		    <b>{{ record.distk }}K</b>
+		  </div>
+		  <div class="col col-center col-sep">
+		    {{ record.av_speed | number:1}}
+		  </div>
+		  <div class="col col-center col-sep">
+		    {{ record.av_pace | date:"m.ss" }}
+		  </div>
+		  <div class="col col-center col-sep">
+		    {{ record.av_duration | date:"HH:mm:ss":"UTC" }}
+		  </div>
+		</div>
+	</div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget android-versionCode="0101050" id="net.khertan.forrunners2" version="1.1.5" versionCode="0101050" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="LocalStorage">
+        <param name="ios-package" value="CDVLocalStorage" />
+    </feature>
+    <feature name="HandleOpenUrl">
+        <param name="ios-package" value="CDVHandleOpenURL" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="IntentAndNavigationFilter">
+        <param name="ios-package" value="CDVIntentAndNavigationFilter" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="GestureHandler">
+        <param name="ios-package" value="CDVGestureHandler" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="AppVersion">
+        <param name="ios-package" value="AppVersion" />
+    </feature>
+    <feature name="Camera">
+        <param name="ios-package" value="CDVCamera" />
+    </feature>
+    <feature name="NativeStorage">
+        <param name="ios-package" value="NativeStorage" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="ios-package" value="CDVLocation" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="File">
+        <param name="ios-package" value="CDVFile" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
+    <feature name="PowerManagement">
+        <param name="ios-package" value="PowerManagement" />
+    </feature>
+    <feature name="FilePicker">
+        <param name="ios-package" value="FilePicker" />
+    </feature>
+    <feature name="Device">
+        <param name="ios-package" value="CDVDevice" />
+    </feature>
+    <feature name="BackgroundMode">
+        <param name="ios-package" value="APPBackgroundMode" />
+    </feature>
+    <feature name="RequestLocationAccuracy">
+        <param name="ios-package" value="RequestLocationAccuracy" />
+    </feature>
+    <feature name="Insomnia">
+        <param name="ios-package" value="Insomnia" />
+    </feature>
+    <feature name="BLE">
+        <param name="ios-package" onload="true" value="BLECentralPlugin" />
+    </feature>
+    <name>ForRunners</name>
+    <description>
+    A gps tracker for runners
+    </description>
+    <author email="khertan@khertan.net" href="http://khertan.net/">
+      Benoît HERVIER (Khertan)
+  </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <access launch-external="yes" origin="mailto:*" />
+    <access origin="http://openweathermap.org/" />
+    <access origin="http://a.tile.openstreetmap.org/" />
+    <access origin="http://b.tile.openstreetmap.org/" />
+    <access origin="http://c.tile.openstreetmap.org/" />
+    <access origin="https://maps.googleapis.com/" />
+    <allow-navigation href="http://a.tile.openstreetmap.org/" />
+    <allow-navigation href="http://b.tile.openstreetmap.org/" />
+    <allow-navigation href="http://c.tile.openstreetmap.org/" />
+    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <icon height="57" src="resources/ios/icon/icon.png" width="57" />
+    <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
+    <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
+    <icon height="80" src="resources/ios/icon/icon-40@2x.png" width="80" />
+    <icon height="50" src="resources/ios/icon/icon-50.png" width="50" />
+    <icon height="100" src="resources/ios/icon/icon-50@2x.png" width="100" />
+    <icon height="60" src="resources/ios/icon/icon-60.png" width="60" />
+    <icon height="120" src="resources/ios/icon/icon-60@2x.png" width="120" />
+    <icon height="180" src="resources/ios/icon/icon-60@3x.png" width="180" />
+    <icon height="72" src="resources/ios/icon/icon-72.png" width="72" />
+    <icon height="144" src="resources/ios/icon/icon-72@2x.png" width="144" />
+    <icon height="76" src="resources/ios/icon/icon-76.png" width="76" />
+    <icon height="152" src="resources/ios/icon/icon-76@2x.png" width="152" />
+    <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
+    <icon height="58" src="resources/ios/icon/icon-small@2x.png" width="58" />
+    <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87" />
+    <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
+    <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
+    <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="BackupWebStorage" value="local" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="SuppressesLongPressGesture" value="false" />
+    <preference name="Suppresses3DTouchGesture" value="false" />
+    <preference name="GapBetweenPages" value="0" />
+    <preference name="PageLength" value="0" />
+    <preference name="PaginationBreakingMode" value="page" />
+    <preference name="PaginationMode" value="unpaginated" />
+    <preference name="CameraUsesGeolocation" value="false" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
+    <preference name="KeepRunning" value="True" />
+    <preference name="LoadingDialog" value="My Title,My Message" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="20000" />
+    <preference name="Orientation" value="portrait" />
+    <preference name="android-manifest/application/activity/@android:launchMode" value="singleTask" />
+    <preference name="StatusBarBackgroundColor" value="#000000" />
+</widget>

@@ -79,15 +79,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-background-mode.BackgroundMode",
-        "file": "plugins/cordova-plugin-background-mode/www/background-mode.js",
-        "pluginId": "cordova-plugin-background-mode",
-        "clobbers": [
-            "cordova.plugins.backgroundMode",
-            "plugin.backgroundMode"
-        ]
-    },
-    {
         "id": "cordova-plugin-splashscreen.SplashScreen",
         "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
         "pluginId": "cordova-plugin-splashscreen",
@@ -285,14 +276,6 @@ module.exports = [
         ]
     },
     {
-        "id": "at.gofg.sportscomputer.powermanagement.device",
-        "file": "plugins/at.gofg.sportscomputer.powermanagement/www/powermanagement.js",
-        "pluginId": "at.gofg.sportscomputer.powermanagement",
-        "clobbers": [
-            "window.powerManagement"
-        ]
-    },
-    {
         "id": "cordova-plugin-gpslocation.Coordinates",
         "file": "plugins/cordova-plugin-gpslocation/www/Coordinates.js",
         "pluginId": "cordova-plugin-gpslocation",
@@ -381,14 +364,6 @@ module.exports = [
         ]
     },
     {
-        "id": "net.khertan.plugin.MusicControl.MusicControl",
-        "file": "plugins/net.khertan.plugin.MusicControl/www/MusicControl.js",
-        "pluginId": "net.khertan.plugin.MusicControl",
-        "clobbers": [
-            "window.musicControl"
-        ]
-    },
-    {
         "id": "cordova-plugin-app-version.AppVersionPlugin",
         "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
         "pluginId": "cordova-plugin-app-version",
@@ -447,11 +422,28 @@ module.exports = [
         ]
     },
     {
+<<<<<<< HEAD
+        "id": "cordova-plugin-powermanagement.powermanagement",
+        "file": "plugins/cordova-plugin-powermanagement/www/powermanagement.js",
+        "pluginId": "cordova-plugin-powermanagement",
+        "clobbers": [
+            "window.powermanagement"
+        ]
+    },
+    {
+        "id": "cordova-plugin-background-mode.BackgroundMode",
+        "file": "plugins/cordova-plugin-background-mode/www/background-mode.js",
+        "pluginId": "cordova-plugin-background-mode",
+        "clobbers": [
+            "cordova.plugins.backgroundMode",
+            "plugin.backgroundMode"
+=======
         "id": "cordova-plugin-insomnia.Insomnia",
         "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
         "pluginId": "cordova-plugin-insomnia",
         "clobbers": [
             "window.plugins.insomnia"
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
         ]
     },
     {
@@ -461,6 +453,17 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.locationAccuracy"
         ]
+<<<<<<< HEAD
+    },
+    {
+        "id": "cordova-plugin-insomnia.Insomnia",
+        "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
+        "pluginId": "cordova-plugin-insomnia",
+        "clobbers": [
+            "window.plugins.insomnia"
+        ]
+=======
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
     }
 ];
 module.exports.metadata = 
@@ -473,17 +476,14 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.2",
     "org.apache.cordova.plugin.tts": "0.2.1",
     "org.apache.cordova.speech.speechsynthesis": "0.1.0",
-    "cordova-plugin-background-mode": "0.6.6-dev",
     "cordova-plugin-splashscreen": "3.2.2",
     "com.jcesarmobile.filepicker": "1.1.1",
     "cordova-plugin-file": "4.2.0",
     "cordova-plugin-ble-central": "1.1.1",
-    "at.gofg.sportscomputer.powermanagement": "1.1.0",
     "cordova-plugin-gpslocation": "1.0.0",
     "cordova-plugin-file-transfer": "1.5.1",
     "cordova-plugin-camera": "2.2.0",
     "com.napolitano.cordova.plugin.intent": "0.1.3",
-    "net.khertan.plugin.MusicControl": "0.0.1",
     "cordova-custom-config": "2.0.3",
     "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-globalization": "1.0.4",
@@ -491,8 +491,17 @@ module.exports.metadata =
     "cordova-plugin-googleplayservices": "19.0.3",
     "cordova-plugin-activity-recognition": "1.0.0",
     "cordova-plugin-statusbar": "2.2.2",
+<<<<<<< HEAD
+    "cordova-plugin-console": "1.0.7",
+    "cordova-plugin-powermanagement": "1.0.5",
+    "cordova-plugin-background-mode": "0.7.2",
+    "cordova-plugin-request-location-accuracy": "2.2.1",
+    "cordova-plugin-insomnia": "4.3.0",
+    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1"
+=======
     "cordova-plugin-insomnia": "4.3.0",
     "cordova-plugin-request-location-accuracy": "2.2.1"
+>>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
 };
 // BOTTOM OF METADATA
 });

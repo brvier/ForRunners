@@ -492,7 +492,6 @@ angular.module('app.controllers', [])
                     console.log('stop point:' + d);
                     console.log(gpxPoints[p]);
                 } else {
-
                     //Leaflet
                     paths.p1.latlngs.push({
                         lat: curLat,

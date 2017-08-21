@@ -77,9 +77,9 @@
                 {{ session.overnote }} <i class="icon ion-star"></i>
           </span>
 
-          <h2>
+          <h2><span ng-if="session.cityname">
             {{ session.cityname }}
-            <br>
+            <br></span>
             {{ session.start | ldate }}
           </h2>
 
