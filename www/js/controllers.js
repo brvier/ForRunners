@@ -2798,10 +2798,10 @@ angular.module('app.controllers', [])
             };
         }
 
-        if (asession.cityname === undefined) {
+        if ((asession.cityname === undefined) && (asession.gpxPoints !== undefined)) {
             $scope.nominatim.byLocation({
                 'latitude': asession.gpxPoints[0].lat,
-                'longitude': asession.gpxPoints[0].lon
+                'longitude': asession.gpxPoints[0].lng
             }).then(function(cityname) {
                 console.log(cityname);
                 asession.cityname = cityname;
@@ -3349,7 +3349,7 @@ angular.module('app.controllers', [])
             var asession = $scope.session;
             $scope.nominatim.byLocation({
                 'latitude': $scope.session.gpxPoints[0].lat,
-                'longitude': $scope.session.gpxPoints[0].lon
+                'longitude': $scope.session.gpxPoints[0].lng
             }).then(function(cityname) {
                 $scope.session.cityname = cityname;
                 $scope.saveSessionModifications(asession);
