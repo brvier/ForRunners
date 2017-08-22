@@ -492,7 +492,6 @@ angular.module('app.controllers', [])
                     console.log('stop point:' + d);
                     console.log(gpxPoints[p]);
                 } else {
-
                     //Leaflet
                     paths.p1.latlngs.push({
                         lat: curLat,
@@ -2802,7 +2801,7 @@ angular.module('app.controllers', [])
         if (asession.cityname === undefined) {
             $scope.nominatim.byLocation({
                 'latitude': asession.gpxPoints[0].lat,
-                'longitude': asession.gpxPoints[0].lng
+                'longitude': asession.gpxPoints[0].lon
             }).then(function(cityname) {
                 console.log(cityname);
                 asession.cityname = cityname;

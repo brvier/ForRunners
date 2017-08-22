@@ -348,7 +348,8 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _file_import_title: 'Import',
     _import_files: 'Import',
     _use_vocalAnnounce: 'Voice announcements',
-    _editable: 'Touch to edit'
+    _editable: 'Touch to edit',
+    _edit_session: 'Edit Session'
   });
   
   $translateProvider.translations('fr-FR', {
@@ -505,7 +506,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _import_files: 'Importer',
     _use_vocalAnnounce: 'Annonces vocales',
     _edit_session: 'Edition',
-    _editable: 'Toucher pour modifier'
+    _editable: 'Toucher pour modifier',
 
  });
 
