@@ -1,5 +1,32 @@
 angular.module('app.services', [])
 
+// Service to communicate with Nominatim OpenStreetMap API.
+.factory('$nominatim', function($q, $http) {
+    'use strict';
+    var API_ROOT = 'http://nominatim.openstreetmap.org';
+
+    this.byLocation = function(coords) {
+        var deferred = $q.defer();
+
+        if ((coords.latitude === undefined) || (coords.longitude === undefined)) {
+          deferred.reject('Undefined coords');          
+        }
+
+        $http.jsonp(API_ROOT + '/reverse?format=json&lat='+coords.latitude+'&lon='+coords.longitude+'&zoom=10&addressdetails=1&json_callback=JSON_CALLBACK').then(function(response) {
+            var statusCode = parseInt(response.status, 10);
+            if (statusCode === 200) {
+                deferred.resolve(response.data.address.city);
+            } else {
+                deferred.reject(response.data.message);
+            }
+        }, function(error) {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    };
+    return this;
+})
+
 
 // Service to communicate with OpenWeatherMap API.
 .factory('$weather', function($q, $http) {
@@ -68,23 +95,16 @@ angular.module('app.services', [])
             }
             return value;
         },
-        loadFromFile: function(recclicked) {
+        loadFromFile: function(recclicked, app_data_path) {
               var deferred = $q.defer();
-<<<<<<< HEAD
               if ((window.device === undefined) || (window.device.platform === 'browser')) {
-=======
-              if (window.device.platform === 'browser') {
->>>>>>> e65b8c6198c9badd1bc63665965e2965436f7a25
                 setTimeout(function(){
                   deferred.resolve(JSON.parse(localStorage.getItem(recclicked + '.json'), Session.dateTimeReviver));
                 }, 1);
                 return deferred.promise;
               }
 
-              var path = cordova.file.externalApplicationStorageDirectory + 'sessions/' + recclicked + '.json';
-              if (cordova.file.externalApplicationStorageDirectory === null) {
-                path = cordova.file.documentsDirectory + 'sessions/' + recclicked + '.json';
-              }
+              var path = app_data_path + 'sessions/' + recclicked + '.json';
 
               if (typeof window.resolveLocalFileSystemURL === 'function') {
                   window.resolveLocalFileSystemURL(path, function(fileEntry) {
@@ -101,21 +121,18 @@ angular.module('app.services', [])
               }
               return deferred.promise;
         },
-        saveToFile: function(session) {
+        saveToFile: function(session, app_data_path) {
           var deferred = $q.defer();
           var filename = session.recclicked.toString() + '.json';
-          var path = cordova.file.externalApplicationStorageDirectory;
+          var path = app_data_path;
           if (window.device.platform === 'browser') {
             setTimeout(function(){
               localStorage.setItem(filename, JSON.stringify(session));
               deferred.resolve();
             }, 1);
             return deferred.promise;
-          } else if (path === null) {
-            path = cordova.file.documentsDirectory;
           } 
-          console.log('iOS PATH');
-          console.log(path);
+
           try {
               window.resolveLocalFileSystemURL(path, function(dirEntry) {
                   dirEntry.getDirectory('sessions', {

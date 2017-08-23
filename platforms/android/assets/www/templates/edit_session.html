@@ -12,21 +12,32 @@
       <p>
         <i class="icon ion-star"></i> {{session.overnote}} -
         <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}} -
-        <i class="icon ion-ios-location"></i> {{session.distance}} Km -
+        <i class="icon ion-ios-location"></i> {{session.distance | number:2 }} Km -
         <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
       </p>
     </div>
 
     <div class="row">
+      <div class="col col-center"  style="text-align: center">
+        <button class="button button-small button-clear ng-pristine ng-untouched ng-valid ng-empty" on-select="saveType(newValue);" modal-select="" ng-model="session.type" options="types" hide-reset="true" modal-title="Select an session type">
+           {{ session.type }}
+           <div class="option">
+              <div class="item">{{option}}</div>
+           </div>
+        </button>
+        <br><small  style="text-align: center">{{ "_editable" | translate }}</small>
+      </div>
+    </div>
+
+    <div class="row">
       <div class="col col-right">
         <div class="item" style="text-align: center">
-          <h2 style="text-align: center">{{session.speed}} Km/h</h2>
+          <h2 style="text-align: center">{{session.speed | number:2}} Km/h</h2>
           <p  style="text-align: center">{{ "_speed_average" | translate }}</p>
         </div>
       </div>
       <div class="col col-10 col-center"  style="text-align: center">
         <i class="icon ion-ios-speedometer positive" style="text-align: center;font-size: 32px;"></i>
-
       </div>
       <div class="col col-left">
         <div class="item" style="text-align: center">
@@ -40,7 +51,7 @@
     <div class="row">
       <div class="col col-right" ng-click="editDistance();">
         <div class="item" style="text-align: center">
-          <h2 style="text-align: center">{{session.distance}} Km</h2>
+          <h2 style="text-align: center">{{session.distance | number:2}} Km</h2>
           <p  style="text-align: center">{{ "_distance" | translate }}
             <br><small  style="text-align: center">{{ "_editable" | translate }}</small>
           </p>
@@ -62,7 +73,7 @@
     <div class="row">
       <div class="col col-right" ng-click="editEleUp();">
         <div class="item" style="text-align: center">
-          <h2 style="text-align: center">{{session.eleUp}} m</h2>
+          <h2 style="text-align: center">{{session.eleUp | number:2}} m</h2>
           <p  style="text-align: center">{{ "_up" | translate }}<br><small  style="text-align: center">{{ "_editable" | translate }}</small></p>
         </div>
       </div>
@@ -72,7 +83,7 @@
       </div>
       <div class="col col-left" ng-click="editEleDown();">
         <div class="item" style="text-align: center">
-          <h2  style="text-align: center">{{ session.eleDown }} m</h2>
+          <h2  style="text-align: center">{{ session.eleDown | number:2 }} m</h2>
           <p  style="text-align: center">{{ "_down" | translate }}<br><small  style="text-align: center">{{ "_editable" | translate }}</small></p>
         </div>
       </div>
@@ -81,7 +92,7 @@
     <div class="row">
       <div class="col col-right" ng-click="editPower();">
         <div class="item" style="text-align: center">
-          <h2 style="text-align: center">{{session.avg_power}} Watt</h2>
+          <h2 style="text-align: center">{{session.avg_power | number:2}} Watt</h2>
           <p  style="text-align: center">{{ "_power" | translate }}<br><small  style="text-align: center">{{ "_editable" | translate }}</small></p>
         </div>
       </div>
@@ -90,7 +101,7 @@
       </div>
       <div class="col col-left" ng-click="editCadence();">
         <div class="item" style="text-align: center">
-          <h2  style="text-align: center">{{ session.avg_cadence}} </h2>
+          <h2  style="text-align: center">{{ session.avg_cadence | number:2}} </h2>
           <p  style="text-align: center">{{ "_cadence" | translate }}
           <br><small  style="text-align: center">{{ "_editable" | translate }}</small></p>
         </div>

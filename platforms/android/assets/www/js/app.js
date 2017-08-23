@@ -16,6 +16,9 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
         if (window.StatusBar) {
             StatusBar.styleDefault();
         }
+
+        
+
         window.oldConsole = { error: console.error, log: console.log, warn: console.warn, info: console.info };
         window.initialLogs = [];
 
