@@ -46,7 +46,7 @@
 
                     <div class="item item-dark">
                         <h3 ng-if="session.gpsGoodSignalToggle === false" style="color: #c11;">{{ "_gps_lost" | translate }}</h3>
-                        <h3 style="color: #ccc;">{{ "_gps_accuracy" | translate }} {{ session.accuracy | number }} m</h3>
+                        <h3 style="color: #ccc;">{{ "_gps_accuracy" | translate }} {{ session.accuracy | number:0 }} m</h3>
                     </div>
             </div>
         </div>
