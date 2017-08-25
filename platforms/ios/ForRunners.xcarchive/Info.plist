@@ -7,18 +7,18 @@
 		<key>ApplicationPath</key>
 		<string>Applications/ForRunners.app</string>
 		<key>CFBundleIdentifier</key>
-		<string>net.khertan.forrunners2</string>
+		<string>net.khertan.forrunners</string>
 		<key>CFBundleShortVersionString</key>
-		<string>1.1.5</string>
+		<string>1.2.0</string>
 		<key>CFBundleVersion</key>
-		<string>1.1.5</string>
+		<string>1.2.0</string>
 		<key>SigningIdentity</key>
 		<string>iPhone Developer: Benoit HERVIER (3322L6BY2L)</string>
 	</dict>
 	<key>ArchiveVersion</key>
 	<integer>2</integer>
 	<key>CreationDate</key>
-	<date>2017-06-08T20:45:40Z</date>
+	<date>2017-08-23T15:28:15Z</date>
 	<key>Name</key>
 	<string>ForRunners</string>
 	<key>SchemeName</key>

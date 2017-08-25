@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="0102000" id="net.khertan.forrunners" version="1.2.0" versionCode="0102000" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+	<?xml version='1.0' encoding='utf-8'?>
+<widget android-versionCode="0102000" id="net.khertan.forrunners2" version="1.2.0" versionCode="0102000" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ForRunners</name>
     <description>
     A gps tracker for runners

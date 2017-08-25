@@ -343,6 +343,14 @@ module.exports = [
         "clobbers": [
             "window.plugins.insomnia"
         ]
+    },
+    {
+        "id": "cordova-plugin-statusbar.statusbar",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -365,7 +373,8 @@ module.exports.metadata =
     "cordova-plugin-background-mode": "0.7.2",
     "cordova-plugin-request-location-accuracy": "2.2.1",
     "cordova-plugin-insomnia": "4.3.0",
-    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1"
+    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1",
+    "cordova-plugin-statusbar": "2.2.2"
 };
 // BOTTOM OF METADATA
 });
