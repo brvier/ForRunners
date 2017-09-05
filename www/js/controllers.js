@@ -48,7 +48,7 @@ angular.module('app.controllers', [])
             var colors = ['positive', 'stable', 'light', 'royal', 'dark', 'assertive', 'calm', 'energized'];
             var cleanUp = function() {
                 for (var i = 0; i < colors.length; i++) {
-                    var currentColor = activeHeaderBar.classList.contains('bar-' + colors[i]);
+                    var currentColor = activeHeaderBar.classLists('bar-' + colors[i]);
                     if (currentColor) {
                         ogColors.push('bar-' + colors[i]);
                     }
@@ -2516,7 +2516,7 @@ angular.module('app.controllers', [])
           $scope.equipments = [];
         }
         asession.equipments.map(function(equipment){
-            if (!(equipment.uuid in $scope.equipments.map(function(e){return e.uuid;}))) {
+            if (!($scope.equipments.some(function(e){return e.uuid == equipment.uuid;}))) {
                 $scope.equipments.push(equipment);
             }
         });
@@ -2810,18 +2810,22 @@ angular.module('app.controllers', [])
         }
 
         // Remap Equipments
-        asession.equipments.map(function(equipment, idx){
-            if (($scope.equipments !== undefined) && ($scope.equipments !== null)){
-                if (!(equipment.uuid in $scope.equipments.map(function(e){return e.uuid;}))) {
-                    $scope.equipments.map(function(e){
-                        if ( e.name === equipment.name ) {
-                            asession.equipments[idx].uuid = e.uuid;
-                        }
-                    });
+        try {
+            asession.equipments.map(function(equipment, idx){
+                if (($scope.equipments !== undefined) && ($scope.equipments !== null)){
+                    if (!($scope.equipments.some(function(e){ return e.uuid == equipment.uuid;}))) {
+                        $scope.equipments.map(function(e){
+                            if ( e.name === equipment.name ) {
+                                asession.equipments[idx].uuid = e.uuid;
+                            }
+                        });
+                    }
                 }
-            }
 
-        });
+            });
+        } catch (err) {
+          console.warn(err);
+        }
 
         $scope.sessions[asession.recclicked] = asession;
 

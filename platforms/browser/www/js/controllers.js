@@ -48,7 +48,7 @@ angular.module('app.controllers', [])
             var colors = ['positive', 'stable', 'light', 'royal', 'dark', 'assertive', 'calm', 'energized'];
             var cleanUp = function() {
                 for (var i = 0; i < colors.length; i++) {
-                    var currentColor = activeHeaderBar.classList.contains('bar-' + colors[i]);
+                    var currentColor = activeHeaderBar.classLists('bar-' + colors[i]);
                     if (currentColor) {
                         ogColors.push('bar-' + colors[i]);
                     }
@@ -745,7 +745,7 @@ angular.module('app.controllers', [])
                 pointDot: false,
                 responsive: true,
                 scaleUse2Y: true,
-                legendTemplate: "<ul class='<%=name.toLowerCase()%>-legend'><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+                legendTemplate: "<ul class='<%=name.toLowerCase()%>-legend'><% for (var i=0; i<datasets.length; i++){%><li><span style='background-color:<%=datasets[i].strokeColor%>'></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
             };
             session.chart2_options = {
                 animation: false,
@@ -2516,7 +2516,7 @@ angular.module('app.controllers', [])
           $scope.equipments = [];
         }
         asession.equipments.map(function(equipment){
-            if (!(equipment.uuid in $scope.equipments.map(function(e){return e.uuid;}))) {
+            if (!($scope.equipments.some(function(e){return e.uuid == equipment.uuid;}))) {
                 $scope.equipments.push(equipment);
             }
         });
@@ -2798,10 +2798,10 @@ angular.module('app.controllers', [])
             };
         }
 
-        if (asession.cityname === undefined) {
+        if ((asession.cityname === undefined) && (asession.gpxPoints !== undefined)) {
             $scope.nominatim.byLocation({
                 'latitude': asession.gpxPoints[0].lat,
-                'longitude': asession.gpxPoints[0].lon
+                'longitude': asession.gpxPoints[0].lng
             }).then(function(cityname) {
                 console.log(cityname);
                 asession.cityname = cityname;
@@ -2810,18 +2810,22 @@ angular.module('app.controllers', [])
         }
 
         // Remap Equipments
-        asession.equipments.map(function(equipment, idx){
-            if (($scope.equipments !== undefined) && ($scope.equipments !== null)){
-                if (!(equipment.uuid in $scope.equipments.map(function(e){return e.uuid;}))) {
-                    $scope.equipments.map(function(e){
-                        if ( e.name === equipment.name ) {
-                            asession.equipments[idx].uuid = e.uuid;
-                        }
-                    });
+        try {
+            asession.equipments.map(function(equipment, idx){
+                if (($scope.equipments !== undefined) && ($scope.equipments !== null)){
+                    if (!($scope.equipments.some(function(e){ return e.uuid == equipment.uuid;}))) {
+                        $scope.equipments.map(function(e){
+                            if ( e.name === equipment.name ) {
+                                asession.equipments[idx].uuid = e.uuid;
+                            }
+                        });
+                    }
                 }
-            }
 
-        });
+            });
+        } catch (err) {
+          console.warn(err);
+        }
 
         $scope.sessions[asession.recclicked] = asession;
 
@@ -3349,7 +3353,7 @@ angular.module('app.controllers', [])
             var asession = $scope.session;
             $scope.nominatim.byLocation({
                 'latitude': $scope.session.gpxPoints[0].lat,
-                'longitude': $scope.session.gpxPoints[0].lon
+                'longitude': $scope.session.gpxPoints[0].lng
             }).then(function(cityname) {
                 $scope.session.cityname = cityname;
                 $scope.saveSessionModifications(asession);
