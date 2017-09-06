@@ -2323,12 +2323,30 @@ angular.module('app.controllers', [])
                                 if (timenew - $scope.session.lastdisptime >= $scope.prefs.minrecordinggap) {
                                     $scope.session.lastdisptime = timenew;
 
+                                    // Filter new position with a KalmanFilter
+                                    var accuracy = pos.coords.accuracy;
+                                    if (accuracy < 1) {
+                                        accuracy = 1;
+                                    }
+                                    if (variance < 0) {
+                                        variance = accuracy * accuracy;
+                                    } else {
+                                        tinc = new Date(timenew) - new Date($scope.session.timeold);
+                                        if (tinc > 0) {
+                                            $scope.session.variance += tinc * 3 * 3 / 1000;
+                                        }
+                                        K = $scope.session.variance / ($scope.session.variance + (accuracy * accuracy));
+                                        latnew += K * (latnew - latold);
+                                        lngnew += K * (lngnew - lngold);
+                                        variance = (1 - K) * $scope.session.variance * 3;
+                                    }
+
                                     //Distances
                                     var dLat;
                                     var dLon;
                                     var dLat1;
                                     var dLat2;
-                                    var a, c, d;
+                                    var a, d;
                                     var dtd;
                                     var dspeed;
 
@@ -2339,18 +2357,19 @@ angular.module('app.controllers', [])
                                     a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                                     Math.cos(dLat1) * Math.cos(dLat1) *
                                     Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                                    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                                    d = $scope.session.kalmanDist.update(6371 * c)[0];
+                                    d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                                    
+
                                     //Speed between this and previous point
                                     dtd = new Date(timenew) - new Date($scope.session.timeold);
                                     dspeed = (d) / (dtd / 1000 / 60 / 60);
 
                                     elapsed = timenew - $scope.session.firsttime;
-                                    //console.log(pos.coords.speed);
-                                    //if ((dspeed > 1)) {
-                                        if (dspeed > 0.5) {
-                                            $scope.session.equirect += d;
-                                        }
+                                    
+                                    if (dspeed > 0.5) {
+                                        $scope.session.equirect += d;
+                                    }
+                                
 
                                     //Elevation?
                                     if ($scope.session.altold !== 'x') {
@@ -2444,6 +2463,7 @@ angular.module('app.controllers', [])
                 $scope.session.maxalt = 0;
                 $scope.session.elevation = 0;
                 $scope.session.speeds = [];
+                $scope.session.variance = -1;
             }
             if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
                 (pos.coords.accuracy <= $scope.prefs.minrecordingaccuracy)) {
@@ -2699,7 +2719,7 @@ angular.module('app.controllers', [])
             if ($scope.platform === 'iOS') {
                 $scope.prefs.minrecordingaccuracy = 33;
             } else {
-                $scope.prefs.minrecordingaccuracy = 22;
+                $scope.prefs.minrecordingaccuracy = 33;
             }
         }
 
