@@ -41,3 +41,9 @@
 [11]: http://khertan.net/images/forrunners/session5.png
 [12]: http://khertan.net/images/forrunners/settings.png
 [13]: http://khertan.net
+
+## Contribute
+ 
+###  Translations
+All translation are located in www/js/app.js
+The best way is to fork ForRunners, create a new repo, translate it to your language and then make a pull request.
