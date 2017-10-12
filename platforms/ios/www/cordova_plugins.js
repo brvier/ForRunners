@@ -343,19 +343,51 @@ module.exports = [
         "clobbers": [
             "window.plugins.insomnia"
         ]
+    },
+    {
+        "id": "cordova-plugin-globalization.GlobalizationError",
+        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "id": "cordova-plugin-globalization.globalization",
+        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
+    },
+    {
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "id": "cordova-plugin-statusbar.statusbar",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "cordova-plugin-app-version": "0.1.9",
-    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-ble-central": "1.1.4",
     "cordova-plugin-camera": "2.4.0",
     "cordova-plugin-gpslocation": "1.0.0",
     "cordova-plugin-nativestorage": "2.0.2",
     "cordova-plugin-geolocation": "2.2.0",
-    "cordova-plugin-x-socialsharing": "5.1.7",
+    "cordova-plugin-x-socialsharing": "5.1.3",
     "cordova-custom-config": "2.0.3",
     "cordova-plugin-file": "4.3.2",
     "cordova-plugin-console": "1.0.7",
@@ -365,7 +397,11 @@ module.exports.metadata =
     "cordova-plugin-background-mode": "0.7.2",
     "cordova-plugin-request-location-accuracy": "2.2.1",
     "cordova-plugin-insomnia": "4.3.0",
-    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1"
+    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1",
+    "cordova-plugin-whitelist": "1.2.2",
+    "cordova-plugin-globalization": "1.0.4",
+    "cordova-plugin-splashscreen": "3.2.2",
+    "cordova-plugin-statusbar": "2.2.2"
 };
 // BOTTOM OF METADATA
 });

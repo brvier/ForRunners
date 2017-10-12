@@ -490,7 +490,6 @@ angular.module('app.controllers', [])
                 
                 if (d < 0.0001) {
                     console.log('stop point:' + d);
-                    console.log(gpxPoints[p]);
                 } else {
                     //Leaflet
                     paths.p1.latlngs.push({
@@ -670,8 +669,6 @@ angular.module('app.controllers', [])
                             });
                         }
                     }
-
-
 
                 }
                 oldLat = curLat;
@@ -1003,6 +1000,8 @@ angular.module('app.controllers', [])
             });
 
             // Check if conform to the index
+            console.log($scope.resume);
+            console.debug('debug resume ^');
             if (($scope.sortedSessionsIndex !== undefined) & ($scope.resume !== undefined)) {
               if ((result.length === $scope.sortedSessionsIndex.length) & ($scope.resume.avspeed !== 'NaN') & ($scope.resume.avdistance != 'NaN')) {
                   console.log('Resume and Index OK, not loading sessions');
@@ -1024,6 +1023,7 @@ angular.module('app.controllers', [])
             var idx = 0;
             var sf = new SessionFactory();
             $scope.session_files.forEach(function(file) {
+                console.debug(file.name);
                 if (file.name.slice(-5) === '.json') {
                     $timeout(function() {
                         sf.loadFromFile(file.name.slice(0,-5)).then(function(session) {
@@ -1660,6 +1660,7 @@ angular.module('app.controllers', [])
 
 
     $scope.computeResumeGraph = function() {
+        console.debug('Debug Resume Graph');
         $scope.resume = {};
         $scope.resume.chart_labels = [];
         $scope.resume.chart_series = [$scope.translateFilter('_overnote'), $scope.translateFilter('_duration_minutes')];
@@ -1750,7 +1751,15 @@ angular.module('app.controllers', [])
         $scope.storageGetObj('resume', 
             function(resume){
                 if (resume) {
-                    $timeout(function(){$scope.resume=resume; console.log('Resume loaded from native storage');},0);
+                    $timeout(function(){
+                      if (resume.avspeed !=0 ) {
+                        $scope.resume=resume;
+                      } else {
+                        $scope.computeResumeGraph();
+                      }
+
+                      console.log('Resume loaded from native storage');
+                    },0);
                 } else {
                     $timeout($scope.computeResumeGraph, 0);
                 }}, function(err){console.log(err);}

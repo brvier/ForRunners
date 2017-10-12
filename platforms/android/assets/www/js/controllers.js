@@ -48,7 +48,7 @@ angular.module('app.controllers', [])
             var colors = ['positive', 'stable', 'light', 'royal', 'dark', 'assertive', 'calm', 'energized'];
             var cleanUp = function() {
                 for (var i = 0; i < colors.length; i++) {
-                    var currentColor = activeHeaderBar.classList.contains('bar-' + colors[i]);
+                    var currentColor = activeHeaderBar.classLists('bar-' + colors[i]);
                     if (currentColor) {
                         ogColors.push('bar-' + colors[i]);
                     }
@@ -490,7 +490,6 @@ angular.module('app.controllers', [])
                 
                 if (d < 0.0001) {
                     console.log('stop point:' + d);
-                    console.log(gpxPoints[p]);
                 } else {
                     //Leaflet
                     paths.p1.latlngs.push({
@@ -671,8 +670,6 @@ angular.module('app.controllers', [])
                         }
                     }
 
-
-
                 }
                 oldLat = curLat;
                 oldLng = curLng;
@@ -745,7 +742,7 @@ angular.module('app.controllers', [])
                 pointDot: false,
                 responsive: true,
                 scaleUse2Y: true,
-                legendTemplate: "<ul class='<%=name.toLowerCase()%>-legend'><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].strokeColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
+                legendTemplate: "<ul class='<%=name.toLowerCase()%>-legend'><% for (var i=0; i<datasets.length; i++){%><li><span style='background-color:<%=datasets[i].strokeColor%>'></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>"
             };
             session.chart2_options = {
                 animation: false,
@@ -1003,6 +1000,8 @@ angular.module('app.controllers', [])
             });
 
             // Check if conform to the index
+            console.log($scope.resume);
+            console.debug('debug resume ^');
             if (($scope.sortedSessionsIndex !== undefined) & ($scope.resume !== undefined)) {
               if ((result.length === $scope.sortedSessionsIndex.length) & ($scope.resume.avspeed !== 'NaN') & ($scope.resume.avdistance != 'NaN')) {
                   console.log('Resume and Index OK, not loading sessions');
@@ -1024,6 +1023,7 @@ angular.module('app.controllers', [])
             var idx = 0;
             var sf = new SessionFactory();
             $scope.session_files.forEach(function(file) {
+                console.debug(file.name);
                 if (file.name.slice(-5) === '.json') {
                     $timeout(function() {
                         sf.loadFromFile(file.name.slice(0,-5)).then(function(session) {
@@ -1660,6 +1660,7 @@ angular.module('app.controllers', [])
 
 
     $scope.computeResumeGraph = function() {
+        console.debug('Debug Resume Graph');
         $scope.resume = {};
         $scope.resume.chart_labels = [];
         $scope.resume.chart_series = [$scope.translateFilter('_overnote'), $scope.translateFilter('_duration_minutes')];
@@ -2323,12 +2324,30 @@ angular.module('app.controllers', [])
                                 if (timenew - $scope.session.lastdisptime >= $scope.prefs.minrecordinggap) {
                                     $scope.session.lastdisptime = timenew;
 
+                                    // Filter new position with a KalmanFilter
+                                    var accuracy = pos.coords.accuracy;
+                                    if (accuracy < 1) {
+                                        accuracy = 1;
+                                    }
+                                    if (variance < 0) {
+                                        variance = accuracy * accuracy;
+                                    } else {
+                                        tinc = new Date(timenew) - new Date($scope.session.timeold);
+                                        if (tinc > 0) {
+                                            $scope.session.variance += tinc * 3 * 3 / 1000;
+                                        }
+                                        K = $scope.session.variance / ($scope.session.variance + (accuracy * accuracy));
+                                        latnew += K * (latnew - latold);
+                                        lngnew += K * (lngnew - lngold);
+                                        variance = (1 - K) * $scope.session.variance * 3;
+                                    }
+
                                     //Distances
                                     var dLat;
                                     var dLon;
                                     var dLat1;
                                     var dLat2;
-                                    var a, c, d;
+                                    var a, d;
                                     var dtd;
                                     var dspeed;
 
@@ -2339,18 +2358,19 @@ angular.module('app.controllers', [])
                                     a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                                     Math.cos(dLat1) * Math.cos(dLat1) *
                                     Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                                    c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                                    d = $scope.session.kalmanDist.update(6371 * c)[0];
+                                    d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                                    
+
                                     //Speed between this and previous point
                                     dtd = new Date(timenew) - new Date($scope.session.timeold);
                                     dspeed = (d) / (dtd / 1000 / 60 / 60);
 
                                     elapsed = timenew - $scope.session.firsttime;
-                                    //console.log(pos.coords.speed);
-                                    //if ((dspeed > 1)) {
-                                        if (dspeed > 0.5) {
-                                            $scope.session.equirect += d;
-                                        }
+                                    
+                                    if (dspeed > 0.5) {
+                                        $scope.session.equirect += d;
+                                    }
+                                
 
                                     //Elevation?
                                     if ($scope.session.altold !== 'x') {
@@ -2444,6 +2464,7 @@ angular.module('app.controllers', [])
                 $scope.session.maxalt = 0;
                 $scope.session.elevation = 0;
                 $scope.session.speeds = [];
+                $scope.session.variance = -1;
             }
             if ((timenew - $scope.session.lastrecordtime >= $scope.prefs.minrecordinggap) &&
                 (pos.coords.accuracy <= $scope.prefs.minrecordingaccuracy)) {
@@ -2516,7 +2537,7 @@ angular.module('app.controllers', [])
           $scope.equipments = [];
         }
         asession.equipments.map(function(equipment){
-            if (!(equipment.uuid in $scope.equipments.map(function(e){return e.uuid;}))) {
+            if (!($scope.equipments.some(function(e){return e.uuid == equipment.uuid;}))) {
                 $scope.equipments.push(equipment);
             }
         });
@@ -2699,7 +2720,7 @@ angular.module('app.controllers', [])
             if ($scope.platform === 'iOS') {
                 $scope.prefs.minrecordingaccuracy = 33;
             } else {
-                $scope.prefs.minrecordingaccuracy = 22;
+                $scope.prefs.minrecordingaccuracy = 33;
             }
         }
 
@@ -2798,7 +2819,7 @@ angular.module('app.controllers', [])
             };
         }
 
-        if (asession.cityname === undefined) {
+        if ((asession.cityname === undefined) && (asession.gpxPoints !== undefined)) {
             $scope.nominatim.byLocation({
                 'latitude': asession.gpxPoints[0].lat,
                 'longitude': asession.gpxPoints[0].lng
@@ -2810,18 +2831,22 @@ angular.module('app.controllers', [])
         }
 
         // Remap Equipments
-        asession.equipments.map(function(equipment, idx){
-            if (($scope.equipments !== undefined) && ($scope.equipments !== null)){
-                if (!(equipment.uuid in $scope.equipments.map(function(e){return e.uuid;}))) {
-                    $scope.equipments.map(function(e){
-                        if ( e.name === equipment.name ) {
-                            asession.equipments[idx].uuid = e.uuid;
-                        }
-                    });
+        try {
+            asession.equipments.map(function(equipment, idx){
+                if (($scope.equipments !== undefined) && ($scope.equipments !== null)){
+                    if (!($scope.equipments.some(function(e){ return e.uuid == equipment.uuid;}))) {
+                        $scope.equipments.map(function(e){
+                            if ( e.name === equipment.name ) {
+                                asession.equipments[idx].uuid = e.uuid;
+                            }
+                        });
+                    }
                 }
-            }
 
-        });
+            });
+        } catch (err) {
+          console.warn(err);
+        }
 
         $scope.sessions[asession.recclicked] = asession;
 
@@ -3349,7 +3374,7 @@ angular.module('app.controllers', [])
             var asession = $scope.session;
             $scope.nominatim.byLocation({
                 'latitude': $scope.session.gpxPoints[0].lat,
-                'longitude': $scope.session.gpxPoints[0].lon
+                'longitude': $scope.session.gpxPoints[0].lng
             }).then(function(cityname) {
                 $scope.session.cityname = cityname;
                 $scope.saveSessionModifications(asession);
