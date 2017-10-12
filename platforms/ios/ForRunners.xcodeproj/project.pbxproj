@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		0DF24D671B5544BC868CE187 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B955562B8A584582A3FBA7CF /* CDVLogger.m */; };
@@ -14,6 +15,7 @@
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
+		3D12A9C1B8654A5F805D8AD6 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C6C6FEB5EF4A6FA0F242BB /* CDVStatusBar.m */; };
 		41AFBDF379444048BC4FBA7D /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A0425236B7049339A0C6CF7 /* CoreBluetooth.framework */; };
 		47F97BB03D3D4A949EEC057E /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC6CB767E894E81B02111BC /* SocialSharing.m */; };
 		4F5EF6061F6343E38F59B52C /* ForRunners.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = DF3402347BF9484D841A0E27 /* ForRunners.entitlements */; };
@@ -142,8 +144,10 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		EF7EE6E8547247B0A52F87D6 /* MessageUI.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		EFE52C0DB0E34FD3B297F02A /* UIImage+CropScaleOrientation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UIImage+CropScaleOrientation.m"; path = "cordova-plugin-camera/UIImage+CropScaleOrientation.m"; sourceTree = "<group>"; };
+		F04B2D80C05043EDB7A17730 /* CDVStatusBar.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = "cordova-plugin-statusbar/CDVStatusBar.h"; sourceTree = "<group>"; };
 		F16D5936A08042BFBD2FF960 /* APPBackgroundMode.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPBackgroundMode.h; path = "cordova-plugin-background-mode/APPBackgroundMode.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ForRunners/config.xml; sourceTree = "<group>"; };
+		F9C6C6FEB5EF4A6FA0F242BB /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		FAF9F0FF80C7468F87DBB635 /* AVFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		FC211C4E52AF4EF0A96155EC /* BLECentralPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = BLECentralPlugin.m; path = "cordova-plugin-ble-central/BLECentralPlugin/BLECentralPlugin.m"; sourceTree = "<group>"; };
 		2F3C0A0EC43A40719D655378 /* CDVGlobalization.m */ = {isa = PBXFileReference; name = "CDVGlobalization.m"; path = "cordova-plugin-globalization/CDVGlobalization.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
@@ -323,16 +327,8 @@
 				19C27A7EB4254D578EF58ECD /* RequestLocationAccuracy.h */,
 				2F66FF893CF5468D97A69AB2 /* Insomnia.m */,
 				4A05E27A9EE6492E98A27BD4 /* Insomnia.h */,
-				2F3C0A0EC43A40719D655378 /* CDVGlobalization.m */,
-				65F5C16752F24C22A99D2B74 /* CDVGlobalization.h */,
-				01ECB6CE03A9475E919BDF48 /* CDVSplashScreen.m */,
-				8FFBB6861FF5487D9CC176EE /* CDVViewController+SplashScreen.m */,
-				E5C78D67978D44C6985554E7 /* CDVSplashScreen.h */,
-				2A6A38B8BC804A5099558660 /* CDVViewController+SplashScreen.h */,
-				8AEEF37B7730414A9F769EF4 /* CDVStatusBar.m */,
-				B72438A6C3D342BA8378D412 /* CDVStatusBar.h */,
-				3422083238F5491498CBB6E7 /* NSString+URLEncoding.m */,
-				A606B16C8B884961B22F0767 /* NSString+URLEncoding.h */,
+				F9C6C6FEB5EF4A6FA0F242BB /* CDVStatusBar.m */,
+				F04B2D80C05043EDB7A17730 /* CDVStatusBar.h */,
 			);
 			name = Plugins;
 			path = ForRunners/Plugins;
@@ -375,7 +371,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 510;
+				LastUpgradeCheck = 900;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = QD2V332HPN;
@@ -492,11 +488,7 @@
 				204A44530F494510AFB91866 /* APPMethodMagic.m in Sources */,
 				FB18F756F0BC4601B54536F5 /* RequestLocationAccuracy.m in Sources */,
 				7E1F79AF17A1456BBE8670F9 /* Insomnia.m in Sources */,
-				68CC188360E24A1794695329 /* CDVGlobalization.m in Sources */,
-				922411CAA9FF44E7A6776C97 /* CDVSplashScreen.m in Sources */,
-				62E53B38514C4548B14C45A8 /* CDVViewController+SplashScreen.m in Sources */,
-				D7FCA63845E445F5A2765639 /* CDVStatusBar.m in Sources */,
-				F7D88620A89C48428131B716 /* NSString+URLEncoding.m in Sources */,
+				3D12A9C1B8654A5F805D8AD6 /* CDVStatusBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,16 +567,29 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = ForRunners/Resources/ForRunners.entitlements;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -603,16 +608,28 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = ForRunners/Resources/ForRunners.entitlements;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;

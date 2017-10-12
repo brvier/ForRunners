@@ -364,7 +364,8 @@ module.exports.metadata =
     "cordova-plugin-device": "1.1.2",
     "cordova-plugin-background-mode": "0.7.2",
     "cordova-plugin-request-location-accuracy": "2.2.1",
-    "cordova-plugin-insomnia": "4.3.0"
+    "cordova-plugin-insomnia": "4.3.0",
+    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1"
 };
 // BOTTOM OF METADATA
 });

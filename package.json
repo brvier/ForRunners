@@ -30,73 +30,51 @@
         "gulp-util": "^2.2.14",
         "shelljs": "^0.3.0"
     },
-    "cordovaPlugins": [
-        "cordova-plugin-geolocation",
-        "cordova-plugin-device",
-        "cordova-plugin-whitelist",
-        {
-            "locator": "https://github.com/domaemon/org.apache.cordova.plugin.tts.git",
-            "id": "org.apache.cordova.plugin.tts"
-        },
-        {
-            "locator": "https://github.com/macdonst/SpeechSynthesisPlugin",
-            "id": "org.apache.cordova.speech.speechsynthesis"
-        },
-        {
-            "locator": "https://github.com/katzer/cordova-plugin-background-mode.git",
-            "id": "de.appplant.cordova.plugin.background-mode"
-        },
-        "cordova-plugin-splashscreen",
-        {
-            "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
-            "id": "nl.x-services.plugins.insomnia"
-        },
-        "cordova-plugin-x-socialsharing",
-        {
-            "locator": "https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin",
-            "id": "com.jcesarmobile.filepicker"
-        },
-        "cordova-plugin-device",
-        "cordova-plugin-file",
-        "cordova-plugin-ble-central",
-        "cordova-plugin-globalization",
-        {
-            "locator": "https://github.com/boltex/cordova-plugin-powermanagement.git",
-            "id": "at.gofg.sportscomputer.powermanagement"
-        },
-        "cordova-plugin-gpslocation",
-        "cordova-plugin-file-transfer",
-        "cordova-plugin-camera",
-        {
-            "locator": "https://github.com/napolitano/cordova-plugin-intent",
-            "id": "com.napolitano.cordova.plugin.intent"
-        },
-        "cordova-plugin-app-version",
-        "cordova-plugin-nativestorage",
-        "cordova-plugin-statusbar",
-        "cordova-plugin-request-location-accuracy",
-        "cordova-custom-config@~2.0.3"
-    ],
-    "cordovaPlatforms": [
-        "android"
-    ],
-    "cordova": {
-        "plugins": {
-            "cordova-custom-config": {},
-            "cordova-plugin-app-version": {},
-            "cordova-plugin-geolocation": {},
-            "cordova-plugin-insomnia": {},
-            "cordova-plugin-nativestorage": {},
-            "cordova-plugin-x-socialsharing": {},
-            "cordova-plugin-gpslocation": {},
-            "cordova-plugin-whitelist": {},
-            "cordova-plugin-splashscreen": {},
-            "cordova-plugin-statusbar": {},
-            "cordova-plugin-globalization": {}
-        },
-        "platforms": [
-            "android",
-            "browser"
-        ]
+    {
+      "locator": "https://github.com/katzer/cordova-plugin-background-mode.git",
+      "id": "de.appplant.cordova.plugin.background-mode"
+    },
+    "cordova-plugin-splashscreen",
+    {
+      "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+      "id": "nl.x-services.plugins.insomnia"
+    },
+    "cordova-plugin-x-socialsharing",
+    {
+      "locator": "https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin",
+      "id": "com.jcesarmobile.filepicker"
+    },
+    "cordova-plugin-device",
+    "cordova-plugin-file",
+    "cordova-plugin-ble-central",
+    "cordova-plugin-globalization",
+    {
+      "locator": "https://github.com/boltex/cordova-plugin-powermanagement.git",
+      "id": "at.gofg.sportscomputer.powermanagement"
+    },
+    "cordova-plugin-gpslocation",
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-camera",
+    {
+      "locator": "https://github.com/napolitano/cordova-plugin-intent",
+      "id": "com.napolitano.cordova.plugin.intent"
+    },
+    "cordova-plugin-app-version",
+    "cordova-plugin-nativestorage",
+    "cordova-plugin-statusbar",
+    "cordova-plugin-request-location-accuracy"
+  ],
+  "cordovaPlatforms": [
+    "android"
+  ],
+  "cordova": {
+    "plugins": {
+      "cordova-custom-config": {},
+      "cordova-plugin-app-version": {},
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-insomnia": {},
+      "cordova-plugin-nativestorage": {},
+      "cordova-plugin-x-socialsharing": {}
     }
+  }
 }
