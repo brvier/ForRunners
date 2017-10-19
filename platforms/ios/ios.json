@@ -29,10 +29,6 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 2
-                        },
-                        {
                             "xml": "<feature name=\"File\"><param name=\"ios-package\" value=\"CDVFile\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
                         },
@@ -78,6 +74,10 @@
                         },
                         {
                             "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"RequestLocationAccuracy\"><param name=\"ios-package\" value=\"RequestLocationAccuracy\" /></feature>",
                             "count": 1
                         }
                     ],
@@ -156,9 +156,6 @@
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "net.khertan.forrunners"
         },
-        "cordova-plugin-x-socialsharing": {
-            "PACKAGE_NAME": "net.khertan.forrunners"
-        },
         "cordova-plugin-file": {
             "PACKAGE_NAME": "net.khertan.forrunners"
         },
@@ -196,6 +193,9 @@
             "PACKAGE_NAME": "net.khertan.forrunners"
         },
         "cordova-custom-config": {
+            "PACKAGE_NAME": "net.khertan.forrunners2"
+        },
+        "cordova-plugin-request-location-accuracy": {
             "PACKAGE_NAME": "net.khertan.forrunners2"
         }
     },
@@ -297,14 +297,6 @@
             "pluginId": "cordova-plugin-geolocation",
             "clobbers": [
                 "navigator.geolocation"
-            ]
-        },
-        {
-            "id": "cordova-plugin-x-socialsharing.SocialSharing",
-            "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
-            "pluginId": "cordova-plugin-x-socialsharing",
-            "clobbers": [
-                "window.plugins.socialsharing"
             ]
         },
         {
@@ -568,6 +560,14 @@
             "clobbers": [
                 "navigator.globalization"
             ]
+        },
+        {
+            "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
+            "file": "plugins/cordova-plugin-request-location-accuracy/www/ios/RequestLocationAccuracy.js",
+            "pluginId": "cordova-plugin-request-location-accuracy",
+            "clobbers": [
+                "cordova.plugins.locationAccuracy"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -578,7 +578,6 @@
         "cordova-plugin-gpslocation": "1.0.0",
         "cordova-plugin-nativestorage": "2.0.2",
         "cordova-plugin-geolocation": "2.2.0",
-        "cordova-plugin-x-socialsharing": "5.1.3",
         "cordova-plugin-file": "4.3.2",
         "cordova-plugin-console": "1.0.7",
         "cordova-plugin-powermanagement": "1.0.5",
@@ -591,6 +590,7 @@
         "cordova-plugin-whitelist": "1.2.2",
         "cordova-plugin-splashscreen": "3.2.2",
         "cordova-plugin-globalization": "1.0.4",
-        "cordova-custom-config": "4.0.2"
+        "cordova-custom-config": "4.0.2",
+        "cordova-plugin-request-location-accuracy": "2.2.1"
     }
 }

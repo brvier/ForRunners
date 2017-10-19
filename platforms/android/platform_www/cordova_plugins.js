@@ -391,14 +391,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-x-socialsharing.SocialSharing",
-        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
-        "pluginId": "cordova-plugin-x-socialsharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
-        ]
-    },
-    {
         "id": "net.khertan.plugin.MusicControl.MusicControl",
         "file": "plugins/net.khertan.plugin.MusicControl/www/MusicControl.js",
         "pluginId": "net.khertan.plugin.MusicControl",
@@ -487,7 +479,6 @@ module.exports.metadata =
     "cordova-plugin-splashscreen": "3.2.2",
     "cordova-plugin-statusbar": "2.2.2",
     "cordova-plugin-whitelist": "1.2.2",
-    "cordova-plugin-x-socialsharing": "5.1.3",
     "net.khertan.plugin.MusicControl": "0.0.1",
     "org.apache.cordova.plugin.tts": "0.2.1",
     "org.apache.cordova.speech.speechsynthesis": "0.1.0",

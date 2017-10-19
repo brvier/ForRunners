@@ -43,7 +43,6 @@
       "locator": "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
       "id": "nl.x-services.plugins.insomnia"
     },
-    "cordova-plugin-x-socialsharing",
     {
       "locator": "https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin",
       "id": "com.jcesarmobile.filepicker"

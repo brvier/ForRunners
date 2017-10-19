@@ -99,14 +99,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-x-socialsharing.SocialSharing",
-        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
-        "pluginId": "cordova-plugin-x-socialsharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
-        ]
-    },
-    {
         "id": "cordova-plugin-file.DirectoryEntry",
         "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
         "pluginId": "cordova-plugin-file",
@@ -367,6 +359,14 @@ module.exports = [
         "clobbers": [
             "navigator.globalization"
         ]
+    },
+    {
+        "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
+        "file": "plugins/cordova-plugin-request-location-accuracy/www/ios/RequestLocationAccuracy.js",
+        "pluginId": "cordova-plugin-request-location-accuracy",
+        "clobbers": [
+            "cordova.plugins.locationAccuracy"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -379,7 +379,6 @@ module.exports.metadata =
     "cordova-plugin-gpslocation": "1.0.0",
     "cordova-plugin-nativestorage": "2.0.2",
     "cordova-plugin-geolocation": "2.2.0",
-    "cordova-plugin-x-socialsharing": "5.1.3",
     "cordova-plugin-file": "4.3.2",
     "cordova-plugin-console": "1.0.7",
     "cordova-plugin-powermanagement": "1.0.5",
@@ -392,7 +391,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-plugin-splashscreen": "3.2.2",
     "cordova-plugin-globalization": "1.0.4",
-    "cordova-custom-config": "4.0.2"
+    "cordova-custom-config": "4.0.2",
+    "cordova-plugin-request-location-accuracy": "2.2.1"
 };
 // BOTTOM OF METADATA
 });

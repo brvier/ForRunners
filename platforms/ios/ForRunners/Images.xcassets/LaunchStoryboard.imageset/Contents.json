@@ -89,7 +89,8 @@
     {
       "idiom": "ipad",
       "scale": "2x",
-      "width-class": "compact"
+      "width-class": "compact",
+      "filename": "Default@2x~ipad~comany.png"
     },
     {
       "idiom": "ipad",
@@ -98,7 +99,8 @@
     },
     {
       "idiom": "ipad",
-      "scale": "2x"
+      "scale": "2x",
+      "filename": "Default@2x~ipad~anyany.png"
     },
     {
       "idiom": "iphone",
@@ -124,21 +126,24 @@
       "idiom": "iphone",
       "scale": "2x",
       "width-class": "compact",
+      "height-class": "compact",
+      "filename": "Default@2x~iphone~comcom.png"
+    },
+    {
+      "idiom": "iphone",
+      "scale": "2x",
+      "width-class": "compact",
+      "filename": "Default@2x~iphone~comany.png"
+    },
+    {
+      "idiom": "iphone",
+      "scale": "2x",
       "height-class": "compact"
     },
     {
       "idiom": "iphone",
       "scale": "2x",
-      "width-class": "compact"
-    },
-    {
-      "idiom": "iphone",
-      "scale": "2x",
-      "height-class": "compact"
-    },
-    {
-      "idiom": "iphone",
-      "scale": "2x"
+      "filename": "Default@2x~iphone~anyany.png"
     },
     {
       "idiom": "iphone",
@@ -149,16 +154,19 @@
     {
       "idiom": "iphone",
       "scale": "3x",
-      "width-class": "compact"
+      "width-class": "compact",
+      "filename": "Default@3x~iphone~comany.png"
     },
     {
       "idiom": "iphone",
       "scale": "3x",
-      "height-class": "compact"
+      "height-class": "compact",
+      "filename": "Default@3x~iphone~anycom.png"
     },
     {
       "idiom": "iphone",
-      "scale": "3x"
+      "scale": "3x",
+      "filename": "Default@3x~iphone~anyany.png"
     }
   ],
   "info": {
