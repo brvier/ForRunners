@@ -249,13 +249,6 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile(project(path: "CordovaLib", configuration: "debug"))
     releaseCompile(project(path: "CordovaLib", configuration: "release"))
-    debugCompile(project(path: "com.google.playservices:forrunners-google-play-services_lib", configuration: "debug")){
-        exclude module:("CordovaLib")
-    }
-    releaseCompile(project(path: "com.google.playservices:forrunners-google-play-services_lib", configuration: "release")){
-        exclude module:("CordovaLib")
-    }
-    compile "com.google.android.gms:play-services-location:+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

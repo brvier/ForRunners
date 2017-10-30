@@ -1,4 +1,3 @@
 // GENERATED FILE - DO NOT EDIT
 include ":"
 include ":CordovaLib"
-include ":com.google.playservices:forrunners-google-play-services_lib"

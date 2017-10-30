@@ -50,9 +50,6 @@
     <feature name="BackgroundMode">
         <param name="ios-package" value="APPBackgroundMode" />
     </feature>
-    <feature name="RequestLocationAccuracy">
-        <param name="ios-package" value="RequestLocationAccuracy" />
-    </feature>
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>

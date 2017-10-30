@@ -425,7 +425,6 @@ module.exports.metadata =
     "at.gofg.sportscomputer.powermanagement": "1.1.0",
     "com.jcesarmobile.filepicker": "1.1.1",
     "com.napolitano.cordova.plugin.intent": "0.1.3",
-    "cordova-custom-config": "2.0.3",
     "cordova-plugin-activity-recognition": "1.0.0",
     "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-device": "1.1.2",
@@ -437,7 +436,6 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.5.1",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-globalization": "1.0.4",
-    "cordova-plugin-googleplayservices": "19.0.3",
     "cordova-plugin-gpslocation": "1.0.0",
     "cordova-plugin-nativestorage": "2.0.2",
     "cordova-plugin-splashscreen": "3.2.2",
@@ -448,7 +446,8 @@ module.exports.metadata =
     "org.apache.cordova.plugin.tts": "0.2.1",
     "org.apache.cordova.speech.speechsynthesis": "0.1.0",
     "cordova-plugin-insomnia": "4.3.0",
-    "cordova-plugin-request-location-accuracy": "2.2.1"
+    "cordova-custom-config": "4.0.2",
+    "cordova-plugin-googleplayservices": "19.0.3"
 }
 // BOTTOM OF METADATA
 });

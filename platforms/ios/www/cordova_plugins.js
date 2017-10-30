@@ -329,14 +329,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
-        "file": "plugins/cordova-plugin-request-location-accuracy/www/ios/RequestLocationAccuracy.js",
-        "pluginId": "cordova-plugin-request-location-accuracy",
-        "clobbers": [
-            "cordova.plugins.locationAccuracy"
-        ]
-    },
-    {
         "id": "cordova-plugin-insomnia.Insomnia",
         "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
         "pluginId": "cordova-plugin-insomnia",
@@ -388,20 +380,20 @@ module.exports.metadata =
     "cordova-plugin-nativestorage": "2.0.2",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-x-socialsharing": "5.1.3",
-    "cordova-custom-config": "2.0.3",
     "cordova-plugin-file": "4.3.2",
     "cordova-plugin-console": "1.0.7",
     "cordova-plugin-powermanagement": "1.0.5",
     "com.jcesarmobile.filepicker": "1.1.1",
     "cordova-plugin-device": "1.1.2",
     "cordova-plugin-background-mode": "0.7.2",
-    "cordova-plugin-request-location-accuracy": "2.2.1",
     "cordova-plugin-insomnia": "4.3.0",
     "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1",
     "cordova-plugin-statusbar": "2.2.2",
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-plugin-splashscreen": "3.2.2",
-    "cordova-plugin-globalization": "1.0.4"
+    "cordova-plugin-globalization": "1.0.4",
+    "cordova-custom-config": "4.0.2",
+    "cordova-plugin-googleplayservices": "19.0.3"
 };
 // BOTTOM OF METADATA
 });

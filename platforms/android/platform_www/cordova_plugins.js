@@ -375,14 +375,6 @@ module.exports = [
         "pluginId": "cordova-plugin-nativestorage"
     },
     {
-        "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
-        "file": "plugins/cordova-plugin-request-location-accuracy/www/android/RequestLocationAccuracy.js",
-        "pluginId": "cordova-plugin-request-location-accuracy",
-        "clobbers": [
-            "cordova.plugins.locationAccuracy"
-        ]
-    },
-    {
         "id": "cordova-plugin-splashscreen.SplashScreen",
         "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
         "pluginId": "cordova-plugin-splashscreen",
@@ -467,10 +459,9 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "at.gofg.sportscomputer.powermanagement": "1.1.0",
-    "com.google.playservices": "22.0.0",
     "com.jcesarmobile.filepicker": "1.1.1",
     "com.napolitano.cordova.plugin.intent": "0.1.3",
-    "cordova-custom-config": "2.0.3",
+    "cordova-custom-config": "4.0.2",
     "cordova-plugin-activity-recognition": "1.0.0",
     "cordova-plugin-app-version": "0.1.9",
     "cordova-plugin-device": "1.1.2",
@@ -482,10 +473,10 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.5.1",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-globalization": "1.0.4",
+    "cordova-plugin-googleplayservices": "19.0.3",
     "cordova-plugin-gpslocation": "1.0.0",
     "cordova-plugin-insomnia": "4.3.0",
     "cordova-plugin-nativestorage": "2.0.2",
-    "cordova-plugin-request-location-accuracy": "2.2.1",
     "cordova-plugin-splashscreen": "3.2.2",
     "cordova-plugin-statusbar": "2.2.2",
     "cordova-plugin-whitelist": "1.2.2",
