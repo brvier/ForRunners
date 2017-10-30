@@ -1751,7 +1751,15 @@ angular.module('app.controllers', [])
         $scope.storageGetObj('resume', 
             function(resume){
                 if (resume) {
-                    $timeout(function(){$scope.resume=resume; console.log('Resume loaded from native storage');},0);
+                    $timeout(function(){
+                      if (resume.avspeed !=0 ) {
+                        $scope.resume=resume;
+                      } else {
+                        $scope.computeResumeGraph();
+                      }
+
+                      console.log('Resume loaded from native storage');
+                    },0);
                 } else {
                     $timeout($scope.computeResumeGraph, 0);
                 }}, function(err){console.log(err);}
