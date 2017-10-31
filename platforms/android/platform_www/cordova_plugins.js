@@ -453,6 +453,14 @@ module.exports = [
         "clobbers": [
             "SpeechSynthesisVoiceList"
         ]
+    },
+    {
+        "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
+        "file": "plugins/cordova-plugin-request-location-accuracy/www/android/RequestLocationAccuracy.js",
+        "pluginId": "cordova-plugin-request-location-accuracy",
+        "clobbers": [
+            "cordova.plugins.locationAccuracy"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -473,7 +481,6 @@ module.exports.metadata =
     "cordova-plugin-file-transfer": "1.5.1",
     "cordova-plugin-geolocation": "2.2.0",
     "cordova-plugin-globalization": "1.0.4",
-    "cordova-plugin-googleplayservices": "19.0.3",
     "cordova-plugin-gpslocation": "1.0.0",
     "cordova-plugin-insomnia": "4.3.0",
     "cordova-plugin-nativestorage": "2.0.2",
@@ -483,7 +490,8 @@ module.exports.metadata =
     "cordova-plugin-x-socialsharing": "5.1.3",
     "net.khertan.plugin.MusicControl": "0.0.1",
     "org.apache.cordova.plugin.tts": "0.2.1",
-    "org.apache.cordova.speech.speechsynthesis": "0.1.0"
+    "org.apache.cordova.speech.speechsynthesis": "0.1.0",
+    "cordova-plugin-request-location-accuracy": "2.2.2"
 };
 // BOTTOM OF METADATA
 });

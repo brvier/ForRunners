@@ -197,9 +197,6 @@
         },
         "cordova-custom-config": {
             "PACKAGE_NAME": "net.khertan.forrunners2"
-        },
-        "cordova-plugin-googleplayservices": {
-            "PACKAGE_NAME": "net.khertan.forrunners2"
         }
     },
     "dependent_plugins": {},
@@ -594,7 +591,6 @@
         "cordova-plugin-whitelist": "1.2.2",
         "cordova-plugin-splashscreen": "3.2.2",
         "cordova-plugin-globalization": "1.0.4",
-        "cordova-custom-config": "4.0.2",
-        "cordova-plugin-googleplayservices": "19.0.3"
+        "cordova-custom-config": "4.0.2"
     }
 }

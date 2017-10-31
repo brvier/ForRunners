@@ -249,6 +249,7 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile(project(path: "CordovaLib", configuration: "debug"))
     releaseCompile(project(path: "CordovaLib", configuration: "release"))
+    compile "com.google.android.gms:play-services-location:11.+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

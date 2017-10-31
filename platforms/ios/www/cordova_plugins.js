@@ -392,8 +392,7 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.2",
     "cordova-plugin-splashscreen": "3.2.2",
     "cordova-plugin-globalization": "1.0.4",
-    "cordova-custom-config": "4.0.2",
-    "cordova-plugin-googleplayservices": "19.0.3"
+    "cordova-custom-config": "4.0.2"
 };
 // BOTTOM OF METADATA
 });
