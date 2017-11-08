@@ -22,7 +22,7 @@
 * Your records are registered by length of your run 
 * Autoconnect to your Bluetooth Smart Hearthrate sensor if you have one. 
 
-[ ![Get it on Google Play][2] ][3]
+[ ![Get it on Google Play][2] ][3] [ ![Get it on F-Droid][13] ][14]
 
 ![Main screen][5] ![Session][6] ![Session][7] ![Records][8] ![Session][9] ![Session][10] ![Session][11] ![Settings][12] 
 
@@ -41,6 +41,8 @@
 [11]: http://khertan.net/images/forrunners/session5.png
 [12]: http://khertan.net/images/forrunners/settings.png
 [13]: http://khertan.net
+[13]: https://f-droid.org/badge/get-it-on.png
+[14]: https://f-droid.org/packages/net.khertan.forrunners/
 
 ## Contribute
  
