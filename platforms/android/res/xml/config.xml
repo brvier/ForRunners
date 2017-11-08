@@ -91,19 +91,24 @@
     <allow-navigation href="http://a.tile.openstreetmap.org/" />
     <allow-navigation href="http://b.tile.openstreetmap.org/" />
     <allow-navigation href="http://c.tile.openstreetmap.org/" />
-    <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
-    <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
-    <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
-    <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
-    <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
-    <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
-    <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
-    <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
-    <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
-    <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
-    <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+    <icon density="ldpi" src="res/icons/android/ldpi.png" />
+    <icon density="mdpi" src="res/icons/android/mdpi.png" />
+    <icon density="hdpi" src="res/icons/android/hdpi.png" />
+    <icon density="xhdpi" src="res/icons/android/xhdpi.png" />
+    <icon density="xxhdpi" src="res/icons/android/xxhdpi.png" />
+    <icon density="xxxhdpi" src="res/icons/android/xxxhdpi.png" />
+    <splash density="port-ldpi" src="res/screens/android/splash-port-ldpi.png" />
+    <splash density="port-mdpi" src="res/screens/android/splash-port-mdpi.png" />
+    <splash density="port-hdpi" src="res/screens/android/splash-port-hdpi.png" />
+    <splash density="port-xhdpi" src="res/screens/android/splash-port-xhdpi.png" />
+    <splash density="port-xxhdpi" src="res/screens/android/splash-port-xxhdpi.png" />
+    <splash density="port-xxxhdpi" src="res/screens/android/splash-port-xxxhdpi.png" />
+    <splash density="land-ldpi" src="res/screens/android/splash-land-ldpi.png" />
+    <splash density="land-mdpi" src="res/screens/android/splash-land-mdpi.png" />
+    <splash density="land-hdpi" src="res/screens/android/splash-land-hdpi.png" />
+    <splash density="land-xhdpi" src="res/screens/android/splash-land-xhdpi.png" />
+    <splash density="land-xxhdpi" src="res/screens/android/splash-land-xxhdpi.png" />
+    <splash density="land-xxxhdpi" src="res/screens/android/splash-land-xxxhdpi.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="KeepRunning" value="True" />
     <preference name="webviewbounce" value="false" />
@@ -120,7 +125,7 @@
     <preference name="AndroidLaunchMode" value="singleInstance" />
     <preference name="DefaultVolumeStream" value="media" />
     <preference name="AndroidPersistentFileLocation" value="Internal" />
-    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="AutoHideSplashScreen" value="true" />
     <preference name="SplashScreenDelay" value="20000" />
     <preference name="ShowSplashScreenSpinner" value="false" />
 </widget>
