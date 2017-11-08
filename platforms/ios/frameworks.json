@@ -1,0 +1,9 @@
+{
+    "libz.tbd": 1,
+    "CoreBluetooth.framework": 1,
+    "ImageIO.framework": 1,
+    "CoreLocation.framework": 2,
+    "AVFoundation.framework": 1,
+    "Social.framework": 2,
+    "MessageUI.framework": 2
+}

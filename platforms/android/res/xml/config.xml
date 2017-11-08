@@ -1,17 +1,65 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="0101050" id="net.khertan.forrunners" version="1.1.5" versionCode="0101050" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <feature name="Geolocation">
-        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+<widget android-versionCode="0102000" id="net.khertan.forrunners2" version="1.2.0" versionCode="0102000" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="PowerManagement">
+        <param name="android-package" value="org.apache.cordova.powermanagement.PowerManagement" />
     </feature>
-    <feature name="SocialSharing">
-        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    <feature name="IntentPlugin">
+        <param name="android-package" value="com.napolitano.cordova.plugin.intent.IntentPlugin" />
+    </feature>
+    <feature name="ActivityRecognitionPlugin">
+        <param name="android-package" value="cordova.plugin.activity.recognition.ActivityRecognitionPlugin" />
+    </feature>
+    <feature name="AppVersion">
+        <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
     </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
     </feature>
+    <feature name="BackgroundMode">
+        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="GPSLocation">
+        <param name="android-package" value="fr.louisbl.cordova.gpslocation.CordovaGPSLocation" />
+    </feature>
+    <feature name="Insomnia">
+        <param name="android-package" value="nl.xservices.plugins.Insomnia" />
+    </feature>
+    <feature name="NativeStorage">
+        <param name="android-package" value="NativeStorage" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
+    <feature name="MusicControl">
+        <param name="android-package" value="net.khertan.plugin.MusicControl" />
     </feature>
     <feature name="TTS">
         <param name="android-package" value="org.apache.cordova.plugin.TTS" />
@@ -19,56 +67,11 @@
     <feature name="SpeechSynthesis">
         <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis" />
     </feature>
-    <feature name="BackgroundMode">
-        <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode" />
-    </feature>
-    <feature name="SplashScreen">
-        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="Insomnia">
-        <param name="android-package" value="nl.xservices.plugins.Insomnia" />
-    </feature>
-    <feature name="File">
-        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="PowerManagement">
-        <param name="android-package" value="org.apache.cordova.powermanagement.PowerManagement" />
-    </feature>
-    <feature name="GPSLocation">
-        <param name="android-package" value="fr.louisbl.cordova.gpslocation.CordovaGPSLocation" />
-    </feature>
-    <feature name="FileTransfer">
-        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
-    </feature>
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-    </feature>
-    <feature name="IntentPlugin">
-        <param name="android-package" value="com.napolitano.cordova.plugin.intent.IntentPlugin" />
-    </feature>
-    <feature name="MusicControl">
-        <param name="android-package" value="net.khertan.plugin.MusicControl" />
-    </feature>
-    <feature name="AppVersion">
-        <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
-    </feature>
-    <feature name="Globalization">
-        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
-    </feature>
-    <feature name="NativeStorage">
-        <param name="android-package" value="NativeStorage" />
-    </feature>
-    <feature name="ActivityRecognitionPlugin">
-        <param name="android-package" value="cordova.plugin.activity.recognition.ActivityRecognitionPlugin" />
-    </feature>
-    <feature name="StatusBar">
-        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="BLE">
         <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
+    </feature>
+    <feature name="RequestLocationAccuracy">
+        <param name="android-package" value="cordova.plugin.RequestLocationAccuracy" />
     </feature>
     <name>ForRunners</name>
     <description>
@@ -98,6 +101,9 @@
     <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
     <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
     <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
+    <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
+    <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
+    <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="KeepRunning" value="True" />
     <preference name="webviewbounce" value="false" />

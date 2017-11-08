@@ -1,23 +1,48 @@
-<ion-view view-title={{session.type}}>
+<ion-view view-title={{session.type}} {{session.cityname}}>
 <ion-nav-buttons side="right">
-<button class="button button-icon button-clear ion-android-share-alt"
+<!--<button class="button button-icon button-clear ion-android-share-alt"
 ng-click="sharePieceOfDOM()"></button>
 <button class="button button-icon button-clear ion-android-delete"
-ng-click="deleteSessionRecID(session.recclicked)"></button>
+ng-click="deleteSessionRecID(session.recclicked)"></button>-->
+
+<script id="templates/session_popover.html" type="text/ng-template">
+  <ion-popover-view>
+    <ion-content>
+      <div class="list">
+        <a class="item" ng-click="sharePieceOfDOM();closePopover();" target="_blank">
+          <i class="icon ion-android-share-alt"></i>
+          Share
+        </a>
+
+        <a class="item" ng-click="editSession(session.recclicked);" target="_blank">
+          <i class="icon ion-edit"></i>
+          Edit
+        </a>
+        <a class="item" ng-click="deleteSessionRecID(session.recclicked);closePopover();" target="_blank">
+          <i class="icon ion-android-delete"></i>
+          Delete
+        </a>
+      </div>
+    </ion-content>
+  </ion-popover-view>
+</script>
+
+<button class="button button-icon button-clear ion-android-more-vertical" ng-click="openPopover($event)"></button>
+
 </ion-nav-buttons>
 <ion-content>
 <!--<div id="mapContainer"  style="width: 100%; height: 350px; background: white"></div>-->
 <leaflet id="sessmap" height="300px" width="100%" defaults="session.map.defaults" paths="session.map.paths"
-bounds="session.map.bounds"
-controls="session.map.controls"
-tiles="session.map.tiles"
-markers="session.map.markers" ></leaflet>
+  bounds="session.map.bounds"
+  controls="session.map.controls"
+  tiles="session.map.tiles"
+  markers="session.map.markers" ></leaflet>
 <div class="mid-bar dark-bg z1 padding">
   <h3>{{ session.start | ldate }}</h3>
   <p>
     <i class="icon ion-star"></i> {{session.overnote}} -
-    <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm":"UTC"}} -
-    <i class="icon ion-ios-location"></i> {{session.distance}} Km -
+    <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm:ss":"UTC"}} -
+    <i class="icon ion-ios-location"></i> {{session.distance | number:1}} Km -
     <i class="icon ion-ios-stopwatch-outline"></i> {{session.pace | date:"m.ss"}} Kph
   </p>
 </div>
@@ -25,7 +50,7 @@ markers="session.map.markers" ></leaflet>
 <div class="row">
   <div class="col col-right">
     <div class="item" style="text-align: center">
-      <h2 style="text-align: center">{{session.speed}} Km/h</h2>
+      <h2 style="text-align: center">{{session.speed | number:1}} Km/h</h2>
       <p  style="text-align: center">{{ "_speed_average" | translate }}</p>
     </div>
   </div>
@@ -45,7 +70,7 @@ markers="session.map.markers" ></leaflet>
 <div class="row">
   <div class="col col-right">
     <div class="item" style="text-align: center">
-      <h2 style="text-align: center">{{session.distance}} Km</h2>
+      <h2 style="text-align: center">{{session.distance | number:1}} Km</h2>
       <p  style="text-align: center">{{ "_distance" | translate }}</p>
     </div>
   </div>
@@ -54,7 +79,7 @@ markers="session.map.markers" ></leaflet>
   </div>
   <div class="col col-left">
     <div class="item" style="text-align: center">
-      <h2  style="text-align: center">{{ session.duration |date:"HH:mm":"UTC" }}</h2>
+      <h2  style="text-align: center">{{ session.duration |date:"HH:mm:ss":"UTC" }}</h2>
       <p  style="text-align: center">{{ "_time" | translate }}</p>
     </div>
   </div>
@@ -63,7 +88,7 @@ markers="session.map.markers" ></leaflet>
 <div class="row">
   <div class="col col-right">
     <div class="item" style="text-align: center">
-      <h2 style="text-align: center">{{session.eleUp}} m</h2>
+      <h2 style="text-align: center">{{session.eleUp | number:1 }} m</h2>
       <p  style="text-align: center">{{ "_up" | translate }}</p>
     </div>
   </div>
@@ -73,7 +98,7 @@ markers="session.map.markers" ></leaflet>
   </div>
   <div class="col col-left">
     <div class="item" style="text-align: center">
-      <h2  style="text-align: center">{{ session.eleDown }} m</h2>
+      <h2  style="text-align: center">{{ session.eleDown | number:1 }} m</h2>
       <p  style="text-align: center">{{ "_down" | translate }}</p>
     </div>
   </div>
@@ -82,7 +107,7 @@ markers="session.map.markers" ></leaflet>
 <div class="row">
   <div class="col col-right">
     <div class="item" style="text-align: center">
-      <h2 style="text-align: center">{{session.speedinmvt}} Km/h</h2>
+      <h2 style="text-align: center">{{session.speedinmvt | number:1 }} Km/h</h2>
       <p  style="text-align: center">{{ "_speed_in_mvt" | translate }}</p>
     </div>
   </div>
@@ -100,7 +125,7 @@ markers="session.map.markers" ></leaflet>
 <div class="row">
   <div class="col col-right" ng-if="session.avg_power">
     <div class="item" style="text-align: center">
-      <h2 style="text-align: center">{{session.avg_power}} Watt</h2>
+      <h2 style="text-align: center">{{session.avg_power | number:0 }} Watt</h2>
       <p  style="text-align: center">{{ "_power" | translate }}</p>
     </div>
   </div>
@@ -109,7 +134,7 @@ markers="session.map.markers" ></leaflet>
   </div>
   <div class="col col-left" ng-if="session.avg_cadence">
     <div class="item" style="text-align: center">
-        <h2  style="text-align: center">{{ session.avg_cadence}} </h2>
+        <h2  style="text-align: center">{{ session.avg_cadence | number:1 }} </h2>
       <p  style="text-align: center">{{ "_cadence" | translate }}</p>
     </div>
   </div>
@@ -148,7 +173,7 @@ markers="session.map.markers" ></leaflet>
                  <div class="row">
                     <div class="col center">
                     <button class="button button-small button-clear button-stable icon-right ion-plus"
-                            on-select="addEquipment(newValue);"
+                            on-select="addEquipmentToSession(session, newValue);"
                             modal-select
                             ng-model="session.equipment"
                             options="equipments"

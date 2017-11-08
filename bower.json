@@ -6,5 +6,6 @@
     "angular-translate": "~2.7.0"
   },
   "dependencies": {
+    "ios-dblclick": "^0.1.0"
   }
 }

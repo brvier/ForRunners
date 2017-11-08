@@ -12,6 +12,8 @@
       <select ng-model="prefs.language" ng-change="savePrefs()">
         <option value="en-US"> {{ "_english" | translate }} </option>
         <option value="fr-FR"> {{ "_french" | translate }}</option>
+        <option value="de-DE"> {{ "_german" | translate }}</option>
+        <option value="de-AT"> {{ "_austria" | translate }}</option>
       </select>
     </label>
   </div>
@@ -30,7 +32,7 @@
 
   <ion-toggle ng-model="prefs.useVocalAnnounce"
     ng-checked="((prefs.timevocalinterval>0) || (prefs.distvocalinterval>0)) ? true : false"
-    ng-change="checkPrefs();savePrefs();}"
+    ng-change="checkPrefs();savePrefs();"
     toggle-class="toggle-positive">
     {{ "_use_vocalAnnounce" | translate }}
   </ion-toggle>
@@ -42,7 +44,7 @@
     </div>
     <div class="range range-positive">
       <input type="range" ng-model="prefs.timevocalinterval" name="timevocalinterval" min="0" max="30"
-             ng-change="checkPrefs();savePrefs();">
+             ng-change="savePrefs();">
     </div>
   </div>
   <div class="item item-no-border">
@@ -52,7 +54,7 @@
     </div>
     <div class="range range-positive">
       <input type="range" ng-model="prefs.distvocalinterval" name="distvocalinterval" min="0" max="30"
-             ng-change="checkPrefs();savePrefs()">
+             ng-change="savePrefs();">
     </div>
   </div>
 
@@ -92,7 +94,8 @@
   toggle-class="toggle-positive">
   {{ "_announce_gpslost" | translate }}
   </ion-toggle>
-
+  <button ng-click="testRunSpeak(0,20);" class="button button-positive button-block">{{ "_debug_test_vocal" | translate }}
+  </button>
 </div>
 
 <div class="content double-padding">
@@ -191,25 +194,15 @@
   <!--<button ng-if="platform === 'iOS'" onclick="iosFilePicker();"
       class="button icon-left ion-pin button-positive button-block"></button>-->
   <button ng-click="doFileChooser();" class="button icon-left ion-pin button-positive button-block">
-      {{ "_import_gpxs" | translate }}
+      {{ "_import_files" | translate }}
   <input type="file"  multiple="multiple" name="gpxFile"
   class="button icon-left ion-pin button-positive button-block"
   id="gpxFile" class="form-control"
-  onchange="angular.element(this).scope().importGPXs(this)"
+  onchange="angular.element(this).scope().importFiles(this)"
   style="display: none;">
   </button>
 
-  <button ng-click="doFITChooser();" class="button icon-left ion-pin button-positive button-block">
-      {{ "_import_fits" | translate }}
-  <input type="file"  multiple="multiple" name="fitFile"
-  class="button icon-left ion-pin button-positive button-block"
-  id="fitFile" class="form-control"
-  onchange="angular.element(this).scope().importFITs(this)"
-  style="display: none;">
-  </button>
-</div>
-
-<div class="content double-padding">
+<!--<div class="content double-padding">
   <h4 class="positive">{{ "_debug_tools" | translate }}</h4>
   <button ng-click="testRunSpeak(0,20);" class="button button-royal button-block">{{ "_debug_test_vocal" | translate }}</button>
   <ion-toggle ng-model="prefs.debug"
@@ -217,9 +210,9 @@
   ng-change="savePrefs()"
   toggle-class="toggle-positive">
   {{ "_debug_mode" | translate }}<br><small>{{ "_debug_warning" | translate }}</small>
-  </ion-toggle>
+  </ion-toggle>-->
   <!--<button ng-click="sendLogs();" class="button button-royal button-block">{{"_sendlogs" | translate }}</button>-->
-  <button ng-click="recomputeEverythings();" class="button button-royal button-block">DEBUG: Recompute Everythings</button>
+  <!--<button ng-click="recomputeEverythings();" class="button button-royal button-block">DEBUG: Recompute Everythings</button>-->
   <!--<button ng-click="importAllGpx();" class="button button-royal
       button-block">{"_import_all_gpx" | translate }}</button>-->
 </div>

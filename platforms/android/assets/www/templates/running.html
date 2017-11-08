@@ -3,7 +3,7 @@
 
 <ion-content class="black-bg">
 
-        <div class="row" ng-dblclick="runSpeak();">
+        <div class="row" ios-dblclick="runSpeak();">
             <div class="col text-center">
 
                     <div class="item item-dark">
@@ -14,12 +14,12 @@
                     <div class="row">
                         <div class="item item-dark">
                             <h3 style="color: #ccc;">{{ "_distance" | translate }}</h3>
-                            <h1 style="margin-top:0px;color: #fff;">{{ session.flatdistance}} <span class='unit'>{{session.distancelabel}}</span></h1>
+                            <h1 style="margin-top:0px;color: #fff;">{{ session.equirect | number:1 }} <span class='unit'>{{session.distancelabel}}</span></h1>
                         </div>
 
                         <div class="item item-dark">
                             <h3 style="color: #ccc;">{{ "_speed" | translate }}</h3>
-                            <h1 style="margin-top:0px;color: #fff;">{{session.speed}} <span class='unit'>{{session.speedlabel}}</span></h1>
+                            <h1 style="margin-top:0px;color: #fff;">{{session.speed | number:1 }} <span class='unit'>{{session.speedlabel}}</span></h1>
                         </div>
                     </div>
                     <div class="item item-dark">
@@ -30,23 +30,23 @@
                     <div class="row">
                         <div class="item item-dark" ng-if="session.instantCadence">
                             <h3 style="color: #ccc;">{{ "_cadence" | translate }}</h3>
-                            <h1 style="margin-top:0px;color: #fff;">{{ session.instantCadence}} <span class='unit'>{{ "_spm_label" | translate }}</span></h1>
+                            <h1 style="margin-top:0px;color: #fff;">{{ session.instantCadence | number:1}} <span class='unit'>{{ "_spm_label" | translate }}</span></h1>
                         </div>
 
                         <div class="item item-dark" ng-if="session.instantPower">
                             <h3 style="color: #ccc;">{{ "_power" | translate }}</h3>
-                            <h1 style="margin-top:0px;color: #fff;">{{session.instantPower}} <span class='unit'>Watts</span></h1>
+                            <h1 style="margin-top:0px;color: #fff;">{{session.instantPower | number:1 }} <span class='unit'>Watts</span></h1>
                         </div>
                     </div>
 
                     <div class="item item-dark" ng-if="session.beatsPerMinute">
                         <h3 style="color: #ccc;">{{ "_bpm" | translate }}</h3>
-                        <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute}} <span class='unit'>{{ "_bpms_label" | translate}}</span></h1>
+                        <h1 style="margin-top:0px;color: #fff;">{{session.beatsPerMinute | number:1 }} <span class='unit'>{{ "_bpms_label" | translate}}</span></h1>  
                     </div>
 
                     <div class="item item-dark">
                         <h3 ng-if="session.gpsGoodSignalToggle === false" style="color: #c11;">{{ "_gps_lost" | translate }}</h3>
-                        <h3 style="color: #ccc;">{{ "_gps_accuracy" | translate }} {{ session.accuracy_fixed }} m</h3>
+                        <h3 style="color: #ccc;">{{ "_gps_accuracy" | translate }} {{ session.accuracy | number:0 }} m</h3>
                     </div>
             </div>
         </div>

@@ -1,0 +1,17 @@
+{
+  "name": "ios-dblclick",
+  "version": "0.1.0",
+  "authors": [
+    "Mathieu Savy <mathieu.savy@gmail.com>"
+  ],
+  "description": "A simple directive that works like ng-dblclick for iOS Safari",
+  "main": "ios-dblclick.js",
+  "keywords": [
+    "double",
+    "click",
+    "ios",
+    "ng-dblclick",
+    "ios-dblclick"
+  ],
+  "license": "MIT"
+}

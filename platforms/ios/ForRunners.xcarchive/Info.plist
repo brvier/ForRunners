@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ApplicationProperties</key>
+	<dict>
+		<key>ApplicationPath</key>
+		<string>Applications/ForRunners.app</string>
+		<key>CFBundleIdentifier</key>
+		<string>net.khertan.forrunners</string>
+		<key>CFBundleShortVersionString</key>
+		<string>1.2.0</string>
+		<key>CFBundleVersion</key>
+		<string>1.2.0</string>
+		<key>SigningIdentity</key>
+		<string>iPhone Developer: Benoit HERVIER (3322L6BY2L)</string>
+	</dict>
+	<key>ArchiveVersion</key>
+	<integer>2</integer>
+	<key>CreationDate</key>
+	<date>2017-08-23T15:28:15Z</date>
+	<key>Name</key>
+	<string>ForRunners</string>
+	<key>SchemeName</key>
+	<string>ForRunners</string>
+</dict>
+</plist>

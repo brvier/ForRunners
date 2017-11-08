@@ -16,7 +16,8 @@
 ####  Respect your privacy 
 * Don't share any informations with third party server. 
 * Use OpenStreetMap 
-* You can export and import to GPXs files 
+* You can export and import to GPXs files
+
 ####  Nice Statistics 
 * See your runs on a map 
 * Your records are registered by length of your run 
