@@ -1581,6 +1581,9 @@ angular.module('app.controllers', [])
         var path = $scope.dataPath;
         if (typeof window.resolveLocalFileSystemURL === 'function') {
             window.resolveLocalFileSystemURL(path, function(fileEntry) {
+                if (typeof fileEntry === 'promise') {
+                  console.log('its a promise');
+                }
                 fileEntry.file(function(file) {
                     var reader = new FileReader();
                     reader.onloadend = function() {
