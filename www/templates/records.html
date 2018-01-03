@@ -1,16 +1,22 @@
 <ion-view view-title="Records">
   <ion-content>
+
+
+    <span ng-repeat="type_ in records">
+
     <div class="item center">
-        <h2 class="positive inline">{{ "_total" | translate }} {{ total_kms }} Km</h2>
+      <h2 class="positive inline">{{ type_.type | translate }} : {{ total_kms }} Km</h2>
     </div> 
+
     <div class="item">
         <h2 class="positive">{{ "_best_records" | translate }}</h2>
-        <p class="text-muted" ng-if="records.length > 0">
+        <p class="text-muted" ng-if="type_.length > 0">
             {{ "_empty_records_text" | translate }} 
         </p>
     </div>
-    <div class="table">
-        <div class="row row-center row-header" style="text-align: center" nf-if="records > 0">
+
+    <div class="table" ng-if="type_.length > 0">
+        <div class="row row-center row-header" style="text-align: center" ng-if="type_.length > 0">
             <div class="col col-center">
                 <b>{{ "_distk" | translate }}</b>
             </div>
@@ -25,8 +31,9 @@
             </div>
 		</div>
 	</div>
-	<div class="table">
-		<div class="row row-center" style="text-align: center" ng-repeat="record in records">
+
+	<div class="table" ng-if="type_.length > 0">
+		<div class="row row-center" style="text-align: center" ng-repeat="record in type_">
 		  <div class="col col-center col-sep" >
 		    <b>{{ record.distk | number:01 }}K</b>
 		  </div>
@@ -46,7 +53,7 @@
   	    <h2 class="positive">{{ "_average_records" | translate }}</h2>
     </div>
     <div class="table">
-		<div class="row row-center row-header" style="text-align: center" nf-if="records > 0">
+		<div class="row row-center row-header" style="text-align: center" ng-if="type_.length > 0">
 		  <div class="col col-center">
 		    <b>{{ "_distk" | translate }}</b>
 		  </div>
@@ -63,7 +70,7 @@
 	</div>
 
 	<div class="table">
-		<div class="row row-center" style="text-align: center" ng-repeat="record in records">
+		<div class="row row-center" style="text-align: center" ng-repeat="type_ in records">
 		  <div class="col col-center col-sep" >
 		    <b>{{ record.distk }}K</b>
 		  </div>
@@ -78,5 +85,8 @@
 		  </div>
 		</div>
 	</div>
+
+  </span>
+
   </ion-content>
 </ion-view>

@@ -125,7 +125,7 @@ angular.module('app.services', [])
           var deferred = $q.defer();
           var filename = session.recclicked.toString() + '.json';
           var path = app_data_path;
-          if (window.device.platform === 'browser') {
+          if ((window.device === undefined) || (window.device.platform === 'browser')) {
             setTimeout(function(){
               localStorage.setItem(filename, JSON.stringify(session));
               deferred.resolve();

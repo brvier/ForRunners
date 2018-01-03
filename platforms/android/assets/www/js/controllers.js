@@ -1566,7 +1566,7 @@ angular.module('app.controllers', [])
             }
             return;
         }
-        $scope.writeToFile(equipments, 'equipments.gpxs');
+        $scope.writeToFile(equipments, 'equipments.json');
     };
 
     $scope.writeResumeToFile = function(resume) {
@@ -1613,20 +1613,23 @@ angular.module('app.controllers', [])
             return;
         }
 
-        $scope.loadFromFile('equipments.gpxs', function(datas) {
+        $scope.loadFromFile('equipments.json', function(datas) {
             $scope.equipments = datas;
-                //do post load here
             }, function(err) {
-                console.warn('LoadEquipmentsFromFile failed :' + err);
-                $timeout(function() {
-                    try {
-                        $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);
-                    } catch (err) {
-                        $scope.equipments = [];
-                    }
-                    //do post load here
-                }, 100);
-        });
+              //old wronng file path keep for compatibility
+              $scope.loadFromFile('equipments.gpxs', function(datas) {
+                $scope.equipments = datas;
+                }, function(err) {
+                    console.warn('LoadEquipmentsFromFile failed :' + err);
+                    $timeout(function() {
+                        try {
+                            $scope.equipments = JSON.parse(localStorage.getItem('equipments'), $scope.dateTimeReviver);
+                        } catch (err) {
+                            $scope.equipments = [];
+                        }
+                    }, 100);
+                });
+          });
     };
 
     $scope.loadEquipments = function() {
@@ -3118,8 +3121,9 @@ angular.module('app.controllers', [])
     $scope.setPhoto = function(idx) {
         try {
             navigator.camera.getPicture(function(pictureURI) {
+                console.log(pictureURI);
+                var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
                 $scope.$apply(function(){
-                    var newURI = $scope.savePicture(pictureURI, $scope.equipments[idx].uuid);
                     $scope.equipments[idx].photo = newURI;
                     $scope.saveEquipments();            
                 });

@@ -40,7 +40,7 @@
     </platform>
     <platform name="android">
         <preference name="android-minSdkVersion" value="19" />
-        <preference name="android-targetSdkVersion" value="25" />
+        <preference name="android-targetSdkVersion" value="21" />
         <preference name="LoadingDialog" value="My Title,My Message" />
         <preference name="AndroidLaunchMode" value="singleInstance" />
         <preference name="DefaultVolumeStream" value="media" />
