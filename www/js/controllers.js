@@ -261,8 +261,9 @@ angular.module('app.controllers', [])
         var gpx_path = [];
         var gpxPoints = [];
 
-        if (asession.nottracked === true){
+        if ((asession.nottracked === true) || (asession.gpxData === undefined)){
             //Manually edited session we cant recompute them
+            asession.nottracked = true;
             return;
         }
 
