@@ -261,9 +261,10 @@ angular.module('app.controllers', [])
         var gpx_path = [];
         var gpxPoints = [];
 
-        if (asession.nottracked === true){
+        if (((asession.nottracked === true) || (asession.gpxData === undefined)) || (asession.gpxData.length == 0)){
             //Manually edited session we cant recompute them
-            return;
+            asession.nottracked = true;
+            return asession;
         }
 
         gpxPoints = simplifyGPX($scope.computeKalmanLatLng(asession.gpxData), 0.00002);
@@ -2398,7 +2399,7 @@ angular.module('app.controllers', [])
                                             $scope.session.elevation = ($scope.session.maxalt - $scope.session.minalt);
                                         }
                                     }
-                                    $scope.session.distk = $scope.session.equirect.toFixed(1);
+                                    $scope.session.distk = $scope.session.equirect.toFixed(0);
                                     if ($scope.session.equirect > 0) {
                                         var averagePace = elapsed / ($scope.session.equirect * 60000);
                                         $scope.session.avpace = Math.floor(averagePace) + ':' + ('0' + Math.floor(averagePace % 1 * 60)).slice(-2);
@@ -3157,7 +3158,7 @@ angular.module('app.controllers', [])
 .controller('RecordsCtrl', function($scope) {
     'use strict';
     $scope.computeRecords = function() {
-        $scope.records = {};
+        $scope.records = {'Ride':{}, 'Run':{}, 'Walk':{}, 'Tilt':{}, 'Other': {}};
         var sessions = $scope.sortedSessionsIndex;
         $scope.total_kms = 0;
 
@@ -3165,8 +3166,13 @@ angular.module('app.controllers', [])
             for (var idx = 0; idx < sessions.length; idx++) {
                 var session = sessions[idx];
 
-                if ($scope.records[session.distk] === undefined) {
-                    $scope.records[session.distk] = {
+                if (session.distk === undefined) {
+                  console.error("Ignoring this session as distk missing");
+                  console.error(session);
+                  continue;
+                }
+                if ($scope.records[session.type][session.distk] === undefined) {
+                    $scope.records[session.type][session.distk] = {
                         distk: session.distk,
                         speed: 0,
                         pace: undefined,
@@ -3176,34 +3182,34 @@ angular.module('app.controllers', [])
                         paces: [],
                         av_speed: undefined,
                         av_duration: undefined,
-                        av_pace: undefined
-
+                        av_pace: undefined,
+                        type: session.type
                     };
 
                 }
                 $scope.total_kms += session.distance;
 
-                if ($scope.records[session.distk].speed < session.speed) {
-                    $scope.records[session.distk].speed = session.speed;
+                if ($scope.records[session.type][session.distk].speed < session.speed) {
+                    $scope.records[session.type][session.distk].speed = session.speed;
                 }
-                if ($scope.records[session.distk].pace === undefined) {
-                    $scope.records[session.distk].pace = session.pace;
+                if ($scope.records[session.type][session.distk].pace === undefined) {
+                    $scope.records[session.type][session.distk].pace = session.pace;
 
                 } else {
-                    if ($scope.records[session.distk].pace > session.pace) {
-                        $scope.records[session.distk].pace = session.pace;
+                    if ($scope.records[session.type][session.distk].pace > session.pace) {
+                        $scope.records[session.type][session.distk].pace = session.pace;
                     }
                 }
-                if ($scope.records[session.distk].duration > session.duration) {
-                    $scope.records[session.distk].duration = session.duration;
+                if ($scope.records[session.type][session.distk].duration > session.duration) {
+                    $scope.records[session.type][session.distk].duration = session.duration;
                 }
 
-                $scope.records[session.distk].paces.push(session.pace);
-                $scope.records[session.distk].speeds.push(session.speed);
-                $scope.records[session.distk].durations.push(session.duration);
-                $scope.records[session.distk].av_pace = average($scope.records[session.distk].paces, 0);
-                $scope.records[session.distk].av_speed = average($scope.records[session.distk].speeds, 1);
-                $scope.records[session.distk].av_duration = average($scope.records[session.distk].durations, 0);
+                $scope.records[session.type][session.distk].paces.push(session.pace);
+                $scope.records[session.type][session.distk].speeds.push(session.speed);
+                $scope.records[session.type][session.distk].durations.push(session.duration);
+                $scope.records[session.type][session.distk].av_pace = average($scope.records[session.type][session.distk].paces, 0);
+                $scope.records[session.type][session.distk].av_speed = average($scope.records[session.type][session.distk].speeds, 1);
+                $scope.records[session.type][session.distk].av_duration = average($scope.records[session.type][session.distk].durations, 0);
             }
         }
 
@@ -3385,7 +3391,7 @@ angular.module('app.controllers', [])
             };
         } 
 
-        if ($scope.session.cityname === undefined) {
+        if (($scope.session.cityname === undefined) && ($scope.session.gpxPoints !== undefined)) {
             var asession = $scope.session;
             $scope.nominatim.byLocation({
                 'latitude': $scope.session.gpxPoints[0].lat,
@@ -3602,9 +3608,10 @@ angular.module('app.controllers', [])
     $scope.saveDistance = function(dist){
         //FIXME Compute Speed Pace Note
         $scope.session.distance = parseFloat(dist);
+        $scope.session.distk = $scope.session.distance.toFixed(0);
         var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
         $scope.session.speed = $scope.session.distance / (elapsed / 3600);
-        $scope.session.pace = Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
+        $scope.session.pace = new Date(60/$scope.session.speed*60000); //Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
         $scope.saveSessionModifications($scope.session);
     };
 
@@ -3617,7 +3624,7 @@ angular.module('app.controllers', [])
 
         var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
         $scope.session.speed = $scope.session.distance / (elapsed / 3600);
-        $scope.session.pace = Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
+        $scope.session.pace = new Date(60/$scope.session.speed*60000); // Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
         $scope.saveSessionModifications($scope.session);
     };
 
