@@ -3564,6 +3564,23 @@ angular.module('app.controllers', [])
             {$scope.saveDistance(res);});
     };
 
+    $scope.editName = function() {
+       if ($scope.session.name == undefined) {
+           $scope.session.name = ''; 
+       }
+
+       var editPopup = $ionicPopup.prompt({
+           template: 'Session name',
+           title: 'Enter a name',
+           inputType: 'text',
+           defaultText: $scope.session.name.toString(),
+       });
+
+        editPopup.then(function(res) 
+            {$scope.saveName(res);});
+    };
+
+
     $scope.editDuration = function() {
         var editPopup = $ionicPopup.prompt({
            template: 'Duration in HH:MM:SS',
@@ -3615,6 +3632,12 @@ angular.module('app.controllers', [])
         $scope.session.pace = new Date(60/$scope.session.speed*60000); //Math.floor(60 / $scope.session.speed) + ':' + ('0' + Math.floor(((60 / $scope.session.speed)) % 1 * 60)).slice(-2);
         $scope.saveSessionModifications($scope.session);
     };
+
+    $scope.saveName = function(name){
+        $scope.session.name = name;
+        $scope.saveSessionModifications($scope.session);
+    };
+
 
     $scope.saveDuration = function(duration){
         //FIXME Compute Speed Pace Note

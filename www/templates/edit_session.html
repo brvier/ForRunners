@@ -27,6 +27,17 @@
         </button>
         <br><small  style="text-align: center">{{ "_editable" | translate }}</small>
       </div>
+      <div class="col col-10 col-center"  style="text-align: center">
+        <i class="icon ion-document positive" style="text-align: center;font-size: 32px;"></i>
+      </div>
+      <div class="col col-right" ng-click="editName();">
+        <div class="item" style="text-align: center">
+          <h2 style="text-align: center">{{session.name}}</h2>
+          <p  style="text-align: center">{{ "_session_name" | translate }}
+            <br><small  style="text-align: center">{{ "_editable" | translate }}</small>
+          </p>
+        </div>
+      </div>
     </div>
 
     <div class="row">
