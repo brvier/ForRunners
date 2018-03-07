@@ -40,7 +40,7 @@ ng-click="deleteSessionRecID(session.recclicked)"></button>-->
   markers="session.map.markers" ></leaflet>
 </div>
 <div class="mid-bar dark-bg z1 padding">
-  <h3>{{ session.start | ldate }}</h3>
+  <h3>{{ session.start | ldate }} <span ng-if='session.name'>: {{ session.name }}</span></h3>
   <p>
     <i class="icon ion-star"></i> {{session.overnote}} -
     <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm:ss":"UTC"}} -
