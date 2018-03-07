@@ -3454,7 +3454,7 @@ angular.module('app.controllers', [])
             mdate: moment().format('MMMM YYYY'),
             ddate: new Date().getDate(),
             gpxData: [],
-
+            name: 'Untitled',
             unit: $scope.prefs.unit,
             speedlabel: $scope.glbs.speedlabel[$scope.prefs.unit],
             pacelabel: $scope.glbs.pacelabel[$scope.prefs.unit],
@@ -3599,26 +3599,31 @@ angular.module('app.controllers', [])
 
     $scope.saveType = function(type_){
         //FIXME Compute Pace Duration Note
+        if (type_ === undefined) return;
         $scope.session.type = type_;
         $scope.saveSessionModifications($scope.session);
     };
     $scope.saveCadence = function(avg_cadence){
         //FIXME Compute Pace Duration Note
+        if (avg_cadence === undefined) return;
         $scope.session.avg_cadence = avg_cadence;
         $scope.saveSessionModifications($scope.session);
     };
     $scope.savePower = function(avg_power){
         //FIXME Compute Pace Duration Note
+        if (avg_power === undefined) return;
         $scope.session.avg_power = avg_power;
         $scope.saveSessionModifications($scope.session);
     };
     $scope.saveElevationUp = function(eleup){
         //FIXME Compute Pace Duration Note
+        if (eleup === undefined) return;
         $scope.session.eleUp = eleup;
         $scope.saveSessionModifications($scope.session);
     };
     $scope.saveElevationDown = function(eledown){
         //FIXME Compute Pace Duration Note
+        if (eledown === undefined) return;
         $scope.session.eleDown = eledown;
         $scope.saveSessionModifications($scope.session);
     };
@@ -3629,6 +3634,7 @@ angular.module('app.controllers', [])
 
     $scope.saveDistance = function(dist){
         //FIXME Compute Speed Pace Note
+        if (dist === undefined) return;
         $scope.session.distance = parseFloat(dist);
         $scope.session.distk = $scope.session.distance.toFixed(0);
         var elapsed = $scope.session.duration.getUTCHours() * 3600 + $scope.session.duration.getUTCMinutes() * 60 + $scope.session.duration.getUTCSeconds();
@@ -3638,6 +3644,7 @@ angular.module('app.controllers', [])
     };
 
     $scope.saveName = function(name){
+        if (name === undefined) return;
         $scope.session.name = name;
         $scope.saveSessionModifications($scope.session);
     };
@@ -3645,6 +3652,7 @@ angular.module('app.controllers', [])
 
     $scope.saveDuration = function(duration){
         //FIXME Compute Speed Pace Note
+        if (duration === undefined) return;
         duration = duration.split(':');  
         console.log(duration);
         $scope.session.duration = new Date(((parseInt(duration[0]) * 3600) + (parseInt(duration[1]) * 60) + parseInt(duration[2])) * 1000);
