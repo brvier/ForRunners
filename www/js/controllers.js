@@ -1515,7 +1515,11 @@ angular.module('app.controllers', [])
         if (session.equipments === undefined) {
             session.equipments = [];
         }
+        if (session.name === undefined) {
+            session.name = '';
+        }
         return {
+            name: session.name,
             recclicked: session.recclicked,
             date:session.date,
             overnote: session.overnote,

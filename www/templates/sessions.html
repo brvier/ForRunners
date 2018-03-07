@@ -79,11 +79,11 @@
 
           <h2>
             <span ng-if="session.name">
-              {{ session.name }} <br/>
+              {{ session.name }} <span ng-if='!session.cityname'><br/></span>
             </span>
             <span ng-if="session.cityname">
-              {{ session.cityname }} <br/>
-            </span> 
+              <span ng-if='session.name'> - </span>{{ session.cityname }}<br/>
+            </span>
            {{ session.start | ldate }}
           </h2>
 
