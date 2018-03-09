@@ -35,7 +35,7 @@
       <div class="table" ng-if="total_kms[type_] > 0">
         <div class="row row-center" style="text-align: center" ng-repeat="(k, record) in type_records">
           <div class="col col-center col-sep" >
-            <b>{{ record.distk | number:01 }}K</b>
+            <b>{{ record.distk | number:0 }}K</b>
           </div>
           <div class="col col-center col-sep">
             {{ record.speed | number:1}}
@@ -72,7 +72,7 @@
       <div class="table">
         <div class="row row-center" style="text-align: center" ng-repeat="(k, record) in type_records">
           <div class="col col-center col-sep" >
-            <b>{{ record.distk }}K</b>
+            <b>{{ record.distk | number:0 }}K</b>
           </div>
           <div class="col col-center col-sep">
             {{ record.av_speed | number:1}}
