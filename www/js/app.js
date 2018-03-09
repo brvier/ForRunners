@@ -351,7 +351,9 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _import_files: 'Import',
     _use_vocalAnnounce: 'Voice announcements',
     _editable: 'Touch to edit',
-    _edit_session: 'Edit Session'
+    _edit_session: 'Edit Session',
+      _session_name: 'Session Name',
+      _session_type: 'Session Type'
   });
   
   $translateProvider.translations('fr-FR', {
@@ -511,6 +513,8 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _use_vocalAnnounce: 'Annonces vocales',
     _edit_session: 'Edition',
     _editable: 'Toucher pour modifier',
+      _session_name: 'Nom de la session',
+      _session_type: 'Type de la session'
 
  });
 
@@ -670,6 +674,8 @@ $translateProvider.translations('de-DE', {
     _use_vocalAnnounce: 'Gesangsansagen',
     _edit_session: 'Ausgabe',
     _editable: 'Berühren Sie, um zu ändern'
+      _session_name: '_session_name',
+      _session_type: '_session_type'
 
 });
   
@@ -829,7 +835,10 @@ $translateProvider.translations('de-DE', {
     _use_vocalAnnounce: 'Gesangsansagen',
     _edit_session: 'Ausgabe',
     _editable: 'Berühren Sie, um zu ändern'
-});
+    _session_name: '_session_name',
+    _session_type: '_session_type'
+
+  });
   
     $translateProvider.translations('pt-pt', {
     _language: 'Lingua',
@@ -981,7 +990,10 @@ $translateProvider.translations('de-DE', {
     _distance_interval_detail: 'Anuncie informações em intervalos de Kilometros',
     _heartrate_min_detail: 'O seu batimento cardiaco após acordar',
     _heartrate_max_detail: 'O seu batimento cardiaco maximo num sprint de 4 minutos após um aquecimento de 20 minutos.'
-  });
+    _session_name: '_session_name',
+    _session_type: '_session_type'
+
+    });
 
   
   $translateProvider.preferredLanguage('en-US');
