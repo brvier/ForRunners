@@ -673,10 +673,9 @@ $translateProvider.translations('de-DE', {
     _import_files: 'Einführen',
     _use_vocalAnnounce: 'Gesangsansagen',
     _edit_session: 'Ausgabe',
-    _editable: 'Berühren Sie, um zu ändern'
+    _editable: 'Berühren Sie, um zu ändern',
       _session_name: '_session_name',
-      _session_type: '_session_type'
-
+    _session_type: '_session_type'
 });
   
   $translateProvider.translations('de-AT', {
@@ -834,7 +833,7 @@ $translateProvider.translations('de-DE', {
     _import_files: 'Einführen',
     _use_vocalAnnounce: 'Gesangsansagen',
     _edit_session: 'Ausgabe',
-    _editable: 'Berühren Sie, um zu ändern'
+      _editable: 'Berühren Sie, um zu ändern',
     _session_name: '_session_name',
     _session_type: '_session_type'
 
@@ -989,7 +988,7 @@ $translateProvider.translations('de-DE', {
     _duration_interval_detail: 'Anuncie informações em intervalos regulares',
     _distance_interval_detail: 'Anuncie informações em intervalos de Kilometros',
     _heartrate_min_detail: 'O seu batimento cardiaco após acordar',
-    _heartrate_max_detail: 'O seu batimento cardiaco maximo num sprint de 4 minutos após um aquecimento de 20 minutos.'
+	_heartrate_max_detail: 'O seu batimento cardiaco maximo num sprint de 4 minutos após um aquecimento de 20 minutos.',
     _session_name: '_session_name',
     _session_type: '_session_type'
 
