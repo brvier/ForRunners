@@ -46,6 +46,10 @@
 		DA04A722DAAB4B9CBBAFF919 /* CDVViewController+SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CF8F87E3E645D1B8A58ACE /* CDVViewController+SplashScreen.m */; };
 		0241F2ADF7FF4B09BD7929E9 /* CDVGlobalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 95417644880C4293A056812F /* CDVGlobalization.m */; };
 		2C82B14241AC4C8EA4190D00 /* RequestLocationAccuracy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF13415F9E2848CBB0928C89 /* RequestLocationAccuracy.m */; };
+		168DFCEB177641C8BAFBE94F /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = F0A1712B39154C40A6BBF8FA /* NSString+URLEncoding.m */; };
+		672692956FCE4EB28C1C86FA /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F15112B8F264E2EB9F6904C /* SocialSharing.m */; };
+		EDE7E27B7F964013A63C961B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EEBF7CF940845B8B75D216F /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5CF771F2EFF74BA6A7D41120 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E600DFC0EE1F4839AB8EC9B0 /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,6 +150,12 @@
 		93304D57466F493EA5066442 /* CDVGlobalization.h */ = {isa = PBXFileReference; name = "CDVGlobalization.h"; path = "cordova-plugin-globalization/CDVGlobalization.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 		AF13415F9E2848CBB0928C89 /* RequestLocationAccuracy.m */ = {isa = PBXFileReference; name = "RequestLocationAccuracy.m"; path = "cordova-plugin-request-location-accuracy/RequestLocationAccuracy.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		2F73BCD819254ED98B691588 /* RequestLocationAccuracy.h */ = {isa = PBXFileReference; name = "RequestLocationAccuracy.h"; path = "cordova-plugin-request-location-accuracy/RequestLocationAccuracy.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		F0A1712B39154C40A6BBF8FA /* NSString+URLEncoding.m */ = {isa = PBXFileReference; name = "NSString+URLEncoding.m"; path = "cordova-plugin-x-socialsharing/NSString+URLEncoding.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		0F15112B8F264E2EB9F6904C /* SocialSharing.m */ = {isa = PBXFileReference; name = "SocialSharing.m"; path = "cordova-plugin-x-socialsharing/SocialSharing.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		F1AE8EA7F8EB47A78A7082C2 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; name = "NSString+URLEncoding.h"; path = "cordova-plugin-x-socialsharing/NSString+URLEncoding.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		6F621289A4D645A09D906B70 /* SocialSharing.h */ = {isa = PBXFileReference; name = "SocialSharing.h"; path = "cordova-plugin-x-socialsharing/SocialSharing.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		5EEBF7CF940845B8B75D216F /* Social.framework */ = {isa = PBXFileReference; name = "Social.framework"; path = "System/Library/Frameworks/Social.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
+		E600DFC0EE1F4839AB8EC9B0 /* MessageUI.framework */ = {isa = PBXFileReference; name = "MessageUI.framework"; path = "System/Library/Frameworks/MessageUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +170,8 @@
 				D5260DC4AE1A4803BE688933 /* ImageIO.framework in Frameworks */,
 				FF1964C92A344941A36034B1 /* CoreLocation.framework in Frameworks */,
 				729CE8A0CE4840A791249B07 /* AVFoundation.framework in Frameworks */,
+				EDE7E27B7F964013A63C961B /* Social.framework in Frameworks */,
+				5CF771F2EFF74BA6A7D41120 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +251,8 @@
 				6401F0784B7542AB9D631E0B /* ImageIO.framework */,
 				D8E969A622794DFBBBC3C6B2 /* CoreLocation.framework */,
 				FAF9F0FF80C7468F87DBB635 /* AVFoundation.framework */,
+				5EEBF7CF940845B8B75D216F /* Social.framework */,
+				E600DFC0EE1F4839AB8EC9B0 /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -313,6 +327,10 @@
 				93304D57466F493EA5066442 /* CDVGlobalization.h */,
 				AF13415F9E2848CBB0928C89 /* RequestLocationAccuracy.m */,
 				2F73BCD819254ED98B691588 /* RequestLocationAccuracy.h */,
+				F0A1712B39154C40A6BBF8FA /* NSString+URLEncoding.m */,
+				0F15112B8F264E2EB9F6904C /* SocialSharing.m */,
+				F1AE8EA7F8EB47A78A7082C2 /* NSString+URLEncoding.h */,
+				6F621289A4D645A09D906B70 /* SocialSharing.h */,
 			);
 			name = Plugins;
 			path = ForRunners/Plugins;
@@ -474,6 +492,8 @@
 				DA04A722DAAB4B9CBBAFF919 /* CDVViewController+SplashScreen.m in Sources */,
 				0241F2ADF7FF4B09BD7929E9 /* CDVGlobalization.m in Sources */,
 				2C82B14241AC4C8EA4190D00 /* RequestLocationAccuracy.m in Sources */,
+				168DFCEB177641C8BAFBE94F /* NSString+URLEncoding.m in Sources */,
+				672692956FCE4EB28C1C86FA /* SocialSharing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

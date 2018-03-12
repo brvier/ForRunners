@@ -2355,15 +2355,22 @@ angular
     $scope.stopSession = function() {
       $scope.session.saving = true;
       $timeout(function() {
-        if ($scope.platform === "android") {
+        try {
           GPSLocation.clearWatch($scope.session.watchId);
           console.debug("Session recording stopped");
-        } else {
-          navigator.geolocation.clearWatch($scope.session.watchId);
-          console.debug("Session recording stopped");
+        } catch (exception) {
+          try {
+            navigator.geolocation.clearWatch($scope.session.watchId);
+            console.debug("Session recording stopped");
+          } catch (exception2) {console.error(exception2);}
         }
         //backgroundGeoLocation.stop();
         $interval.cancel($scope.runningTimeInterval);
+        
+        try {
+          delete $scope.session.firsttime;
+        } catch (exception) {}
+
         if ($scope.session.gpxData.length > 0) {
           //Session cleaning
           delete $scope.session.accuracy;
@@ -2512,6 +2519,7 @@ angular
 
         $scope.closeModal();
         $scope.session.saving = false;
+        console.debug('Saving session ended');
       }, 10);
     };
 

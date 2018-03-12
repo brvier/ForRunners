@@ -99,7 +99,7 @@ angular.module('app.services', [])
               var deferred = $q.defer();
               if ((window.device === undefined) || (window.device.platform === 'browser')) {
                 setTimeout(function(){
-                  deferred.resolve(JSON.parse(localStorage.getItem(recclicked + '.json'), Session.dateTimeReviver));
+                  deferred.resolve(JSON.parse(localStorage.getItem(recclicked + '.json'), Session.prototype.dateTimeReviver));
                 }, 1);
                 return deferred.promise;
               }
@@ -111,7 +111,7 @@ angular.module('app.services', [])
                       fileEntry.file(function(file) {
                           var reader = new FileReader();
                           reader.onloadend = function() {
-                              deferred.resolve(JSON.parse(this.result, Session.dateTimeReviver));
+                              deferred.resolve(JSON.parse(this.result, Session.prototype.dateTimeReviver));
                           };
                           reader.readAsText(file);
                       });
@@ -125,7 +125,7 @@ angular.module('app.services', [])
           var deferred = $q.defer();
           var filename = session.recclicked.toString() + '.json';
           var path = app_data_path;
-          if (window.device.platform === 'browser') {
+          if ((window.device === undefined) || (window.device.platform === 'browser')) {
             setTimeout(function(){
               localStorage.setItem(filename, JSON.stringify(session));
               deferred.resolve();

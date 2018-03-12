@@ -3,7 +3,7 @@
   <!--button ng-click="startSessionWithoutGPS()" class="button button-fab
       button-fab-bottom-right button-fab-almost-bottom-right button-royal icon ion-android-home waves-effect waves-button waves-light"></button-->
 
-  <script id="templates/sessions_popover.html" type="text/ng-template">
+  <!--<script id="templates/sessions_popover.html" type="text/ng-template">
     <ion-popover-view>
       <ion-content>
         <div class="list">
@@ -14,10 +14,11 @@
         </div>
       </ion-content>
     </ion-popover-view>
-  </script>
+  </script>-->
 
   <ion-nav-buttons side="right">
-    <button class="button button-icon button-clear ion-android-more-vertical" ng-click="openPopover($event)"></button>
+    <!--<button class="button button-icon button-clear ion-android-more-vertical" ng-click="openPopover($event)"></button>-->
+    <button class="button button-icon button-clear ion-android-add" ng-click="createManualSession();"></button>
   </ion-nav-buttons>
 
   <ion-content>
@@ -77,10 +78,14 @@
                 {{ session.overnote }} <i class="icon ion-star"></i>
           </span>
 
-          <h2><span ng-if="session.cityname">
-            {{ session.cityname }}
-            <br></span>
-            {{ session.start | ldate }}
+          <h2>
+            <span ng-if="session.name">
+              {{ session.name }} <span ng-if='!session.cityname'><br/></span>
+            </span>
+            <span ng-if="session.cityname">
+              <span ng-if='session.name'> - </span>{{ session.cityname }}<br/>
+            </span>
+           {{ session.start | ldate }}
           </h2>
 
           <p>
