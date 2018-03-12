@@ -3631,9 +3631,9 @@ angular
           var session = sessions[idx];
 
           if (isNaN(session.distk)) {
-	      console.error("Ignoring this session as distk missing");
-	      console.error(session);
-	      continue;
+            console.error("Ignoring this session as distk missing");
+            console.error(session);
+            continue;
           }
           if ($scope.records[session.type][session.distk] === undefined) {
             $scope.records[session.type][session.distk] = {
