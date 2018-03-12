@@ -216,7 +216,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _kilometers: 'Kilometers',
     _kilometers_per_hour: 'Kilometers per hour',
     _and: 'and',
-    _seconds_per_kilometers: 'seconds per kilometers',
+    _seconds_per_kilometers: 'seconds per kilometer',
     _confirm_delete: 'Are you sure you want to delete this session?',
     _confirm_delete_eq: 'Are you sure you want to delete this equipment?',
     _delete_eq: 'Delete',
@@ -225,7 +225,7 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _backup_ok_title: 'Backup',
     _backup_ok_content: 'Backup available in the application data folder.',
     _backup_error_title: 'Error',
-    _backup_error_content: 'An error occur while creating the backup.',
+    _backup_error_content: 'An error occurred while creating the backup.',
     _gpx_error_title:'Error',
     _gpx_error_content:'The GPX export failed.',
     _gpx_import_title: 'GPX Import',
@@ -236,13 +236,13 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _announce_average_speed: 'Announce average speed',
     _announce_average_pace: 'Announce average pace',
     _announce_heartrate: 'Announce heartrate',
-    _delay_start: 'Delay start of 10 secondes',
+    _delay_start: 'Delay start by 10 seconds',
     _export_as_gpx: 'Export as GPX',
     _import_gpxs: 'Import GPX files',
     _debug_tools: 'Debug tools',
     _debug_mode: 'Debug mode',
     _settings: 'Settings',
-    _debug_test_vocal: 'Test vocal announces',
+    _debug_test_vocal: 'Test vocal announcements',
     _average:'Average',
     _records:'Records',
     _speed_kph: 'Speed (Kph)',
@@ -252,17 +252,17 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _distance:'Distance',
     _speed:'Speed',
     _pace: 'Pace',
-    _debug_warning: 'Debug mode slow down severly the application',
-    _run_fast: 'Run faster !',
-    _run_slow: 'Run slower !',
+    _debug_warning: 'Debug mode will severely slow down the application',
+    _run_fast: 'Run faster!',
+    _run_slow: 'Run slower!',
     enUS: 'English',
     frFR: 'French',
     deDE: 'German',
     deAT: 'German (Austria)',
     ptPT: 'Portuguese',
-    _privacy_policy_text: 'ForRunners didn\'t communicate any informations outside of your device, except for getting maps from Openstreet.net services and if you activate debug mode. In this last case, any errors and debug message will be sent to my own server for debugging.',
-    _short_description: 'A gps tracking application dedicated to runners.',
-    _use_open_source_text : 'ForRunners use parts or library of the following open source projects',
+    _privacy_policy_text: 'ForRunners doesn\'t send any information from your device, except for downloading maps from Openstreet.net services or when debug mode is active. In the latter case, any errors and debug messages will be sent to the author\'s server for debugging.',
+    _short_description: 'A GPS tracking application dedicated to runners.',
+    _use_open_source_text : 'ForRunners uses parts or libraries of the following open source projects',
     _by : 'By',
     _swipe_left: 'Swipe Left to Stop',
     _stop: 'Stop',
@@ -282,29 +282,29 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _fraction: 'Interval training',
     _duration_slow_interval: 'Slow interval',
     _duration_fast_interval: 'Fast interval',
-    _welcome_text: 'It s look like that\'s the first time you use ForRunners. You can start recording your run with the plus button below or by importing older running session from GPX files in the settings.',
+    _welcome_text: 'It looks like this is the first time you\'re using use ForRunners. You can start recording your run with the plus button below or by importing older running sessions from GPX files in the settings.',
     _announce_fraction: 'Interval announce',
-    _empty_records_text: 'You haven\'t any runnning session recorded yet, so any records to defeat.',
+    _empty_records_text: 'You haven\'t recorded any runnning sessions yet, so there are no records to beat.',
     _open_source_content: 'Open Source Content',
     _bpm: 'Heart rate',
-    _bpms_label: 'bpms',
-    _vocal_bpms_label: 'beats per minutes',
-    _donation: 'If you want to see this app evolving or only thank me, you can make a donation in bitcoin:',
-    _keep_screen_on: 'Keep Screen active while running',
+    _bpms_label: 'bpm',
+    _vocal_bpms_label: 'beats per minute',
+    _donation: 'If you want to see this app evolve or only thank me, you can make a donation in bitcoin:',
+    _keep_screen_on: 'Keep screen active while running',
     _hr_zone0:'Recovery',
     _hr_zone1:'Fat Metabolism',
-    _hr_zone2:'Aeoribic power',
+    _hr_zone2:'Aerobic Power',
     _hr_zone3:'Speed Endurance',
     _hr_zone4:'Maximum Sprint',
-    _heartRate:'HeartRate',
-    _heartrate_max:'Max Heart Rate frequency',
-    _heartrate_min:'Rest Heart Rate frequency',
+    _heartRate:'Heart Rate',
+    _heartrate_max:'Max Heart Rate Frequency',
+    _heartrate_min:'Resting Heart Rate Frequency',
     _heartrate_label:'Bpm',
     _bluetooth_devices:'Bluetooth devices',
-    _scan_ble:'Search devices',
+    _scan_ble:'Search for Devices',
     _help: 'Help',
     _report_issue: 'Report issue on GitHub',
-    _gps_accuracy: 'GPS Accuracy :',
+    _gps_accuracy: 'GPS Accuracy:',
     _delete: 'Delete',
     _overnote: 'Score',
     _total: 'Total:',
@@ -315,18 +315,18 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _speed_vs_altitude: 'Speed VS Altitude',
     _speed_vs_heartrate: 'Speed VS HeartRate',
     _altitude_vs_heartrate: 'Altitude VS HeartRate',
-    _help_subtitle_1: 'Welcome on ForRunners! This little help will try to explain you the main concept of ForRunners. Use the next and previous button below to navigate in this help.',
+    _help_subtitle_1: 'Welcome to ForRunners! This little guide will try to explain the main concept of ForRunners. Use the next and previous button below to navigate through this guide.',
     _help_desc_1: 'The main screen presents all your running sessions. <br><br><b>1-</b> This button start a new running session<br><br><b>2-</b> Average statistics calculated from all your sessions<br><br><b>3-</b> Your best running records<br><br><b>4-</b> Rounded length of the session<br><br><b>5-</b> A score representing difficulty of your run<br><br><b>6-</b> A graph showing the score evolution and duration evolution',
-    _help_subtitle_2: 'This is the detail of a session, showing your run on a map, with detailed statistics and graphics.',
-    _help_desc_2: '<b>1-</b> The OpenStreetMap map, showing your run<br><br><b>2-</b> The blue marker are kilometer marker, while the green "S" marker is for "Start" and red "E" marker for "End"<br><br><b>3-</b> This icon is for sharing your run<br><br><b>4-</b> This icon is for deleting your session<br><br><b>5-</b> Date of your running session with resume values.',
+    _help_subtitle_2: 'These are the details of a session, showing your run on a map with detailed statistics and graphics.',
+    _help_desc_2: '<b>1-</b> The OpenStreetMap map, showing your run<br><br><b>2-</b> The blue markers are kilometer markers, while the green "S" marker is for "Start" and red "E" marker for "End"<br><br><b>3-</b> This icon is for sharing your run<br><br><b>4-</b> This icon is for deleting your session<br><br><b>5-</b> Date of your running session with resume values.',
     _help_desc_3: '<b>1-</b> Date<br><br><b>2-</b> Average speed<br><br><b>3-</b> Average pace<br><br><b>4-</b> Distance<br><br><b>5-</b> Duration hh:mm<br><br><b>6-</b> Total elevation in meters<br><br><b>7-</b> Total down in meter<br><br><b>8-</b> Weather at the date of the run<br><br><b>9-</b> Score, Duration, Distance, Pace<br><br>',
     _help_subtitle_3: ' ',
     _help_subtitle_4: ' ',
-    _help_desc_4: 'X axis (2) hold kilometers and y axis (3) show speed, while the colors (1) show heartrate zone (Require a bluetooth heartrate monitor and a compatible smartphone)',
+    _help_desc_4: 'The x-axis (2) represents distance in kilometers and the y-axis (3) shows speed, while the colors (1) show heartrate zone (Requires a bluetooth heartrate monitor and compatible smartphone)',
     _help_subtitle_5: ' ',
-    _help_desc_5: 'X axis (2) hold kilometers and y axis (3) show altitude, while the colors (1) show heartrate zone (Require a bluetooth 4.0 heartrate monitor and a compatible smartphone)',
+    _help_desc_5: 'The x-axis (2) represents distance in kilometers and the y-axis (3) shows altitude, while the colors (1) show heartrate zone (Requires a bluetooth 4.0 heartrate monitor and compatible smartphone)',
     _help_subtitle_6: ' ',
-    _help_desc_6: '<b>1-</b> Average heart rate during your session<br><br><b>2-</b> Graphic showing duration in each heart rate zone<br><br><b>3- </b> Table with pace, speed and heartrate by kilometers.<br><br>Now clic next and start your first running session or import past sessions from preferences.',
+    _help_desc_6: '<b>1-</b> Average heart rate during your session<br><br><b>2-</b> Graphic showing duration in each heart rate zone<br><br><b>3- </b> Table with pace, speed and heartrate over each distance.<br><br>Now click next and start your first running session or import past sessions from preferences.',
     _previous:'Previous',
     _next:'Next',
     _gps_lost:'GPS Signal lost',
@@ -339,19 +339,21 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _power: 'Power',
     _cadence: 'Step Rate',
     _sendlogs: 'Send logs',
-    _equipments: 'Equipments',
+    _equipments: 'Equipment',
     _add_equipment: 'Add a equipment',
-    _duration_interval_detail: 'Announce informations at regular interval',
-    _distance_interval_detail: 'Announce informations at kilometer interval',
-    _heartrate_min_detail: 'Your resting heart rate, measured just after wake up',
-    _heartrate_max_detail: 'Your maximum heart rate in a 4 minutes sprint just after a 20 minutes warmup.',
-    _add_manually_a_session: 'Add a manually a session',
+    _duration_interval_detail: 'Announce information at regular interval',
+    _distance_interval_detail: 'Announce information at kilometer interval',
+    _heartrate_min_detail: 'Your resting heart rate, measured just after waking up',
+    _heartrate_max_detail: 'Your maximum heart rate during a 4-minute sprint just after a 20-minute warmup.',
+    _add_manually_a_session: 'Add a session manually',
     _file_file_imported: 'Imported successfully',
     _file_import_title: 'Import',
     _import_files: 'Import',
     _use_vocalAnnounce: 'Voice announcements',
     _editable: 'Touch to edit',
-    _edit_session: 'Edit Session'
+    _edit_session: 'Edit Session',
+      _session_name: 'Session Name',
+      _session_type: 'Session Type'
   });
   
   $translateProvider.translations('fr-FR', {
@@ -511,6 +513,8 @@ angular.module('app', ['ionic', 'app.services', 'app.controllers', 'chart.js', '
     _use_vocalAnnounce: 'Annonces vocales',
     _edit_session: 'Edition',
     _editable: 'Toucher pour modifier',
+      _session_name: 'Nom de la session',
+      _session_type: 'Type de la session'
 
  });
 
@@ -669,8 +673,9 @@ $translateProvider.translations('de-DE', {
     _import_files: 'Einführen',
     _use_vocalAnnounce: 'Gesangsansagen',
     _edit_session: 'Ausgabe',
-    _editable: 'Berühren Sie, um zu ändern'
-
+    _editable: 'Berühren Sie, um zu ändern',
+      _session_name: '_session_name',
+    _session_type: '_session_type'
 });
   
   $translateProvider.translations('de-AT', {
@@ -828,8 +833,11 @@ $translateProvider.translations('de-DE', {
     _import_files: 'Einführen',
     _use_vocalAnnounce: 'Gesangsansagen',
     _edit_session: 'Ausgabe',
-    _editable: 'Berühren Sie, um zu ändern'
-});
+      _editable: 'Berühren Sie, um zu ändern',
+    _session_name: '_session_name',
+    _session_type: '_session_type'
+
+  });
   
     $translateProvider.translations('pt-pt', {
     _language: 'Lingua',
@@ -980,8 +988,11 @@ $translateProvider.translations('de-DE', {
     _duration_interval_detail: 'Anuncie informações em intervalos regulares',
     _distance_interval_detail: 'Anuncie informações em intervalos de Kilometros',
     _heartrate_min_detail: 'O seu batimento cardiaco após acordar',
-    _heartrate_max_detail: 'O seu batimento cardiaco maximo num sprint de 4 minutos após um aquecimento de 20 minutos.'
-  });
+	_heartrate_max_detail: 'O seu batimento cardiaco maximo num sprint de 4 minutos após um aquecimento de 20 minutos.',
+    _session_name: '_session_name',
+    _session_type: '_session_type'
+
+    });
 
   
   $translateProvider.preferredLanguage('en-US');

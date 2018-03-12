@@ -32,13 +32,15 @@ ng-click="deleteSessionRecID(session.recclicked)"></button>-->
 </ion-nav-buttons>
 <ion-content>
 <!--<div id="mapContainer"  style="width: 100%; height: 350px; background: white"></div>-->
+<div ng-show="session.map.paths.hasOwnProperty('p1')">
 <leaflet id="sessmap" height="300px" width="100%" defaults="session.map.defaults" paths="session.map.paths"
   bounds="session.map.bounds"
   controls="session.map.controls"
   tiles="session.map.tiles"
   markers="session.map.markers" ></leaflet>
+</div>
 <div class="mid-bar dark-bg z1 padding">
-  <h3>{{ session.start | ldate }}</h3>
+  <h3>{{ session.start | ldate }} <span ng-if='session.name'>: {{ session.name }}</span></h3>
   <p>
     <i class="icon ion-star"></i> {{session.overnote}} -
     <i class="icon ion-clock"></i> {{session.duration | date:"HH:mm:ss":"UTC"}} -

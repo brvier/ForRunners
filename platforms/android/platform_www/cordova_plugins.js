@@ -453,6 +453,14 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.locationAccuracy"
         ]
+    },
+    {
+        "id": "cordova-plugin-x-socialsharing.SocialSharing",
+        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+        "pluginId": "cordova-plugin-x-socialsharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -482,7 +490,8 @@ module.exports.metadata =
     "net.khertan.plugin.MusicControl": "0.0.1",
     "org.apache.cordova.plugin.tts": "0.2.1",
     "org.apache.cordova.speech.speechsynthesis": "0.1.0",
-    "cordova-plugin-request-location-accuracy": "2.2.2"
+    "cordova-plugin-request-location-accuracy": "2.2.2",
+    "cordova-plugin-x-socialsharing": "5.1.3"
 };
 // BOTTOM OF METADATA
 });

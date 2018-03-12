@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="0102000" id="net.khertan.forrunners" version="1.2.0" versionCode="0102000" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="0102010" id="net.khertan.forrunners" version="1.2.1" versionCode="0102010" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <feature name="PowerManagement">
         <param name="android-package" value="org.apache.cordova.powermanagement.PowerManagement" />
     </feature>
@@ -64,6 +64,9 @@
     <feature name="SpeechSynthesis">
         <param name="android-package" value="org.apache.cordova.speech.SpeechSynthesis" />
     </feature>
+    <feature name="SocialSharing">
+        <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
+    </feature>
     <feature name="BLE">
         <param name="android-package" value="com.megster.cordova.ble.central.BLECentralPlugin" />
     </feature>
@@ -117,7 +120,7 @@
     <preference name="android-manifest/application/activity/@android:launchMode" value="singleTask" />
     <preference name="StatusBarBackgroundColor" value="#000000" />
     <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="25" />
+    <preference name="android-targetSdkVersion" value="21" />
     <preference name="LoadingDialog" value="My Title,My Message" />
     <preference name="AndroidLaunchMode" value="singleInstance" />
     <preference name="DefaultVolumeStream" value="media" />
