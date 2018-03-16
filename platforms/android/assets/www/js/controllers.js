@@ -2366,8 +2366,11 @@ angular
         }
         //backgroundGeoLocation.stop();
         $interval.cancel($scope.runningTimeInterval);
-        delete $scope.session.firsttime;
-         
+        
+        try {
+          delete $scope.session.firsttime;
+        } catch (exception) {}
+
         if ($scope.session.gpxData.length > 0) {
           //Session cleaning
           delete $scope.session.accuracy;
@@ -2649,6 +2652,8 @@ angular
         var timenew = pos.timestamp;
         var altnew = "x";
         var elapsed = 0;
+        var tinc;
+        var K;
 
         if (typeof pos.coords.altitude === "number") {
           altnew = pos.coords.altitude;
@@ -2716,8 +2721,8 @@ angular
                   if (accuracy < 1) {
                     accuracy = 1;
                   }
-                  if (variance < 0) {
-                    variance = accuracy * accuracy;
+                  if ($scope.session.variance < 0) {
+                    $scope.session.variance = accuracy * accuracy;
                   } else {
                     tinc = new Date(timenew) - new Date($scope.session.timeold);
                     if (tinc > 0) {
@@ -2726,9 +2731,9 @@ angular
                     K =
                       $scope.session.variance /
                       ($scope.session.variance + accuracy * accuracy);
-                    latnew += K * (latnew - latold);
-                    lngnew += K * (lngnew - lngold);
-                    variance = (1 - K) * $scope.session.variance * 3;
+                    latnew += K * (latnew - $scope.session.latold);
+                    lonnew += K * (lonnew - $scope.session.lonold);
+                    $scope.session.variance = (1 - K) * $scope.session.variance * 3;
                   }
 
                   //Distances
@@ -2750,7 +2755,7 @@ angular
                       Math.cos(dLat1) *
                       Math.sin(dLon / 2) *
                       Math.sin(dLon / 2);
-                  d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                  d = (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))) * 6371;
 
                   //Speed between this and previous point
                   dtd = new Date(timenew) - new Date($scope.session.timeold);
@@ -2758,7 +2763,7 @@ angular
 
                   elapsed = timenew - $scope.session.firsttime;
 
-                  if (dspeed > 0.5) {
+                  if (dspeed > 0.001) {
                     $scope.session.equirect += d;
                   }
 
@@ -2792,6 +2797,11 @@ angular
                   //$scope.session.speeds.slice(-5);
                   //$scope.session.speed = average($scope.session.speeds, 1).toFixed(1);
                   //$scope.session.speed = pos.coords.speed * 3.6;
+                  //
+                  //Workarround for some device not aving cor speed
+                  if (pos.coords.speed === null) {
+                    pos.coords.speed = dspeed;
+                  }
                   $scope.session.speeds.push(pos.coords.speed * 3.6);
                   $scope.session.speeds.slice(-5);
                   $scope.session.speed = average($scope.session.speeds, 1);
@@ -2862,6 +2872,7 @@ angular
             }
           } else {
             $scope.session.firsttime = timenew;
+            $scope.session.deltagpstime = Date.now() - timenew;
             $scope.session.lastdisptime = timenew;
             $scope.session.lastdistvocalannounce = 0;
             $scope.session.lasttimevocalannounce = timenew;
@@ -3213,7 +3224,8 @@ angular
       //Timer to update time
       $scope.runningTimeInterval = $interval(function() {
         if ($scope.session.firsttime > 0) {
-          var elapsed = Date.now() - $scope.session.firsttime;
+          console.debug($scope.session.firsttime);
+          var elapsed = Date.now() - $scope.session.firsttime - $scope.session.deltagpstime;
           var hour = Math.floor(elapsed / 3600000);
           var minute = ("0" + (Math.floor(elapsed / 60000) - hour * 60)).slice(
             -2
