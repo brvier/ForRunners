@@ -95,4 +95,5 @@
     <plugin name="cordova-plugin-whitelist" spec="~1.2.2" />
     <plugin name="cordova-custom-config" spec="^4.0.2" />
     <plugin name="cordova-plugin-request-location-accuracy" spec="^2.2.2" />
+    <engine name="ios" spec="~4.5.4" />
 </widget>

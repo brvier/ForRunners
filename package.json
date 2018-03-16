@@ -86,7 +86,8 @@
       "cordova-plugin-request-location-accuracy": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

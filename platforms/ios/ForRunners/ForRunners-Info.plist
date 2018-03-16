@@ -5,7 +5,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>English</string>
     <key>CFBundleDisplayName</key>
-    <string>${PRODUCT_NAME}</string>
+    <string>ForRunners</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIcons</key>
@@ -26,9 +26,23 @@
     <string>????</string>
     <key>CFBundleVersion</key>
     <string>1.2.1</string>
-    <key>LSApplicationCategoryType</key>
-    <string/>
     <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NSMainNibFile</key>
+    <string/>
+    <key>NSMainNibFile~ipad</key>
+    <string/>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    </array>
+    <key>UIRequiresFullScreen</key>
     <true/>
     <key>NSAppTransportSecurity</key>
     <dict>
@@ -60,48 +74,11 @@
       <key>NSAllowsArbitraryLoads</key>
       <true/>
     </dict>
-    <key>NSBluetoothPeripheralUsageDescription</key>
-    <string/>
-    <key>NSCameraUsageDescription</key>
-    <string/>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>For recording your session while screen is off or an other app in front.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string/>
-    <key>NSMainNibFile~ipad</key>
-    <string/>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string/>
-    <key>UIBackgroundModes</key>
-    <array>
-      <string>bluetooth-central</string>
-      <string>location</string>
-      <string/>
-      <string>audio</string>
-    </array>
-    <key>UIFileSharingEnabled</key>
-    <true/>
     <key>UIInterfaceOrientation</key>
     <array>
       <string>UIInterfaceOrientationPortrait</string>
     </array>
-    <key>UILaunchStoryboardName</key>
-    <string>MainViewController</string>
-    <key>UIRequiresFullScreen</key>
-    <false/>
-    <key>UIStatusBarHidden</key>
-    <false/>
-    <key>UIStatusBarStyle</key>
-    <string>UIStatusBarStyleLightContent</string>
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationPortraitUpsideDown</string>
-    </array>
-    <key>UISupportedInterfaceOrientations~ipad</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationPortraitUpsideDown</string>
-    </array>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string/>
   </dict>
 </plist>

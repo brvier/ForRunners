@@ -23,6 +23,7 @@
 #import "CDVViewController+SplashScreen.h"
 
 #define kSplashScreenDurationDefault 3000.0f
+#define kFadeDurationDefault 500.0f
 
 
 @implementation CDVSplashScreen
@@ -76,7 +77,7 @@
     BOOL autorotateValue = (device.iPad || device.iPhone6Plus) ?
         [(CDVViewController *)self.viewController shouldAutorotateDefaultValue] :
         NO;
-    
+
     [(CDVViewController *)self.viewController setEnabledAutorotation:autorotateValue];
 
     NSString* topActivityIndicator = [self.commandDelegate.settings objectForKey:[@"TopActivityIndicator" lowercaseString]];
@@ -141,20 +142,28 @@
     _curImageName = nil;
 
     self.viewController.view.userInteractionEnabled = YES;  // re-enable user interaction upon completion
-    [self.viewController.view removeObserver:self forKeyPath:@"frame"];
-    [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
+    @try {
+        [self.viewController.view removeObserver:self forKeyPath:@"frame"];
+        [self.viewController.view removeObserver:self forKeyPath:@"bounds"];
+    }
+    @catch (NSException *exception) {
+        // When reloading the page from a remotely connected Safari, there
+        // are no observers, so the removeObserver method throws an exception,
+        // that we can safely ignore.
+        // Alternatively we can check whether there are observers before calling removeObserver
+    }
 }
 
 - (CDV_iOSDevice) getCurrentDevice
 {
     CDV_iOSDevice device;
-    
+
     UIScreen* mainScreen = [UIScreen mainScreen];
     CGFloat mainScreenHeight = mainScreen.bounds.size.height;
     CGFloat mainScreenWidth = mainScreen.bounds.size.width;
-    
+
     int limit = MAX(mainScreenHeight,mainScreenWidth);
-    
+
     device.iPad = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
     device.iPhone = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
     device.retina = ([mainScreen scale] == 2.0);
@@ -165,23 +174,38 @@
     // this is appropriate for detecting the runtime screen environment
     device.iPhone6 = (device.iPhone && limit == 667.0);
     device.iPhone6Plus = (device.iPhone && limit == 736.0);
-    
+
     return device;
+}
+
+- (BOOL) isUsingCDVLaunchScreen {
+    NSString* launchStoryboardName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchStoryboardName"];
+    if (launchStoryboardName) {
+        return ([launchStoryboardName isEqualToString:@"CDVLaunchScreen"]);
+    } else {
+        return NO;
+    }
 }
 
 - (NSString*)getImageName:(UIInterfaceOrientation)currentOrientation delegate:(id<CDVScreenOrientationDelegate>)orientationDelegate device:(CDV_iOSDevice)device
 {
     // Use UILaunchImageFile if specified in plist.  Otherwise, use Default.
     NSString* imageName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UILaunchImageFile"];
-    
+
+    // detect if we are using CB-9762 Launch Storyboard; if so, return the associated image instead
+    if ([self isUsingCDVLaunchScreen]) {
+        imageName = @"LaunchStoryboard";
+        return imageName;
+    }
+
     NSUInteger supportedOrientations = [orientationDelegate supportedInterfaceOrientations];
-    
+
     // Checks to see if the developer has locked the orientation to use only one of Portrait or Landscape
     BOOL supportsLandscape = (supportedOrientations & UIInterfaceOrientationMaskLandscape);
     BOOL supportsPortrait = (supportedOrientations & UIInterfaceOrientationMaskPortrait || supportedOrientations & UIInterfaceOrientationMaskPortraitUpsideDown);
     // this means there are no mixed orientations in there
     BOOL isOrientationLocked = !(supportsPortrait && supportsLandscape);
-    
+
     if (imageName)
     {
         imageName = [imageName stringByDeletingPathExtension];
@@ -250,7 +274,7 @@
                 case UIInterfaceOrientationLandscapeRight:
                     imageName = [imageName stringByAppendingString:@"-Landscape"];
                     break;
-                    
+
                 case UIInterfaceOrientationPortrait:
                 case UIInterfaceOrientationPortraitUpsideDown:
                 default:
@@ -259,7 +283,7 @@
             }
         }
     }
-    
+
     return imageName;
 }
 
@@ -325,6 +349,14 @@
 
 - (void)updateBounds
 {
+    if ([self isUsingCDVLaunchScreen]) {
+        // CB-9762's launch screen expects the image to fill the screen and be scaled using AspectFill.
+        CGSize viewportSize = [UIApplication sharedApplication].delegate.window.bounds.size;
+        _imageView.frame = CGRectMake(0, 0, viewportSize.width, viewportSize.height);
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        return; 
+    }
+
     UIImage* img = _imageView.image;
     CGRect imgBounds = (img) ? CGRectMake(0, 0, img.size.width, img.size.height) : CGRectZero;
 
@@ -390,7 +422,7 @@
         id fadeSplashScreenValue = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreen" lowercaseString]];
         id fadeSplashScreenDuration = [self.commandDelegate.settings objectForKey:[@"FadeSplashScreenDuration" lowercaseString]];
 
-        float fadeDuration = fadeSplashScreenDuration == nil ? kSplashScreenDurationDefault : [fadeSplashScreenDuration floatValue];
+        float fadeDuration = fadeSplashScreenDuration == nil ? kFadeDurationDefault : [fadeSplashScreenDuration floatValue];
 
         id splashDurationString = [self.commandDelegate.settings objectForKey: [@"SplashScreenDelay" lowercaseString]];
         float splashDuration = splashDurationString == nil ? kSplashScreenDurationDefault : [splashDurationString floatValue];
@@ -456,7 +488,7 @@
                                         [weakSelf hideViews];
                                     }
                                     completion:^(BOOL finished) {
-                                        // Always destroy views, otherwise you could have an 
+                                        // Always destroy views, otherwise you could have an
                                         // invisible splashscreen that is overlayed over your active views
                                         // which causes that no touch events are passed
                                         if (!_destroyed) {
