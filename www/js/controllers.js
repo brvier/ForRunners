@@ -20,8 +20,6 @@ angular
     return function(text) {
       return $filter("translate")(text.replace("-", ""));
     };
-})
-    };
   })
 
   .directive("navBarClass", function() {
