@@ -99,14 +99,6 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-x-socialsharing.SocialSharing",
-        "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
-        "pluginId": "cordova-plugin-x-socialsharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
-        ]
-    },
-    {
         "id": "cordova-plugin-file.DirectoryEntry",
         "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
         "pluginId": "cordova-plugin-file",
@@ -329,19 +321,51 @@ module.exports = [
         ]
     },
     {
-        "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
-        "file": "plugins/cordova-plugin-request-location-accuracy/www/ios/RequestLocationAccuracy.js",
-        "pluginId": "cordova-plugin-request-location-accuracy",
-        "clobbers": [
-            "cordova.plugins.locationAccuracy"
-        ]
-    },
-    {
         "id": "cordova-plugin-insomnia.Insomnia",
         "file": "plugins/cordova-plugin-insomnia/www/Insomnia.js",
         "pluginId": "cordova-plugin-insomnia",
         "clobbers": [
             "window.plugins.insomnia"
+        ]
+    },
+    {
+        "id": "cordova-plugin-statusbar.statusbar",
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
+    },
+    {
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "id": "cordova-plugin-globalization.GlobalizationError",
+        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "id": "cordova-plugin-globalization.globalization",
+        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
+    },
+    {
+        "id": "cordova-plugin-request-location-accuracy.RequestLocationAccuracy",
+        "file": "plugins/cordova-plugin-request-location-accuracy/www/ios/RequestLocationAccuracy.js",
+        "pluginId": "cordova-plugin-request-location-accuracy",
+        "clobbers": [
+            "cordova.plugins.locationAccuracy"
         ]
     }
 ];
@@ -349,23 +373,26 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "cordova-plugin-app-version": "0.1.9",
-    "cordova-plugin-compat": "1.1.0",
+    "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-ble-central": "1.1.4",
     "cordova-plugin-camera": "2.4.0",
     "cordova-plugin-gpslocation": "1.0.0",
     "cordova-plugin-nativestorage": "2.0.2",
     "cordova-plugin-geolocation": "2.2.0",
-    "cordova-plugin-x-socialsharing": "5.1.7",
-    "cordova-custom-config": "2.0.3",
     "cordova-plugin-file": "4.3.2",
     "cordova-plugin-console": "1.0.7",
     "cordova-plugin-powermanagement": "1.0.5",
     "com.jcesarmobile.filepicker": "1.1.1",
     "cordova-plugin-device": "1.1.2",
     "cordova-plugin-background-mode": "0.7.2",
-    "cordova-plugin-request-location-accuracy": "2.2.1",
     "cordova-plugin-insomnia": "4.3.0",
-    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1"
+    "io.phasr.cordova.plugin.itunesfilesharing": "0.0.1",
+    "cordova-plugin-statusbar": "2.2.2",
+    "cordova-plugin-whitelist": "1.2.2",
+    "cordova-plugin-splashscreen": "3.2.2",
+    "cordova-plugin-globalization": "1.0.4",
+    "cordova-custom-config": "4.0.2",
+    "cordova-plugin-request-location-accuracy": "2.2.1"
 };
 // BOTTOM OF METADATA
 });
