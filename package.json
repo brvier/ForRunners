@@ -3,10 +3,11 @@
   "version": "1.2.0",
   "description": "ForRunners: A gps tracker for runners",
   "dependencies": {
-    "cordova-android": "^6.2.3",
+    "cordova-android": "7.0.0",
     "cordova-custom-config": "^4.0.2",
-    "cordova-ios": "^4.5.4",
+    "cordova-ios": "4.5.4",
     "cordova-plugin-app-version": "~0.1.9",
+    "cordova-plugin-file": "^4.3.3",
     "cordova-plugin-geolocation": "~2.2.0",
     "cordova-plugin-globalization": "~1.0.4",
     "cordova-plugin-gpslocation": "~1.0.0",
@@ -83,10 +84,10 @@
       "cordova-plugin-statusbar": {},
       "cordova-plugin-whitelist": {},
       "cordova-custom-config": {},
-      "cordova-plugin-request-location-accuracy": {}
+      "cordova-plugin-request-location-accuracy": {},
+      "cordova-plugin-file": {}
     },
     "platforms": [
-      "android",
       "ios"
     ]
   }

@@ -20,8 +20,6 @@ angular
     return function(text) {
       return $filter("translate")(text.replace("-", ""));
     };
-})
-    };
   })
 
   .directive("navBarClass", function() {
@@ -2706,7 +2704,7 @@ angular
                 $scope.session.latold !== "x" &&
                 $scope.session.lonold !== "x"
               ) {
-             Tel    //Limit o k
+              //Limit ok
                 if (
                   timenew - $scope.session.lastdisptime >=
                   $scope.prefs.minrecordinggap
