@@ -1,6 +1,30 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
   {
+    "id": "at.gofg.sportscomputer.powermanagement.device",
+    "file": "plugins/at.gofg.sportscomputer.powermanagement/www/powermanagement.js",
+    "pluginId": "at.gofg.sportscomputer.powermanagement",
+    "clobbers": [
+      "window.powerManagement"
+    ]
+  },
+  {
+    "id": "com.napolitano.cordova.plugin.intent.IntentPlugin",
+    "file": "plugins/com.napolitano.cordova.plugin.intent/www/android/IntentPlugin.js",
+    "pluginId": "com.napolitano.cordova.plugin.intent",
+    "clobbers": [
+      "IntentPlugin"
+    ]
+  },
+  {
+    "id": "cordova-plugin-activity-recognition.ActivityRecognition",
+    "file": "plugins/cordova-plugin-activity-recognition/www/ActivityRecognition.js",
+    "pluginId": "cordova-plugin-activity-recognition",
+    "clobbers": [
+      "cordova.plugins.ActivityRecognition"
+    ]
+  },
+  {
     "id": "cordova-plugin-app-version.AppVersionPlugin",
     "file": "plugins/cordova-plugin-app-version/www/AppVersionPlugin.js",
     "pluginId": "cordova-plugin-app-version",
@@ -14,6 +38,55 @@ module.exports = [
     "pluginId": "cordova-plugin-device",
     "clobbers": [
       "device"
+    ]
+  },
+  {
+    "id": "cordova-plugin-background-mode.BackgroundMode",
+    "file": "plugins/cordova-plugin-background-mode/www/background-mode.js",
+    "pluginId": "cordova-plugin-background-mode",
+    "clobbers": [
+      "cordova.plugins.backgroundMode",
+      "plugin.backgroundMode"
+    ]
+  },
+  {
+    "id": "cordova-plugin-ble-central.ble",
+    "file": "plugins/cordova-plugin-ble-central/www/ble.js",
+    "pluginId": "cordova-plugin-ble-central",
+    "clobbers": [
+      "ble"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.Camera",
+    "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "Camera"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.CameraPopoverOptions",
+    "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "CameraPopoverOptions"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.camera",
+    "file": "plugins/cordova-plugin-camera/www/Camera.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "navigator.camera"
+    ]
+  },
+  {
+    "id": "cordova-plugin-camera.CameraPopoverHandle",
+    "file": "plugins/cordova-plugin-camera/www/CameraPopoverHandle.js",
+    "pluginId": "cordova-plugin-camera",
+    "clobbers": [
+      "CameraPopoverHandle"
     ]
   },
   {
@@ -190,6 +263,14 @@ module.exports = [
     "runs": true
   },
   {
+    "id": "cordova-plugin-filepicker.FilePicker",
+    "file": "plugins/cordova-plugin-filepicker/www/FilePicker.js",
+    "pluginId": "cordova-plugin-filepicker",
+    "clobbers": [
+      "FilePicker"
+    ]
+  },
+  {
     "id": "cordova-plugin-geolocation.geolocation",
     "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
     "pluginId": "cordova-plugin-geolocation",
@@ -302,6 +383,12 @@ module.exports = [
     ]
   },
   {
+    "id": "es6-promise-plugin.Promise",
+    "file": "plugins/es6-promise-plugin/www/promise.js",
+    "pluginId": "es6-promise-plugin",
+    "runs": true
+  },
+  {
     "id": "cordova-plugin-x-socialsharing.SocialSharing",
     "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
     "pluginId": "cordova-plugin-x-socialsharing",
@@ -310,34 +397,90 @@ module.exports = [
     ]
   },
   {
-    "id": "ionic-plugin-keyboard.keyboard",
-    "file": "plugins/ionic-plugin-keyboard/www/android/keyboard.js",
-    "pluginId": "ionic-plugin-keyboard",
+    "id": "net.khertan.plugin.MusicControl.MusicControl",
+    "file": "plugins/net.khertan.plugin.MusicControl/www/MusicControl.js",
+    "pluginId": "net.khertan.plugin.MusicControl",
     "clobbers": [
-      "cordova.plugins.Keyboard"
-    ],
-    "runs": true
+      "window.musicControl"
+    ]
+  },
+  {
+    "id": "org.apache.cordova.plugin.tts.tts",
+    "file": "plugins/org.apache.cordova.plugin.tts/www/tts.js",
+    "pluginId": "org.apache.cordova.plugin.tts",
+    "clobbers": [
+      "navigator.tts"
+    ]
+  },
+  {
+    "id": "phonegap-plugin-speech-synthesis.SpeechSynthesis",
+    "file": "plugins/phonegap-plugin-speech-synthesis/www/SpeechSynthesis.js",
+    "pluginId": "phonegap-plugin-speech-synthesis",
+    "clobbers": [
+      "window.speechSynthesis"
+    ]
+  },
+  {
+    "id": "phonegap-plugin-speech-synthesis.SpeechSynthesisUtterance",
+    "file": "plugins/phonegap-plugin-speech-synthesis/www/SpeechSynthesisUtterance.js",
+    "pluginId": "phonegap-plugin-speech-synthesis",
+    "clobbers": [
+      "SpeechSynthesisUtterance"
+    ]
+  },
+  {
+    "id": "phonegap-plugin-speech-synthesis.SpeechSynthesisEvent",
+    "file": "plugins/phonegap-plugin-speech-synthesis/www/SpeechSynthesisEvent.js",
+    "pluginId": "phonegap-plugin-speech-synthesis",
+    "clobbers": [
+      "SpeechSynthesisEvent"
+    ]
+  },
+  {
+    "id": "phonegap-plugin-speech-synthesis.SpeechSynthesisVoice",
+    "file": "plugins/phonegap-plugin-speech-synthesis/www/SpeechSynthesisVoice.js",
+    "pluginId": "phonegap-plugin-speech-synthesis",
+    "clobbers": [
+      "SpeechSynthesisVoice"
+    ]
+  },
+  {
+    "id": "phonegap-plugin-speech-synthesis.SpeechSynthesisVoiceList",
+    "file": "plugins/phonegap-plugin-speech-synthesis/www/SpeechSynthesisVoiceList.js",
+    "pluginId": "phonegap-plugin-speech-synthesis",
+    "clobbers": [
+      "SpeechSynthesisVoiceList"
+    ]
   }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-  "cordova-custom-config": "2.0.3",
+  "at.gofg.sportscomputer.powermanagement": "1.1.0",
+  "com.napolitano.cordova.plugin.intent": "0.1.3",
+  "cordova-custom-config": "5.0.2",
+  "cordova-plugin-activity-recognition": "1.0.0",
   "cordova-plugin-app-version": "0.1.9",
-  "cordova-plugin-compat": "1.1.0",
-  "cordova-plugin-device": "1.1.5",
+  "cordova-plugin-device": "1.1.2",
+  "cordova-plugin-background-mode": "0.7.2",
+  "cordova-plugin-ble-central": "1.1.4",
+  "cordova-plugin-camera": "4.0.2",
   "cordova-plugin-file": "4.3.3",
+  "cordova-plugin-filepicker": "1.1.4",
   "cordova-plugin-geolocation": "2.2.0",
-  "cordova-plugin-globalization": "1.0.8",
+  "cordova-plugin-globalization": "1.0.9",
   "cordova-plugin-gpslocation": "1.0.0",
   "cordova-plugin-insomnia": "4.3.0",
   "cordova-plugin-nativestorage": "2.0.2",
   "cordova-plugin-request-location-accuracy": "2.2.2",
-  "cordova-plugin-splashscreen": "4.0.2",
-  "cordova-plugin-statusbar": "2.2.2",
-  "cordova-plugin-whitelist": "1.3.2",
-  "cordova-plugin-x-socialsharing": "5.1.6",
-  "ionic-plugin-keyboard": "2.2.1"
+  "cordova-plugin-splashscreen": "3.2.2",
+  "cordova-plugin-statusbar": "2.2.3",
+  "cordova-plugin-whitelist": "1.2.2",
+  "es6-promise-plugin": "4.2.2",
+  "cordova-plugin-x-socialsharing": "5.1.8",
+  "net.khertan.plugin.MusicControl": "0.0.1",
+  "org.apache.cordova.plugin.tts": "0.2.1",
+  "phonegap-plugin-speech-synthesis": "0.1.1"
 };
 // BOTTOM OF METADATA
 });

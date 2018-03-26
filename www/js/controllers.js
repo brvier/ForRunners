@@ -2795,11 +2795,14 @@ angular
                   //$scope.session.speed = pos.coords.speed * 3.6;
                   //
                   //Workarround for some device not aving cor speed
+                  var gpsspeed;
                   if (pos.coords.speed === null) {
-                    pos.coords.speed = dspeed;
+                    gpsspeed = dspeed;
+                  } else {
+                    gpsspeed = pos.coords.speed;
                   }
-                  $scope.session.speeds.push(pos.coords.speed * 3.6);
-                  $scope.session.speeds.slice(-5);
+                  if (!isNaN(gpsspeed)) $scope.session.speeds.push(gpsspeed / 3.6);
+                  $scope.session.speeds = $scope.session.speeds.slice(-10);
                   $scope.session.speed = average($scope.session.speeds, 1);
 
                   var currentPace =
