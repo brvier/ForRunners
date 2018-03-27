@@ -12,7 +12,7 @@ rm net.khertan.forrunners.apk
 
 #zipalign -v 4 ./platforms/android/build/outputs/apk/android-x86-release-unsigned.apk x86_net.khertan.forrunners.apk
 #zipalign -v 4 ./platforms/android/build/outputs/apk/android-armv7-release-unsigned.apk armv7_net.khertan.forrunners.apk
-zipalign -v 4 ./platforms/android/build/outputs/apk/android-release-unsigned.apk net.khertan.forrunners.apk
+~/bin/android/build-tools/27.0.0/zipalign -v 4 ./platforms/android/build/outputs/apk/android-release-unsigned.apk net.khertan.forrunners.apk
 
 
 # FirefoxOS
