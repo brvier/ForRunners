@@ -1604,7 +1604,7 @@ angular
 
               window.resolveLocalFileSystemURL(
                 stordir,
-                function(dirEntry) {
+                function(dirEntry) { //noqa
                   $scope.exportAGPX(
                     dirEntry,
                     $scope.sessions[recclicked],
