@@ -607,6 +607,7 @@ angular
           if (p > 0) {
             //Time without same
             if (dspeed > 0.001) {
+              console.log(dspeed);
               dwithoutpause += dtd;
             }
 
@@ -2629,16 +2630,6 @@ angular
 
     $scope.recordPosition = function(pos) {
       console.log(pos);
-      //FIXME GetActivity
-      try {
-        cordova.plugins.ActivityRecognition.GetActivity(
-          $scope.activityCallback,
-          $scope.activityErrorCallback
-        );
-      } catch (err) {
-        //console.warn('Plugin ActivityRecognition probably not available');
-      }
-
       if ($scope.mustdelay === false) {
         var latnew = pos.coords.latitude;
         var lonnew = pos.coords.longitude;
@@ -2647,6 +2638,7 @@ angular
         var elapsed = 0;
         var tinc;
         var K;
+        var Q = 1;
 
         if (typeof pos.coords.altitude === "number") {
           altnew = pos.coords.altitude;
@@ -2721,17 +2713,27 @@ angular
                   } else {
                     tinc = new Date(timenew) - new Date($scope.session.timeold);
                     if (tinc > 0) {
-                      $scope.session.variance += tinc * 3 * 3 / 1000;
+                      $scope.session.variance += tinc * Q * Q / 1000;
                     }
                     K =
                       $scope.session.variance /
                       ($scope.session.variance + accuracy * accuracy);
-                    latnew += K * (latnew - $scope.session.latold);
-                    lonnew += K * (lonnew - $scope.session.lonold);
-                    $scope.session.variance = (1 - K) * $scope.session.variance * 3;
+                    latnew = $scope.session.latold + (K * (latnew - $scope.session.latold));
+                    lonnew = $scope.session.lonold + (K * (lonnew - $scope.session.lonold));
+                    $scope.session.variance = (1 - K) * $scope.session.variance;
                   }
 
-                  //Distances
+                  //FIXME GetActivity
+                  try {
+                    cordova.plugins.ActivityRecognition.GetActivity(
+                      $scope.activityCallback,
+                      $scope.activityErrorCallback
+                    );
+                  } catch (err) {
+                    //console.warn('Plugin ActivityRecognition probably not available');
+                  }
+
+                 //Distances
                   var dLat;
                   var dLon;
                   var dLat1;
@@ -2801,7 +2803,7 @@ angular
                   } else {
                     gpsspeed = pos.coords.speed;
                   }
-                  if (!isNaN(gpsspeed)) $scope.session.speeds.push(gpsspeed / 3.6);
+                  if (!isNaN(gpsspeed)) $scope.session.speeds.push(gpsspeed);
                   $scope.session.speeds = $scope.session.speeds.slice(-10);
                   $scope.session.speed = average($scope.session.speeds, 1);
 
@@ -2897,8 +2899,8 @@ angular
           ) {
             //console.log('Should record');
             var pointData = [
-              latnew.toFixed(6),
-              lonnew.toFixed(6),
+              pos.coords.latitude.toFixed(6),
+              pos.coords.longitude.toFixed(6),
               new Date(timenew).toISOString() //.replace(/\.\d\d\d/, '')
             ];
 
