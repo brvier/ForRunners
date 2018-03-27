@@ -2804,7 +2804,7 @@ angular
                     gpsspeed = pos.coords.speed;
                   }
                   if (!isNaN(gpsspeed)) $scope.session.speeds.push(gpsspeed);
-                  $scope.session.speeds = $scope.session.speeds.slice(-10);
+                  $scope.session.speeds = $scope.session.speeds.slice(-5);
                   $scope.session.speed = average($scope.session.speeds, 1);
 
                   var currentPace =
