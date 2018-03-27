@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Android
-ionic build android --release
+ionic cordova build android --release
 jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore google-store.keystore ~/Projects/ForRunners/platforms/android/build/outputs/apk/android-release-unsigned.apk ForRunners
 rm net.khertan.forrunners.apk
 
