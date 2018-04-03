@@ -739,7 +739,7 @@ angular
       _file_file_imported: "Erfolgreich importiert",
       _file_import_title: "Einführen",
       _import_files: "Einführen",
-      _use_vocalAnnounce: "Gesangsansagen",
+      _use_vocalAnnounce: "Sprachansagen",
       _edit_session: "Ausgabe",
       _editable: "Berühren Sie, um zu ändern",
       _session_name: "_session_name",
