@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="0102010" id="net.khertan.forrunners" version="1.2.1" versionCode="0102010" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="0102020" id="net.khertan.forrunners" version="1.2.2" versionCode="0102020" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>ForRunners</name>
     <description>
     A gps tracker for runners
     </description>
-    <author email="khertan@khertan.net" href="http://khertan.net/">
-      Benoît HERVIER (Khertan)
+    <author email="b@rvier.fr" href="http://rvier.fr/">
+      Benoît HERVIER
   </author>
     <content src="index.html" />
     <access origin="*" />
@@ -111,7 +111,7 @@
     </plugin>
     <plugin name="cordova-plugin-file" spec="^4.3.3" />
     <plugin name="cordova-plugin-filepicker" spec="git+https://github.com/jcesarmobile/FilePicker-Phonegap-iOS-Plugin.git" />
-    <plugin name="phonegap-plugin-speech-synthesis" spec="git+https://github.com/macdonst/SpeechSynthesisPlugin.git" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.1.8" />
     <plugin name="cordova-plugin-device" spec="~1.1.2" />
+    <plugin name="cordova-plugin-tts" spec="^0.2.3" />
 </widget>
