@@ -1,1 +1,1 @@
-Repository move to https://gitlab.com/brvier/ForRunners
+The new repository is located here : https://gitlab.com/brvier/ForRunners
